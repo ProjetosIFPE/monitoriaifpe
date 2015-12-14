@@ -24,7 +24,7 @@ import br.com.projetoperiodo.util.persistencia.persistencia.DatabaseUnit;
 
 public class Persistencia {
 
-	private static Persistencia instance;
+	private static Persistencia instance = null;
 
 	private FabricaDAO fabrica;
 
