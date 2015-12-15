@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.model.usuario.controller.ControladorUsuario;
@@ -34,32 +35,43 @@ public class ServletAlterarSenha extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		request.getRequestDispatcher("/WEB-INF/jsp/AlterarSenha.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession(false) == null) {
-			request.getRequestDispatcher("/acesso.do").forward(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		synchronized (session) {
+			if (session == null) {
+				request.getRequestDispatcher("/acesso.do").forward(request, response);
+			}
 		}
 		String senhaAntiga = request.getParameter(SENHA_ANTIGA);
 		String senhaNova = request.getParameter(SENHA_NOVA);
+		Usuario usuarioLogado;
+		session = request.getSession(false);
+		synchronized (session) {
+			usuarioLogado = (Usuario) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 
-		Usuario usuarioLogado = (Usuario) request.getSession(false).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
-
-		boolean podeAlterar = Fachada.getInstance().compararSenhasDeUsuario(senhaAntiga, usuarioLogado); // é esperado true
-
+		boolean podeAlterar = Fachada.getInstance().compararSenhasDeUsuario(senhaAntiga, usuarioLogado); 
 		if (podeAlterar) {
 			Usuario usuarioAlterado = Fachada.getInstance().alterarSenhaUsuario(usuarioLogado, senhaNova);
-			request.getSession(false).setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAlterado);
+			session = request.getSession(false);
+			synchronized (session) {
+				session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAlterado);
+			}
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-			;
 		} else {
 			// TODO: fluxo de erro
 		}
