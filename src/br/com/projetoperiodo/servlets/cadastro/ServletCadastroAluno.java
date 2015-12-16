@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.aluno.controller.ControladorAluno;
@@ -24,7 +25,7 @@ public class ServletCadastroAluno extends HttpServlet {
 	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";;
 	// TODO Modificar esta estrategia, pode implicar em problemas de
 	// concorrencia
-	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradas();
+	private static  final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradas();
 	
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -39,8 +40,8 @@ public class ServletCadastroAluno extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		if (request.getSession(Boolean.FALSE) != null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
@@ -53,8 +54,8 @@ public class ServletCadastroAluno extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		if (request.getSession(Boolean.FALSE) != null) {
+		HttpSession  session = request.getSession(Boolean.FALSE);
+		if (session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		Aluno aluno = (Aluno) Fachada.getInstance().criarAluno();

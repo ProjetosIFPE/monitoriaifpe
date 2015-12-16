@@ -8,12 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
-import br.com.projetoperiodo.model.instituto.disciplina.controller.ControladorDisciplina;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
-import br.com.projetoperiodo.model.instituto.monitor.controller.ControladorMonitor;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Modalidade;
 import br.com.projetoperiodo.util.exception.NegocioException;
@@ -25,6 +24,7 @@ import br.com.projetoperiodo.util.fachada.Fachada;
 public class ServletCadastroMonitoria extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+
 	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";
 
 	/**
@@ -39,12 +39,16 @@ public class ServletCadastroMonitoria extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		if (request.getSession(false) == null) {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession session = request.getSession(false);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		Aluno aluno = (Aluno) request.getSession(false).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		Aluno aluno;
+		synchronized(session) {
+			aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasDeAluno(aluno);
 		request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
 		request.getRequestDispatcher("/WEB-INF/jsp/CadastroMonitoria.jsp").forward(request, response);
@@ -54,13 +58,15 @@ public class ServletCadastroMonitoria extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		if (request.getSession(false) == null) {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		Aluno aluno = (Aluno) request.getSession(false).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		Aluno aluno;
+		synchronized(session) {
+			aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		boolean cadastroValido;
 		Disciplina disciplina = null;
 		Modalidade modalidade = Modalidade.valueOf(request.getParameter("modalidade"));

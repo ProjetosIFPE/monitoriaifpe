@@ -22,7 +22,7 @@ public class ServletLogin extends HttpServlet {
 	private static final String FORM_SENHA = "senha";
 
 	@Override
-	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher requestDispatcher;
 
@@ -34,7 +34,9 @@ public class ServletLogin extends HttpServlet {
 		try {
 			Usuario usuarioAutenticado = (Usuario) Fachada.getInstance().autenticarUsuario(usuario);
 			HttpSession session = request.getSession();
-			session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAutenticado);
+			synchronized (session) {
+				session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAutenticado);
+			}
 			if ("ALUNO".equals(usuarioAutenticado.getPapelUsuario())) {
 				requestDispatcher = request.getRequestDispatcher("/aluno.do");
 			} else {
