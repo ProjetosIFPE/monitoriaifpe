@@ -22,7 +22,7 @@ public class ServletLogin extends HttpServlet {
 	private static final String FORM_SENHA = "senha";
 
 	@Override
-	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher requestDispatcher;
 

@@ -3,14 +3,13 @@ package br.com.projetoperiodo.servlets.cadastro;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.model.relatorio.atividade.Atividade;
@@ -44,13 +43,16 @@ public class ServletCadastroRelatorio extends HttpServlet {
 	 */
 	protected synchronized void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if (request.getSession(false) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
-		Monitoria monitor = (Monitoria) request.getSession(false).getAttribute(Constantes.ATRIBUTO_MONITORIA);
-		RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
-		request.getSession(false).setAttribute(RELATORIO_MENSAL, relatorio);
+		synchronized(session) {
+			Monitoria monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
+			RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
+			session.setAttribute(RELATORIO_MENSAL, relatorio);
+		}
 		request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
 	}
 
@@ -59,10 +61,14 @@ public class ServletCadastroRelatorio extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if (request.getSession(false) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		RelatorioFrequencia relatorio = (RelatorioFrequencia) request.getSession(false).getAttribute(RELATORIO_MENSAL);
+		RelatorioFrequencia relatorio;
+		synchronized(session) {
+			relatorio = (RelatorioFrequencia) session.getAttribute(RELATORIO_MENSAL);
+		}
 		Semana semana;
 		Atividade atividade;
 		for (int posicaoSemana = 1; posicaoSemana <= 5; posicaoSemana++) {

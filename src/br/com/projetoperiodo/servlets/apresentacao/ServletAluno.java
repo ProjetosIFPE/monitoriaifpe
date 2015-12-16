@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
@@ -35,11 +36,14 @@ public class ServletAluno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		if( request.getSession(false) == null ) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if( session == null ) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		Aluno alunoLogado = (Aluno) request.getSession().getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);	
+		Aluno alunoLogado;
+		synchronized(session) {
+			alunoLogado = (Aluno) request.getSession().getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);	
+		}
 		List<Monitoria> monitores = Fachada.getInstance().buscarMonitorias(alunoLogado);
 		request.setAttribute(LISTA_MONITORIAS, monitores);
 		request.getRequestDispatcher("/WEB-INF/jsp/MonitoriasAluno.jsp").forward(request, response);

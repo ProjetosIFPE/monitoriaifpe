@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.model.relatorio.frequencia.RelatorioFrequencia;
@@ -41,11 +42,15 @@ public class ServletAprovaRelatorio extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession(false) == null) {
+		HttpSession session  = request.getSession(false);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
-		Monitoria monitor = (Monitoria) request.getSession(false).getAttribute(Constantes.ATRIBUTO_MONITORIA);
+		Monitoria monitor;
+		synchronized(session) {
+			monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
+		}
 		RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
 		Fachada.getInstance().aprovarRelatorio(relatorio);
 		List<Situacao> listaSituacao = Fachada.getInstance().buscarSituacaoDeRelatorios(monitor);

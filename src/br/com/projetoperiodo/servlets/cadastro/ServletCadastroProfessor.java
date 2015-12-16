@@ -36,7 +36,6 @@ public class ServletCadastroProfessor extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// TODO Auto-generated method stub
 		if (request.getSession(false) != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}

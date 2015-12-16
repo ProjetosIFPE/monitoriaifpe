@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class ServletLogout
@@ -28,11 +29,12 @@ public class ServletLogout extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		if (!(request.getSession(false) == null)) {
-			request.getSession().invalidate();
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (!(session == null)) {
+			synchronized(session) {
+				session.invalidate();
+			}
 		}
-
 		request.getRequestDispatcher("/acesso.do").forward(request, response);
 
 	}

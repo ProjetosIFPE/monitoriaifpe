@@ -51,15 +51,12 @@ public class ServletAlterarSenha extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		synchronized (session) {
-			if (session == null) {
-				request.getRequestDispatcher("/acesso.do").forward(request, response);
-			}
+		if (session == null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		String senhaAntiga = request.getParameter(SENHA_ANTIGA);
 		String senhaNova = request.getParameter(SENHA_NOVA);
 		Usuario usuarioLogado;
-		session = request.getSession(false);
 		synchronized (session) {
 			usuarioLogado = (Usuario) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
 		}
@@ -67,7 +64,6 @@ public class ServletAlterarSenha extends HttpServlet {
 		boolean podeAlterar = Fachada.getInstance().compararSenhasDeUsuario(senhaAntiga, usuarioLogado); 
 		if (podeAlterar) {
 			Usuario usuarioAlterado = Fachada.getInstance().alterarSenhaUsuario(usuarioLogado, senhaNova);
-			session = request.getSession(false);
 			synchronized (session) {
 				session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAlterado);
 			}
