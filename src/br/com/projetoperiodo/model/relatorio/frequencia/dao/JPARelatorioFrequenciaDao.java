@@ -121,7 +121,6 @@ public class JPARelatorioFrequenciaDao implements RelatorioFrequenciaDao
 		StringBuilder builder = new StringBuilder();
 		builder.append(" from ");
 		builder.append(" RelatorioFrequenciaImpl r ");
-		builder.append(" r ");
 		builder.append(" where r.monitor.chavePrimaria = ");
 		builder.append(chave);
 		EntityManager entityManager =  entityManagerFactory.createEntityManager();

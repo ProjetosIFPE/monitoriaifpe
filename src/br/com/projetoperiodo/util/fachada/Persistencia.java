@@ -81,6 +81,10 @@ public class Persistencia {
 		return fabrica.criarAlunoDAO().buscarPelaMatricula(matricula);
 	}
 	
+	public Long buscarQuantidadeDeUsuarios(String login) {
+		return fabrica.criarUsuarioDAO().buscarCadastro(login);
+	}
+	
 	public Long buscarQuantidadeDeAlunos(long chave) {
 		return fabrica.criarAlunoDAO().buscarQuantidadeAlunos(chave);
 	}

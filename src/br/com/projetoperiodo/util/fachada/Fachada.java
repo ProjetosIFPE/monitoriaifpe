@@ -33,6 +33,7 @@ import br.com.projetoperiodo.model.usuario.controller.impl.ControladorUsuarioImp
 import br.com.projetoperiodo.util.constantes.enumeracoes.Modalidade;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Situacao;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 
 public class Fachada {
 
@@ -194,7 +195,7 @@ public class Fachada {
 	public EntidadeNegocio autenticarUsuario(Usuario usuario) throws NegocioException {
 		return this.getControladorUsuario().autenticarUsuario(usuario);
 	}
-	public void cadastrarAluno(EntidadeNegocio entidade) {
+	public void cadastrarAluno(EntidadeNegocio entidade) throws ProjetoException {
 		Aluno aluno = (Aluno)entidade;
 		this.getControladorAluno().cadastrarAluno(aluno);
 	}

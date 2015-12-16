@@ -14,6 +14,7 @@ import br.com.projetoperiodo.model.instituto.aluno.controller.ControladorAluno;
 import br.com.projetoperiodo.model.instituto.curso.Curso;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.model.instituto.disciplina.controller.ControladorDisciplina;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -21,7 +22,9 @@ import br.com.projetoperiodo.util.fachada.Fachada;
  */
 public class ServletCadastroAluno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";;
+	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";
+	private static final String ATRIBUTO_ALUNO = "aluno";
+	
 	// TODO Modificar esta estrategia, pode implicar em problemas de
 	// concorrencia
 	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradas();
@@ -77,7 +80,13 @@ public class ServletCadastroAluno extends HttpServlet {
 		}
 		Curso curso = (Curso) Fachada.getInstance().buscarCursoPadraoDeAluno();
 		aluno.setCurso(curso);
-		Fachada.getInstance().cadastrarAluno(aluno);
+		try {
+			Fachada.getInstance().cadastrarAluno(aluno);
+		} catch (ProjetoException e) {
+			request.setAttribute(ATRIBUTO_ALUNO, aluno);
+			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+			request.getRequestDispatcher("/WEB-INF/jsp/CadastroAluno.jsp").forward(request, response);
+		}
 
 		request.getRequestDispatcher("/acesso.do").forward(request, response);
 

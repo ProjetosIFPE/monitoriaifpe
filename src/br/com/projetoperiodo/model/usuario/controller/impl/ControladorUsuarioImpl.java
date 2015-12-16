@@ -95,10 +95,20 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	}
 
 	@Override
-	public Usuario verificarExistenciaUsuario(Usuario usuario) {
+	public Usuario buscarCadastroDeUsuario(Usuario usuario) {
 
 		Usuario usuarioRequerente = (Usuario) Persistencia.getInstance().buscarUsuario(usuario.getLogin());
 		return usuarioRequerente;
+	}
+	
+	@Override
+	public boolean verificarCadastroDeUsuario(Usuario usuario) {
+		boolean cadastrado = Boolean.TRUE;
+		Long quantidade = Persistencia.getInstance().buscarQuantidadeDeUsuarios(usuario.getLogin());
+		if (quantidade == 0L) {
+			cadastrado = Boolean.FALSE;
+		}
+		return cadastrado;
 	}
 
 	@Override

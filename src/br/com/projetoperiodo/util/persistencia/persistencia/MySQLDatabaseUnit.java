@@ -37,7 +37,7 @@ public class MySQLDatabaseUnit implements DatabaseUnit {
 
 	@Override
 	public String getSenha() {
-		return "";
+		return "root";
 	}
 
 }

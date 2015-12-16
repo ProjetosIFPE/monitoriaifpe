@@ -9,13 +9,17 @@ import br.com.projetoperiodo.model.instituto.aluno.impl.AlunoImpl;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.usuario.Usuario;
+import br.com.projetoperiodo.model.usuario.controller.ControladorUsuario;
 import br.com.projetoperiodo.util.Util;
 import br.com.projetoperiodo.util.constantes.Constantes;
+import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.fachada.Fachada;
 import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorAlunoImpl extends ControladorNegocioImpl implements ControladorAluno {
 
 
+	private final String MENSAGEM_CADASTRO_INVALIDO = "Aluno já está cadastrado";
 	
 	public ControladorAlunoImpl() {
 	
@@ -27,14 +31,18 @@ public class ControladorAlunoImpl extends ControladorNegocioImpl implements Cont
 	}
 
 	@Override
-	public Aluno cadastrarAluno(Aluno aluno) {
-
-		String senhaCriptografada = Util.criptografarSenha(
-						aluno.getSenha(), aluno.getSenha(), Constantes.CONSTANTE_CRIPTOGRAFIA);
-		aluno.setSenha(senhaCriptografada);
-		aluno.setUltimaAlteracao(Calendar.getInstance().getTime());
-		Persistencia.getInstance().salvarAluno(aluno);
-		return aluno;
+	public Aluno cadastrarAluno(Aluno aluno) throws NegocioException {
+		ControladorUsuario controladorUsuario = Fachada.getInstance().getControladorUsuario();
+		boolean cadastrado = controladorUsuario.verificarCadastroDeUsuario(aluno);
+		if ( !cadastrado ) {
+			String senhaCriptografada = Util.criptografarSenha(
+							aluno.getSenha(), aluno.getSenha(), Constantes.CONSTANTE_CRIPTOGRAFIA);
+			aluno.setSenha(senhaCriptografada);
+			aluno.setUltimaAlteracao(Calendar.getInstance().getTime());
+			Persistencia.getInstance().salvarAluno(aluno);
+			return aluno;
+		}
+		throw new NegocioException(MENSAGEM_CADASTRO_INVALIDO);
 	}
 	@Override
 	public Aluno buscarUsuarioAluno(Usuario usuario) {

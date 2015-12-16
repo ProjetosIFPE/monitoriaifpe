@@ -1,7 +1,7 @@
 package br.com.projetoperiodo.util.exception;
 
 
-public class NegocioException extends Exception
+public class NegocioException extends ProjetoException
 {
 
 	/**

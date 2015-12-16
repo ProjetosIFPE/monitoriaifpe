@@ -1,6 +1,7 @@
 
 package br.com.projetoperiodo.model.usuario.dao;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +18,9 @@ import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.model.usuario.impl.UsuarioImpl;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.fachada.Persistencia;
+import br.com.projetoperiodo.util.persistencia.connection.JPAConnectionFactory;
+import br.com.projetoperiodo.util.persistencia.persistencia.OracleDatabaseUnit;
 
 public class JPAUsuarioDao implements UsuarioDao {
 
@@ -76,6 +80,15 @@ public class JPAUsuarioDao implements UsuarioDao {
 						("from UsuarioImpl u where TYPE(u) = UsuarioImpl").getResultList();
 		entityManager.close();
 		return usuarios;
+	}
+	@Override
+	public Long buscarCadastro(String login) {
+		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		Query query = entityManager.createQuery("select count(*) from UsuarioImpl u " + "where u.login = :login");
+		query.setParameter("login", login);
+		Long quantidade = (Long) query.getSingleResult();
+		entityManager.close();
+		return quantidade;
 	}
 
 	@Override
