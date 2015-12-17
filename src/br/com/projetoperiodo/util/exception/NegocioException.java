@@ -1,6 +1,5 @@
 package br.com.projetoperiodo.util.exception;
 
-
 public class NegocioException extends ProjetoException
 {
 
@@ -16,6 +15,13 @@ public class NegocioException extends ProjetoException
 	public NegocioException(String message, Throwable cause) {
 		super(message, cause);
 	}
+	
+	
+	public NegocioException(String chave, Object param) {
+		super(chave, param);
+	}
+
+	
 	
 
 	

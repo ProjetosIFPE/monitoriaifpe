@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
-import br.com.projetoperiodo.model.instituto.aluno.controller.ControladorAluno;
 import br.com.projetoperiodo.model.instituto.curso.Curso;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
-import br.com.projetoperiodo.model.instituto.disciplina.controller.ControladorDisciplina;
+import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
@@ -56,7 +55,7 @@ public class ServletCadastroAluno extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		RequestDispatcher rd;
 		if (request.getSession(Boolean.FALSE) != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
@@ -82,13 +81,15 @@ public class ServletCadastroAluno extends HttpServlet {
 		aluno.setCurso(curso);
 		try {
 			Fachada.getInstance().cadastrarAluno(aluno);
+			rd = request.getRequestDispatcher("/acesso.do");
 		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.CAMPOS_INVALIDOS, e.getParametrosDeErro());
 			request.setAttribute(ATRIBUTO_ALUNO, aluno);
 			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
-			request.getRequestDispatcher("/WEB-INF/jsp/CadastroAluno.jsp").forward(request, response);
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/CadastroAluno.jsp");
 		}
 
-		request.getRequestDispatcher("/acesso.do").forward(request, response);
+		rd.forward(request, response);
 
 	}
 

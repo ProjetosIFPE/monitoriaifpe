@@ -102,15 +102,27 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	}
 	
 	@Override
-	public boolean verificarCadastroDeUsuario(Usuario usuario) {
+	public boolean verificarCadastroDeUsuarioPorLogin(Usuario usuario) {
 		boolean cadastrado = Boolean.TRUE;
-		Long quantidade = Persistencia.getInstance().buscarQuantidadeDeUsuarios(usuario.getLogin());
+		Long quantidade = Persistencia.getInstance().buscarQuantidadeDeUsuariosPorLogin(usuario.getLogin());
 		if (quantidade == 0L) {
 			cadastrado = Boolean.FALSE;
 		}
 		return cadastrado;
 	}
+	
+	@Override
+	public boolean verificarCadastroDeUsuarioPorEmail(Usuario usuario) {
 
+		boolean cadastrado = Boolean.TRUE;
+		Long quantidade = Persistencia.getInstance().buscarQuantidadeDeUsuariosPorEmail(usuario.getEmail());
+		if (quantidade == 0L) {
+			cadastrado = Boolean.FALSE;
+		}
+		return cadastrado;
+	}
+	
+	
 	@Override
 	public String getNomeClasseEntidade() {
 
@@ -131,5 +143,7 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	public void alterarConfiguracoesDePersistencia(String estrategia, String banco) {
 		Persistencia.getInstance().alterarFabrica(estrategia, banco );
 	}
+
+	
 
 }

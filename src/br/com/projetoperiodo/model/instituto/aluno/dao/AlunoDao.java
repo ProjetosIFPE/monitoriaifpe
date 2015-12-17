@@ -18,5 +18,7 @@ public interface AlunoDao
 
 	Aluno buscarPelaMatricula(String matricula);
 
-	Long buscarQuantidadeAlunos(long chave);
+	Long buscarQuantidadeDeAlunosPorChave(long chave);
+
+	Long buscarQuantidadeDeAlunosPorMatricula(String matricula);
 }

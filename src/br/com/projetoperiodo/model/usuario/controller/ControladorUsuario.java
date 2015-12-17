@@ -23,5 +23,7 @@ public interface ControladorUsuario extends ControladorNegocio {
 
 	void alterarConfiguracoesDePersistencia(String estrategia, String banco);
 
-	boolean verificarCadastroDeUsuario(Usuario usuario);
+	boolean verificarCadastroDeUsuarioPorLogin(Usuario usuario);
+	
+	boolean verificarCadastroDeUsuarioPorEmail(Usuario usuario);
 }

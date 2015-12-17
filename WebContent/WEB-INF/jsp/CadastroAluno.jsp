@@ -12,7 +12,11 @@
 <script type="text/javascript" src="js/validar-senha.js"></script>
 
 <title>${initParam.title}</title>
-
+<style>
+.true {
+	border: 1px solid red;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="Cabecalho.jsp" />
@@ -20,15 +24,15 @@
 	<form id="form1" action="cadastroAluno.do" method="post">
 		<fieldset>
 			<label>Login</label> 
-			<input type="text" name="login" value="${requestScope.aluno.login }" required="required" /> 
+			<input type="text" name="login" value="${requestScope.aluno.login }" class="${ requestScope.CAMPOS_INVALIDOS['login'] }" required="required" /> 
 			<label id="nome">Nome</label> 
 			<input type="text" id="nome" name="nome" value="${requestScope.aluno.nome }" required="required" />
 			<label id="sobrenome">Sobrenome</label> 
 			<input type="text" id="sobrenome" name="sobrenome" value="${requestScope.aluno.sobrenome }" required="required" /> 
 			<label id="matricula">Matricula</label>
-			<input type="text" id="matricula" name="matricula" value="${requestScope.aluno.matricula }" required="required" /> 
+			<input type="text" id="matricula" name="matricula" value="${requestScope.aluno.matricula }" class="${ requestScope.CAMPOS_INVALIDOS['false'] }" required="required" /> 
 			<label id="email">E-mail</label> 
-			<input type="email" name="email" id="email" value="${requestScope.aluno.email }" required="required" /> 
+			<input type="email" name="email" id="email" value="${requestScope.aluno.email }"  class="${ requestScope.CAMPOS_INVALIDOS }" required="required" /> 
 			<label>Disciplinas candidatas</label>
 			<div class="selecaoDisciplina">
 

@@ -13,15 +13,15 @@ import br.com.projetoperiodo.model.instituto.aluno.impl.AlunoImpl;
 public class JPAAlunoDao implements AlunoDao {
 
 	private EntityManagerFactory entityManagerFactory;
-	
+
 	public JPAAlunoDao(EntityManagerFactory emf) {
 		this.entityManagerFactory = emf;
 	}
-	
+
 	@Override
 	public Aluno salvar(Aluno aluno) {
 
-		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.persist(aluno);
@@ -33,7 +33,7 @@ public class JPAAlunoDao implements AlunoDao {
 	@Override
 	public void atualizar(Aluno aluno) {
 
-		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(aluno);
@@ -45,7 +45,7 @@ public class JPAAlunoDao implements AlunoDao {
 	@Override
 	public void remover(Aluno aluno) {
 
-		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		Aluno alunoAtualizado = (Aluno) entityManager.merge(aluno);
@@ -58,7 +58,7 @@ public class JPAAlunoDao implements AlunoDao {
 	@Override
 	public List<Aluno> listar() {
 
-		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		List<Aluno> alunos = entityManager.createQuery("from AlunoImpl").getResultList();
 		entityManager.close();
 
@@ -68,7 +68,7 @@ public class JPAAlunoDao implements AlunoDao {
 	@Override
 	public Aluno buscar(long primaryK) {
 
-		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction entityTrasaction = entityManager.getTransaction();
 		entityTrasaction.begin();
 		Aluno aluno = entityManager.find(AlunoImpl.class, primaryK);
@@ -79,9 +79,9 @@ public class JPAAlunoDao implements AlunoDao {
 	}
 
 	@Override
-	public Aluno buscarPelaMatricula(String matricula){
-		
-		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+	public Aluno buscarPelaMatricula(String matricula) {
+
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction entityTrasaction = entityManager.getTransaction();
 		entityTrasaction.begin();
 		Aluno aluno = entityManager.find(AlunoImpl.class, matricula);
@@ -91,9 +91,10 @@ public class JPAAlunoDao implements AlunoDao {
 		return aluno;
 
 	}
-	
+
 	@Override
-	public Long buscarQuantidadeAlunos(long chave) {
+	public Long buscarQuantidadeDeAlunosPorChave(long chave) {
+
 		StringBuilder builder = new StringBuilder();
 		builder.append(" select count(*) ");
 		builder.append(" from AlunoImpl a ");
@@ -101,6 +102,21 @@ public class JPAAlunoDao implements AlunoDao {
 		builder.append(chave);
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		Long quantidade = (Long) entityManager.createQuery(builder.toString()).getSingleResult();
+		entityManager.close();
+
+		return quantidade;
+	}
+
+	@Override
+	public Long buscarQuantidadeDeAlunosPorMatricula(String matricula) {
+
+		StringBuilder builder = new StringBuilder();
+		builder.append(" select count(*) ");
+		builder.append(" from AlunoImpl a ");
+		builder.append(" where a.matricula = :matricula ");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		Long quantidade = (Long) entityManager.createQuery(builder.toString())
+						.setParameter("matricula", matricula).getSingleResult();
 		entityManager.close();
 
 		return quantidade;

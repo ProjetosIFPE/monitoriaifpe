@@ -82,10 +82,26 @@ public class JPAUsuarioDao implements UsuarioDao {
 		return usuarios;
 	}
 	@Override
-	public Long buscarCadastro(String login) {
+	public Long buscarCadastroPorLogin(String login) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("select count(*) from UsuarioImpl u ");
+		builder.append("where u.login = :login");
 		EntityManager entityManager =  entityManagerFactory.createEntityManager();
-		Query query = entityManager.createQuery("select count(*) from UsuarioImpl u " + "where u.login = :login");
+		Query query = entityManager.createQuery(builder.toString());
 		query.setParameter("login", login);
+		Long quantidade = (Long) query.getSingleResult();
+		entityManager.close();
+		return quantidade;
+	}
+	
+	@Override
+	public Long buscarCadastroPorEmail(String email) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("select count(*) from UsuarioImpl u ");
+		builder.append("where u.email = :email");
+		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		Query query = entityManager.createQuery(builder.toString());
+		query.setParameter("email", email);
 		Long quantidade = (Long) query.getSingleResult();
 		entityManager.close();
 		return quantidade;
