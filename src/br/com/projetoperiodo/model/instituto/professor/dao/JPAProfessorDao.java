@@ -23,7 +23,7 @@ public class JPAProfessorDao implements ProfessorDao  {
 		EntityManager entma = entityManagerFactory.createEntityManager();
 		EntityTransaction transaction = entma.getTransaction();
 		transaction.begin();
-		entma.merge(professor);
+		entma.persist(professor);
 		transaction.commit();
 		entma.close();
 		return professor;
