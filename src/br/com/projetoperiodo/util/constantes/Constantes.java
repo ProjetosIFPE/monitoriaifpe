@@ -21,13 +21,17 @@ public class Constantes {
 	
 	public static final String PAPEL_DO_USUARIO = "papel";
 	
-	/** Parâmetros de erro **/
+	/** Parâmetros **/
 	
 	public static final String ERRO_ACESSO_NEGADO = "ERRO_ACESSO_NEGADO";
 	
+	public static final String ERRO_ENTIDADE_NAO_CADASTRADA = "ERRO_ENTIDADE_NAO_CADASTRADA";
+	
 	public static final String ERRO_RELATORIO_NAO_APROVADO = "ERRO_RELATORIO_NAO_APROVADO";
 	
-	public static final String MENSAGEM_DE_ALERTA = "MENSAGEM_DE_ALERTA";
+	public static final String MENSAGEM_SUCESSO = "MENSAGEM_SUCESSO";
+	
+	public static final String MENSAGEM_ERRO = "MENSAGEM_ERRO";
 	
 	public static final String CAMPOS_INVALIDOS = "CAMPOS_INVALIDOS";
 	 

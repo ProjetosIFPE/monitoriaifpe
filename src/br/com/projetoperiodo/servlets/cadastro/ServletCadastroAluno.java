@@ -81,6 +81,7 @@ public class ServletCadastroAluno extends HttpServlet {
 		aluno.setCurso(curso);
 		try {
 			Fachada.getInstance().cadastrarAluno(aluno);
+			//request.setAttribute(MENSAGEM_CADASTRO_SUCESSO, );
 			rd = request.getRequestDispatcher("/acesso.do");
 		} catch (ProjetoException e) {
 			request.setAttribute(Constantes.CAMPOS_INVALIDOS, e.getParametrosDeErro());

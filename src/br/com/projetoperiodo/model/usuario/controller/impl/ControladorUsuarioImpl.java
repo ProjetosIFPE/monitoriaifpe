@@ -4,6 +4,8 @@ package br.com.projetoperiodo.model.usuario.controller.impl;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import javax.persistence.NoResultException;
+
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.usuario.Usuario;
@@ -12,6 +14,7 @@ import br.com.projetoperiodo.model.usuario.impl.UsuarioImpl;
 import br.com.projetoperiodo.util.Util;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorUsuarioImpl extends ControladorNegocioImpl implements ControladorUsuario {
@@ -19,8 +22,12 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	private final String EMAIL_ASSUNTO = "Senha Sistema de Monitoria TADS";
 
 	private final String EMAIL_MENSAGEM_CONTEUDO = "Sua senha é: ";
+
 	private final String EMAIL_NAO_CADASTRADO = "EMAIL_NAO_CADASTRADO";
-	private final String USUARIO_NAO_CADASTRADO = "USUARIO_NAO_CADASTRADO";
+
+	private final String USUARIO_NAO_CADASTRADO = "Usuário não cadastrado";
+
+	private final String SENHA_INVALIDA = "Senha inválida";
 	
 	public ControladorUsuarioImpl() {
 		super();
@@ -29,18 +36,19 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	@Override
 	public Usuario autenticarUsuario(Usuario usuario) throws NegocioException {
 
-		String senha = usuario.getSenha();
-		Usuario usuarioAutenticado = (Usuario) Persistencia.getInstance().buscarUsuario(usuario.getLogin());
-		if (usuarioAutenticado != null) {
-			String senhaCriptografada = Util.criptografarSenha(senha, senha, Constantes.CONSTANTE_CRIPTOGRAFIA);
-			if (!usuarioAutenticado.getSenha().equals(senhaCriptografada)) {
-				throw new NegocioException(Constantes.ERRO_ACESSO_NEGADO);
-			}
-			usuarioAutenticado.setUltimoAcesso(Calendar.getInstance().getTime());
-			return usuarioAutenticado;
-		} else {
-			throw new NegocioException(Constantes.ERRO_ACESSO_NEGADO);
+		Usuario usuarioAutenticado;
+		try {
+			usuarioAutenticado = (Usuario) this.buscarCadastroDeUsuario(usuario);
+		} catch (NegocioException e) {
+			throw new NegocioException(USUARIO_NAO_CADASTRADO);
 		}
+		String senha = usuario.getSenha();
+		String senhaCriptografada = Util.criptografarSenha(senha, senha, Constantes.CONSTANTE_CRIPTOGRAFIA);
+		if (!usuarioAutenticado.getSenha().equals(senhaCriptografada)) {
+			throw new NegocioException(SENHA_INVALIDA);
+		}
+		usuarioAutenticado.setUltimoAcesso(Calendar.getInstance().getTime());
+		return usuarioAutenticado;
 
 	}
 
@@ -77,8 +85,6 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		}
 	}
 
-
-
 	@Override
 	public EntidadeNegocio criarEntidadeNegocio() {
 
@@ -95,14 +101,15 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	}
 
 	@Override
-	public Usuario buscarCadastroDeUsuario(Usuario usuario) {
+	public Usuario buscarCadastroDeUsuario(Usuario usuario) throws NegocioException {
 
 		Usuario usuarioRequerente = (Usuario) Persistencia.getInstance().buscarUsuario(usuario.getLogin());
 		return usuarioRequerente;
 	}
-	
+
 	@Override
 	public boolean verificarCadastroDeUsuarioPorLogin(Usuario usuario) {
+
 		boolean cadastrado = Boolean.TRUE;
 		Long quantidade = Persistencia.getInstance().buscarQuantidadeDeUsuariosPorLogin(usuario.getLogin());
 		if (quantidade == 0L) {
@@ -110,7 +117,7 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		}
 		return cadastrado;
 	}
-	
+
 	@Override
 	public boolean verificarCadastroDeUsuarioPorEmail(Usuario usuario) {
 
@@ -121,8 +128,7 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		}
 		return cadastrado;
 	}
-	
-	
+
 	@Override
 	public String getNomeClasseEntidade() {
 
@@ -139,11 +145,11 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		}
 		return isEqual;
 	}
+
 	@Override
 	public void alterarConfiguracoesDePersistencia(String estrategia, String banco) {
-		Persistencia.getInstance().alterarFabrica(estrategia, banco );
-	}
 
-	
+		Persistencia.getInstance().alterarFabrica(estrategia, banco);
+	}
 
 }

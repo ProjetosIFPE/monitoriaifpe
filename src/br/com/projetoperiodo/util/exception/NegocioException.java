@@ -17,6 +17,15 @@ public class NegocioException extends ProjetoException
 	}
 	
 	
+	public NegocioException( Throwable e ) {
+		super(e);
+	}
+	
+	public NegocioException() {
+		super();
+	}
+	
+	
 	public NegocioException(String chave, Object param) {
 		super(chave, param);
 	}

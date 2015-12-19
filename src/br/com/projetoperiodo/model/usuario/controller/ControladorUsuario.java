@@ -15,7 +15,7 @@ public interface ControladorUsuario extends ControladorNegocio {
 
 	Usuario cadastrarUsuario(Usuario usuario);
 
-	Usuario buscarCadastroDeUsuario(Usuario usuario);
+	Usuario buscarCadastroDeUsuario(Usuario usuario) throws NegocioException;
 
 	Usuario alterarSenha(Usuario usuario, String senhaNova);
 

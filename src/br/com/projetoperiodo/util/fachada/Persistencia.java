@@ -17,6 +17,7 @@ import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Semestre;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Situacao;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.persistencia.fabrica.CreatorFabrica;
 import br.com.projetoperiodo.util.persistencia.fabrica.FabricaDAO;
 import br.com.projetoperiodo.util.persistencia.persistencia.CreatorDatabaseUnit;
@@ -43,7 +44,7 @@ public class Persistencia {
 		return instance;
 	}
 	
-	public EntidadeNegocio buscarUsuario(String login) {
+	public EntidadeNegocio buscarUsuario(String login) throws NegocioException {
 		return fabrica.criarUsuarioDAO().buscar(login);
 	}
 	

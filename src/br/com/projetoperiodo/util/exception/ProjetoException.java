@@ -6,14 +6,21 @@ public class ProjetoException extends Exception {
 
 	private HashMap<String, Object> parametrosErro = new HashMap<>();
 	
-	
 	public ProjetoException(String message, Throwable cause) {
 		super(message, cause);
+		
 	}
 
+	public ProjetoException() {
+		super();
+	}
 	
 	public ProjetoException(String message) {
 		super(message);
+	}
+	
+	public ProjetoException(Throwable e ) {
+		super(e);
 	}
 	
 	

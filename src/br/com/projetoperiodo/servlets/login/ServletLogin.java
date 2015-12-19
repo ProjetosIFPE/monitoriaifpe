@@ -12,9 +12,15 @@ import javax.servlet.http.HttpSession;
 import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 public class ServletLogin extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3706103113838427192L;
 
 	private static final String FORM_LOGIN = "login";
 
@@ -40,8 +46,8 @@ public class ServletLogin extends HttpServlet {
 				requestDispatcher = request.getRequestDispatcher("/professor.do");
 			}
 			requestDispatcher.forward(request, response);
-		} catch (NegocioException e) {
-			request.setAttribute(e.getMessage(), usuario.getLogin());
+		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
 			requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp");
 			requestDispatcher.forward(request, response);
 		}

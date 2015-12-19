@@ -8,8 +8,10 @@
 <script src="js/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
 <script src="js/jquery-ui-1.11.4/jquery-ui.js"></script>
 <script src="js/trocar-persistencia.js"></script>
+<script src="js/alertas.js"></script>
 <link rel="stylesheet" type="text/css" href="css/cabecalho.css" />
 <link rel="stylesheet" type="text/css" href="css/toggle-button.css" />
+<link rel="stylesheet" type="text/css" href="css/alertas.css" />
 <script type="text/javascript">
 	t = 1000; // Valor default pra cada titulo
 	tr = 300; // tempo de espera pra mudar de titulo (fica com _ durante esse tempo)
@@ -61,43 +63,35 @@
 </script>
 </head>
 <body>
+	<c:choose>
+		<c:when test="${not empty requestScope.MENSAGEM_ERRO }">
+			<div class="my-notify-error">${ requestScope.MENSAGEM_ERRO }</div>
+		</c:when>
+		<c:when test="${not empty requestScope.MENSAGEM_SUCESSO }">
+			<div class="my-notify-warning">${requestScope.MENSAGEM_SUCESSO } </div>
+		</c:when>
+	</c:choose>
+	
+	
 	<!--Header Begin-->
 	<div id="header">
-		<c:choose>
-			<c:when test="${not empty requestScope.ERRO_ACESSO_NEGADO}">
-
-				<div class="ui-widget">
-					<div class="ui-state-error ui-corner-all"
-						style="padding: 0 .7em; background-color: red;">
-						<p>
-							<span class="ui-icon ui-icon-alert"
-								style="float: right; margin-right: .3em;"></span> <strong>Alert:</strong>
-							${requestScope.ERRO_ACESSO_NEGADO }
-						</p>
-					</div>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="center">
-					<div id="logo">
-						<a href="acesso.do">Monitoria IFPE-TADS</a>
-					</div>
-					<!--Menu Begin-->
-					<div id="menu">
-						<ul>
-							<li><a class="active" href="acesso.do"><span>Home</span>
-							</a></li>
-							<li><a class="active" href="cadastroAluno.do"><span>Aluno</span>
-							</a></li>
-							<li><a class="active" href="cadastroProfessor.do"><span>Professor</span>
-							</a></li>
-							<li><a class="active" href="configuracoes.do"><span>Configurações</span></a></li>
-						</ul>
-					</div>
-					<!--Menu END-->
-				</div>
-			</c:otherwise>
-		</c:choose>
+		<div class="center">
+			<div id="logo">
+				<a href="acesso.do">Monitoria IFPE-TADS</a>
+			</div>
+			<!--Menu Begin-->
+			<div id="menu">
+				<ul>
+					<li><a class="active" href="acesso.do"><span>Home</span> </a></li>
+					<li><a class="active" href="cadastroAluno.do"><span>Aluno</span>
+					</a></li>
+					<li><a class="active" href="cadastroProfessor.do"><span>Professor</span>
+					</a></li>
+					<li><a class="active" href="configuracoes.do"><span>Configurações</span></a></li>
+				</ul>
+			</div>
+			<!--Menu END-->
+		</div>
 	</div>
 	<!--Header END-->
 	<!--Toprow Begin-->

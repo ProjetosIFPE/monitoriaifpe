@@ -2,17 +2,13 @@ package br.com.projetoperiodo.servlets.login;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.result.Output;
-
 import br.com.projetoperiodo.model.usuario.Usuario;
-import br.com.projetoperiodo.model.usuario.controller.ControladorUsuario;
-import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -38,19 +34,16 @@ public class ServletEsqueceuSenha extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-	
-		ControladorUsuario controladorUsuario = Fachada.getInstance().getControladorUsuario();
-
 		String loginUsuario = request.getParameter(FORM_LOGIN);
-		Usuario usuario = (Usuario) controladorUsuario.criarEntidadeNegocio();
+		Usuario usuario = (Usuario) Fachada.getInstance().criarUsuario();
 		usuario.setLogin(loginUsuario);
 		try {
-			Usuario usuarioBuscado = controladorUsuario.buscarCadastroDeUsuario(usuario);
-			controladorUsuario.encaminharSenhaParaUsuario(usuarioBuscado);
+			
+			Usuario usuarioBuscado = (Usuario) Fachada.getInstance().buscarUsuario(usuario);
+			Fachada.getInstance().encaminharSenhaParaUsuario(usuarioBuscado);
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 
-		} catch (NegocioException e) {
+		} catch (ProjetoException  e) {
 			//TODO tratar erro de usuario inexistente
 			e.printStackTrace();
 		}

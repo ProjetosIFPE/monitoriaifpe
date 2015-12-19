@@ -279,6 +279,13 @@ public class Fachada {
 	public void alterarConfiguracao( String[] configuracoes ) {
 		this.getControladorUsuario().alterarConfiguracoesDePersistencia(configuracoes[0], configuracoes[1]);
 	}
+	public EntidadeNegocio buscarUsuario(Usuario usuario) throws ProjetoException {
+		return this.getControladorUsuario().buscarCadastroDeUsuario(usuario);
+	}
+	
+	public void encaminharSenhaParaUsuario(Usuario usuario) throws ProjetoException {
+		this.getControladorUsuario().encaminharSenhaParaUsuario(usuario);
+	}
 	
 	public static void destroyInstance() {
 		if( instance != null ) {

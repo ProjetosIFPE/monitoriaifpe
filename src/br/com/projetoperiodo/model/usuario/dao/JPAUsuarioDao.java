@@ -18,6 +18,7 @@ import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.model.usuario.impl.UsuarioImpl;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Persistencia;
 import br.com.projetoperiodo.util.persistencia.connection.JPAConnectionFactory;
 import br.com.projetoperiodo.util.persistencia.persistencia.OracleDatabaseUnit;
@@ -108,14 +109,18 @@ public class JPAUsuarioDao implements UsuarioDao {
 	}
 
 	@Override
-	public Usuario buscar(String login) {
+	public Usuario buscar(String login) throws NegocioException {
 
 		EntityManager entityManager =  entityManagerFactory.createEntityManager();
 		Query query = entityManager.createQuery("select u from UsuarioImpl u " + "where u.login = :login");
 		query.setParameter("login", login);
-		Usuario usuario = (Usuario) query.getSingleResult();
-		entityManager.close();
-		return usuario;
+		try {
+			Usuario usuario = (Usuario) query.getSingleResult();
+			entityManager.close();
+			return usuario;
+		}  catch ( NoResultException e ) {
+				throw new NegocioException(e);
+		}
 	}
 
 	@Override
