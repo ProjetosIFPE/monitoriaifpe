@@ -10,7 +10,11 @@
 		<param-name>title</param-name>
 		<param-value>Monitoria IFPE-TADS</param-value>
 	</context-param>
-
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
 	<error-page>
 		<exception-type>javax.servlet.ServletException</exception-type>
 		<location>/AppExceptionHandler</location>
@@ -49,9 +53,7 @@
 		<servlet-name>ServletLogout</servlet-name>
 		<servlet-class>br.com.projetoperiodo.servlets.login.ServletLogout
 		</servlet-class>
-	</servlet><servlet>
-		<servlet-name>ServletBuscarAluno</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.apresentacao.ServletBuscarAluno</servlet-class></servlet>
+	</servlet>
 	<servlet>
 		<servlet-name>ServletEsqueceuSenha</servlet-name>
 		<servlet-class>br.com.projetoperiodo.servlets.login.ServletEsqueceuSenha
@@ -253,6 +255,13 @@
 		<servlet-name>ServletConfiguracao</servlet-name>
 		<servlet-class>br.com.projetoperiodo.servlets.configuracoes.ServletConfiguracao</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ServletRemoveDisciplina</display-name>
+		<servlet-name>ServletRemoveDisciplina</servlet-name>
+		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletRemoveDisciplina</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>ServletProfessor</servlet-name>
@@ -288,11 +297,15 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ServletBuscarAluno</servlet-name>
-		<url-pattern>/ServletBuscarAluno.do</url-pattern>
+		<url-pattern>/buscarAluno.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ServletConfiguracao</servlet-name>
 		<url-pattern>/configuracoes.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ServletRemoveDisciplina</servlet-name>
+		<url-pattern>/ServletRemoveDisciplina</url-pattern>
 	</servlet-mapping>
 
 

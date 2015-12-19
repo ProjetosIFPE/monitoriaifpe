@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.aluno.impl.AlunoImpl;
@@ -80,16 +81,15 @@ public class JPAAlunoDao implements AlunoDao {
 
 	@Override
 	public Aluno buscarPelaMatricula(String matricula){
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append(" select a ");
+		builder.append(" from AlunoImpl a ");
+		builder.append(" where a.matricula = :matricula ");
 		EntityManager entityManager =  entityManagerFactory.createEntityManager();
-		EntityTransaction entityTrasaction = entityManager.getTransaction();
-		entityTrasaction.begin();
-		Aluno aluno = entityManager.find(AlunoImpl.class, matricula);
-		entityTrasaction.commit();
+		Query query = entityManager.createQuery(builder.toString()).setParameter("matricula", matricula);
+		Aluno aluno = (Aluno)query.getSingleResult();
 		entityManager.close();
-
 		return aluno;
-
 	}
 	
 	@Override

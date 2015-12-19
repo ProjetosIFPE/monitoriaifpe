@@ -1,14 +1,15 @@
 package br.com.projetoperiodo.servlets.apresentacao;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
-import br.com.projetoperiodo.model.instituto.professor.Professor;
-import br.com.projetoperiodo.util.constantes.Constantes;
+import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -16,8 +17,8 @@ import br.com.projetoperiodo.util.fachada.Fachada;
  */
 public class ServletBuscarAluno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String OBJ_ALUNO = "obj_alunos";
-   
+	private static final String OBJ_ALUNO = "aluno";
+	private static final String LISTA_MONITORIAS = "monitoriasDoAluno";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,18 +31,24 @@ public class ServletBuscarAluno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/jsp/BuscarAlunos.jsp").forward(request, response);
+		if( request.getSession(Boolean.FALSE) == null ) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
+		request.getRequestDispatcher("/WEB-INF/jsp/PesquisaAluno.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Professor professorLogado = (Professor) request.getSession().getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		if( request.getSession(Boolean.FALSE) == null ) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 		String matricula = request.getParameter("matricula");
 		Aluno aluno = (Aluno) Fachada.getInstance().buscarAluno(matricula);
-		
+		List<Monitoria> monitorias = Fachada.getInstance().buscarMonitorias(aluno);
 		request.setAttribute(OBJ_ALUNO, aluno);
+		request.setAttribute(LISTA_MONITORIAS, monitorias);
 		request.getRequestDispatcher("/WEB-INF/jsp/ExibeDadosAlunos.jsp").forward(request, response);
 		
 	}

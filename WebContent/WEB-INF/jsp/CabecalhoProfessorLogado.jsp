@@ -19,7 +19,7 @@
 				<ul>
 					<li><a class="active" href="acesso.do"><span>Home</span></a></li>
 					<li><a class="active" href="alterarSenha.do"><span>Alterar senha</span></a></li>
-					<li><a class="active" href="ServletBuscarAluno.do"><span >Buscar</span></a></li>
+					<li><a class="active" href="buscarAluno.do"><span >Buscar</span></a></li>
 					<li><a class="active" href="logout.do"><span>Sair</span></a></li>
 				</ul>
 			</div>
