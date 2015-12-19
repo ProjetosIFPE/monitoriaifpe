@@ -228,8 +228,8 @@ public class Fachada {
 		this.getControladorMonitor().removerMonitoria(chavePrimaria);
 	}
 	
-	public void alterarEstrategiaDePersistencia(String tipo) {
-		
+	public void retirarProfessorDeDisciplina( long chaveDisciplina) {
+		this.getControladorDisciplina().retirarVinculoDeProfessorDaDisciplina(chaveDisciplina);
 	}
 	
 	public List<Disciplina> listarDisciplinasSemProfessor() {

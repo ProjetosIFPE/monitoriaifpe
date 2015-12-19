@@ -14,7 +14,7 @@
 	<table>
 		<tr>
 			<th>Disciplina</th>
-			<th><a href="cadastroDisciplina.do"></a></th>
+			<th><a href="cadastroDisciplina.do">&nbsp;</a></th>
 		</tr>
 		<c:forEach var="disciplina" items="${requestScope['disciplinasProfessor']}">
 			<tr>
@@ -23,7 +23,7 @@
 							value="${disciplina.descricao }" />
 				</a></td>
 				<td><a
-					href="removeDisciplinaProfessor.do?chaveDisciplina=${disciplina.chavePrimaria}"></a></td> 
+					href="removeDisciplinaProfessor.do?chaveDisciplina=${disciplina.chavePrimaria}">&nbsp;</a></td> 
 			</tr>
 		</c:forEach>
 	</table>

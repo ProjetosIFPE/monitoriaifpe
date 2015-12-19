@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -50,6 +51,22 @@ public class JPADisciplinaDao implements DisciplinaDao{
 		entityTransaction.begin();
 		Disciplina disciplinaAtualizada = (Disciplina)entityManager.merge(disciplina);
 		entityManager.remove(disciplinaAtualizada);
+		entityTransaction.commit();
+		entityManager.close();
+	}
+	
+	@Override
+	public void removerProfessorDaDisciplina(long chaveDisciplina) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(" update DisciplinaImpl d ");
+		builder.append(" set d.professor.chavePrimaria = :professor ");
+		builder.append(" where d.chavePrimaria = :chave ");
+		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		Query query = entityManager.createQuery(builder.toString())
+						.setParameter("professor", null).setParameter("chave", chaveDisciplina);
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		query.executeUpdate();
 		entityTransaction.commit();
 		entityManager.close();
 	}

@@ -127,6 +127,10 @@ public class Persistencia {
 		fabrica.criarMonitoriaDAO().remover(monitoria);
 	}
 	
+	public void removerProfessorDeDisciplina(long chaveDisciplina) {
+		fabrica.criarDisciplinaDAO().removerProfessorDaDisciplina(chaveDisciplina);
+	}
+	
 	public List<Monitoria> buscarMonitoriasDeDisciplina(long chave) {
 		return fabrica.criarMonitoriaDAO().buscarMonitoriasDeDisciplina(chave);
 	}

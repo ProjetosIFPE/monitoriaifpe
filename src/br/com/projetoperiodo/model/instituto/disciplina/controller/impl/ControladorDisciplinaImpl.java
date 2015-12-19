@@ -76,5 +76,10 @@ public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements
 
 		Persistencia.getInstance().atualizarDisciplina(disciplina);
 	}
+	
+	@Override
+	public void retirarVinculoDeProfessorDaDisciplina(long chaveDisciplina) {
+		Persistencia.getInstance().removerProfessorDeDisciplina(chaveDisciplina);
+	}
 
 }

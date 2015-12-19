@@ -23,5 +23,7 @@ public interface DisciplinaDao extends EntidadeNegocioDao
 	List<Disciplina> listarDisciplinasSemProfessor();
 
 	List<Disciplina> listarDisciplinasDeAluno(long chave);
+
+	void removerProfessorDaDisciplina(long chaveDisciplina);
 	
 }
