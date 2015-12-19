@@ -68,7 +68,7 @@
 			<div class="my-notify-error">${ requestScope.MENSAGEM_ERRO }</div>
 		</c:when>
 		<c:when test="${not empty requestScope.MENSAGEM_SUCESSO }">
-			<div class="my-notify-warning">${requestScope.MENSAGEM_SUCESSO } </div>
+			<div class="my-notify-success">${requestScope.MENSAGEM_SUCESSO } </div>
 		</c:when>
 	</c:choose>
 	
