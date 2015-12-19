@@ -272,6 +272,10 @@ public class Fachada {
 	public List<Disciplina> listarDisciplinasCadastradas() {
 		return this.getControladorDisciplina().listarDisciplinasCadastradas();
 	}
+	
+	public List<Disciplina> listarDisciplinasCadastradasComProfessor() {
+		return this.getControladorDisciplina().buscarDisciplinasComProfessor();
+	}
 	public void alterarConfiguracao( String[] configuracoes ) {
 		this.getControladorUsuario().alterarConfiguracoesDePersistencia(configuracoes[0], configuracoes[1]);
 	}

@@ -26,7 +26,7 @@ public class ServletCadastroAluno extends HttpServlet {
 	
 	// TODO Modificar esta estrategia, pode implicar em problemas de
 	// concorrencia
-	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradas();
+	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradasComProfessor();
 	
 	/**
 	 * @see HttpServlet#HttpServlet()

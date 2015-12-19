@@ -109,6 +109,18 @@ public class JPADisciplinaDao implements DisciplinaDao{
 	}
 	
 	@Override
+	public List<Disciplina> listarDisciplinasComProfessor() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(" from ");
+		builder.append(" DisciplinaImpl d ");
+		builder.append(" where d.professor is not null ");
+		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		List<Disciplina> disciplinas = entityManager.createQuery(builder.toString()).getResultList();
+		entityManager.close();
+		return disciplinas;
+	}
+	
+	@Override
 	public List<Disciplina> listarDisciplinasDeAluno(long chave) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(" select d from ");

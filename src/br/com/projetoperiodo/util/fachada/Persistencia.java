@@ -121,6 +121,10 @@ public class Persistencia {
 		return fabrica.criarDisciplinaDAO().listarDisciplinasSemProfessor();
 	}
 	
+	public List<Disciplina> buscarDisciplinasComProfessor() {
+		return fabrica.criarDisciplinaDAO().listarDisciplinasComProfessor();
+	}
+	
 	public List<Disciplina> buscarDisciplinasDeAluno(EntidadeNegocio entidade) {
 		return fabrica.criarDisciplinaDAO().listarDisciplinasDeAluno(entidade.getChavePrimaria());
 	}

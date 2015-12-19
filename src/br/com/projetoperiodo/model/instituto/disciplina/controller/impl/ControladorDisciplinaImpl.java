@@ -49,6 +49,11 @@ public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements
 
 		return Persistencia.getInstance().buscarDisciplinasSemProfessor();
 	}
+	
+	@Override
+	public List<Disciplina> buscarDisciplinasComProfessor() {
+		return Persistencia.getInstance().buscarDisciplinasComProfessor();
+	}
 
 	@Override
 	public Disciplina buscarDisciplina(String descricao) throws NegocioException {
