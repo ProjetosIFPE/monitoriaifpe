@@ -34,6 +34,9 @@ public class ServletRemoveDisciplina extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getSession(false) == null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 		Long chaveDisciplina = Long.valueOf(request.getParameter(CHAVE_DISCIPLINA));
 		Fachada.getInstance().retirarProfessorDeDisciplina(chaveDisciplina);
 		request.getRequestDispatcher("/professor.do").forward(request, response);
