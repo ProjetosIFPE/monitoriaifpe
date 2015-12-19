@@ -81,8 +81,20 @@ public class Persistencia {
 		return fabrica.criarAlunoDAO().buscarPelaMatricula(matricula);
 	}
 	
+	public Long buscarQuantidadeDeUsuariosPorLogin(String login) {
+		return fabrica.criarUsuarioDAO().buscarCadastroPorLogin(login);
+	}
+	
+	public Long buscarQuantidadeDeUsuariosPorEmail(String email) {
+		return fabrica.criarUsuarioDAO().buscarCadastroPorEmail(email);
+	}
+	
+	
 	public Long buscarQuantidadeDeAlunos(long chave) {
-		return fabrica.criarAlunoDAO().buscarQuantidadeAlunos(chave);
+		return fabrica.criarAlunoDAO().buscarQuantidadeDeAlunosPorChave(chave);
+	}
+	public Long buscarQuantidadeDeAlunos(String matricula) {
+		return fabrica.criarAlunoDAO().buscarQuantidadeDeAlunosPorMatricula(matricula);
 	}
 	
 	public void atualizarDisciplina(EntidadeNegocio entidade) {

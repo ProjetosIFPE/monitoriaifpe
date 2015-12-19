@@ -303,5 +303,19 @@ public class JDBCUsuarioDao implements UsuarioDao {
 		return usuario;
 	}
 
+	@Override
+	public Long buscarCadastroPorEmail(String login) {
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long buscarCadastroPorLogin(String login) {
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

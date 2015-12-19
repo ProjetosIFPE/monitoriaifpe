@@ -19,5 +19,9 @@ public interface UsuarioDao extends EntidadeNegocioDao
 	public Usuario buscar(long l);
 
 	Usuario buscar(String login);
+
+	Long buscarCadastroPorLogin(String login);
+
+	Long buscarCadastroPorEmail(String email);
 	
 }

@@ -26,6 +26,10 @@ public class Constantes {
 	public static final String ERRO_ACESSO_NEGADO = "ERRO_ACESSO_NEGADO";
 	
 	public static final String ERRO_RELATORIO_NAO_APROVADO = "ERRO_RELATORIO_NAO_APROVADO";
+	
+	public static final String MENSAGEM_DE_ALERTA = "MENSAGEM_DE_ALERTA";
+	
+	public static final String CAMPOS_INVALIDOS = "CAMPOS_INVALIDOS";
 	 
 	
 }

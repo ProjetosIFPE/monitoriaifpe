@@ -45,11 +45,8 @@ public class ServletEsqueceuSenha extends HttpServlet {
 		String loginUsuario = request.getParameter(FORM_LOGIN);
 		Usuario usuario = (Usuario) controladorUsuario.criarEntidadeNegocio();
 		usuario.setLogin(loginUsuario);
-
-		Usuario usuarioBuscado = controladorUsuario.verificarExistenciaUsuario(usuario);
-		
-
 		try {
+			Usuario usuarioBuscado = controladorUsuario.buscarCadastroDeUsuario(usuario);
 			controladorUsuario.encaminharSenhaParaUsuario(usuarioBuscado);
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 

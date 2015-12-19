@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
-import br.com.projetoperiodo.model.instituto.aluno.controller.ControladorAluno;
 import br.com.projetoperiodo.model.instituto.curso.Curso;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
-import br.com.projetoperiodo.model.instituto.disciplina.controller.ControladorDisciplina;
+import br.com.projetoperiodo.util.constantes.Constantes;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -21,7 +21,9 @@ import br.com.projetoperiodo.util.fachada.Fachada;
  */
 public class ServletCadastroAluno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";;
+	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";
+	private static final String ATRIBUTO_ALUNO = "aluno";
+	
 	// TODO Modificar esta estrategia, pode implicar em problemas de
 	// concorrencia
 	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradas();
@@ -53,7 +55,7 @@ public class ServletCadastroAluno extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		RequestDispatcher rd;
 		if (request.getSession(Boolean.FALSE) != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
@@ -77,9 +79,17 @@ public class ServletCadastroAluno extends HttpServlet {
 		}
 		Curso curso = (Curso) Fachada.getInstance().buscarCursoPadraoDeAluno();
 		aluno.setCurso(curso);
-		Fachada.getInstance().cadastrarAluno(aluno);
+		try {
+			Fachada.getInstance().cadastrarAluno(aluno);
+			rd = request.getRequestDispatcher("/acesso.do");
+		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.CAMPOS_INVALIDOS, e.getParametrosDeErro());
+			request.setAttribute(ATRIBUTO_ALUNO, aluno);
+			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/CadastroAluno.jsp");
+		}
 
-		request.getRequestDispatcher("/acesso.do").forward(request, response);
+		rd.forward(request, response);
 
 	}
 

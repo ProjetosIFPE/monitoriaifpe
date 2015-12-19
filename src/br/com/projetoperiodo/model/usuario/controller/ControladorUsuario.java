@@ -15,11 +15,15 @@ public interface ControladorUsuario extends ControladorNegocio {
 
 	Usuario cadastrarUsuario(Usuario usuario);
 
-	Usuario verificarExistenciaUsuario(Usuario usuario);
+	Usuario buscarCadastroDeUsuario(Usuario usuario);
 
 	Usuario alterarSenha(Usuario usuario, String senhaNova);
 
 	boolean compararSenhas(String senha, Usuario usuario);
 
 	void alterarConfiguracoesDePersistencia(String estrategia, String banco);
+
+	boolean verificarCadastroDeUsuarioPorLogin(Usuario usuario);
+	
+	boolean verificarCadastroDeUsuarioPorEmail(Usuario usuario);
 }
