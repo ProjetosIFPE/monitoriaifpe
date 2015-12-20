@@ -12,6 +12,7 @@ import br.com.projetoperiodo.model.usuario.controller.ControladorUsuario;
 import br.com.projetoperiodo.util.Util;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -24,6 +25,8 @@ public class ServletAlterarSenha extends HttpServlet {
 	private static final String SENHA_ANTIGA = "senhaAntiga";
 
 	private static final String SENHA_NOVA = "senhaNova";
+
+	private static final String MENSAGEM_ALTEROU_SUCESSO = "Senha alterada com sucesso";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -45,25 +48,24 @@ public class ServletAlterarSenha extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		if (request.getSession(false) == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		String senhaAntiga = request.getParameter(SENHA_ANTIGA);
 		String senhaNova = request.getParameter(SENHA_NOVA);
 
-		Usuario usuarioLogado = (Usuario) request.getSession(false).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		Usuario usuarioLogado = (Usuario) request.getSession(Boolean.FALSE).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
 
-		boolean podeAlterar = Fachada.getInstance().compararSenhasDeUsuario(senhaAntiga, usuarioLogado); // é esperado true
-
-		if (podeAlterar) {
-			Usuario usuarioAlterado = Fachada.getInstance().alterarSenhaUsuario(usuarioLogado, senhaNova);
+		try {
+			Usuario usuarioAlterado = Fachada.getInstance().alterarSenhaUsuario(usuarioLogado, senhaNova, senhaAntiga);
 			request.getSession(false).setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAlterado);
-			request.getRequestDispatcher("/acesso.do").forward(request, response);
-			;
-		} else {
-			// TODO: fluxo de erro
+			request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_ALTEROU_SUCESSO);
+		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
 		}
 
+		request.getRequestDispatcher("/WEB-INF/jsp/AlterarSenha.jsp").forward(request, response);
 	}
 
 }

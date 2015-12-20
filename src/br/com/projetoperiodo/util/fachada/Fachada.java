@@ -236,9 +236,9 @@ public class Fachada {
 	public List<Disciplina> listarDisciplinasSemProfessor() {
 		return this.getControladorDisciplina().buscarDisciplinasSemProfessor();
 	}
-	public Usuario alterarSenhaUsuario(EntidadeNegocio entidade, String senhaNova) {
+	public Usuario alterarSenhaUsuario(EntidadeNegocio entidade, String senhaNova, String senhaAntiga) throws ProjetoException {
 		Usuario usuario = (Usuario)entidade;
-		return this.getControladorUsuario().alterarSenha(usuario, senhaNova);
+		return this.getControladorUsuario().alterarSenha(usuario, senhaNova, senhaAntiga);
 	}
 	
 	public List<Disciplina> listarDisciplinasDeProfessor(EntidadeNegocio entidade) {

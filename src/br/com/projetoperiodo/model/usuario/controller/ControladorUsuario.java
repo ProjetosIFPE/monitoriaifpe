@@ -17,8 +17,6 @@ public interface ControladorUsuario extends ControladorNegocio {
 
 	Usuario buscarCadastroDeUsuario(Usuario usuario) throws NegocioException;
 
-	Usuario alterarSenha(Usuario usuario, String senhaNova);
-
 	boolean compararSenhas(String senha, Usuario usuario);
 
 	void alterarConfiguracoesDePersistencia(String estrategia, String banco);
@@ -28,4 +26,6 @@ public interface ControladorUsuario extends ControladorNegocio {
 	boolean verificarCadastroDeUsuarioPorEmail(Usuario usuario);
 
 	void atualizarCadastroDeUsuario(Usuario usuario);
+
+	Usuario alterarSenha(Usuario usuario, String senhaNova, String senhaAntiga) throws NegocioException;
 }

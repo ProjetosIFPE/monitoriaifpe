@@ -23,6 +23,8 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	private final String USUARIO_NAO_CADASTRADO = "Usuário não cadastrado";
 
 	private final String SENHA_INVALIDA = "Senha inválida";
+	
+	private final String ERRO_ALTERAR_SENHA = "Senha antiga informada não é igual a senha do usuário logado";
 
 	public ControladorUsuarioImpl() {
 		super();
@@ -44,12 +46,16 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	}
 
 	@Override
-	public Usuario alterarSenha(Usuario usuario, String senhaNova) {
-
-		String senhaNovaCriptografada = Util.criptografarSenha(senhaNova, senhaNova, Constantes.CONSTANTE_CRIPTOGRAFIA);
-		usuario.setSenha(senhaNovaCriptografada);
-		this.atualizarCadastroDeUsuario(usuario);
-		return usuario;
+	public Usuario alterarSenha(Usuario usuario, String senhaNova, String senhaAntiga) throws NegocioException {
+		boolean isEqual = this.compararSenhas(senhaAntiga, usuario);
+		if ( isEqual ) {
+			String senhaNovaCriptografada = Util.criptografarSenha(senhaNova, senhaNova, Constantes.CONSTANTE_CRIPTOGRAFIA);
+			usuario.setSenha(senhaNovaCriptografada);
+			this.atualizarCadastroDeUsuario(usuario);
+			return usuario;
+		}
+		throw new NegocioException(ERRO_ALTERAR_SENHA);
+		
 	}
 
 	@Override
@@ -73,6 +79,13 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		} catch (NegocioException e) {
 			throw new NegocioException(e);
 		}
+	}
+	
+	public Usuario alterarSenha(Usuario usuario, String senhaNova ) {
+		String senhaNovaCriptografada = Util.criptografarSenha(senhaNova, senhaNova, Constantes.CONSTANTE_CRIPTOGRAFIA);
+		usuario.setSenha(senhaNovaCriptografada);
+		this.atualizarCadastroDeUsuario(usuario);
+		return usuario;
 	}
 
 	@Override
