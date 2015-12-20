@@ -72,13 +72,11 @@ public class ControladorMonitorImpl extends ControladorNegocioImpl implements Co
 	public boolean validarCadastroMonitoria(Monitoria monitor) {
 
 		boolean cadastroValido = Boolean.TRUE;
-		boolean possuiCadastro;
 		long qtdMonitoriasEmProgresso;
-
-		possuiCadastro = verificaExistenciaCadastroMonitoria(monitor);
+		
 		qtdMonitoriasEmProgresso = buscarQuantidadeMonitoriasEmProgressoDeAluno(monitor);
 
-		if (possuiCadastro || qtdMonitoriasEmProgresso > 0) {
+		if ( qtdMonitoriasEmProgresso > 0 ) {
 			cadastroValido = Boolean.FALSE;
 		}
 		return cadastroValido;
@@ -96,7 +94,7 @@ public class ControladorMonitorImpl extends ControladorNegocioImpl implements Co
 
 	private Long buscarQuantidadeMonitoriasEmProgressoDeAluno(Monitoria monitor) {
 
-		return Persistencia.getInstance().quantidadeMonitoriasDeAluno(monitor.getAluno().getChavePrimaria());
+		return Persistencia.getInstance().buscarQuantidadeMonitoriasDeAlunoNoPeriodo(monitor);
 	}
 
 	@Override

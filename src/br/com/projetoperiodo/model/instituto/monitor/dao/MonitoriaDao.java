@@ -3,6 +3,7 @@ package br.com.projetoperiodo.model.instituto.monitor.dao;
 import java.util.List;
 
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
+import br.com.projetoperiodo.model.instituto.periodo.Periodo;
 
 public interface MonitoriaDao{
 
@@ -20,11 +21,11 @@ public interface MonitoriaDao{
 
 	List<Monitoria> buscarMonitoriasDeAluno(long chave);
 
-	Long buscarQuantidadeMonitoriasDeAluno(long chave);
-
 	List<Monitoria> buscarMonitoriaCadastrada(Monitoria monitoria);
 
 	List<Monitoria> buscarMonitoriasDeDisciplinaDeUmPeriodo(long chaveMonitoria, long chavePeriodo);
+
+	Long buscarQuantidadeMonitoriasDeAlunoEmUmPeriodo(Monitoria monitor);
 	
 
 }

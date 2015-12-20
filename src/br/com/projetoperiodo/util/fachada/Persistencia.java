@@ -160,9 +160,11 @@ public class Persistencia {
 		return fabrica.criarMonitoriaDAO().buscarMonitoriasDeAluno(chave);
 	}
 	
-	public Long quantidadeMonitoriasDeAluno(long chave) {
-		return fabrica.criarMonitoriaDAO().buscarQuantidadeMonitoriasDeAluno(chave);
+	public Long buscarQuantidadeMonitoriasDeAlunoNoPeriodo(Monitoria monitor) {
+		return fabrica.criarMonitoriaDAO().buscarQuantidadeMonitoriasDeAlunoEmUmPeriodo(monitor);
 	}
+	
+	
 	
 	public List<Monitoria> verificarCadastroDeMonitoria(EntidadeNegocio entidade) {
 		Monitoria monitoria = (Monitoria)entidade;

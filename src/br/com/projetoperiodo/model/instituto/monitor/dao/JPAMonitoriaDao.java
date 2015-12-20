@@ -8,6 +8,7 @@ import javax.persistence.EntityTransaction;
 
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.model.instituto.monitor.impl.MonitorImpl;
+import br.com.projetoperiodo.model.instituto.periodo.Periodo;
 
 public class JPAMonitoriaDao implements MonitoriaDao{
 
@@ -109,17 +110,20 @@ public class JPAMonitoriaDao implements MonitoriaDao{
 		entityManager.close();
 		return monitorias;
 	}
+	
 	@Override
-	public Long buscarQuantidadeMonitoriasDeAluno(long chave) {
+	public Long buscarQuantidadeMonitoriasDeAlunoEmUmPeriodo(Monitoria monitor) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(" select count(*) ");
 		builder.append(" from MonitorImpl m ");
-		builder.append(" where m.habilitado = ");
-		builder.append(Boolean.TRUE);
-		builder.append(" and m.aluno.chavePrimaria = ");
-		builder.append(chave);
+		builder.append(" where m.periodo.ano = :ano ");
+		builder.append(" and m.periodo.semestre = :semestre ");
+		builder.append(" and m.aluno.chavePrimaria = :chave ");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		Long quantidade = (Long) entityManager.createQuery(builder.toString()).getSingleResult();
+		Long quantidade = (Long) entityManager.createQuery(builder.toString())
+						.setParameter("ano", monitor.getPeriodo().getAno())
+						.setParameter("semestre", monitor.getPeriodo().getSemestre())
+						.setParameter("chave", monitor.getAluno().getChavePrimaria()).getSingleResult();
 		entityManager.close();
 		return quantidade;
 	}

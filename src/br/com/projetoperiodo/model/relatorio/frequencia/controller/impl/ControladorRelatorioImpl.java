@@ -7,6 +7,7 @@ import java.util.List;
 import br.com.projetoperiodo.model.documento.ConstrutorDocumento;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.model.instituto.periodo.Periodo;
+import br.com.projetoperiodo.model.instituto.periodo.controller.ControladorPeriodo;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.relatorio.frequencia.RelatorioFrequencia;
@@ -22,8 +23,10 @@ import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorRelatorioImpl extends ControladorNegocioImpl implements ControladorRelatorio {
 
-	public static final String ERRO_RELATORIO_NAO_APROVADO = "O relatório não pode ser gerado pois não foi aprovado por seu "
+	private static final String ERRO_RELATORIO_NAO_APROVADO = "O relatório não pode ser gerado pois não foi aprovado por seu "
 			+	"professor. Solicite ao professor a aprovação deste relatório.";
+	
+	private static final String ERRO_RELATORIO_INVALIDO = "O relatório não pode ser gerado, pois não pertence a uma monitoria deste período";
 	
 	public ControladorRelatorioImpl() {
 		super();
@@ -74,11 +77,26 @@ public class ControladorRelatorioImpl extends ControladorNegocioImpl implements 
 
 	@Override
 	public byte[] gerarDocumentoDeRelatorio(RelatorioFrequencia relatorio, Usuario requisitante) throws NegocioException {
-
+		boolean podeSerGerado = this.verificaSeRelatorioPodeSerGerado(relatorio);
+		if ( !podeSerGerado ) {
+			throw new NegocioException(ERRO_RELATORIO_INVALIDO);
+		}
 		if (relatorio.getSituacao().equals(Situacao.ESPERA) && "ALUNO".equals(requisitante.getPapelUsuario())) {
 			throw new NegocioException(ERRO_RELATORIO_NAO_APROVADO);
 		}
 		return ConstrutorDocumento.getInstancia().gerarRelatorio(relatorio);
+	}
+	
+	public boolean verificaSeRelatorioPodeSerGerado(RelatorioFrequencia relatorio) {
+		boolean podeSerGerado = Boolean.FALSE;
+		ControladorPeriodo controladorPeriodo = Fachada.getInstance().getControladorPeriodo();
+		Periodo periodoRelatorio = relatorio.getMonitor().getPeriodo();
+		Periodo periodoAtual = controladorPeriodo.gerarNovoPeriodoCorrente();
+		if ( periodoRelatorio.getAno() == periodoAtual.getAno() &&
+						periodoAtual.getSemestre().equals(periodoRelatorio.getSemestre()) ) {
+			podeSerGerado = Boolean.TRUE;
+		}
+		return podeSerGerado;
 	}
 
 	@Override
