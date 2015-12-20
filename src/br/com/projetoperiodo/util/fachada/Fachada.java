@@ -181,7 +181,7 @@ public class Fachada {
 		return controladorFrequencia.buscarRelatoriosDeMonitoriaPorMes(monitor, mes);
 	}
 
-	public EntidadeNegocio buscarMonitoria(long chavePrimaria) throws ProjetoException {
+	public EntidadeNegocio buscarMonitoria(long chavePrimaria) throws NegocioException {
 
 		ControladorMonitor controladorMonitor = this.getControladorMonitor();
 		return controladorMonitor.buscarMonitoria(chavePrimaria);
@@ -214,7 +214,7 @@ public class Fachada {
 		this.getControladorRelatorio().atualizarRelatorio(relatorio);
 	}
 
-	public byte[] gerarDocumentoDeRelatorio(EntidadeNegocio entidade, Usuario requisitante) throws NegocioException {
+	public byte[] gerarDocumentoDeRelatorio(EntidadeNegocio entidade, Usuario requisitante) throws ProjetoException {
 
 		RelatorioFrequencia relatorio = (RelatorioFrequencia) entidade;
 		return this.getControladorRelatorio().gerarDocumentoDeRelatorio(relatorio, requisitante);

@@ -23,6 +23,8 @@ public interface MonitoriaDao{
 	Long buscarQuantidadeMonitoriasDeAluno(long chave);
 
 	List<Monitoria> buscarMonitoriaCadastrada(Monitoria monitoria);
+
+	List<Monitoria> buscarMonitoriasDeDisciplinaDeUmPeriodo(long chaveMonitoria, long chavePeriodo);
 	
 
 }

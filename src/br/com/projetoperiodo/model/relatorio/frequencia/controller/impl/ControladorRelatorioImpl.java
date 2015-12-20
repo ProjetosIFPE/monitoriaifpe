@@ -22,8 +22,11 @@ import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorRelatorioImpl extends ControladorNegocioImpl implements ControladorRelatorio {
 
+	public static final String ERRO_RELATORIO_NAO_APROVADO = "O relatório não pode ser gerado pois não foi aprovado por seu "
+			+	"professor. Solicite ao professor a aprovação deste relatório.";
+	
 	public ControladorRelatorioImpl() {
-
+		super();
 	}
 
 	@Override
@@ -73,7 +76,7 @@ public class ControladorRelatorioImpl extends ControladorNegocioImpl implements 
 	public byte[] gerarDocumentoDeRelatorio(RelatorioFrequencia relatorio, Usuario requisitante) throws NegocioException {
 
 		if (relatorio.getSituacao().equals(Situacao.ESPERA) && "ALUNO".equals(requisitante.getPapelUsuario())) {
-			throw new NegocioException(Constantes.ERRO_RELATORIO_NAO_APROVADO);
+			throw new NegocioException(ERRO_RELATORIO_NAO_APROVADO);
 		}
 		return ConstrutorDocumento.getInstancia().gerarRelatorio(relatorio);
 	}

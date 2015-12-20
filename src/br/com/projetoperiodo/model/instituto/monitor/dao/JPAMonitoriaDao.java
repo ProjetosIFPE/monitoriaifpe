@@ -83,6 +83,20 @@ public class JPAMonitoriaDao implements MonitoriaDao{
 		entityManager.close();
 		return monitorias;
 	}
+	@Override
+	public List<Monitoria> buscarMonitoriasDeDisciplinaDeUmPeriodo(long chaveDisciplina, long chavePeriodo) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(" select m from ");
+		builder.append(" MonitorImpl m ");
+		builder.append(" where m.disciplina.chavePrimaria = :chaveDisciplina ");
+		builder.append( " and ");
+		builder.append(" m.periodo.chavePrimaria = :chavePeriodo");
+		EntityManager entityManager =  entityManagerFactory.createEntityManager();
+		List<Monitoria> monitorias = entityManager.createQuery(builder.toString())
+						.setParameter("chaveDisciplina", chaveDisciplina).setParameter("chavePeriodo", chavePeriodo).getResultList();
+		entityManager.close();
+		return monitorias;
+	}
 	
 	@Override
 	public List<Monitoria> buscarMonitoriasDeAluno(long chave) {

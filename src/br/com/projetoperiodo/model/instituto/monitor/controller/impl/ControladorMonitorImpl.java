@@ -126,8 +126,10 @@ public class ControladorMonitorImpl extends ControladorNegocioImpl implements Co
 
 	@Override
 	public List<Monitoria> buscarMonitoriasDeDiscplina(Disciplina disciplina) {
-
-		return Persistencia.getInstance().buscarMonitoriasDeDisciplina(disciplina.getChavePrimaria());
+		ControladorPeriodo controladorPeriodo = Fachada.getInstance().getControladorPeriodo();
+		Periodo periodo = controladorPeriodo.gerarNovoPeriodoCorrente();
+		return Persistencia.getInstance().
+						buscarMonitoriasDeDisciplinaDeUmPeriodo(disciplina.getChavePrimaria(), periodo.getChavePrimaria());
 	}
 
 	@Override

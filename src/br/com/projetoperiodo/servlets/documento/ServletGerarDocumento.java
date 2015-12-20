@@ -13,6 +13,7 @@ import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Situacao;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -44,8 +45,8 @@ public class ServletGerarDocumento extends HttpServlet {
 		try {
 			request.setAttribute(DOCUMENTO_RELATORIO, Fachada.getInstance().gerarDocumentoDeRelatorio(relatorio, usuarioLogado));
 			request.getRequestDispatcher("/enviarDocumento.do").forward(request, response);
-		} catch ( NegocioException e ) {
-			request.setAttribute(e.getMessage(), e);
+		} catch ( ProjetoException e ) {
+			request.setAttribute(Constantes.MENSAGEM_INFO, e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
 		}
 		

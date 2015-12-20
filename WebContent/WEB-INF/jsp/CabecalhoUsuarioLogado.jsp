@@ -17,6 +17,10 @@
 			<div class="my-notify-success">${requestScope.MENSAGEM_SUCESSO }
 			</div>
 		</c:when>
+		<c:when test="${not empty requestScope.MENSAGEM_INFO }">
+			<div class="my-notify-info">${requestScope.MENSAGEM_INFO }
+			</div>
+		</c:when>
 	</c:choose>
 	<!--Header Begin-->
 	<div id="header">

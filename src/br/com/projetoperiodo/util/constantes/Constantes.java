@@ -27,9 +27,9 @@ public class Constantes {
 	
 	public static final String ERRO_ENTIDADE_NAO_CADASTRADA = "ERRO_ENTIDADE_NAO_CADASTRADA";
 	
-	public static final String ERRO_RELATORIO_NAO_APROVADO = "ERRO_RELATORIO_NAO_APROVADO";
-	
 	public static final String MENSAGEM_SUCESSO = "MENSAGEM_SUCESSO";
+	
+	public static final String MENSAGEM_INFO = "MENSAGEM_INFO";
 	
 	public static final String MENSAGEM_ERRO = "MENSAGEM_ERRO";
 	

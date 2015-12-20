@@ -16,12 +16,6 @@
 </head>
 <body>
 	<jsp:include page="CabecalhoUsuarioLogado.jsp" />
-	<c:if test="${ not empty requestScope.ERRO_RELATORIO_NAO_APROVADO }">
-		<div id="dialog">
-			<p>O relatório não pode ser gerado pois não foi aprovado por seu
-				professor. Solicite ao professor a aprovação deste relatório.</p>
-		</div>
-	</c:if>
 	<form action="cadastroRelatorio.do" method="post">
 		<div id="accordion">
 			<h3>Primeira semana</h3>

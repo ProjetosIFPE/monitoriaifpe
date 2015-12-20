@@ -148,8 +148,12 @@ public class Persistencia {
 		fabrica.criarDisciplinaDAO().removerProfessorDaDisciplina(chaveDisciplina);
 	}
 	
-	public List<Monitoria> buscarMonitoriasDeDisciplina(long chave) {
+	public List<Monitoria> buscarMonitoriasDeDisciplina(long chave, Periodo periodo) {
 		return fabrica.criarMonitoriaDAO().buscarMonitoriasDeDisciplina(chave);
+	}
+	
+	public List<Monitoria> buscarMonitoriasDeDisciplinaDeUmPeriodo(long chaveDisciplina, long chavePeriodo) {
+		return fabrica.criarMonitoriaDAO().buscarMonitoriasDeDisciplinaDeUmPeriodo(chaveDisciplina, chavePeriodo);
 	}
 	
 	public List<Monitoria> buscarMonitoriasDeAluno(long chave) {
