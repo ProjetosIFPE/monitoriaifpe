@@ -4,8 +4,6 @@ package br.com.projetoperiodo.model.usuario.controller.impl;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import javax.persistence.NoResultException;
-
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.usuario.Usuario;
@@ -14,7 +12,6 @@ import br.com.projetoperiodo.model.usuario.impl.UsuarioImpl;
 import br.com.projetoperiodo.util.Util;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
-import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorUsuarioImpl extends ControladorNegocioImpl implements ControladorUsuario {
@@ -23,12 +20,10 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 
 	private final String EMAIL_MENSAGEM_CONTEUDO = "Sua senha é: ";
 
-	private final String EMAIL_NAO_CADASTRADO = "EMAIL_NAO_CADASTRADO";
-
 	private final String USUARIO_NAO_CADASTRADO = "Usuário não cadastrado";
 
 	private final String SENHA_INVALIDA = "Senha inválida";
-	
+
 	public ControladorUsuarioImpl() {
 		super();
 	}
@@ -37,11 +32,7 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 	public Usuario autenticarUsuario(Usuario usuario) throws NegocioException {
 
 		Usuario usuarioAutenticado;
-		try {
-			usuarioAutenticado = (Usuario) this.buscarCadastroDeUsuario(usuario);
-		} catch (NegocioException e) {
-			throw new NegocioException(USUARIO_NAO_CADASTRADO);
-		}
+		usuarioAutenticado = (Usuario) this.buscarCadastroDeUsuario(usuario);
 		String senha = usuario.getSenha();
 		String senhaCriptografada = Util.criptografarSenha(senha, senha, Constantes.CONSTANTE_CRIPTOGRAFIA);
 		if (!usuarioAutenticado.getSenha().equals(senhaCriptografada)) {
@@ -75,13 +66,12 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		HashMap<String, Object> filter = new HashMap<>();
 		filter.put("email", usuario.getEmail());
 		try {
-			usuario = (Usuario) Persistencia.getInstance().buscarUsuario(filter);
 			String novaSenha = Util.gerarSenhaAleatoria();
 			alterarSenha(usuario, novaSenha);
 			usuario.setSenha(novaSenha);
 			envioEmailSenha(usuario);
 		} catch (NegocioException e) {
-			throw new NegocioException(EMAIL_NAO_CADASTRADO);
+			throw new NegocioException(e);
 		}
 	}
 
@@ -99,17 +89,23 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		Persistencia.getInstance().salvarUsuario(usuario);
 		return usuario;
 	}
-	
+
 	@Override
 	public void atualizarCadastroDeUsuario(Usuario usuario) {
+
 		Persistencia.getInstance().atualizarUsuario(usuario);
 	}
 
 	@Override
 	public Usuario buscarCadastroDeUsuario(Usuario usuario) throws NegocioException {
 
-		Usuario usuarioRequerente = (Usuario) Persistencia.getInstance().buscarUsuario(usuario.getLogin());
-		return usuarioRequerente;
+		try {
+			Usuario usuarioRequerente = (Usuario) Persistencia.getInstance().buscarUsuario(usuario.getLogin());
+			return usuarioRequerente;
+		} catch (NegocioException e) {
+			throw new NegocioException(USUARIO_NAO_CADASTRADO);
+		}
+		
 	}
 
 	@Override
