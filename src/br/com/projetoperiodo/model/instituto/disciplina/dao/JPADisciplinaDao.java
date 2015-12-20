@@ -136,15 +136,15 @@ public class JPADisciplinaDao implements DisciplinaDao {
 		builder.append(" select d from ");
 		builder.append(" DisciplinaImpl d ");
 		builder.append(" inner join d.pagantes p ");
-		builder.append(" where p.chavePrimaria = ");
-		builder.append(chave);
+		builder.append(" where p.chavePrimaria = :chave ");
+		builder.append(" and ");
+		builder.append(" d.professor is not null ");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		List<Disciplina> disciplinas = entityManager.createQuery(builder.toString()).getResultList();
+		List<Disciplina> disciplinas = entityManager.createQuery(builder.toString())
+						.setParameter("chave", chave).getResultList();
 		entityManager.close();
 		return disciplinas;
 	}
-
-	
 
 	@Override
 	public Disciplina buscar(long primaryK) {

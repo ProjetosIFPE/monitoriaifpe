@@ -2,6 +2,7 @@ package br.com.projetoperiodo.servlets.apresentacao;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.util.constantes.Constantes;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -34,9 +36,17 @@ public class ServletRelatorio extends HttpServlet {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		long chavePrimariaMonitoria = Long.valueOf(request.getParameter(CHAVE_MONITORIA));
-		Monitoria monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitoria);
-		request.getSession(false).setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
-		request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosAluno.jsp").forward(request, response);
+		Monitoria monitor;
+		RequestDispatcher rd;
+		try {
+			monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitoria);
+			request.getSession(false).setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
+			rd  = request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosAluno.jsp");
+		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+			rd = request.getRequestDispatcher("/aluno.do");
+		}
+		rd.forward(request, response);
 	}
 
 	/**

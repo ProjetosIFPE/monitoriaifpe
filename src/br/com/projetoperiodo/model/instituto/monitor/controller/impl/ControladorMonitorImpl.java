@@ -11,6 +11,7 @@ import br.com.projetoperiodo.model.instituto.monitor.controller.ControladorMonit
 import br.com.projetoperiodo.model.instituto.monitor.impl.MonitorImpl;
 import br.com.projetoperiodo.model.instituto.periodo.Periodo;
 import br.com.projetoperiodo.model.instituto.periodo.controller.ControladorPeriodo;
+import br.com.projetoperiodo.model.instituto.professor.Professor;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.util.Util;
@@ -21,6 +22,8 @@ import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorMonitorImpl extends ControladorNegocioImpl implements ControladorMonitor {
 	
+	private static final String MONITORIA_INVALIDA = "A Monitoria é inválida, pois não possui um professor associado a disciplina."
+					+ " Aguarde até que um professor assuma a disciplina";
 	public ControladorMonitorImpl() {
 
 	}
@@ -103,9 +106,13 @@ public class ControladorMonitorImpl extends ControladorNegocioImpl implements Co
 	}
 
 	@Override
-	public Monitoria buscarMonitoria(long chavePrimaria) {
-		
-		return (Monitoria) Persistencia.getInstance().buscarMonitoria(chavePrimaria);
+	public Monitoria buscarMonitoria(long chavePrimaria) throws NegocioException {
+		Monitoria monitoria = (Monitoria) Persistencia.getInstance().buscarMonitoria(chavePrimaria);
+		Professor professor = monitoria.getDisciplina().getProfessor();
+		if ( Util.isNull(professor) ) {
+			throw new NegocioException(MONITORIA_INVALIDA);
+		}
+		return monitoria;
 	}
 
 	@Override

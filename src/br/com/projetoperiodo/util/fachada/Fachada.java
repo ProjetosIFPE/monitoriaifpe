@@ -181,7 +181,7 @@ public class Fachada {
 		return controladorFrequencia.buscarRelatoriosDeMonitoriaPorMes(monitor, mes);
 	}
 
-	public EntidadeNegocio buscarMonitoria(long chavePrimaria) {
+	public EntidadeNegocio buscarMonitoria(long chavePrimaria) throws ProjetoException {
 
 		ControladorMonitor controladorMonitor = this.getControladorMonitor();
 		return controladorMonitor.buscarMonitoria(chavePrimaria);
