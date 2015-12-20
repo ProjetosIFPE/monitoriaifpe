@@ -26,7 +26,8 @@ public class ServletCadastroMonitoria extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";
-
+	private static final String MENSAGEM_CADASTRO_SUCESSO = "Monitoria cadastrada com sucesso";
+	private static final String MENSAGE_CADASTRO_FALHO = "Não é possível cadastrar mais uma monitoria neste período";
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -80,8 +81,9 @@ public class ServletCadastroMonitoria extends HttpServlet {
 		if (cadastroValido) {
 			monitor = (Monitoria) Fachada.getInstance().cadastrarMonitoria(monitor);
 			Fachada.getInstance().preCadastroRelatoriosMonitor(monitor);
+			request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_CADASTRO_SUCESSO);
 		} else {
-			// TODO Tratar invalidade do cadastro
+			request.setAttribute(Constantes.MENSAGEM_ERRO, MENSAGE_CADASTRO_FALHO);
 		}
 		request.getRequestDispatcher("/acesso.do").forward(request, response);
 	}

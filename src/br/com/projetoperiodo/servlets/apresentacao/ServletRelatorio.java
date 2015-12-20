@@ -17,7 +17,7 @@ import br.com.projetoperiodo.util.fachada.Fachada;
 public class ServletRelatorio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String RELATORIOS_MONITOR = "relatoriosMonitor";
-    public static final String CHAVE_MONITOR = "chaveMonitor";
+    public static final String CHAVE_MONITORIA = "chaveMonitor";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -33,8 +33,8 @@ public class ServletRelatorio extends HttpServlet {
 		if (request.getSession(false) == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		long chavePrimariaMonitor = Long.valueOf(request.getParameter(CHAVE_MONITOR));
-		Monitoria monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitor);
+		long chavePrimariaMonitoria = Long.valueOf(request.getParameter(CHAVE_MONITORIA));
+		Monitoria monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitoria);
 		request.getSession(false).setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
 		request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosAluno.jsp").forward(request, response);
 	}

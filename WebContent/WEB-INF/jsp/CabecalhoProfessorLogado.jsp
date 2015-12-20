@@ -3,11 +3,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<link rel="stylesheet" type="text/css" href="css/alertas.css" />
+<script src="js/alertas.js"></script>
 <link rel="stylesheet" type="text/css" href="css/cabecalho.css" />
 </head>
 
 <body>
-	
+	<c:choose>
+		<c:when test="${not empty requestScope.MENSAGEM_ERRO }">
+			<div class="my-notify-error">${ requestScope.MENSAGEM_ERRO }</div>
+		</c:when>
+		<c:when test="${not empty requestScope.MENSAGEM_SUCESSO }">
+			<div class="my-notify-success">${requestScope.MENSAGEM_SUCESSO }
+			</div>
+		</c:when>
+	</c:choose>
 	<!--Header Begin-->
 	<div id="header">
 		<div class="center">
