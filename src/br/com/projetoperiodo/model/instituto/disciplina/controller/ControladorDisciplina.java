@@ -28,5 +28,7 @@ public interface ControladorDisciplina extends ControladorNegocio
 	void retirarVinculoDeProfessorDaDisciplina(long chaveDisciplina);
 
 	List<Disciplina> buscarDisciplinasComProfessor();
+
+	List<Disciplina> listarDisciplinasComProfessorDisponiveisParaAluno(Aluno aluno);
 	
 }

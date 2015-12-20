@@ -57,7 +57,7 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 
 		String senhaNovaCriptografada = Util.criptografarSenha(senhaNova, senhaNova, Constantes.CONSTANTE_CRIPTOGRAFIA);
 		usuario.setSenha(senhaNovaCriptografada);
-		Persistencia.getInstance().atualizarUsuario(usuario);
+		this.atualizarCadastroDeUsuario(usuario);
 		return usuario;
 	}
 
@@ -98,6 +98,11 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		usuario.setSenha(senhaCriptografada);
 		Persistencia.getInstance().salvarUsuario(usuario);
 		return usuario;
+	}
+	
+	@Override
+	public void atualizarCadastroDeUsuario(Usuario usuario) {
+		Persistencia.getInstance().atualizarUsuario(usuario);
 	}
 
 	@Override

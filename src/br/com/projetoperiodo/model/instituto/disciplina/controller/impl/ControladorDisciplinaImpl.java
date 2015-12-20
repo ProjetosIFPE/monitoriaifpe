@@ -43,6 +43,20 @@ public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements
 
 		return Persistencia.getInstance().buscarDisciplinasDeAluno(aluno);
 	}
+	@Override
+	public List<Disciplina> listarDisciplinasComProfessorDisponiveisParaAluno(Aluno aluno) {
+		List<Disciplina> disciplinasComProfessor = Persistencia.getInstance().buscarDisciplinasComProfessor();
+		for ( int i = 0; i < aluno.quantidadeDisciplinasCursadas(); i++  ) {
+			Disciplina disciplinaCursada = aluno.getDisciplinas(i);
+			for ( Disciplina disciplinaComProfessor: disciplinasComProfessor ) {
+				if ( disciplinaComProfessor.getDescricao().equals(disciplinaCursada.getDescricao()) ) {
+					disciplinasComProfessor.remove(disciplinaComProfessor);
+					break;
+				}
+			}
+		}
+		return disciplinasComProfessor;
+	}
 
 	@Override
 	public List<Disciplina> buscarDisciplinasSemProfessor() {
@@ -56,7 +70,7 @@ public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements
 	}
 
 	@Override
-	public Disciplina buscarDisciplina(String descricao) throws NegocioException {
+	public Disciplina buscarDisciplina(String descricao) throws NegocioException{
 
 		HashMap<String, Object> filtro = new HashMap<>();
 		filtro.put("descricao", descricao);

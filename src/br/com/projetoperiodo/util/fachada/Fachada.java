@@ -192,7 +192,7 @@ public class Fachada {
 		return controladorAluno.buscarAluno(matricula);
 	}
 	
-	public EntidadeNegocio autenticarUsuario(Usuario usuario) throws NegocioException {
+	public EntidadeNegocio autenticarUsuario(Usuario usuario) throws ProjetoException {
 		return this.getControladorUsuario().autenticarUsuario(usuario);
 	}
 	public void cadastrarAluno(EntidadeNegocio entidade) throws ProjetoException {
@@ -285,6 +285,17 @@ public class Fachada {
 	
 	public void encaminharSenhaParaUsuario(Usuario usuario) throws ProjetoException {
 		this.getControladorUsuario().encaminharSenhaParaUsuario(usuario);
+	}
+	
+	public void adicionarDisciplinaEmCadastroDeAluno(Usuario usuario, EntidadeNegocio entidade) {
+		Aluno aluno = (Aluno)usuario;
+		Disciplina disciplina = (Disciplina)entidade;
+		this.getControladorAluno().adicionarDisciplinaEmCadastroDeAluno(aluno, disciplina);
+	}
+	
+	public List<Disciplina> listarDisciplinasDisponiveisParaAluno(Usuario usuario) {
+		Aluno aluno = (Aluno)usuario;
+		return this.getControladorDisciplina().listarDisciplinasComProfessorDisponiveisParaAluno(aluno);
 	}
 	
 	public static void destroyInstance() {

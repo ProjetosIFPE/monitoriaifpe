@@ -40,7 +40,7 @@ public class AlunoImpl extends UsuarioImpl implements Aluno
 	@JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
 	private Curso curso;
 	
-	@ManyToMany(targetEntity=DisciplinaImpl.class)
+	@ManyToMany(targetEntity=DisciplinaImpl.class, fetch=FetchType.EAGER)
 	@JoinTable(name="DISCIPLINA_ALUNO",
 	           joinColumns = @JoinColumn( name = "ALUNO_ID"),
 	           inverseJoinColumns = @JoinColumn(name = "DISCIPLINA_ID"))
@@ -115,5 +115,11 @@ public class AlunoImpl extends UsuarioImpl implements Aluno
 	
 		// TODO Auto-generated method stub
 		return super.getChavePrimaria();
+	}
+
+	@Override
+	public int quantidadeDisciplinasCursadas() {
+
+		return disciplinas.size();
 	}
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.aluno.controller.ControladorAluno;
 import br.com.projetoperiodo.model.instituto.aluno.impl.AlunoImpl;
+import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.usuario.Usuario;
@@ -76,6 +77,11 @@ public class ControladorAlunoImpl extends ControladorNegocioImpl implements Cont
 	public Aluno buscarUsuarioAluno(Usuario usuario) {
 
 		return (Aluno) Persistencia.getInstance().buscarAluno(usuario.getChavePrimaria());
+	}
+	@Override
+	public void adicionarDisciplinaEmCadastroDeAluno(Aluno aluno, Disciplina disciplina){
+		aluno.setDisciplinas(disciplina);
+		Persistencia.getInstance().atualizarCadastroDeAluno(aluno);
 	}
 
 	@Override

@@ -262,6 +262,13 @@
 		<servlet-name>ServletCadastroDisciplina</servlet-name>
 		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletCadastroDisciplina</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ServletAdicionaDisciplinaAluno</display-name>
+		<servlet-name>ServletAdicionaDisciplinaAluno</servlet-name>
+		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletAdicionaDisciplinaAluno</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>ServletProfessor</servlet-name>
@@ -307,6 +314,10 @@
 	<servlet-mapping>
 		<servlet-name>ServletCadastroDisciplina</servlet-name>
 		<url-pattern>/cadastroDisciplina.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ServletAdicionaDisciplinaAluno</servlet-name>
+		<url-pattern>/adicionaDisciplina.do</url-pattern>
 	</servlet-mapping>
 
 

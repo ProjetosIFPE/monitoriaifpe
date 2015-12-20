@@ -26,4 +26,6 @@ public interface ControladorUsuario extends ControladorNegocio {
 	boolean verificarCadastroDeUsuarioPorLogin(Usuario usuario);
 	
 	boolean verificarCadastroDeUsuarioPorEmail(Usuario usuario);
+
+	void atualizarCadastroDeUsuario(Usuario usuario);
 }

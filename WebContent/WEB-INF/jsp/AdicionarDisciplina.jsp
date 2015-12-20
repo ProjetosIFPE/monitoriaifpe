@@ -9,17 +9,17 @@
 <title>${initParam.title}</title>
 </head>
 <body>
-	<jsp:include page="CabecalhoProfessorLogado.jsp" />
-	<form action="cadastroDisciplina.do" method="post">
+	<jsp:include page="CabecalhoUsuarioLogado.jsp" />
+	<form action="adicionaDisciplina.do" method="post">
 		<fieldset>
 			<label>Disciplinas</label> 
 			<select name="disciplina" name="disciplina">
 				<c:forEach var="disciplina"
-					items="${requestScope['listaDisciplinasSemProfessor']}">
+					items="${requestScope['listaDisciplinasComProfessor']}">
 					<option><c:out value="${disciplina.descricao }" /></option>
 				</c:forEach>
 			</select>
-			<button type="submit">Cadastrar disciplina</button>
+			<button type="submit">Adicionar disciplina</button>
 		</fieldset>
 	</form>
 

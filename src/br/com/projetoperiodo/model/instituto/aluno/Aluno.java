@@ -7,7 +7,6 @@ import br.com.projetoperiodo.model.usuario.Usuario;
 public interface Aluno extends Usuario
 {
 	
-	
 	String getMatricula();
 
 	void setMatricula(String matricula);
@@ -19,5 +18,7 @@ public interface Aluno extends Usuario
 	Disciplina getDisciplinas(int index);
 
 	void setDisciplinas(Disciplina disciplina);
+	
+	int quantidadeDisciplinasCursadas();
 
 }

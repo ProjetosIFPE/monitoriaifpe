@@ -233,6 +233,11 @@ public class Persistencia {
 		return fabrica.criarRelatorioFrequenciaDAO().buscarRelatoriosDeMonitoria(chave);
 	}
 	
+	public void atualizarCadastroDeAluno(Aluno aluno) {
+		this.fabrica.criarAlunoDAO().atualizar(aluno);
+	}
+	
+	
 	public void alterarFabrica(String tipo, String unidade) {
 		FabricaDAO fabricaJPA = null;
 		

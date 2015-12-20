@@ -3,7 +3,6 @@
 
 .my-notify-info, .my-notify-success, .my-notify-warning,
 	.my-notify-error {
-	padding: 10px;
 	opacity: 0.8;
 	height: 100px;
 	cursor: pointer;
