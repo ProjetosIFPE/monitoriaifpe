@@ -199,7 +199,7 @@ public class Fachada {
 		Aluno aluno = (Aluno)entidade;
 		this.getControladorAluno().cadastrarAluno(aluno);
 	}
-	public Professor cadastrarProfessor(EntidadeNegocio entidade){
+	public Professor cadastrarProfessor(EntidadeNegocio entidade) throws ProjetoException{
 		Professor professor = (Professor) entidade;
 		return this.getControladorProfessor().cadastrarProfessor(professor);
 	}

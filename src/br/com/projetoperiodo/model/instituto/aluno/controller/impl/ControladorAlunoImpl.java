@@ -20,8 +20,6 @@ import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorAlunoImpl extends ControladorNegocioImpl implements ControladorAluno {
 
-	private final String MENSAGEM_CADASTRO_INVALIDO = "Aluno já está cadastrado";
-
 	public ControladorAlunoImpl() {
 
 	}

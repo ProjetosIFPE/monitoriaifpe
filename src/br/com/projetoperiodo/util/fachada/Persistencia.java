@@ -17,7 +17,6 @@ import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Semestre;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Situacao;
 import br.com.projetoperiodo.util.exception.NegocioException;
-import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.persistencia.fabrica.CreatorFabrica;
 import br.com.projetoperiodo.util.persistencia.fabrica.FabricaDAO;
 import br.com.projetoperiodo.util.persistencia.persistencia.CreatorDatabaseUnit;
@@ -32,7 +31,7 @@ public class Persistencia {
 	private DatabaseUnit databaseUnit;
 
 	private Persistencia() {
-		databaseUnit = CreatorDatabaseUnit.criarDatabaseUnit(CreatorDatabaseUnit.ORACLE_LOCAL_UNIT);
+		databaseUnit = CreatorDatabaseUnit.criarDatabaseUnit(CreatorDatabaseUnit.MYSQL_LOCAL_UNIT);
 		fabrica = CreatorFabrica.criarFabricaDAO(CreatorFabrica.FABRICA_JPA, databaseUnit, null);
 	}
 

@@ -23,7 +23,7 @@ public class ServletCadastroAluno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";
 	private static final String ATRIBUTO_ALUNO = "aluno";
-	
+
 	// TODO Modificar esta estrategia, pode implicar em problemas de
 	// concorrencia
 	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradasComProfessor();
@@ -84,7 +84,8 @@ public class ServletCadastroAluno extends HttpServlet {
 			request.setAttribute(Constantes.MENSAGEM_SUCESSO, "Aluno cadastrado com sucesso" );
 			rd = request.getRequestDispatcher("/acesso.do");
 		} catch (ProjetoException e) {
-			request.setAttribute(Constantes.CAMPOS_INVALIDOS, e.getParametrosDeErro());
+			request.setAttribute(Constantes.CAMPOS_INVALIDOS, 
+					e.getParametrosDeErro().get(Constantes.CAMPOS_INVALIDOS));
 			request.setAttribute(ATRIBUTO_ALUNO, aluno);
 			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/CadastroAluno.jsp");

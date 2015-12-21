@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.model.instituto.professor.Professor;
+import br.com.projetoperiodo.util.constantes.Constantes;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -60,22 +62,27 @@ public class ServletCadastroProfessor extends HttpServlet {
 		professor.setSobrenome(request.getParameter("sobrenome"));
 		professor.setEmail(request.getParameter("email"));
 		professor.setSenha(request.getParameter("senha"));
-		professor = Fachada.getInstance().cadastrarProfessor(professor);
-		String[] materias = request.getParameterValues("disciplinas");
-		if (materias != null) {
-			for (int x = 0; x < materias.length; x++) {
-				Disciplina disciplina = (Disciplina) Fachada.getInstance().criarDisciplina();
-				Disciplina disciplinaRetornada = null;
-				disciplina.setDescricao(materias[x]);
+		try {
+			professor = Fachada.getInstance().cadastrarProfessor(professor);
+			String[] materias = request.getParameterValues("disciplinas");
+			if (materias != null) {
+				for (int x = 0; x < materias.length; x++) {
+					Disciplina disciplina = (Disciplina) Fachada.getInstance().criarDisciplina();
+					Disciplina disciplinaRetornada = null;
+					disciplina.setDescricao(materias[x]);
 
-				disciplinaRetornada = comparaDisciplinas(disciplina);
-				disciplinaRetornada.setProfessor(professor);
-				Fachada.getInstance().atualizarDisciplina(disciplinaRetornada);
+					disciplinaRetornada = comparaDisciplinas(disciplina);
+					disciplinaRetornada.setProfessor(professor);
+					Fachada.getInstance().atualizarDisciplina(disciplinaRetornada);
+				}
 			}
+		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.CAMPOS_INVALIDOS, e.getParametrosDeErro());
+			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+			request.getRequestDispatcher("/WEB-INF/jsp/CadastroProfessor.jsp").forward(request, response);
 		}
 
 		request.getRequestDispatcher("/acesso.do").forward(request, response);
-
 	}
 
 	protected Disciplina comparaDisciplinas(Disciplina disc) {
