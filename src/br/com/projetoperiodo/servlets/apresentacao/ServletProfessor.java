@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.model.instituto.professor.Professor;
@@ -31,10 +32,15 @@ public class ServletProfessor extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if( request.getSession(false) == null ) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		Professor professorLogado = (Professor) request.getSession().getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);	
+		Professor professorLogado;
+		session = request.getSession(Boolean.FALSE);
+		synchronized(session) {
+			professorLogado = (Professor) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		List<Disciplina> discplinas = Fachada.getInstance().listarDisciplinasDeProfessor(professorLogado);
 		request.setAttribute(DISCIPLINAS_PROFESSOR_PERIODO_CORRENTE, discplinas);
 		request.getRequestDispatcher("/WEB-INF/jsp/DisciplinasProfessor.jsp").forward(request, response);
@@ -44,7 +50,7 @@ public class ServletProfessor extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

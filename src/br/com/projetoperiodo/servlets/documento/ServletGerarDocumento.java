@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
@@ -35,12 +36,18 @@ public class ServletGerarDocumento extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession(false) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
-		Monitoria monitor = (Monitoria) request.getSession(false).getAttribute(Constantes.ATRIBUTO_MONITORIA);
-		Usuario usuarioLogado = (Usuario)request.getSession(false).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		Monitoria monitor;
+		Usuario usuarioLogado;
+		session = request.getSession(Boolean.FALSE);
+		synchronized(session) {
+			monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
+			usuarioLogado = (Usuario)session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
 		try {
 			request.setAttribute(DOCUMENTO_RELATORIO, Fachada.getInstance().gerarDocumentoDeRelatorio(relatorio, usuarioLogado));

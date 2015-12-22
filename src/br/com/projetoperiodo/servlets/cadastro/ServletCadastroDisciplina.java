@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.model.instituto.professor.Professor;
@@ -32,7 +33,8 @@ public class ServletCadastroDisciplina extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession(Boolean.FALSE) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasSemProfessor();
@@ -44,11 +46,16 @@ public class ServletCadastroDisciplina extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession(Boolean.FALSE) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		String descricaoDisciplina = request.getParameter("disciplina");
-		Professor professor = (Professor)request.getSession(Boolean.FALSE).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		Professor professor;
+		session = request.getSession(Boolean.FALSE);
+		synchronized(session) {
+			professor = (Professor)session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		try {
 			Disciplina disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(descricaoDisciplina);
 			disciplina.setProfessor(professor);

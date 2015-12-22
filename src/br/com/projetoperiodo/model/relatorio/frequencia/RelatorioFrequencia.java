@@ -25,5 +25,7 @@ public interface RelatorioFrequencia extends EntidadeNegocio
 
 	void setSituacao(Situacao situacao);
 
+	String getDescricaoMes();
+
 
 }

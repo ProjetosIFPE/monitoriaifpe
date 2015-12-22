@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.util.constantes.Constantes;
@@ -37,14 +38,18 @@ public class ServletRelatorioProfessor extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if (request.getSession(false) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		long chavePrimariaMonitor = Long.valueOf(request.getParameter(CHAVE_MONITOR));
 		Monitoria monitor;
 		try {
 			monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitor);
-			request.getSession(false).setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
+			session = request.getSession(Boolean.FALSE);
+			synchronized(session) {
+				session.setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
+			}
 			List<Situacao> listaSituacao = Fachada.getInstance().buscarSituacaoDeRelatorios(monitor);
 			request.setAttribute(SITUACAO_RELATORIOS_MONITORIA, listaSituacao);
 			request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosProfessor.jsp").forward(request, response);
@@ -60,7 +65,7 @@ public class ServletRelatorioProfessor extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

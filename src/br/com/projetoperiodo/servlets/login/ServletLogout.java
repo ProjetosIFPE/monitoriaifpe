@@ -2,11 +2,11 @@ package br.com.projetoperiodo.servlets.login;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class ServletLogout
@@ -28,11 +28,12 @@ public class ServletLogout extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		if (!(request.getSession(false) == null)) {
-			request.getSession().invalidate();
+		HttpSession session = request.getSession(Boolean.FALSE);
+		synchronized(session) {
+			if ( !(session == null) ) {
+				request.getSession().invalidate();
+			}
 		}
-
 		request.getRequestDispatcher("/acesso.do").forward(request, response);
 
 	}

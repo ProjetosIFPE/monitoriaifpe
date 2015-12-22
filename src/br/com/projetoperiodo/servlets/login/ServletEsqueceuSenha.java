@@ -3,11 +3,11 @@ package br.com.projetoperiodo.servlets.login;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.util.constantes.Constantes;
@@ -34,12 +34,18 @@ public class ServletEsqueceuSenha extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if ( session != null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 		request.getRequestDispatcher("WEB-INF/jsp/RequisitarSenha.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if ( session != null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 		String loginUsuario = request.getParameter(FORM_LOGIN);
 		Usuario usuario = (Usuario) Fachada.getInstance().criarUsuario();
 		usuario.setLogin(loginUsuario);

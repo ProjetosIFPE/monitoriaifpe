@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
@@ -33,10 +34,15 @@ public class ServletAdicionaDisciplinaAluno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession(Boolean.FALSE) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		Aluno aluno = (Aluno)request.getSession(Boolean.FALSE).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		Aluno aluno;
+		session = request.getSession(Boolean.FALSE);
+		synchronized(session) {
+			aluno = (Aluno)session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasDisponiveisParaAluno(aluno);
 		request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
 		request.getRequestDispatcher("/WEB-INF/jsp/AdicionarDisciplina.jsp").forward(request, response);
@@ -46,10 +52,18 @@ public class ServletAdicionaDisciplinaAluno extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 		String descricaoDisciplina = request.getParameter("disciplina");
+		Aluno aluno;
 		try {
 			Disciplina disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(descricaoDisciplina);
-			Aluno aluno = (Aluno)request.getSession(Boolean.FALSE).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+			session = request.getSession(Boolean.FALSE);
+			synchronized(session) {
+				aluno = (Aluno)session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+			}
 			Fachada.getInstance().adicionarDisciplinaEmCadastroDeAluno(aluno, disciplina);
 			request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_ADICIONADO_SUCESSO);
 			request.getRequestDispatcher("/aluno.do").forward(request, response);

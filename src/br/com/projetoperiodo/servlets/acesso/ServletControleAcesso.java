@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.usuario.Usuario;
@@ -29,19 +30,25 @@ public class ServletControleAcesso extends HttpServlet {
 			throws ServletException, IOException {
 
 		RequestDispatcher rd;
-		if (request.getSession(Boolean.FALSE) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp");
-			rd.forward(request, response);
 		} else {
-			
-			Usuario usuarioLogado = (Usuario)request.getSession(Boolean.FALSE).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
-			if ("ALUNO".equals(usuarioLogado.getPapelUsuario())) {
-				rd = request.getRequestDispatcher("/aluno.do");
-			} else {
-				rd = request.getRequestDispatcher("/professor.do");
+			Usuario usuarioLogado;
+			synchronized(session) {
+				usuarioLogado = (Usuario)session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
 			}
-			rd.forward(request, response);
+			if ( usuarioLogado == null ) {
+				rd = request.getRequestDispatcher("/logout.do");
+			} else {
+				if ("ALUNO".equals(usuarioLogado.getPapelUsuario())) {
+					rd = request.getRequestDispatcher("/aluno.do");
+				} else {
+					rd = request.getRequestDispatcher("/professor.do");
+				}
+			}
 		}
+		rd.forward(request, response);
 	}
 
 }

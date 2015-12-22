@@ -23,6 +23,7 @@ import br.com.projetoperiodo.model.negocio.entidade.impl.EntidadeNegocioImpl;
 import br.com.projetoperiodo.model.relatorio.frequencia.RelatorioFrequencia;
 import br.com.projetoperiodo.model.relatorio.semana.Semana;
 import br.com.projetoperiodo.model.relatorio.semana.impl.SemanaImpl;
+import br.com.projetoperiodo.util.Util;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Situacao;
 
 @Entity
@@ -57,6 +58,10 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
 	public int getMes() {
 
 		return mes;
+	}
+	@Override
+	public String getDescricaoMes(){
+		return Util.obterNomeMes(this.mes);
 	}
 
 	/*

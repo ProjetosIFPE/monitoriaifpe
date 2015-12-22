@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
@@ -42,10 +43,15 @@ public class ServletCadastroMonitoria extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getSession(false) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		Aluno aluno = (Aluno) request.getSession(false).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		session = request.getSession(Boolean.FALSE);
+		Aluno aluno;
+		synchronized(session) {
+			aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasDeAluno(aluno);
 		request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
 		request.getRequestDispatcher("/WEB-INF/jsp/CadastroMonitoria.jsp").forward(request, response);
@@ -58,10 +64,14 @@ public class ServletCadastroMonitoria extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		if (request.getSession(false) == null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
-		Aluno aluno = (Aluno) request.getSession(false).getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		Aluno aluno;
+		synchronized(session) {
+			aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+		}
 		boolean cadastroValido;
 		Disciplina disciplina = null;
 		Modalidade modalidade = Modalidade.valueOf(request.getParameter("modalidade"));

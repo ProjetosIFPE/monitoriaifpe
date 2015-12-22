@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.util.fachada.Fachada;
 
@@ -33,8 +34,12 @@ public class ServletConfiguracao extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if ( session != null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 		request.getRequestDispatcher("/WEB-INF/jsp/Configuracoes.jsp").forward(request, response);
-		;
+		
 	}
 
 	/**
@@ -42,6 +47,10 @@ public class ServletConfiguracao extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if ( session != null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 		String banco = request.getParameter(BANCO);
 		String estrategia = request.getParameter(ESTRATEGIA);
 		if (banco != null && estrategia != null && !banco.isEmpty() && !estrategia.isEmpty()) {

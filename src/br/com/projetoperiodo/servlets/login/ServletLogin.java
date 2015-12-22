@@ -1,3 +1,4 @@
+
 package br.com.projetoperiodo.servlets.login;
 
 import java.io.IOException;
@@ -9,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.util.constantes.Constantes;
-import br.com.projetoperiodo.util.exception.NegocioException;
 import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
@@ -27,7 +29,12 @@ public class ServletLogin extends HttpServlet {
 	private static final String FORM_SENHA = "senha";
 
 	@Override
-	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session != null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		}
 
 		RequestDispatcher requestDispatcher;
 
@@ -38,8 +45,10 @@ public class ServletLogin extends HttpServlet {
 		usuario.setSenha(senha);
 		try {
 			Usuario usuarioAutenticado = (Usuario) Fachada.getInstance().autenticarUsuario(usuario);
-			HttpSession session = request.getSession();
-			session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAutenticado);
+			session = request.getSession();
+			synchronized(session) {
+				session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAutenticado);
+			}
 			if ("ALUNO".equals(usuarioAutenticado.getPapelUsuario())) {
 				requestDispatcher = request.getRequestDispatcher("/aluno.do");
 			} else {
