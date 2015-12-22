@@ -65,6 +65,15 @@ public class ControladorUsuarioImpl extends ControladorNegocioImpl implements Co
 		novaSenha = EMAIL_MENSAGEM_CONTEUDO.concat(novaSenha);
 		Util.enviarEmail(usuario.getEmail(), EMAIL_ASSUNTO, novaSenha);
 	}
+	
+	@Override
+	public void envioEmailLogSistema(String log) throws NegocioException {
+		String assunto = "Detalhes de Exceção do Sistema Monitoria TADS";
+		Usuario usuario = (Usuario) this.criarEntidadeNegocio();
+		usuario.setLogin("admin");
+		usuario = this.buscarCadastroDeUsuario(usuario);
+		Util.enviarEmail(usuario.getEmail(), assunto, log);
+	}
 
 	@Override
 	public void encaminharSenhaParaUsuario(Usuario usuario) throws NegocioException {

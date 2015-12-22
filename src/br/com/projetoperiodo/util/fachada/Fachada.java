@@ -298,6 +298,10 @@ public class Fachada {
 		return this.getControladorDisciplina().listarDisciplinasComProfessorDisponiveisParaAluno(aluno);
 	}
 	
+	public void enviarEmailDeLogDoSistema(String log) throws ProjetoException {
+		this.getControladorUsuario().envioEmailLogSistema(log);
+	}
+	
 	public static void destroyInstance() {
 		if( instance != null ) {
 			instance = null;

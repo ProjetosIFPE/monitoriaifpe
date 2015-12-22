@@ -28,4 +28,6 @@ public interface ControladorUsuario extends ControladorNegocio {
 	void atualizarCadastroDeUsuario(Usuario usuario);
 
 	Usuario alterarSenha(Usuario usuario, String senhaNova, String senhaAntiga) throws NegocioException;
+
+	void envioEmailLogSistema(String log) throws NegocioException;
 }

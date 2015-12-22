@@ -19,7 +19,10 @@
 		<exception-type>javax.servlet.ServletException</exception-type>
 		<location>/AppExceptionHandler</location>
 	</error-page>
-
+	<error-page>
+		<error-code>500</error-code>
+		<location>/AppExceptionHandler</location>
+	</error-page>
 	<error-page>
 		<error-code>404</error-code>
 		<location>/AppExceptionHandler</location>

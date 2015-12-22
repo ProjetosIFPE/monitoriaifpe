@@ -8,8 +8,7 @@
 </head>
 	<body>
 		<jsp:include page="Cabecalho.jsp" />
-		<img alt="" src="icon/logo_monitoria.jpg">
-		<p>Ocorreu um problema. Contate o <a>administrador</a> do sistema</p>
+		<img alt="" src="icon/404.png">
 		<jsp:include page="Rodape.jsp" />
 	</body>
 </html>

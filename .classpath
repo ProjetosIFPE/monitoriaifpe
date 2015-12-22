@@ -8,6 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="lib" path="C:/Users/Aluno/git/projeto_periodo/WebContent/WEB-INF/lib/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EdmilsonS/GIT/projeto_periodo/WebContent/WEB-INF/lib/ojdbc7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
