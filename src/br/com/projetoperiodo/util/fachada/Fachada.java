@@ -187,7 +187,7 @@ public class Fachada {
 		return controladorMonitor.buscarMonitoria(chavePrimaria);
 	}
 	
-	public EntidadeNegocio buscarAluno(String matricula){
+	public EntidadeNegocio buscarAluno(String matricula) throws ProjetoException{
 		ControladorAluno controladorAluno = this.getControladorAluno();
 		return controladorAluno.buscarAluno(matricula);
 	}

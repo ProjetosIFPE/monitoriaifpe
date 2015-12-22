@@ -3,6 +3,7 @@ package br.com.projetoperiodo.servlets.apresentacao;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
+import br.com.projetoperiodo.util.constantes.Constantes;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -47,12 +50,20 @@ public class ServletBuscarAluno extends HttpServlet {
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
+		RequestDispatcher rd;
 		String matricula = request.getParameter("matricula");
-		Aluno aluno = (Aluno) Fachada.getInstance().buscarAluno(matricula);
-		List<Monitoria> monitorias = Fachada.getInstance().buscarMonitorias(aluno);
-		request.setAttribute(OBJ_ALUNO, aluno);
-		request.setAttribute(LISTA_MONITORIAS, monitorias);
-		request.getRequestDispatcher("/WEB-INF/jsp/ExibeDadosAlunos.jsp").forward(request, response);
+		Aluno aluno;
+		try {
+			aluno = (Aluno) Fachada.getInstance().buscarAluno(matricula);
+			List<Monitoria> monitorias = Fachada.getInstance().buscarMonitorias(aluno);
+			request.setAttribute(OBJ_ALUNO, aluno);
+			request.setAttribute(LISTA_MONITORIAS, monitorias);
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/ExibeDadosAlunos.jsp");
+		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/PesquisaAluno.jsp");
+		}
+		rd.forward(request, response);
 		
 	}
 

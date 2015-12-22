@@ -77,7 +77,7 @@ public class Persistencia {
 		return fabrica.criarAlunoDAO().buscar(chave);
 	}
 	
-	public EntidadeNegocio buscarAluno(String matricula) {
+	public EntidadeNegocio buscarAluno(String matricula) throws NegocioException {
 		return fabrica.criarAlunoDAO().buscarPelaMatricula(matricula);
 	}
 	

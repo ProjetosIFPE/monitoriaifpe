@@ -20,6 +20,8 @@ import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorAlunoImpl extends ControladorNegocioImpl implements ControladorAluno {
 
+	private static String BUSCA_MATRICULA_INVALIDA = "Não existem alunos com a matrícula informada.";
+	
 	public ControladorAlunoImpl() {
 
 	}
@@ -83,9 +85,15 @@ public class ControladorAlunoImpl extends ControladorNegocioImpl implements Cont
 	}
 
 	@Override
-	public Aluno buscarAluno(String matricula) {
-
-		return (Aluno) Persistencia.getInstance().buscarAluno(matricula);
+	public Aluno buscarAluno(String matricula) throws NegocioException {
+		Aluno aluno;
+		try {
+			aluno = (Aluno) Persistencia.getInstance().buscarAluno(matricula);
+		} catch ( NegocioException e ) {
+			throw new NegocioException(BUSCA_MATRICULA_INVALIDA);
+		}
+		
+		return aluno;
 	}
 
 	@Override

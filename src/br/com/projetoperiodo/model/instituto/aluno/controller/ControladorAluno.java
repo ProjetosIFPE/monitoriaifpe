@@ -12,7 +12,7 @@ public interface ControladorAluno extends ControladorNegocio
 
 	Aluno cadastrarAluno(Aluno aluno) throws NegocioException;
 	
-	Aluno buscarAluno(String matricula);
+	Aluno buscarAluno(String matricula) throws NegocioException;
 	
 	Aluno buscarUsuarioAluno(Usuario usuario);
 

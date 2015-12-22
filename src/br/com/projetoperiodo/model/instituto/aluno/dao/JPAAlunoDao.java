@@ -6,10 +6,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.aluno.impl.AlunoImpl;
+import br.com.projetoperiodo.util.exception.NegocioException;
 
 public class JPAAlunoDao implements AlunoDao {
 
@@ -81,14 +83,20 @@ public class JPAAlunoDao implements AlunoDao {
 	}
 
 	@Override
-	public Aluno buscarPelaMatricula(String matricula){
+	public Aluno buscarPelaMatricula(String matricula) throws NegocioException{
 		StringBuilder builder = new StringBuilder();
 		builder.append(" select a ");
 		builder.append(" from AlunoImpl a ");
 		builder.append(" where a.matricula = :matricula ");
 		EntityManager entityManager =  entityManagerFactory.createEntityManager();
 		Query query = entityManager.createQuery(builder.toString()).setParameter("matricula", matricula);
-		Aluno aluno = (Aluno)query.getSingleResult();
+		Aluno aluno;
+		try {
+			
+			aluno = (Aluno)query.getSingleResult();
+		} catch (NoResultException e ) {
+			throw new NegocioException(e);
+		}
 		entityManager.close();
 		return aluno;
 	}
