@@ -15,15 +15,15 @@
 	<jsp:include page="CabecalhoUsuarioLogado.jsp" />
 	<form action="cadastroMonitoria.do" method="post">
 		<fieldset>
-			<label>Disciplinas</label> <select name="disciplina">
+			<label>Disciplinas</label> <select required="required" name="disciplina">
 				<c:forEach var="disciplina"
 					items="${requestScope['listaDisciplinas']}">
 					<option><c:out value="${disciplina.descricao }" /></option>
 				</c:forEach>
 			</select> 
-			<label>Horário de entrada</label> <input type="time" name="entrada"/>
-			<label>Horário de saída</label> <input type="time" name="saida"/>
-			<label>Bolsista</label> <input type="radio" name="modalidade"
+			<label>Horário de entrada</label> <input required="required" type="time" name="entrada"/>
+			<label>Horário de saída</label> <input required="required" type="time" name="saida"/>
+			<label>Bolsista</label> <input checked="checked" type="radio" name="modalidade"
 				id="bolsista" value="BOLSISTA" /> <label>Voluntário</label> <input
 				type="radio" name="modalidade" id="voluntario" value="VOLUNTARIO" />
 			<button type="submit">Realizar cadastro</button>

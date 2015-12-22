@@ -8,7 +8,7 @@
 </head>
 	<body>
 		<jsp:include page="Cabecalho.jsp" />
-		<img alt="" src="icon/404.png">
+		<img alt="Página não encontrada." src="icon/404.png">
 		<jsp:include page="Rodape.jsp" />
 	</body>
 </html>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -19,8 +19,8 @@
 			<fieldset id="fieldset2">
 
 				<label for="senhaAntiga"></label> Senha Antiga <input
-					type="password" id="senhaAntiga" name="senhaAntiga" /> <label
-					for="senhaNova"></label> Senha Nova <input type="password"
+					type="password" id="senhaAntiga" required="required" name="senhaAntiga" /> <label
+					for="senhaNova"></label> Senha Nova <input required="required" type="password"
 					id="senhaNova" name="senhaNova" />
 			</fieldset>
 			<fieldset id="fieldset3">

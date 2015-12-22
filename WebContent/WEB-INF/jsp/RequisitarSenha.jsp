@@ -9,32 +9,12 @@
 <title>${initParam.title}</title>
 </head>
 <body>
-
-
 	<jsp:include page="Cabecalho.jsp" />
 	<form action="requisitarSenha.do" method="post">
 		<fieldset id="fieldset1">
-
 			<div id="login">
-
-				<label for="login1">Login</label>
-
-				<c:choose>
-
-					<c:when test="${not empty requestScope.ERRO_ACESSO_NEGADO}">
-						<input type="text" name="login" id="login1"
-							value="${requestScope.ERRO_ACESSO_NEGADO }"
-							placeholder="Informe seu login..." size="30" />
-
-					</c:when>
-
-					<c:otherwise>
-						<input type="text" name="login" id="login1"
-							placeholder="Informe seu login..." size="30" />
-					</c:otherwise>
-
-				</c:choose>
-
+				<label for="login1">Login</label> <input required="required" type="text" name="login"
+					id="login1" placeholder="Informe seu login..." size="30" />
 			</div>
 			<br />
 			<fieldset id="fieldset2">

@@ -21,22 +21,14 @@
 	<form action="efetuarLogon.do" method="post">
 		<fieldset id="fieldset1">
 			<div id="login">
-				<label for="login">Login</label>
-				<c:choose>
-					<c:when test="${not empty requestScope.ERRO_ACESSO_NEGADO}">
-						<input type="text" name="login" id="login"
-							value="${requestScope.ERRO_ACESSO_NEGADO }"
-							placeholder="Informe seu nome..." size="30" />
-					</c:when>
-					<c:otherwise>
-						<input type="text" name="login" id="login"
-							placeholder="Informe seu login..." size="30" />
-					</c:otherwise>
-				</c:choose>
+				<label for="login">Login</label> <input type="text" name="login"
+					required="required" id="login" placeholder="Informe seu login..."
+					size="30" />
 			</div>
 			<div>
-				<label for="senha">Senha</label> <input type="password" id="senha"
-					name="senha" size="30" placeholder="Informe sua senha..." />
+				<label for="senha">Senha</label> <input required="required"
+					type="password" id="senha" name="senha" size="30"
+					placeholder="Informe sua senha..." />
 			</div>
 			<h1>
 				<a href="requisitarSenha.do">Esqueceu sua senha ?</a>
