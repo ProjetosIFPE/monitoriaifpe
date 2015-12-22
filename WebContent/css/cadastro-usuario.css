@@ -132,3 +132,7 @@ select {
 label#senha {
 	clear: left;
 }
+
+input.invalido {
+	border: 1px solid red;
+}

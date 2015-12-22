@@ -102,5 +102,11 @@ public class Util {
     	return isNull;
     }
     
+    public static String invalidarCampoCadastrado( boolean cadastrado ){
+    	if ( cadastrado ) {
+    		return "invalido";
+    	}
+    	return "valido";
+    }
     
 }

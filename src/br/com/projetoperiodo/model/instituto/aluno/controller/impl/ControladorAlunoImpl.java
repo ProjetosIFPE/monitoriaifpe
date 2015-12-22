@@ -64,9 +64,9 @@ public class ControladorAlunoImpl extends ControladorNegocioImpl implements Cont
 		boolean emailCadastrado = controladorUsuario.verificarCadastroDeUsuarioPorEmail(aluno);
 		if (loginCadastrado || matriculaCadastrada || emailCadastrado) {
 			HashMap<String, Object> camposInvalidos = new HashMap<>();
-			camposInvalidos.put("login", String.valueOf(loginCadastrado));
-			camposInvalidos.put("matricula", String.valueOf(matriculaCadastrada));
-			camposInvalidos.put("email", String.valueOf(emailCadastrado));
+			camposInvalidos.put("login", Util.invalidarCampoCadastrado(loginCadastrado));
+			camposInvalidos.put("matricula", Util.invalidarCampoCadastrado(matriculaCadastrada));
+			camposInvalidos.put("email", Util.invalidarCampoCadastrado(emailCadastrado));
 			throw new NegocioException(Constantes.CAMPOS_INVALIDOS, camposInvalidos);
 		}
 	}

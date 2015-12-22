@@ -76,8 +76,8 @@ public class ControladorProfessorImpl extends ControladorNegocioImpl implements 
 		boolean emailCadastrado = controladorUsuario.verificarCadastroDeUsuarioPorEmail(professor);
 		if (loginCadastrado || emailCadastrado) {
 			HashMap<String, Object> camposInvalidos = new HashMap<>();
-			camposInvalidos.put("login", String.valueOf(loginCadastrado));
-			camposInvalidos.put("email", String.valueOf(emailCadastrado));
+			camposInvalidos.put("login", Util.invalidarCampoCadastrado(loginCadastrado));
+			camposInvalidos.put("email", Util.invalidarCampoCadastrado(emailCadastrado));
 			throw new NegocioException(Constantes.CAMPOS_INVALIDOS, camposInvalidos);
 		}
 	}

@@ -23,7 +23,9 @@ public class ServletCadastroAluno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";
 	private static final String ATRIBUTO_ALUNO = "aluno";
-
+	private static final String MENSAGEM_CADASTRO_INVALIDO = "Cadastro inválido. Campos informados já possuem cadastro.";
+	private static final String MENSAGEM_SUCESSO_CADASTRO = "Aluno cadastrado com sucesso.";
+	
 	// TODO Modificar esta estrategia, pode implicar em problemas de
 	// concorrencia
 	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradasComProfessor();
@@ -81,9 +83,10 @@ public class ServletCadastroAluno extends HttpServlet {
 		aluno.setCurso(curso);
 		try {
 			Fachada.getInstance().cadastrarAluno(aluno);
-			request.setAttribute(Constantes.MENSAGEM_SUCESSO, "Aluno cadastrado com sucesso" );
+			request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_SUCESSO_CADASTRO );
 			rd = request.getRequestDispatcher("/acesso.do");
 		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.MENSAGEM_ERRO, MENSAGEM_CADASTRO_INVALIDO);
 			request.setAttribute(Constantes.CAMPOS_INVALIDOS, 
 					e.getParametrosDeErro().get(Constantes.CAMPOS_INVALIDOS));
 			request.setAttribute(ATRIBUTO_ALUNO, aluno);
