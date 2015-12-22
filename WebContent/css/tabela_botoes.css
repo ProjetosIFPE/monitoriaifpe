@@ -1,14 +1,17 @@
-td:last-child {
-	border-right: 1px solid #e8e8e8;
-	box-shadow: inset -1px 0 0 #fff;
-	background-image: url("images/delete_16.png");
-	background-repeat: no-repeat;
-	background-position: center;
-}
+
 
 th:last-child {
 	box-shadow: inset -1px 1px 0 #999;
 	background-image: url("images/add.png");
 	background-repeat: no-repeat;
 	background-position: center;
+}
+
+td input:FIRST-CHILD {
+		display: none;
+}
+
+input[type=image] {
+	position: relative;
+	left: 26px;
 }

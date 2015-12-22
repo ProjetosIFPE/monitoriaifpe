@@ -27,6 +27,13 @@ public class ServletRemoveMonitoria extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if ( session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
@@ -34,14 +41,6 @@ public class ServletRemoveMonitoria extends HttpServlet {
 		long chavePrimariaMonitor = Long.valueOf(request.getParameter(CHAVE_MONITOR));
 		Fachada.getInstance().removerMonitoriaDeAluno(chavePrimariaMonitor);
 		request.getRequestDispatcher("/aluno.do").forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		doGet(request, response);
 	}
 
 }

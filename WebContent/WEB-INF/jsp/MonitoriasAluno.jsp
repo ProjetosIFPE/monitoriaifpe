@@ -48,8 +48,12 @@ demobtn2.addEventListener("click", function(e) {
 				<td><a
 					href="relatorio.do?chaveMonitor=${monitoria.chavePrimaria}"> <c:out
 							value=" ${monitoria.modalidade }" /></a></td>
-				<td><a id="botaoRemover"
-					href="removeMonitoria.do?chaveMonitor=${monitoria.chavePrimaria}">&nbsp;</a></td>
+				<td>
+					<form method="post" action="removeMonitoria.do">
+						<input name="chaveMonitor" value="${monitoria.chavePrimaria}"></input>
+						<input type="image" src="css/images/delete_16.png" id="botaoRemover"></input>
+					</form>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

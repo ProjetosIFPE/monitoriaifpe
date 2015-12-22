@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.curso.Curso;
@@ -58,7 +59,8 @@ public class ServletCadastroAluno extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher rd;
-		if (request.getSession(Boolean.FALSE) != null) {
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
 		Aluno aluno = (Aluno) Fachada.getInstance().criarAluno();
