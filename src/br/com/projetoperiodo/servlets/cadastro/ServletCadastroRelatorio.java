@@ -46,22 +46,24 @@ public class ServletCadastroRelatorio extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected synchronized void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
+			Monitoria monitor;
+			RelatorioFrequencia relatorio;
+			session = request.getSession(Boolean.FALSE);
+			synchronized(session) {
+				monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
+				relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
+				session.setAttribute(RELATORIO_MENSAL, relatorio);
+			}
+			request.setAttribute(DESCRICAO_MES, relatorio.getDescricaoMes());
+			request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
 		}
-		int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
-		Monitoria monitor;
-		RelatorioFrequencia relatorio;
-		session = request.getSession(Boolean.FALSE);
-		synchronized(session) {
-			monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
-			relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
-			session.setAttribute(RELATORIO_MENSAL, relatorio);
-		}
-		request.setAttribute(DESCRICAO_MES, relatorio.getDescricaoMes());
-		request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
+		
 	}
 
 	/**
@@ -72,34 +74,34 @@ public class ServletCadastroRelatorio extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		}
-		session = request.getSession(Boolean.FALSE);
-		RelatorioFrequencia relatorio;
-		synchronized(session) {
-			relatorio = (RelatorioFrequencia) session.getAttribute(RELATORIO_MENSAL);
-		}
-		Semana semana;
-		Atividade atividade;
-		for (int posicaoSemana = 1; posicaoSemana <= 5; posicaoSemana++) {
-			semana = relatorio.getSemana(posicaoSemana - 1);
-			semana.setDescricao(request.getParameter("descricaosemana".concat(String.valueOf(posicaoSemana))));
-			for (int posicaoAtividade = 1; posicaoAtividade <= 5; posicaoAtividade++) {
-				String dataStr = request.getParameter("semana" + posicaoSemana + "atividade" + posicaoAtividade);
-				atividade = semana.getAtividade(posicaoAtividade - 1);
-
-				Date data = null;
-				try {
-					data = Util.parseTextoData(dataStr);
-					atividade.setData(data);
-				} catch (ParseException e) {
-					// TODO Tratar data invalida
-					e.printStackTrace();
-				}
-
+		} else {
+			session = request.getSession(Boolean.FALSE);
+			RelatorioFrequencia relatorio;
+			synchronized(session) {
+				relatorio = (RelatorioFrequencia) session.getAttribute(RELATORIO_MENSAL);
 			}
+			Semana semana;
+			Atividade atividade;
+			for (int posicaoSemana = 1; posicaoSemana <= 5; posicaoSemana++) {
+				semana = relatorio.getSemana(posicaoSemana - 1);
+				semana.setDescricao(request.getParameter("descricaosemana".concat(String.valueOf(posicaoSemana))));
+				for (int posicaoAtividade = 1; posicaoAtividade <= 5; posicaoAtividade++) {
+					String dataStr = request.getParameter("semana" + posicaoSemana + "atividade" + posicaoAtividade);
+					atividade = semana.getAtividade(posicaoAtividade - 1);
+					Date data = null;
+					try {
+						data = Util.parseTextoData(dataStr);
+						atividade.setData(data);
+					} catch (ParseException e) {
+						// TODO Tratar data invalida
+						e.printStackTrace();
+					}
+				}
+			}
+			Fachada.getInstance().atualizarRelatorio(relatorio);
+			request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
 		}
-		Fachada.getInstance().atualizarRelatorio(relatorio);
-		request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
+		
 	}
 
 }

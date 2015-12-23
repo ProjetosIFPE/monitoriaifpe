@@ -31,15 +31,17 @@ public class ServletEnviaDocumento extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		}
-		byte[] bytes = (byte[]) request.getAttribute(DOCUMENTO_RELATORIO);
-		
-		response.setContentType("application/pdf");
-		response.addHeader("Content-Disposition", "attachment; filename=" + FILE_NAME);
-		response.setContentLength(bytes.length);
+		} else {
+			byte[] bytes = (byte[]) request.getAttribute(DOCUMENTO_RELATORIO);
+			
+			response.setContentType("application/pdf");
+			response.addHeader("Content-Disposition", "attachment; filename=" + FILE_NAME);
+			response.setContentLength(bytes.length);
 
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(bytes);
+			OutputStream responseOutputStream = response.getOutputStream();
+			responseOutputStream.write(bytes);
+		}
+		
 		
 	}
 

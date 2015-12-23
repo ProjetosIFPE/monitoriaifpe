@@ -45,18 +45,20 @@ public class ServletAprovaRelatorio extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
+			session = request.getSession(Boolean.FALSE);
+			Monitoria monitor;
+			synchronized(session) {
+				monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
+			}
+			RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
+			Fachada.getInstance().aprovarRelatorio(relatorio);
+			List<Situacao> listaSituacao = Fachada.getInstance().buscarSituacaoDeRelatorios(monitor);
+			request.setAttribute(SITUACAO_RELATORIOS_MONITORIA, listaSituacao);
+			request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosProfessor.jsp").forward(request, response);
 		}
-		int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
-		session = request.getSession(Boolean.FALSE);
-		Monitoria monitor;
-		synchronized(session) {
-			monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
-		}
-		RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
-		Fachada.getInstance().aprovarRelatorio(relatorio);
-		List<Situacao> listaSituacao = Fachada.getInstance().buscarSituacaoDeRelatorios(monitor);
-		request.setAttribute(SITUACAO_RELATORIOS_MONITORIA, listaSituacao);
-		request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosProfessor.jsp").forward(request, response);
+		
 	}
 
 }

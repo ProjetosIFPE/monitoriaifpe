@@ -39,22 +39,24 @@ public class ServletGerarDocumento extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		} 
-		int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
-		Monitoria monitor;
-		Usuario usuarioLogado;
-		session = request.getSession(Boolean.FALSE);
-		synchronized(session) {
-			monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
-			usuarioLogado = (Usuario)session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
-		}
-		RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
-		try {
-			request.setAttribute(DOCUMENTO_RELATORIO, Fachada.getInstance().gerarDocumentoDeRelatorio(relatorio, usuarioLogado));
-			request.getRequestDispatcher("/enviarDocumento.do").forward(request, response);
-		} catch ( ProjetoException e ) {
-			request.setAttribute(Constantes.MENSAGEM_INFO, e.getMessage());
-			request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
+		} else {
+			int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
+			Monitoria monitor;
+			Usuario usuarioLogado;
+			session = request.getSession(Boolean.FALSE);
+			synchronized(session) {
+				monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
+				usuarioLogado = (Usuario)session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+			}
+			RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
+			try {
+				request.setAttribute(DOCUMENTO_RELATORIO, Fachada.getInstance().gerarDocumentoDeRelatorio(relatorio, usuarioLogado));
+				request.getRequestDispatcher("/enviarDocumento.do").forward(request, response);
+			} catch ( ProjetoException e ) {
+				request.setAttribute(Constantes.MENSAGEM_INFO, e.getMessage());
+				request.getRequestDispatcher("/WEB-INF/jsp/CadastroRelatorio.jsp").forward(request, response);
+			}
+			
 		}
 		
 		

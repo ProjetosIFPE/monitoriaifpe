@@ -25,11 +25,15 @@ public class ServletCadastroProfessor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String LISTA_DISCIPLINAS = "listaDisciplinas";
+
 	private List<Disciplina> listaDisciplinas;
-	
+
 	private static final String MENSAGEM_CADASTRO_INVALIDO = "Cadastro inválido. Campos informados já possuem cadastro.";
+
 	private static final String MENSAGEM_SUCESSO_CADASTRO = "Professor cadastrado com sucesso";
+
 	private static final String ATRIBUTO_PROFESSOR = "professor";
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -46,54 +50,57 @@ public class ServletCadastroProfessor extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			listaDisciplinas = Fachada.getInstance().listarDisciplinasSemProfessor();
+			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+			request.getRequestDispatcher("/WEB-INF/jsp/CadastroProfessor.jsp").forward(request, response);
 		}
-		listaDisciplinas = Fachada.getInstance().listarDisciplinasSemProfessor();
-		request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
-		request.getRequestDispatcher("/WEB-INF/jsp/CadastroProfessor.jsp").forward(request, response);
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession(Boolean.FALSE);
 		RequestDispatcher rd;
 		if (session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		}
-		Professor professor = (Professor) Fachada.getInstance().criarProfessor();
-		professor.setLogin(request.getParameter("login"));
-		professor.setNome(request.getParameter("nome"));
-		professor.setSobrenome(request.getParameter("sobrenome"));
-		professor.setEmail(request.getParameter("email"));
-		professor.setSenha(request.getParameter("senha"));
-		try {
-			professor = Fachada.getInstance().cadastrarProfessor(professor);
-			String[] materias = request.getParameterValues("disciplinas");
-			if (materias != null) {
-				for (int x = 0; x < materias.length; x++) {
-					Disciplina disciplina = (Disciplina) Fachada.getInstance().criarDisciplina();
-					Disciplina disciplinaRetornada = null;
-					disciplina.setDescricao(materias[x]);
+		} else {
+			Professor professor = (Professor) Fachada.getInstance().criarProfessor();
+			professor.setLogin(request.getParameter("login"));
+			professor.setNome(request.getParameter("nome"));
+			professor.setSobrenome(request.getParameter("sobrenome"));
+			professor.setEmail(request.getParameter("email"));
+			professor.setSenha(request.getParameter("senha"));
+			try {
+				professor = Fachada.getInstance().cadastrarProfessor(professor);
+				String[] materias = request.getParameterValues("disciplinas");
+				if (materias != null) {
+					for (int x = 0; x < materias.length; x++) {
+						Disciplina disciplina = (Disciplina) Fachada.getInstance().criarDisciplina();
+						Disciplina disciplinaRetornada = null;
+						disciplina.setDescricao(materias[x]);
 
-					disciplinaRetornada = comparaDisciplinas(disciplina);
-					disciplinaRetornada.setProfessor(professor);
-					Fachada.getInstance().atualizarDisciplina(disciplinaRetornada);
+						disciplinaRetornada = comparaDisciplinas(disciplina);
+						disciplinaRetornada.setProfessor(professor);
+						Fachada.getInstance().atualizarDisciplina(disciplinaRetornada);
+					}
 				}
+				request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_SUCESSO_CADASTRO);
+				rd = request.getRequestDispatcher("/acesso.do");
+			} catch (ProjetoException e) {
+				request.setAttribute(Constantes.MENSAGEM_ERRO, MENSAGEM_CADASTRO_INVALIDO);
+				request.setAttribute(Constantes.CAMPOS_INVALIDOS, e.getParametrosDeErro().get(Constantes.CAMPOS_INVALIDOS));
+				request.setAttribute(ATRIBUTO_PROFESSOR, professor);
+				request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/CadastroProfessor.jsp");
 			}
-			request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_SUCESSO_CADASTRO );
-			rd = request.getRequestDispatcher("/acesso.do");
-		} catch (ProjetoException e) {
-			request.setAttribute(Constantes.MENSAGEM_ERRO, MENSAGEM_CADASTRO_INVALIDO);
-			request.setAttribute(Constantes.CAMPOS_INVALIDOS, 
-							e.getParametrosDeErro().get(Constantes.CAMPOS_INVALIDOS));
-			request.setAttribute(ATRIBUTO_PROFESSOR, professor);
-			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
-			rd = request.getRequestDispatcher("/WEB-INF/jsp/CadastroProfessor.jsp");
+
+			rd.forward(request, response);
 		}
 
-		rd.forward(request, response);
 	}
 
 	protected Disciplina comparaDisciplinas(Disciplina disc) {

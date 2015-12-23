@@ -26,13 +26,6 @@ public class ServletRemoveDisciplina extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/acesso.do").forward(request, response);
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,10 +33,11 @@ public class ServletRemoveDisciplina extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		}
-		Long chaveDisciplina = Long.valueOf(request.getParameter(CHAVE_DISCIPLINA));
-		Fachada.getInstance().retirarProfessorDeDisciplina(chaveDisciplina);
-		request.getRequestDispatcher("/professor.do").forward(request, response);
+		} else {
+			Long chaveDisciplina = Long.valueOf(request.getParameter(CHAVE_DISCIPLINA));
+			Fachada.getInstance().retirarProfessorDeDisciplina(chaveDisciplina);
+			request.getRequestDispatcher("/professor.do").forward(request, response);
+		}	
 	}
 
 }

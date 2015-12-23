@@ -37,10 +37,11 @@ public class ServletRemoveMonitoria extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if ( session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			long chavePrimariaMonitor = Long.valueOf(request.getParameter(CHAVE_MONITOR));
+			Fachada.getInstance().removerMonitoriaDeAluno(chavePrimariaMonitor);
+			request.getRequestDispatcher("/aluno.do").forward(request, response);
 		}
-		long chavePrimariaMonitor = Long.valueOf(request.getParameter(CHAVE_MONITOR));
-		Fachada.getInstance().removerMonitoriaDeAluno(chavePrimariaMonitor);
-		request.getRequestDispatcher("/aluno.do").forward(request, response);
 	}
 
 }

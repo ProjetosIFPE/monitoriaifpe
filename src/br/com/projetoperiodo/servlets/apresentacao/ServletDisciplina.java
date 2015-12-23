@@ -36,12 +36,14 @@ public class ServletDisciplina extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			long chavePrimaria = Long.valueOf(request.getParameter(CHAVE_DISCIPLINA));
+			Disciplina disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(chavePrimaria);
+			List<Monitoria> monitoriasDisciplina = Fachada.getInstance().buscarMonitoriasDeDisciplina(disciplina);
+			request.setAttribute(LISTA_MONITORIAS_DE_DISCIPLINA, monitoriasDisciplina);
+			request.getRequestDispatcher("/WEB-INF/jsp/MonitoriasDisciplina.jsp").forward(request, response);
 		}
-		long chavePrimaria = Long.valueOf(request.getParameter(CHAVE_DISCIPLINA));
-		Disciplina disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(chavePrimaria);
-		List<Monitoria> monitoriasDisciplina = Fachada.getInstance().buscarMonitoriasDeDisciplina(disciplina);
-		request.setAttribute(LISTA_MONITORIAS_DE_DISCIPLINA, monitoriasDisciplina);
-		request.getRequestDispatcher("/WEB-INF/jsp/MonitoriasDisciplina.jsp").forward(request, response);
+		
 	}
 
 	/**

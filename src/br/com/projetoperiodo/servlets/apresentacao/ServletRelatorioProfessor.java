@@ -24,7 +24,9 @@ public class ServletRelatorioProfessor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public static final String CHAVE_MONITOR = "chaveMonitor";
+
 	public static final String SITUACAO_RELATORIOS_MONITORIA = "situacaoRelatorios";
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -41,23 +43,24 @@ public class ServletRelatorioProfessor extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		}
-		long chavePrimariaMonitor = Long.valueOf(request.getParameter(CHAVE_MONITOR));
-		Monitoria monitor;
-		try {
-			monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitor);
-			session = request.getSession(Boolean.FALSE);
-			synchronized(session) {
-				session.setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
+		} else {
+			long chavePrimariaMonitor = Long.valueOf(request.getParameter(CHAVE_MONITOR));
+			Monitoria monitor;
+			try {
+				monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitor);
+				session = request.getSession(Boolean.FALSE);
+				synchronized(session) {
+					session.setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
+				}
+				List<Situacao> listaSituacao = Fachada.getInstance().buscarSituacaoDeRelatorios(monitor);
+				request.setAttribute(SITUACAO_RELATORIOS_MONITORIA, listaSituacao);
+				request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosProfessor.jsp").forward(request, response);
+			} catch (ProjetoException e) {
+				request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+				request.getRequestDispatcher("/professor.do").forward(request, response);
 			}
-			List<Situacao> listaSituacao = Fachada.getInstance().buscarSituacaoDeRelatorios(monitor);
-			request.setAttribute(SITUACAO_RELATORIOS_MONITORIA, listaSituacao);
-			request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosProfessor.jsp").forward(request, response);
-		} catch (ProjetoException e) {
-			request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
-			request.getRequestDispatcher("/professor.do").forward(request, response);
 		}
-		
+
 	}
 
 	/**
@@ -65,7 +68,6 @@ public class ServletRelatorioProfessor extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
 		doGet(request, response);
 	}
 

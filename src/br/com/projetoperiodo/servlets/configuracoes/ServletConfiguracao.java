@@ -37,8 +37,10 @@ public class ServletConfiguracao extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if ( session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/jsp/Configuracoes.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher("/WEB-INF/jsp/Configuracoes.jsp").forward(request, response);
+		
 		
 	}
 
@@ -50,15 +52,15 @@ public class ServletConfiguracao extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if ( session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			String banco = request.getParameter(BANCO);
+			String estrategia = request.getParameter(ESTRATEGIA);
+			if (banco != null && estrategia != null && !banco.isEmpty() && !estrategia.isEmpty()) {
+				String[] configuracoes = {estrategia, banco};
+				Fachada.getInstance().alterarConfiguracao(configuracoes);
+			}
+			request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(request, response);
 		}
-		String banco = request.getParameter(BANCO);
-		String estrategia = request.getParameter(ESTRATEGIA);
-		if (banco != null && estrategia != null && !banco.isEmpty() && !estrategia.isEmpty()) {
-			String[] configuracoes = {estrategia, banco};
-			Fachada.getInstance().alterarConfiguracao(configuracoes);
-		}
-		request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(request, response);
-
 	}
 
 }
