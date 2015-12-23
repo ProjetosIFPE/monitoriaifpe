@@ -36,6 +36,7 @@ public class JPAPeriodoDao implements PeriodoDao
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(periodo);
+		entityManager.flush();
 		entityTransaction.commit();
 		entityManager.close();
 		

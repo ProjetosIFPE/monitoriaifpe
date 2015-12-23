@@ -29,7 +29,7 @@ public class ServletCadastroAluno extends HttpServlet {
 	
 	// TODO Modificar esta estrategia, pode implicar em problemas de
 	// concorrencia
-	private static final List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradasComProfessor();
+	private static  List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradasComProfessor();
 	
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -44,10 +44,11 @@ public class ServletCadastroAluno extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
 		if (request.getSession(Boolean.FALSE) != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
+		listaDisciplinas = Fachada.getInstance().listarDisciplinasCadastradasComProfessor();
 		request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
 		request.getRequestDispatcher("/WEB-INF/jsp/CadastroAluno.jsp").forward(request, response);
 	}

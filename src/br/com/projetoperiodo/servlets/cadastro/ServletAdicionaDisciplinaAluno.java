@@ -68,7 +68,7 @@ public class ServletAdicionaDisciplinaAluno extends HttpServlet {
 			request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_ADICIONADO_SUCESSO);
 			request.getRequestDispatcher("/aluno.do").forward(request, response);
 		} catch (NegocioException e) {
-			// TODO Tratar
+			
 			e.printStackTrace();
 		}
 	}

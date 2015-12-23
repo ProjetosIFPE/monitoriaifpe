@@ -40,15 +40,17 @@ public class ServletAluno extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			Aluno alunoLogado;
+			session = request.getSession(Boolean.FALSE);
+			synchronized(session) {
+				alunoLogado = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);	
+			}
+			List<Monitoria> monitores = Fachada.getInstance().buscarMonitorias(alunoLogado);
+			request.setAttribute(LISTA_MONITORIAS, monitores);
+			request.getRequestDispatcher("/WEB-INF/jsp/MonitoriasAluno.jsp").forward(request, response);
 		}
-		Aluno alunoLogado;
-		session = request.getSession(Boolean.FALSE);
-		synchronized(session) {
-			alunoLogado = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);	
-		}
-		List<Monitoria> monitores = Fachada.getInstance().buscarMonitorias(alunoLogado);
-		request.setAttribute(LISTA_MONITORIAS, monitores);
-		request.getRequestDispatcher("/WEB-INF/jsp/MonitoriasAluno.jsp").forward(request, response);
+		
 	}
 
 	/**

@@ -40,6 +40,7 @@ public class JPAAlunoDao implements AlunoDao {
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(aluno);
+		entityManager.flush();
 		entityTransaction.commit();
 		entityManager.close();
 

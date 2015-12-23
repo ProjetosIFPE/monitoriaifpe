@@ -132,7 +132,7 @@ public class Fachada {
 		return controladorRelatorio.buscarRelatoriosDeMonitor(monitor);
 	}
 
-	public List<Disciplina> listarDisciplinasDeAluno(EntidadeNegocio entidade) {
+	public List<Disciplina> listarDisciplinasDeAluno(EntidadeNegocio entidade) throws ProjetoException {
 		Aluno aluno = (Aluno) entidade;
 		return this.getControladorDisciplina().listarDisciplinasDeAluno(aluno);
 	}

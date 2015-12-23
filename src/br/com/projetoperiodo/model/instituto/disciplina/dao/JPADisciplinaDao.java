@@ -44,6 +44,7 @@ public class JPADisciplinaDao implements DisciplinaDao {
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(disciplina);
+		entityManager.flush();
 		entityTransaction.commit();
 		entityManager.close();
 	}

@@ -39,12 +39,14 @@ public class ServletAlterarSenha extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession(Boolean.FALSE);
-		if ( session == null) {
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/jsp/AlterarSenha.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher("/WEB-INF/jsp/AlterarSenha.jsp").forward(request, response);
+
 	}
 
 	/**
@@ -53,26 +55,27 @@ public class ServletAlterarSenha extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(Boolean.FALSE);
-		if ( session == null) {
+		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		}
-		
-		String senhaAntiga = request.getParameter(SENHA_ANTIGA);
-		String senhaNova = request.getParameter(SENHA_NOVA);
-		
-		try {
-			session = request.getSession(Boolean.FALSE);
-			synchronized(session) {
-				Usuario usuarioLogado = (Usuario) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
-				Usuario usuarioAlterado = Fachada.getInstance().alterarSenhaUsuario(usuarioLogado, senhaNova, senhaAntiga);
-				session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAlterado);
+		} else {
+			String senhaAntiga = request.getParameter(SENHA_ANTIGA);
+			String senhaNova = request.getParameter(SENHA_NOVA);
+
+			try {
+				session = request.getSession(Boolean.FALSE);
+				synchronized(session) {
+					Usuario usuarioLogado = (Usuario) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+					Usuario usuarioAlterado = Fachada.getInstance().alterarSenhaUsuario(usuarioLogado, senhaNova, senhaAntiga);
+					session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioAlterado);
+				}
+				request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_ALTEROU_SUCESSO);
+			} catch (ProjetoException e) {
+				request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
 			}
-			request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_ALTEROU_SUCESSO);
-		} catch (ProjetoException e) {
-			request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+
+			request.getRequestDispatcher("/WEB-INF/jsp/AlterarSenha.jsp").forward(request, response);
 		}
 
-		request.getRequestDispatcher("/WEB-INF/jsp/AlterarSenha.jsp").forward(request, response);
 	}
 
 }

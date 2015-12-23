@@ -34,32 +34,37 @@ public class ServletEsqueceuSenha extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		HttpSession session = request.getSession(Boolean.FALSE);
-		if ( session != null) {
+		if (session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			request.getRequestDispatcher("WEB-INF/jsp/RequisitarSenha.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher("WEB-INF/jsp/RequisitarSenha.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		HttpSession session = request.getSession(Boolean.FALSE);
-		if ( session != null) {
+		if (session != null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			String loginUsuario = request.getParameter(FORM_LOGIN);
+			Usuario usuario = (Usuario) Fachada.getInstance().criarUsuario();
+			usuario.setLogin(loginUsuario);
+			try {
+				StringBuilder builder = new StringBuilder();
+				Usuario usuarioBuscado = (Usuario) Fachada.getInstance().buscarUsuario(usuario);
+				builder.append(MENSAGEM_SUCESSO_ENVIO);
+				builder.append(usuarioBuscado.getEmail());
+				Fachada.getInstance().encaminharSenhaParaUsuario(usuarioBuscado);
+				request.setAttribute(Constantes.MENSAGEM_SUCESSO, builder.toString());
+			} catch (ProjetoException e) {
+				request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+			}
+			request.getRequestDispatcher("WEB-INF/jsp/RequisitarSenha.jsp").forward(request, response);
 		}
-		String loginUsuario = request.getParameter(FORM_LOGIN);
-		Usuario usuario = (Usuario) Fachada.getInstance().criarUsuario();
-		usuario.setLogin(loginUsuario);
-		try {
-			StringBuilder builder = new StringBuilder();
-			Usuario usuarioBuscado = (Usuario) Fachada.getInstance().buscarUsuario(usuario);
-			builder.append(MENSAGEM_SUCESSO_ENVIO);
-			builder.append( usuarioBuscado.getEmail() );
-			Fachada.getInstance().encaminharSenhaParaUsuario(usuarioBuscado);
-			request.setAttribute(Constantes.MENSAGEM_SUCESSO, builder.toString());
-		} catch (ProjetoException e) {
-			request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
-		}
-		request.getRequestDispatcher("WEB-INF/jsp/RequisitarSenha.jsp").forward(request, response);
+
 	}
 
 }

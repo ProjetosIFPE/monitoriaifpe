@@ -1,7 +1,6 @@
 
 package br.com.projetoperiodo.model.usuario.dao;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,10 +17,6 @@ import br.com.projetoperiodo.model.usuario.Usuario;
 import br.com.projetoperiodo.model.usuario.impl.UsuarioImpl;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
-import br.com.projetoperiodo.util.exception.ProjetoException;
-import br.com.projetoperiodo.util.fachada.Persistencia;
-import br.com.projetoperiodo.util.persistencia.connection.JPAConnectionFactory;
-import br.com.projetoperiodo.util.persistencia.persistencia.OracleDatabaseUnit;
 
 public class JPAUsuarioDao implements UsuarioDao {
 
@@ -53,6 +48,7 @@ public class JPAUsuarioDao implements UsuarioDao {
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(usuario);
+		entityManager.flush();
 		entityTransaction.commit();
 		entityManager.close();
 		return usuario;

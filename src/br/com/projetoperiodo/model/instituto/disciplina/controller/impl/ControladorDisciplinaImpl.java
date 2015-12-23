@@ -16,8 +16,11 @@ import br.com.projetoperiodo.util.fachada.Persistencia;
 
 public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements ControladorDisciplina {
 
+	private static final String DISCIPLINAS_INDISPONIVEIS = "Você não possui mais disciplinas ofertadas, "
+					+ "candidatas a monitoria. Adicione mais disciplinas.";
+	
 	public ControladorDisciplinaImpl() {
-
+		super();
 	}
 
 	@Override
@@ -39,9 +42,12 @@ public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements
 	}
 
 	@Override
-	public List<Disciplina> listarDisciplinasDeAluno(Aluno aluno) {
-
-		return Persistencia.getInstance().buscarDisciplinasDeAluno(aluno);
+	public List<Disciplina> listarDisciplinasDeAluno(Aluno aluno) throws NegocioException {
+		List<Disciplina> listaDisciplinas = Persistencia.getInstance().buscarDisciplinasDeAluno(aluno);
+		if ( listaDisciplinas.isEmpty() ) {
+			throw new NegocioException(DISCIPLINAS_INDISPONIVEIS);
+		}
+		return listaDisciplinas;
 	}
 	@Override
 	public List<Disciplina> listarDisciplinasComProfessorDisponiveisParaAluno(Aluno aluno) {

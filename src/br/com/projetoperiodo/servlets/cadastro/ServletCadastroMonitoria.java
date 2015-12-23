@@ -4,6 +4,7 @@ package br.com.projetoperiodo.servlets.cadastro;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import br.com.projetoperiodo.model.instituto.monitor.controller.ControladorMonit
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.constantes.enumeracoes.Modalidade;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -44,6 +46,7 @@ public class ServletCadastroMonitoria extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(Boolean.FALSE);
+		RequestDispatcher rd;
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		}
@@ -52,9 +55,17 @@ public class ServletCadastroMonitoria extends HttpServlet {
 		synchronized(session) {
 			aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
 		}
-		List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasDeAluno(aluno);
-		request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
-		request.getRequestDispatcher("/WEB-INF/jsp/CadastroMonitoria.jsp").forward(request, response);
+		List<Disciplina> listaDisciplinas;
+		try {
+			listaDisciplinas = Fachada.getInstance().listarDisciplinasDeAluno(aluno);
+			request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/CadastroMonitoria.jsp");
+		} catch (ProjetoException e) {
+			request.setAttribute(Constantes.MENSAGEM_INFO, e.getMessage());
+			rd = request.getRequestDispatcher("/aluno.do");
+		}
+		
+		rd.forward(request, response);
 	}
 
 	/**

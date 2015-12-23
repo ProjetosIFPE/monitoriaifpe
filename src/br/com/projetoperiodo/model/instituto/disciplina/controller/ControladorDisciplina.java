@@ -15,7 +15,7 @@ public interface ControladorDisciplina extends ControladorNegocio
 	
 	Disciplina buscarDisciplina(String descricao) throws NegocioException;
 
-	List<Disciplina> listarDisciplinasDeAluno(Aluno aluno);
+	List<Disciplina> listarDisciplinasDeAluno(Aluno aluno) throws NegocioException;
 
 	List<Disciplina> listarDisciplinasDeProfessor(Professor professor);
 

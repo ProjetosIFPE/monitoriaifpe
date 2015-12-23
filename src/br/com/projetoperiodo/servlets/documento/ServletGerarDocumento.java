@@ -39,7 +39,7 @@ public class ServletGerarDocumento extends HttpServlet {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
-		}
+		} 
 		int mesRelatorio = Integer.valueOf(request.getParameter(MES_RELATORIO));
 		Monitoria monitor;
 		Usuario usuarioLogado;
