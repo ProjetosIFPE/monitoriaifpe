@@ -14,6 +14,7 @@ import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.model.instituto.professor.Professor;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -69,9 +70,11 @@ public class ServletCadastroDisciplina extends HttpServlet {
 				disciplina.setProfessor(professor);
 				Fachada.getInstance().atualizarDisciplina(disciplina);
 				request.getRequestDispatcher("/professor.do").forward(request, response);
-			} catch (NegocioException e) {
-				// TODO Tratar
-				e.printStackTrace();
+			} catch (ProjetoException e) {
+				request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+				List<Disciplina> listaDisciplinas = Fachada.getInstance().listarDisciplinasSemProfessor();
+				request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+				request.getRequestDispatcher("/WEB-INF/jsp/CadastroProfessorDisciplina.jsp").forward(request, response);
 			}
 		}
 	}

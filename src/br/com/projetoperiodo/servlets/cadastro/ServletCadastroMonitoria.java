@@ -33,7 +33,7 @@ public class ServletCadastroMonitoria extends HttpServlet {
 
 	private static final String MENSAGEM_CADASTRO_SUCESSO = "Monitoria cadastrada com sucesso";
 
-	private static final String MENSAGE_CADASTRO_FALHO = "Não é possível cadastrar mais uma monitoria neste período";
+	private static final String MENSAGEM_CADASTRO_FALHO = "Não é possível cadastrar mais uma monitoria neste período";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -78,16 +78,14 @@ public class ServletCadastroMonitoria extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		} else {
 			Aluno aluno;
-			synchronized(session) {
-				aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
-			}
+			aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
 			boolean cadastroValido;
 			Disciplina disciplina = null;
 			Modalidade modalidade = Modalidade.valueOf(request.getParameter("modalidade"));
@@ -95,23 +93,33 @@ public class ServletCadastroMonitoria extends HttpServlet {
 			String horarioSaida = request.getParameter("saida");
 			try {
 				disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(request.getParameter("disciplina"));
-			} catch (NegocioException e) {
-				// TODO Tratar erro de inexistencia de disciplina
-				e.printStackTrace();
-			}
-			Monitoria monitor = (Monitoria) Fachada.getInstance().criarMonitoria(aluno, disciplina, modalidade);
-			monitor.setHorarioEntrada(horarioEntrada);
-			monitor.setHorarioSaida(horarioSaida);
-			cadastroValido = Fachada.getInstance().validarCadastroMonitoria(monitor);
+				Monitoria monitor = (Monitoria) Fachada.getInstance().criarMonitoria(aluno, disciplina, modalidade);
+				monitor.setHorarioEntrada(horarioEntrada);
+				monitor.setHorarioSaida(horarioSaida);
+				cadastroValido = Fachada.getInstance().validarCadastroMonitoria(monitor);
 
-			if (cadastroValido) {
-				monitor = (Monitoria) Fachada.getInstance().cadastrarMonitoria(monitor);
-				Fachada.getInstance().preCadastroRelatoriosMonitor(monitor);
-				request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_CADASTRO_SUCESSO);
-			} else {
-				request.setAttribute(Constantes.MENSAGEM_ERRO, MENSAGE_CADASTRO_FALHO);
+				if (cadastroValido) {
+					monitor = (Monitoria) Fachada.getInstance().cadastrarMonitoria(monitor);
+					Fachada.getInstance().preCadastroRelatoriosMonitor(monitor);
+					request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_CADASTRO_SUCESSO);
+				} else {
+					request.setAttribute(Constantes.MENSAGEM_ERRO, MENSAGEM_CADASTRO_FALHO);
+				}
+				request.getRequestDispatcher("/acesso.do").forward(request, response);
+			} catch (ProjetoException e) {
+				List<Disciplina> listaDisciplinas;
+				try {
+					listaDisciplinas = Fachada.getInstance().listarDisciplinasDeAluno(aluno);
+					request.setAttribute(LISTA_DISCIPLINAS, listaDisciplinas);
+					request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+					request.getRequestDispatcher("/WEB-INF/jsp/CadastroMonitoria.jsp").forward(request, response);
+				} catch (ProjetoException e1) {
+					request.setAttribute(Constantes.MENSAGEM_INFO, e.getMessage());
+					request.getRequestDispatcher("/aluno.do").forward(request, response);;
+				}
+				
 			}
-			request.getRequestDispatcher("/acesso.do").forward(request, response);
+			
 		}
 	}
 

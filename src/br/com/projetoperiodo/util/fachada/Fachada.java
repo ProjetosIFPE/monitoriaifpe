@@ -153,7 +153,7 @@ public class Fachada {
 		return this.getControladorMonitor().cadastrarMonitoria(monitor);
 	}
 
-	public EntidadeNegocio buscarDisciplina(String descricao) throws NegocioException {
+	public EntidadeNegocio buscarDisciplina(String descricao) throws ProjetoException {
 		return this.getControladorDisciplina().buscarDisciplina(descricao);
 	}
 	

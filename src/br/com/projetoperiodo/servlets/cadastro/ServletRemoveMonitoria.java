@@ -33,7 +33,7 @@ public class ServletRemoveMonitoria extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if ( session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);

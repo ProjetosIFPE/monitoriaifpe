@@ -69,7 +69,7 @@ public class ServletCadastroRelatorio extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
@@ -77,9 +77,7 @@ public class ServletCadastroRelatorio extends HttpServlet {
 		} else {
 			session = request.getSession(Boolean.FALSE);
 			RelatorioFrequencia relatorio;
-			synchronized(session) {
-				relatorio = (RelatorioFrequencia) session.getAttribute(RELATORIO_MENSAL);
-			}
+			relatorio = (RelatorioFrequencia) session.getAttribute(RELATORIO_MENSAL);
 			Semana semana;
 			Atividade atividade;
 			for (int posicaoSemana = 1; posicaoSemana <= 5; posicaoSemana++) {
@@ -93,7 +91,6 @@ public class ServletCadastroRelatorio extends HttpServlet {
 						data = Util.parseTextoData(dataStr);
 						atividade.setData(data);
 					} catch (ParseException e) {
-						// TODO Tratar data invalida
 						e.printStackTrace();
 					}
 				}

@@ -14,6 +14,7 @@ import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.NegocioException;
+import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
@@ -66,7 +67,7 @@ public class ServletAdicionaDisciplinaAluno extends HttpServlet {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		} else {
 			String descricaoDisciplina = request.getParameter("disciplina");
-			Aluno aluno;
+			Aluno aluno = null;
 			try {
 				Disciplina disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(descricaoDisciplina);
 				session = request.getSession(Boolean.FALSE);
@@ -76,9 +77,9 @@ public class ServletAdicionaDisciplinaAluno extends HttpServlet {
 				Fachada.getInstance().adicionarDisciplinaEmCadastroDeAluno(aluno, disciplina);
 				request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_ADICIONADO_SUCESSO);
 				request.getRequestDispatcher("/aluno.do").forward(request, response);
-			} catch (NegocioException e) {
-
-				e.printStackTrace();
+			} catch (ProjetoException e) {
+				request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+				request.getRequestDispatcher("/aluno.do").forward(request, response);
 			}
 		}
 		

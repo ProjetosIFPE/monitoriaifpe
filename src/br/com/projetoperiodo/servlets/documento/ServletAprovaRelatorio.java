@@ -1,3 +1,4 @@
+
 package br.com.projetoperiodo.servlets.documento;
 
 import java.io.IOException;
@@ -19,22 +20,26 @@ import br.com.projetoperiodo.util.fachada.Fachada;
  * Servlet implementation class ServletAprovaRelatorio
  */
 public class ServletAprovaRelatorio extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
+
 	private static final String MES_RELATORIO = "mes";
+
 	public static final String SITUACAO_RELATORIOS_MONITORIA = "situacaoRelatorios";
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletAprovaRelatorio() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ServletAprovaRelatorio() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -42,6 +47,7 @@ public class ServletAprovaRelatorio extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
@@ -51,14 +57,14 @@ public class ServletAprovaRelatorio extends HttpServlet {
 			Monitoria monitor;
 			synchronized(session) {
 				monitor = (Monitoria) session.getAttribute(Constantes.ATRIBUTO_MONITORIA);
+				RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
+				Fachada.getInstance().aprovarRelatorio(relatorio);
 			}
-			RelatorioFrequencia relatorio = Fachada.getInstance().buscarRelatorioMensal(monitor, mesRelatorio);
-			Fachada.getInstance().aprovarRelatorio(relatorio);
 			List<Situacao> listaSituacao = Fachada.getInstance().buscarSituacaoDeRelatorios(monitor);
 			request.setAttribute(SITUACAO_RELATORIOS_MONITORIA, listaSituacao);
 			request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosProfessor.jsp").forward(request, response);
 		}
-		
+
 	}
 
 }

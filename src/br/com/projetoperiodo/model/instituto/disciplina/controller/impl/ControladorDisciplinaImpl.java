@@ -18,6 +18,7 @@ public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements
 
 	private static final String DISCIPLINAS_INDISPONIVEIS = "Você não possui mais disciplinas ofertadas, "
 					+ "candidatas a monitoria. Adicione mais disciplinas.";
+	private static final String DISCIPLINA_INVALIDA = "A Disciplina informada não existe.";
 	
 	public ControladorDisciplinaImpl() {
 		super();
@@ -80,8 +81,14 @@ public class ControladorDisciplinaImpl extends ControladorNegocioImpl implements
 
 		HashMap<String, Object> filtro = new HashMap<>();
 		filtro.put("descricao", descricao);
-
-		return (Disciplina) Persistencia.getInstance().buscarDisciplina(filtro);
+		Disciplina disciplina;
+		try {
+			disciplina = (Disciplina) Persistencia.getInstance().buscarDisciplina(filtro);
+			return disciplina;
+		} catch (NegocioException e) {
+			throw new NegocioException(DISCIPLINA_INVALIDA);
+		}
+		
 	}
 
 	@Override
