@@ -16,7 +16,7 @@
 
 </head>
 <body>
-	<jsp:include page="CabecalhoUsuarioLogado.jsp" />
+	<jsp:include page="CabecalhoProfessorLogado.jsp" />
 	<form action="aprovarRelatorio.do" method="post">
 		<table class="table-fill">
 			<thead>

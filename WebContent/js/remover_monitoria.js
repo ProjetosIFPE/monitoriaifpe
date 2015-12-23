@@ -1,5 +1,6 @@
 window.addEventListener("load", function() {
-	document.querySelector('#botaoRemoverMonitoria').addEventListener("click",  function(e) {
+	Array.prototype.slice.call(document.querySelectorAll('.botaoRemoverMonitoria')).forEach( function(botao) {
+	botao.addEventListener("click",  function(e) {
 		e.preventDefault();
 		swal({
 			title : "Remover monitoria",
@@ -13,8 +14,9 @@ window.addEventListener("load", function() {
 			closeOnCancel : true
 		}, function(isConfirm) {
 			if (isConfirm) {
-				document.getElementById("formRemover").submit();
+				botao.parentNode.submit();
 				swal("Disciplina removida!");
 			}
 		})}, false);
+	});
 }, false);

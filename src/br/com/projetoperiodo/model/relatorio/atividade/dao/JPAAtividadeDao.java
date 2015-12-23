@@ -47,6 +47,7 @@ public class JPAAtividadeDao implements AtividadeDao
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(atividade);
+		entityManager.flush();
 		entityTransaction.commit();
 		entityManager.close();
 		

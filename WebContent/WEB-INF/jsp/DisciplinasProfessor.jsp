@@ -27,9 +27,9 @@
 							value="${disciplina.descricao }" />
 				</a></td>
 				<td>
-					<form id="formRemover" method="post" action="removeDisciplinaProfessor.do">
+					<form  method="post" action="removeDisciplinaProfessor.do">
 						<input name="chaveDisciplina" value="${disciplina.chavePrimaria}"></input>
-						<input id="botaoRemoverDisciplina" type="image" src="css/images/delete_16.png" id="botaoRemover"></input>
+						<input class="botaoRemoverDisciplina" type="image" src="css/images/delete_16.png"></input>
 					</form>
 				</td>
 			</tr>

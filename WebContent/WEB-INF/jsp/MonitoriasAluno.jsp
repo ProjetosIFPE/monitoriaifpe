@@ -36,10 +36,10 @@
 					href="relatorio.do?chaveMonitor=${monitoria.chavePrimaria}"> <c:out
 							value=" ${monitoria.modalidade }" /></a></td>
 				<td>
-					<form id="formRemover" class="msc-action" method="post" action="removeMonitoria.do">
+					<form  class="msc-action" method="post" action="removeMonitoria.do">
 						<input name="chaveMonitor" value="${monitoria.chavePrimaria}"></input>
 						<input type="image" src="css/images/delete_16.png"
-							id="botaoRemoverMonitoria"></input>
+							class="botaoRemoverMonitoria"></input>
 					</form>
 				</td>
 			</tr>

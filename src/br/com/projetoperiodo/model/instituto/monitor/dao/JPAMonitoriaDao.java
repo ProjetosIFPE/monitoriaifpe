@@ -36,6 +36,7 @@ public class JPAMonitoriaDao implements MonitoriaDao{
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(monitor);
+		entityManager.flush();
 		entityTransaction.commit();
 		entityManager.close();
 	}
