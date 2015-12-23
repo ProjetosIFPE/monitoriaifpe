@@ -60,7 +60,7 @@ public class ServletAdicionaDisciplinaAluno extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
@@ -71,9 +71,7 @@ public class ServletAdicionaDisciplinaAluno extends HttpServlet {
 			try {
 				Disciplina disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(descricaoDisciplina);
 				session = request.getSession(Boolean.FALSE);
-				synchronized(session) {
-					aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
-				}
+				aluno = (Aluno) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
 				Fachada.getInstance().adicionarDisciplinaEmCadastroDeAluno(aluno, disciplina);
 				request.setAttribute(Constantes.MENSAGEM_SUCESSO, MENSAGEM_ADICIONADO_SUCESSO);
 				request.getRequestDispatcher("/aluno.do").forward(request, response);

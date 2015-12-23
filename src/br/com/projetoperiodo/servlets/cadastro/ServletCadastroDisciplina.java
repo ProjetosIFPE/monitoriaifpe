@@ -53,7 +53,7 @@ public class ServletCadastroDisciplina extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(Boolean.FALSE);
 		if (session == null) {
@@ -62,9 +62,7 @@ public class ServletCadastroDisciplina extends HttpServlet {
 			String descricaoDisciplina = request.getParameter("disciplina");
 			Professor professor;
 			session = request.getSession(Boolean.FALSE);
-			synchronized(session) {
-				professor = (Professor) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
-			}
+			professor = (Professor) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
 			try {
 				Disciplina disciplina = (Disciplina) Fachada.getInstance().buscarDisciplina(descricaoDisciplina);
 				disciplina.setProfessor(professor);
