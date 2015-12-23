@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,23 +7,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" type="text/css" href="css/tabela.css" />
 <link rel="stylesheet" type="text/css" href="css/tabela_botoes.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/msc-style.css" />
-<script src="js/msc-script.js"></script>
-
+<link rel="stylesheet" type="text/css" href="css/sweetalert.css" />
+<script src="js/sweetalert.min.js"></script>
+<script src="js/remover_monitoria.js"></script>
 <title>${initParam.title}</title>
-<script type="text/javascript">
-var demobtn2 = document.querySelector("#botaoRemover");
-demobtn2.addEventListener("click", function(e) {
-  mscConfirm("Delete", "Are you sure you want to delete this post?", function(){
-    alert("Post deleted");
-  },
-  function() {
-    alert('Cancelled');
-    e.preventDefault();
-  });
-});
-</script>
 
 </head>
 <body>
@@ -32,7 +19,7 @@ demobtn2.addEventListener("click", function(e) {
 	<table>
 		<tr>
 			<th>Disciplina</th>
-			<th>Período</th>
+			<th>PerÃ­odo</th>
 			<th>Modalidade</th>
 			<th><a href="cadastroMonitoria.do">&nbsp;</a></th>
 		</tr>
@@ -49,9 +36,10 @@ demobtn2.addEventListener("click", function(e) {
 					href="relatorio.do?chaveMonitor=${monitoria.chavePrimaria}"> <c:out
 							value=" ${monitoria.modalidade }" /></a></td>
 				<td>
-					<form method="post" action="removeMonitoria.do">
+					<form id="formRemover" class="msc-action" method="post" action="removeMonitoria.do">
 						<input name="chaveMonitor" value="${monitoria.chavePrimaria}"></input>
-						<input type="image" src="css/images/delete_16.png" id="botaoRemover"></input>
+						<input type="image" src="css/images/delete_16.png"
+							id="botaoRemoverMonitoria"></input>
 					</form>
 				</td>
 			</tr>

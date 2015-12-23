@@ -17,5 +17,6 @@ window.onload = function init() {
 			notificacoesDeInfo[0].style.display = "none";
 		}, false);
 	}
-
+	
+	
 }

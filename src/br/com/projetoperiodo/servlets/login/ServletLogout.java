@@ -1,3 +1,4 @@
+
 package br.com.projetoperiodo.servlets.login;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
  * Servlet implementation class ServletLogout
  */
 public class ServletLogout extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -26,14 +28,15 @@ public class ServletLogout extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		HttpSession session = request.getSession(Boolean.FALSE);
-		synchronized(session) {
-			if ( !(session == null) ) {
+		if (session != null) {
+			synchronized(session) {
 				request.getSession().invalidate();
 			}
 		}
+
 		request.getRequestDispatcher("/acesso.do").forward(request, response);
 
 	}
@@ -42,8 +45,7 @@ public class ServletLogout extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		doGet(request, response);
 	}

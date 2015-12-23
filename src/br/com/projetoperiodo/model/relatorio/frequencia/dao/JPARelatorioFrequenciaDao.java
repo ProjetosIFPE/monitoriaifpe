@@ -38,6 +38,7 @@ public class JPARelatorioFrequenciaDao implements RelatorioFrequenciaDao
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.merge(relatorio);
+		entityManager.flush();
 		entityTransaction.commit();
 		entityManager.close();
 		return relatorio;

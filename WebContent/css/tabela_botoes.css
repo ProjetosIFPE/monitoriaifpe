@@ -12,6 +12,7 @@ td input:FIRST-CHILD {
 }
 
 input[type=image] {
-	position: relative;
-	left: 26px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto 
 }
