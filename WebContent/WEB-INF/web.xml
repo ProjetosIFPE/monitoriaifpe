@@ -99,9 +99,9 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name>ServletRelatorio</display-name>
-		<servlet-name>ServletRelatorio</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.apresentacao.ServletRelatorio
+		<display-name>ServletRelatorioAluno</display-name>
+		<servlet-name>ServletRelatorioAluno</servlet-name>
+		<servlet-class>br.com.projetoperiodo.servlets.apresentacao.ServletRelatorioAluno
 		</servlet-class>
 	</servlet>
 
@@ -170,7 +170,7 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>ServletRelatorio</servlet-name>
+		<servlet-name>ServletRelatorioAluno</servlet-name>
 		<url-pattern>/relatorio.do</url-pattern>
 	</servlet-mapping>
 
@@ -240,9 +240,9 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name>ServletBuscarAluno</display-name>
-		<servlet-name>ServletBuscarAluno</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.apresentacao.ServletBuscarAluno</servlet-class>
+		<display-name>ServletPesquisaAluno</display-name>
+		<servlet-name>ServletPesquisaAluno</servlet-name>
+		<servlet-class>br.com.projetoperiodo.servlets.apresentacao.ServletPesquisaAluno</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
@@ -303,7 +303,7 @@
 		<url-pattern>/AppExceptionHandler</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>ServletBuscarAluno</servlet-name>
+		<servlet-name>ServletPesquisaAluno</servlet-name>
 		<url-pattern>/buscarAluno.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>

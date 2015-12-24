@@ -1,5 +1,10 @@
 package br.com.projetoperiodo.util.persistencia.connection;
 
-public interface ConnectionFactory {
-	Object getConnection();
+import br.com.projetoperiodo.util.persistencia.persistencia.DatabaseUnit;
+
+public abstract class ConnectionFactory {
+	
+	protected DatabaseUnit databaseUnit;
+	
+	public abstract Object getConnection();
 }

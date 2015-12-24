@@ -2,6 +2,7 @@
 package br.com.projetoperiodo.servlets.apresentacao;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,26 +11,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.util.constantes.Constantes;
 import br.com.projetoperiodo.util.exception.ProjetoException;
 import br.com.projetoperiodo.util.fachada.Fachada;
 
 /**
- * Servlet implementation class ServletRelatorio
+ * Servlet implementation class ServletBuscarAluno
  */
-public class ServletRelatorio extends HttpServlet {
+public class ServletPesquisaAluno extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String RELATORIOS_MONITOR = "relatoriosMonitor";
+	private static final String OBJ_ALUNO = "aluno";
 
-	public static final String CHAVE_MONITORIA = "chaveMonitor";
+	private static final String LISTA_MONITORIAS = "monitoriasDoAluno";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ServletRelatorio() {
+	public ServletPesquisaAluno() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -43,21 +45,7 @@ public class ServletRelatorio extends HttpServlet {
 		if (session == null) {
 			request.getRequestDispatcher("/acesso.do").forward(request, response);
 		} else {
-			long chavePrimariaMonitoria = Long.valueOf(request.getParameter(CHAVE_MONITORIA));
-			Monitoria monitor;
-			RequestDispatcher rd;
-			try {
-				monitor = (Monitoria) Fachada.getInstance().buscarMonitoria(chavePrimariaMonitoria);
-				session = request.getSession(Boolean.FALSE);
-				synchronized(session) {
-					session.setAttribute(Constantes.ATRIBUTO_MONITORIA, monitor);
-				}
-				rd = request.getRequestDispatcher("/WEB-INF/jsp/RelatoriosAluno.jsp");
-			} catch (ProjetoException e) {
-				request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
-				rd = request.getRequestDispatcher("/aluno.do");
-			}
-			rd.forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/PesquisaAluno.jsp").forward(request, response);
 		}
 
 	}
@@ -67,7 +55,26 @@ public class ServletRelatorio extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		doGet(request, response);
+		HttpSession session = request.getSession(Boolean.FALSE);
+		if (session == null) {
+			request.getRequestDispatcher("/acesso.do").forward(request, response);
+		} else {
+			RequestDispatcher rd;
+			String matricula = request.getParameter("matricula");
+			Aluno aluno;
+			try {
+				aluno = (Aluno) Fachada.getInstance().buscarAluno(matricula);
+				List<Monitoria> monitorias = Fachada.getInstance().buscarMonitorias(aluno);
+				request.setAttribute(OBJ_ALUNO, aluno);
+				request.setAttribute(LISTA_MONITORIAS, monitorias);
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/ExibeDadosAlunos.jsp");
+			} catch (ProjetoException e) {
+				request.setAttribute(Constantes.MENSAGEM_ERRO, e.getMessage());
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/PesquisaAluno.jsp");
+			}
+			rd.forward(request, response);
+		}
+
 	}
 
 }

@@ -7,14 +7,12 @@ import java.sql.SQLException;
 
 import br.com.projetoperiodo.util.persistencia.persistencia.DatabaseUnit;
 
-public class JDBCConnectionFactory implements ConnectionFactory {
-
-	private DatabaseUnit databaseUnit;
+public class JDBCConnectionFactory extends ConnectionFactory {
 
 	private JDBCConnectionFactory() { }
 
 	public JDBCConnectionFactory(DatabaseUnit unit) {
-		this.databaseUnit = unit;
+		super.databaseUnit = unit;
 	}
 
 	@Override

@@ -7,14 +7,13 @@ import javax.persistence.Persistence;
 
 import br.com.projetoperiodo.util.persistencia.persistencia.DatabaseUnit;
 
-public class JPAConnectionFactory implements ConnectionFactory{
+public class JPAConnectionFactory extends ConnectionFactory{
 
-	private DatabaseUnit databaseUnit;
 
 	private JPAConnectionFactory() { }
 
 	public JPAConnectionFactory(DatabaseUnit unit) {
-		this.databaseUnit = unit;
+		super.databaseUnit = unit;
 	}
 	@Override
 	public Object getConnection() {

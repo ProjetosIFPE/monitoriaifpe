@@ -28,10 +28,8 @@ public class Persistencia {
 
 	private FabricaDAO fabrica;
 
-	private DatabaseUnit databaseUnit;
-
 	private Persistencia() {
-		databaseUnit = CreatorDatabaseUnit.criarDatabaseUnit(CreatorDatabaseUnit.MYSQL_LOCAL_UNIT);
+		DatabaseUnit databaseUnit = CreatorDatabaseUnit.criarDatabaseUnit(CreatorDatabaseUnit.MYSQL_LOCAL_UNIT);
 		fabrica = CreatorFabrica.criarFabricaDAO(CreatorFabrica.FABRICA_JPA, databaseUnit, null);
 	}
 
@@ -247,7 +245,7 @@ public class Persistencia {
 		FabricaDAO fabricaJPA = null;
 		
 		this.desalocarRecursos();
-		this.databaseUnit = CreatorDatabaseUnit.criarDatabaseUnit(unidade);
+		DatabaseUnit databaseUnit = CreatorDatabaseUnit.criarDatabaseUnit(unidade);
 		if( CreatorFabrica.FABRICA_JDBC.equals(tipo)) {
 			fabricaJPA = CreatorFabrica.criarFabricaDAO(CreatorFabrica.FABRICA_JPA, databaseUnit, null);
 		}
