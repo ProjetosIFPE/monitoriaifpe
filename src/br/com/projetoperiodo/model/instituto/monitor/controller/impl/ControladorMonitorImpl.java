@@ -12,6 +12,7 @@ import br.com.projetoperiodo.model.instituto.monitor.impl.MonitorImpl;
 import br.com.projetoperiodo.model.instituto.periodo.Periodo;
 import br.com.projetoperiodo.model.instituto.periodo.controller.ControladorPeriodo;
 import br.com.projetoperiodo.model.instituto.professor.Professor;
+import br.com.projetoperiodo.model.negocio.Mediador;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.util.Util;
@@ -49,14 +50,13 @@ public class ControladorMonitorImpl extends ControladorNegocioImpl implements Co
 	@Override
 	public Monitoria criarMonitoriaDeAluno(Aluno aluno, Disciplina disciplina, Modalidade modalidade) {
 
-		ControladorPeriodo controladorPeriodo = Fachada.getInstance().getControladorPeriodo();
 		Monitoria monitoria = (Monitoria) criarEntidadeNegocio();
 		monitoria.setDisciplina(disciplina);
 		monitoria.setModalidade(modalidade);
 		monitoria.setAluno(aluno);
 		monitoria.setHabilitado(Boolean.TRUE);
 		monitoria.setUltimaAlteracao(Calendar.getInstance().getTime());
-		Periodo periodoCorrente = controladorPeriodo.gerarNovoPeriodoCorrente();
+		Periodo periodoCorrente = Mediador.getInstance().gerarPeriodo();
 		monitoria.setPeriodo(periodoCorrente);
 
 		return monitoria;
@@ -118,14 +118,13 @@ public class ControladorMonitorImpl extends ControladorNegocioImpl implements Co
 
 		Monitoria monitoria = (Monitoria) this.criarEntidadeNegocio();
 		monitoria.setChavePrimaria(chavePrimaria);
-		Fachada.getInstance().getControladorRelatorio().removerRelatoriosDeMonitoria(monitoria);
+		Mediador.getInstance().removerRelatorios(monitoria);
 		Persistencia.getInstance().removerMonitoria(monitoria);
 	}
 
 	@Override
 	public List<Monitoria> buscarMonitoriasDeDiscplina(Disciplina disciplina) {
-		ControladorPeriodo controladorPeriodo = Fachada.getInstance().getControladorPeriodo();
-		Periodo periodo = controladorPeriodo.gerarNovoPeriodoCorrente();
+		Periodo periodo = Mediador.getInstance().gerarPeriodo();
 		return Persistencia.getInstance().
 						buscarMonitoriasDeDisciplinaDeUmPeriodo(disciplina.getChavePrimaria(), periodo.getChavePrimaria());
 	}

@@ -8,6 +8,7 @@ import br.com.projetoperiodo.model.documento.ConstrutorDocumento;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
 import br.com.projetoperiodo.model.instituto.periodo.Periodo;
 import br.com.projetoperiodo.model.instituto.periodo.controller.ControladorPeriodo;
+import br.com.projetoperiodo.model.negocio.Mediador;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.relatorio.frequencia.RelatorioFrequencia;
@@ -47,7 +48,6 @@ public class ControladorRelatorioImpl extends ControladorNegocioImpl implements 
 	@Override
 	public void prepararRelatoriosDoMonitor(Monitoria monitoria) {
 
-		ControladorSemana controladorSemana = Fachada.getInstance().getControladorSemana();
 		RelatorioFrequencia relatorio;
 		Periodo periodoMonitor = monitoria.getPeriodo();
 		int mes = periodoMonitor.getSemestre().semestre == 2 ? 7 : 1;
@@ -58,7 +58,7 @@ public class ControladorRelatorioImpl extends ControladorNegocioImpl implements 
 			relatorio.setMonitor(monitoria);
 			relatorio.setSituacao(Situacao.ESPERA);
 			relatorio = (RelatorioFrequencia) Persistencia.getInstance().salvarRelatorio(relatorio);
-			controladorSemana.cadastrarSemanasComRelatorio(relatorio);
+			Mediador.getInstance().cadastrarSemanas(relatorio);
 		}
 
 	}
@@ -89,9 +89,9 @@ public class ControladorRelatorioImpl extends ControladorNegocioImpl implements 
 	
 	public boolean verificaSeRelatorioPodeSerGerado(RelatorioFrequencia relatorio) {
 		boolean podeSerGerado = Boolean.FALSE;
-		ControladorPeriodo controladorPeriodo = Fachada.getInstance().getControladorPeriodo();
+		
 		Periodo periodoRelatorio = relatorio.getMonitor().getPeriodo();
-		Periodo periodoAtual = controladorPeriodo.gerarNovoPeriodoCorrente();
+		Periodo periodoAtual = Mediador.getInstance().gerarPeriodo();
 		if ( periodoRelatorio.getAno() == periodoAtual.getAno() &&
 						periodoAtual.getSemestre().equals(periodoRelatorio.getSemestre()) ) {
 			podeSerGerado = Boolean.TRUE;

@@ -4,6 +4,7 @@ package br.com.projetoperiodo.model.relatorio.semana.controller.impl;
 import java.util.Calendar;
 import java.util.List;
 
+import br.com.projetoperiodo.model.negocio.Mediador;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.relatorio.atividade.controller.ControladorAtividade;
@@ -33,13 +34,12 @@ public class ControladorSemanaImpl extends ControladorNegocioImpl implements Con
 	@Override
 	public void cadastrarSemanasComRelatorio(RelatorioFrequencia relatorio) {
 
-		ControladorAtividade controladorAtividade = Fachada.getInstance().getControladorAtividade();
 		for (int i = 0; i < 5; i++) {
 			Semana semana = (Semana) this.criarEntidadeNegocio();
 			semana.setRelatorio(relatorio);
 			semana.setUltimaAlteracao(Calendar.getInstance().getTime());
 			Persistencia.getInstance().salvarSemana(semana);
-			controladorAtividade.cadastrarAtividadesComSemanaDeRelatorio(semana);
+			Mediador.getInstance().cadastrarAtividade(semana);
 
 		}
 	}

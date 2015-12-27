@@ -49,54 +49,54 @@ public class Fachada {
 		return instance;
 	}
 
-	public ControladorUsuario getControladorUsuario() {
+	private ControladorUsuario getControladorUsuario() {
 
 		return new ControladorUsuarioImpl();
 	}
 
-	public ControladorAtividade getControladorAtividade() {
+	private ControladorAtividade getControladorAtividade() {
 
 		return new ControladorAtividadeImpl();
 	}
 	
 
-	public ControladorSemana getControladorSemana() {
+	private ControladorSemana getControladorSemana() {
 
 		return new ControladorSemanaImpl();
 	}
 
 	
-	public ControladorMonitor getControladorMonitor() {
+	private ControladorMonitor getControladorMonitor() {
 
 		return new ControladorMonitorImpl();
 	}
 
-	public ControladorAluno getControladorAluno() {
+	private ControladorAluno getControladorAluno() {
 
 		return new ControladorAlunoImpl();
 	}
 	
-	public ControladorProfessor getControladorProfessor(){
+	private ControladorProfessor getControladorProfessor(){
 		
 		return new ControladorProfessorImpl();
 	}
 
-	public ControladorDisciplina getControladorDisciplina() {
+	private ControladorDisciplina getControladorDisciplina() {
 
 		return new ControladorDisciplinaImpl();
 	}
 
-	public ControladorCurso getControladorCurso() {
+	private ControladorCurso getControladorCurso() {
 
 		return new ControladorCursoImpl();
 	}
 
-	public ControladorPeriodo getControladorPeriodo() {
+	private ControladorPeriodo getControladorPeriodo() {
 
 		return new ControladorPeriodoImpl();
 	}
 
-	public ControladorRelatorio getControladorRelatorio() {
+	private ControladorRelatorio getControladorRelatorio() {
 
 		return new ControladorRelatorioImpl();
 	}

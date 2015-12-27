@@ -5,8 +5,9 @@ import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 
 public abstract class ControladorNegocioImpl implements ControladorNegocio {
 
-
-	public ControladorNegocioImpl() { }
+	
+	public ControladorNegocioImpl() {
+	}
 	
 	/*
 	 * (non-Javadoc)

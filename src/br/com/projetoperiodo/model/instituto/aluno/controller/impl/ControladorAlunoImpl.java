@@ -8,6 +8,7 @@ import br.com.projetoperiodo.model.instituto.aluno.Aluno;
 import br.com.projetoperiodo.model.instituto.aluno.controller.ControladorAluno;
 import br.com.projetoperiodo.model.instituto.aluno.impl.AlunoImpl;
 import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
+import br.com.projetoperiodo.model.negocio.Mediador;
 import br.com.projetoperiodo.model.negocio.controlador.ControladorNegocioImpl;
 import br.com.projetoperiodo.model.negocio.entidade.EntidadeNegocio;
 import br.com.projetoperiodo.model.usuario.Usuario;
@@ -60,10 +61,9 @@ public class ControladorAlunoImpl extends ControladorNegocioImpl implements Cont
 
 	public void validarCadastroDeAluno(Aluno aluno) throws NegocioException {
 
-		ControladorUsuario controladorUsuario = Fachada.getInstance().getControladorUsuario();
-		boolean loginCadastrado = controladorUsuario.verificarCadastroDeUsuarioPorLogin(aluno);
+		boolean loginCadastrado = Mediador.getInstance().verificarCadastroDeUsuarioPorLogin(aluno);
 		boolean matriculaCadastrada = this.verificarCadastroPorMatricula(aluno);
-		boolean emailCadastrado = controladorUsuario.verificarCadastroDeUsuarioPorEmail(aluno);
+		boolean emailCadastrado = Mediador.getInstance().verificarCadastroDeUsuarioPorEmail(aluno);
 		if (loginCadastrado || matriculaCadastrada || emailCadastrado) {
 			HashMap<String, Object> camposInvalidos = new HashMap<>();
 			camposInvalidos.put("login", Util.invalidarCampoCadastrado(loginCadastrado));
