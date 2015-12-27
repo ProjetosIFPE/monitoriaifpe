@@ -20,18 +20,23 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
+import br.com.projetoperiodo.model.instituto.curso.Curso;
+import br.com.projetoperiodo.model.instituto.disciplina.Disciplina;
 import br.com.projetoperiodo.model.instituto.monitor.Monitoria;
+import br.com.projetoperiodo.model.instituto.professor.Professor;
 import br.com.projetoperiodo.model.relatorio.atividade.Atividade;
 import br.com.projetoperiodo.model.relatorio.frequencia.RelatorioFrequencia;
 import br.com.projetoperiodo.model.relatorio.semana.Semana;
 import br.com.projetoperiodo.util.Util;
 
-public class ConstrutorDocumento {
+public class ConstrutorDocumento extends Construtor {
 
 	
 	private static ConstrutorDocumento instance;
 
 	private FontSelector seletorFonte;
+	
+	private PdfContentByte conteudoDocumento;
 
 	public static final int NOME_MONITOR_X = 124;
 
@@ -337,6 +342,75 @@ public class ConstrutorDocumento {
 		builder.append(minutos);
 		builder.append("M");
 		return builder.toString();
+	}
+
+	@Override
+	protected byte[] criarDocumento(RelatorioFrequencia relatorio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void adicionarMonitor(Monitoria monitor) {
+				
+	}
+
+	@Override
+	protected void adicionarMes(int mes) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void adicionarAno(int ano) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void adicionarEdital(String edital) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void adicionarCurso(Curso curso) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void adicionarSemanas(RelatorioFrequencia relatorio) {
+	/*	preencherDescricaoPrimeiraSemana(relatorio.getSemana(0), conteudoDocumento);
+		preencherDescricaoSegundaSemana(relatorio.getSemana(1), conteudoDocumento);
+		preencherDescricaoTerceiraSemana(relatorio.getSemana(2), conteudoDocumento);
+		preencherDescricaoQuartaSemana(relatorio.getSemana(3), conteudoDocumento);
+		preencherDescricaoQuintaSemana(relatorio.getSemana(4), conteudoDocumento);
+		*/
+	}
+
+	@Override
+	protected void adicionarAtividades(RelatorioFrequencia relatorio) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void adicionarProfessor(Professor professor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void adicionarCargaHoraria(String cargaHoraria) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void adicionarDisciplina(Disciplina disciplina) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
