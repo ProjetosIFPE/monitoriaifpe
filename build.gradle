@@ -36,6 +36,5 @@ dependencies {
     		['javax.servlet:javax.servlet-api:3.1.0'],
     		['javax.servlet:jstl:1.2'],
     		['org.apache.commons:commons-email:1.4'],
-    		['net.sf.jasperreports:jasperreports:6.1.1'],
-    		['com.oracle:ojdbc14:10.2.0.4.0'])
+    		['net.sf.jasperreports:jasperreports:6.1.1'])
 }
