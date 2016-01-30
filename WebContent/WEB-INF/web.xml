@@ -10,11 +10,11 @@
 		<param-name>title</param-name>
 		<param-value>Monitoria IFPE-TADS</param-value>
 	</context-param>
-	
+
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-	
+
 	<error-page>
 		<exception-type>javax.servlet.ServletException</exception-type>
 		<location>/AppExceptionHandler</location>
@@ -177,7 +177,7 @@
 	<servlet>
 		<description>
 		</description>
-		
+
 		<servlet-name>ServletAlterarSenha</servlet-name>
 		<servlet-class>br.com.projetoperiodo.servlets.login.ServletAlterarSenha
 		</servlet-class>
@@ -228,7 +228,7 @@
 		<servlet-class>br.com.projetoperiodo.servlets.documento.ServletAprovaRelatorio
 		</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<description>
 		</description>
@@ -242,35 +242,40 @@
 		</description>
 		<display-name>ServletPesquisaAluno</display-name>
 		<servlet-name>ServletPesquisaAluno</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.apresentacao.ServletPesquisaAluno</servlet-class>
+		<servlet-class>br.com.projetoperiodo.servlets.apresentacao.ServletPesquisaAluno
+		</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
 		</description>
 		<display-name>ServletConfiguracao</display-name>
 		<servlet-name>ServletConfiguracao</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.configuracoes.ServletConfiguracao</servlet-class>
+		<servlet-class>br.com.projetoperiodo.servlets.configuracoes.ServletConfiguracao
+		</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
 		</description>
 		<display-name>ServletRemoveDisciplina</display-name>
 		<servlet-name>ServletRemoveDisciplina</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletRemoveDisciplina</servlet-class>
+		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletRemoveDisciplina
+		</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
 		</description>
 		<display-name>ServletCadastroDisciplina</display-name>
 		<servlet-name>ServletCadastroDisciplina</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletCadastroDisciplina</servlet-class>
+		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletCadastroDisciplina
+		</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
 		</description>
 		<display-name>ServletAdicionaDisciplinaAluno</display-name>
 		<servlet-name>ServletAdicionaDisciplinaAluno</servlet-name>
-		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletAdicionaDisciplinaAluno</servlet-class>
+		<servlet-class>br.com.projetoperiodo.servlets.cadastro.ServletAdicionaDisciplinaAluno
+		</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -297,7 +302,7 @@
 		<servlet-name>ServletAprovaRelatorio</servlet-name>
 		<url-pattern>/aprovarRelatorio.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>AppExceptionHandler</servlet-name>
 		<url-pattern>/AppExceptionHandler</url-pattern>
@@ -323,5 +328,33 @@
 		<url-pattern>/adicionaDisciplina.do</url-pattern>
 	</servlet-mapping>
 
+	<!-- Spring MVC -->
+
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-mvc-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/spring/*</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-core-config.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
 
 </web-app>

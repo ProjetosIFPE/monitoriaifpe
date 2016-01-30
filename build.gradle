@@ -36,5 +36,12 @@ dependencies {
     		['javax.servlet:javax.servlet-api:3.1.0'],
     		['javax.servlet:jstl:1.2'],
     		['org.apache.commons:commons-email:1.4'],
-    		['net.sf.jasperreports:jasperreports:6.1.1'])
+    		['net.sf.jasperreports:jasperreports:6.1.1'],
+    		['org.springframework:spring-core:4.2.4.RELEASE'],
+    		['org.springframework:spring-test:4.2.4.RELEASE'],
+    		['org.springframework:spring-context:4.2.4.RELEASE'],
+    		['org.springframework:spring-aop:4.2.4.RELEASE'],
+    		['org.springframework:spring-aspects:4.2.4.RELEASE'],
+    		['org.springframework:spring-webmvc:4.2.4.RELEASE']    		
+ 			)
 }
