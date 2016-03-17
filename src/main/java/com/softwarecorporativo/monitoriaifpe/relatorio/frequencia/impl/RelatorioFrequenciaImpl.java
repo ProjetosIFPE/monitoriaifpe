@@ -5,7 +5,7 @@ import com.softwarecorporativo.monitoriaifpe.instituto.monitor.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitor.impl.MonitorImpl;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
 
-import com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes.Situacao;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
 import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
 import com.softwarecorporativo.monitoriaifpe.util.Util;

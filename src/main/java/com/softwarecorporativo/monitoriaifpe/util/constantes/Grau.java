@@ -1,4 +1,4 @@
-package com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes;
+package com.softwarecorporativo.monitoriaifpe.util.constantes;
 
 public enum Grau {
     SUPERIOR(0), TECNICO(1);

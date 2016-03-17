@@ -21,14 +21,9 @@ public interface Usuario extends EntidadeNegocio {
 
     String getNome();
 
-    Date getUltimoAcesso();
-
-    void setUltimoAcesso(Date ultimoAcesso);
-
     String getSobrenome();
 
     void setSobrenome(String sobrenome);
 
-    String getPapelUsuario();
 
 }

@@ -9,7 +9,7 @@ import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.impl.PeriodoImpl;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
 import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.impl.RelatorioFrequenciaImpl;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes.Modalidade;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
 import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
 import java.util.ArrayList;
 import java.util.List;

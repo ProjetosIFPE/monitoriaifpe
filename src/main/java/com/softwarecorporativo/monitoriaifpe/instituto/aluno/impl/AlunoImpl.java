@@ -10,6 +10,7 @@ import com.softwarecorporativo.monitoriaifpe.usuario.impl.UsuarioImpl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "ALUNO")
 @PrimaryKeyJoinColumn(name = "ALUNO_ID")
+@DiscriminatorValue(value = "A")
 public class AlunoImpl extends UsuarioImpl implements Aluno {
 
     @Column(name = "ALUNO_MATRICULA", nullable = false)
@@ -40,14 +42,7 @@ public class AlunoImpl extends UsuarioImpl implements Aluno {
             joinColumns = @JoinColumn(name = "ALUNO_ID"),
             inverseJoinColumns = @JoinColumn(name = "DISCIPLINA_ID"))
     private List<Disciplina> disciplinas = new ArrayList<Disciplina>();
-
-    @Transient
-    private final String PAPEL_ALUNO = "ALUNO";
-
-    public AlunoImpl() {
-        PAPEL = PAPEL_ALUNO;
-    }
-
+    
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.aluno.impl.Aluno#getMatricula()
      */
@@ -100,20 +95,6 @@ public class AlunoImpl extends UsuarioImpl implements Aluno {
     public void setDisciplinas(Disciplina disciplina) {
 
         this.disciplinas.add(disciplina);
-    }
-
-    @Override
-    public String getPapelUsuario() {
-
-        return "ALUNO";
-    }
-
-    @Override
-    @GeneratedValue(generator = "SQ_USUARIO", strategy = GenerationType.AUTO)
-    public long getChavePrimaria() {
-
-        // TODO Auto-generated method stub
-        return super.getChavePrimaria();
     }
 
     @Override

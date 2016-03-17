@@ -2,10 +2,10 @@ package com.softwarecorporativo.monitoriaifpe.relatorio.atividade.impl;
 
 
 
-import com.softwarecorporativo.monitoriaifpe.relatorio.semana.impl.SemanaImpl;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
 import com.softwarecorporativo.monitoriaifpe.relatorio.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
+import com.softwarecorporativo.monitoriaifpe.relatorio.semana.impl.SemanaImpl;
 import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ATIVIDADE")
@@ -28,7 +29,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     @Column(name = "HORARIO_ENTRADA", nullable = true)
     private String horario_saida;
     @Column(name = "ATIVIDADE_DATA", nullable = true)
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date data;
     @ManyToOne(fetch = FetchType.LAZY, optional = true, targetEntity = SemanaImpl.class)
     @JoinColumn(name = "SEMANA_ID", referencedColumnName = "SEMANA_ID")

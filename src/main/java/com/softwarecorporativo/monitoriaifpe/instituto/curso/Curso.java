@@ -3,7 +3,7 @@ package com.softwarecorporativo.monitoriaifpe.instituto.curso;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes.Grau;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 
 public interface Curso extends EntidadeNegocio {
 

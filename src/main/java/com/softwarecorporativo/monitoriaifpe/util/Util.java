@@ -1,7 +1,6 @@
 package com.softwarecorporativo.monitoriaifpe.util;
 
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
-import br.com.projetoperiodo.util.exception.NegocioException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -34,25 +33,6 @@ public class Util {
         }
 
         return retorno.toString();
-    }
-
-    public static void enviarEmail(String destinatario, String assunto, String conteudo) throws NegocioException {
-
-        SimpleEmail email = new SimpleEmail();
-        try {
-            email.addTo(destinatario);
-            email.setHostName(Constantes.CONSTANTE_SERVIDOR_SMTP);
-            email.setSmtpPort(465);
-            email.setFrom(Constantes.CONSTANTE_LOGIN_EMAIL_SISTEMA);
-            email.setSubject(assunto);
-            email.setMsg(conteudo);
-            email.setSSLOnConnect(Boolean.TRUE);
-            email.setAuthentication(Constantes.CONSTANTE_LOGIN_EMAIL_SISTEMA,
-                    Constantes.CONSTANTE_SENHA_EMAIL_SISTEMA);
-            email.send();
-        } catch (EmailException e) {
-            throw new NegocioException(Constantes.ERRO_ENVIO_EMAIL, e);
-        }
     }
 
     public static String gerarSenhaAleatoria() {

@@ -2,7 +2,7 @@ package com.softwarecorporativo.monitoriaifpe.instituto.periodo.impl;
 
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes.Semestre;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Semestre;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;

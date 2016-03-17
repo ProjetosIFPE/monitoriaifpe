@@ -1,6 +1,6 @@
 package com.softwarecorporativo.monitoriaifpe.instituto.curso.impl;
 
-import com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes.Grau;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.curso.Curso;
@@ -17,14 +17,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "CURSO")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "CURSO_ID"))})
-@SequenceGenerator(name = "SQ_ENTIDADE", sequenceName = "SQ_CURSO")
 public class CursoImpl extends EntidadeNegocioImpl implements Curso {
 
     @Column(name = "CURSO_DS")

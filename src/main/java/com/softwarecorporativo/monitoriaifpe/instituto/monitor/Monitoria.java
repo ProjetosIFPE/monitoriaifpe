@@ -5,7 +5,7 @@ import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes.Modalidade;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
 
 public interface Monitoria extends EntidadeNegocio {
 

@@ -6,6 +6,7 @@ import com.softwarecorporativo.monitoriaifpe.instituto.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.usuario.impl.UsuarioImpl;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -16,17 +17,11 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "PROFESSOR")
 @PrimaryKeyJoinColumn(name = "PROFESSOR_ID")
+@DiscriminatorValue(value = "P")
 public class ProfessorImpl extends UsuarioImpl implements Professor {
 
     @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY, targetEntity = DisciplinaImpl.class)
     private List<Disciplina> disciplinas = new ArrayList<Disciplina>();
-    
-    @Transient
-    private final String PAPEL_PROFESSOR = "PROFESSOR";
-
-    public ProfessorImpl() {
-        PAPEL = PAPEL_PROFESSOR;
-    }
 
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.professor.Professor#getDisciplina(int)
@@ -48,5 +43,7 @@ public class ProfessorImpl extends UsuarioImpl implements Professor {
     public int getQuantidadeDisciplinasDoProfessor() {
         return disciplinas.size();
     }
+
+   
 
 }

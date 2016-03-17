@@ -3,7 +3,7 @@ package com.softwarecorporativo.monitoriaifpe.relatorio.frequencia;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitor.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes.Situacao;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
 
 public interface RelatorioFrequencia extends EntidadeNegocio {
 

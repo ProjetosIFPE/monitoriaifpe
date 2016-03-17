@@ -2,24 +2,28 @@ package com.softwarecorporativo.monitoriaifpe.usuario.impl;
 
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
 import com.softwarecorporativo.monitoriaifpe.usuario.Usuario;
+import com.sun.scenario.effect.Effect;
 import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "USUARIO")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "PAPEL_USUARIO", discriminatorType = DiscriminatorType.STRING, length = 1)
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))})
-public class UsuarioImpl extends EntidadeNegocioImpl implements Usuario {
+public abstract class UsuarioImpl extends EntidadeNegocioImpl implements Usuario {
 
     @Column(name = "USUARIO_NOME", nullable = false)
     private String nome;
@@ -35,13 +39,6 @@ public class UsuarioImpl extends EntidadeNegocioImpl implements Usuario {
 
     @Column(name = "USUARIO_EMAIL", nullable = false)
     private String email;
-
-    @Column(name = "ULTIMO_ACESSO", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ultimoAcesso;
-
-    @Transient
-    protected String PAPEL = "usuario";
 
     /*
 	 * (non-Javadoc)
@@ -123,25 +120,6 @@ public class UsuarioImpl extends EntidadeNegocioImpl implements Usuario {
         return nome;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * @see br.com.projetoperiodo.model.usuario.impl.Usuario#getUltimoAcesso()
-     */
-    @Override
-    public Date getUltimoAcesso() {
-
-        return ultimoAcesso;
-    }
-
-    /*
-	 * (non-Javadoc)
-	 * @see br.com.projetoperiodo.model.usuario.impl.Usuario#setUltimoAcesso(java.util.Date)
-     */
-    @Override
-    public void setUltimoAcesso(Date ultimoAcesso) {
-
-        this.ultimoAcesso = ultimoAcesso;
-    }
 
     @Override
     public String getSobrenome() {
@@ -153,10 +131,6 @@ public class UsuarioImpl extends EntidadeNegocioImpl implements Usuario {
         this.sobrenome = sobrenome;
     }
 
-    @Override
-    public String getPapelUsuario() {
-
-        return PAPEL;
-    }
+   
 
 }

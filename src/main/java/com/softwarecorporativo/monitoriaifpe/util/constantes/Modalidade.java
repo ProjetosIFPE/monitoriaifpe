@@ -1,4 +1,4 @@
-package com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes;
+package com.softwarecorporativo.monitoriaifpe.util.constantes;
 
 public enum Modalidade {
     BOLSISTA(0), VOLUNTARIO(1);

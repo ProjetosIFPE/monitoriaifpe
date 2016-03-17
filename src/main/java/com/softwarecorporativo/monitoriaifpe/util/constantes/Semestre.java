@@ -1,4 +1,4 @@
-package com.softwarecorporativo.monitoriaifpe.util.constantes.enumeracoes;
+package com.softwarecorporativo.monitoriaifpe.util.constantes;
 
 public enum Semestre {
     PRIMEIRO(1), SEGUNDO(2);

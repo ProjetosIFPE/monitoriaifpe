@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class MonitoriaTestCase {
 
-    private static String persistenceUnitName = "com.softwarecorporativo_monitoriaifpe_war_1.0-SNAPSHOTPU";
+    private static final String persistenceUnitName = "com.softwarecorporativo_monitoriaifpe_war_1.0-SNAPSHOTPU";
     private static EntityManagerFactory entityManagerFactory;
     protected EntityManager entityManager;
 
