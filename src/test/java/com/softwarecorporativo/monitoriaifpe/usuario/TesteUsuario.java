@@ -5,41 +5,36 @@
  */
 package com.softwarecorporativo.monitoriaifpe.usuario;
 
+import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
+import com.softwarecorporativo.monitoriaifpe.usuario.impl.UsuarioImpl;
+import com.softwarecorporativo.monitoriaifpe.util.Util;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author EdmilsonS
  */
-public class TesteUsuario {
+public class TesteUsuario extends MonitoriaTestCase {
     
-    public TesteUsuario() {
+    
+    @Test
+    public void testeCadastrarUsuario() {
+        Usuario usuario = new UsuarioImpl();
+        String senha = "admin";
+        usuario.setNome("Edmilson");
+        usuario.setSobrenome("Santana");
+        usuario.setLogin("EdmilsonSantana");
+        usuario.setEmail("edmilsonsantana2@hotmail.com");
+        usuario.setSenha(Util.criptografarSenha(senha, senha, Constantes.CONSTANTE_CRIPTOGRAFIA));
+        super.entityManager.persist(usuario);
+        assertTrue(usuario.getChavePrimaria() > 0);
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+   
 }

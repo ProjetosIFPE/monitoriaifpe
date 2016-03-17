@@ -23,21 +23,25 @@ public abstract class EntidadeNegocioImpl implements EntidadeNegocio, Serializab
     private Date ultimaAlteracao;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long chavePrimaria;
 
+    @Override
     public Date getUltimaAlteracao() {
         return ultimaAlteracao;
     }
 
+    @Override
     public void setUltimaAlteracao(Date ultimaAlteracao) {
         this.ultimaAlteracao = ultimaAlteracao;
     }
 
+    @Override
     public long getChavePrimaria() {
         return chavePrimaria;
     }
 
+    @Override
     public void setChavePrimaria(long chavePrimaria) {
         this.chavePrimaria = chavePrimaria;
     }

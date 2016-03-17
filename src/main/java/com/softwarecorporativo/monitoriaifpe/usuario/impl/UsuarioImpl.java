@@ -11,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
@@ -36,7 +37,7 @@ public class UsuarioImpl extends EntidadeNegocioImpl implements Usuario {
     private String email;
 
     @Column(name = "ULTIMO_ACESSO", nullable = true)
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date ultimoAcesso;
 
     @Transient

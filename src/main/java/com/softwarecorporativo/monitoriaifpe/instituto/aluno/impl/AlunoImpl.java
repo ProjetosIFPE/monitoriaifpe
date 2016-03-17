@@ -21,15 +21,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.hibernate.annotations.Polymorphism;
-import org.hibernate.annotations.PolymorphismType;
 
-;
+
 
 @Entity
 @Table(name = "ALUNO")
 @PrimaryKeyJoinColumn(name = "ALUNO_ID")
-@Polymorphism(type = PolymorphismType.EXPLICIT)
 public class AlunoImpl extends UsuarioImpl implements Aluno {
 
     @Column(name = "ALUNO_MATRICULA", nullable = false)

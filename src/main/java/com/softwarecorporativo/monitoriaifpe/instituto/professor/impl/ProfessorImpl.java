@@ -12,20 +12,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.hibernate.annotations.Polymorphism;
-import org.hibernate.annotations.PolymorphismType;
 
 @Entity
 @Table(name = "PROFESSOR")
 @PrimaryKeyJoinColumn(name = "PROFESSOR_ID")
-@Polymorphism(type = PolymorphismType.EXPLICIT)
 public class ProfessorImpl extends UsuarioImpl implements Professor {
 
     @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY, targetEntity = DisciplinaImpl.class)
     private List<Disciplina> disciplinas = new ArrayList<Disciplina>();
-    ;
-	
-	@Transient
+    
+    @Transient
     private final String PAPEL_PROFESSOR = "PROFESSOR";
 
     public ProfessorImpl() {
