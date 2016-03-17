@@ -46,4 +46,26 @@ public abstract class EntidadeNegocioImpl implements EntidadeNegocio, Serializab
         this.chavePrimaria = chavePrimaria;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 73 * hash + (int) (this.chavePrimaria ^ (this.chavePrimaria >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final EntidadeNegocioImpl other = (EntidadeNegocioImpl) obj;
+        
+        return this.chavePrimaria == other.chavePrimaria;
+    }
+    
+    
+
 }

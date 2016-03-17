@@ -10,7 +10,6 @@ import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.instituto.curso.impl.CursoImpl;
-import com.softwarecorporativo.monitoriaifpe.usuario.impl.UsuarioImpl;
 import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;

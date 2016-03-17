@@ -1,4 +1,4 @@
-package com.softwarecorporativo.monitoriaifpe.instituto.monitor;
+package com.softwarecorporativo.monitoriaifpe.instituto.monitoria;
 
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;

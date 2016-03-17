@@ -1,10 +1,10 @@
-package com.softwarecorporativo.monitoriaifpe.instituto.monitor.impl;
+package com.softwarecorporativo.monitoriaifpe.instituto.monitoria.impl;
 
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.impl.DisciplinaImpl;
-import com.softwarecorporativo.monitoriaifpe.instituto.monitor.Monitoria;
+import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.impl.PeriodoImpl;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
@@ -30,7 +30,7 @@ import javax.persistence.Table;
 @Table(name = "MONITORIA")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITOR_ID"))})
-public class MonitorImpl extends EntidadeNegocioImpl implements Monitoria {
+public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('BOLSISTA', 'VOLUNTARIO')")
@@ -53,13 +53,13 @@ public class MonitorImpl extends EntidadeNegocioImpl implements Monitoria {
     @Column(name = "HORARIO_ENTRADA", nullable = true)
     private String horario_saida;
 
-    @OneToMany(mappedBy = "monitor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, targetEntity = RelatorioFrequenciaImpl.class)
+    @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, targetEntity = RelatorioFrequenciaImpl.class)
     private List<RelatorioFrequencia> relatoriosMensais;
 
     @Column(name = "HABILITADO")
     private boolean habilitado;
 
-    public MonitorImpl() {
+    public MonitoriaImpl() {
         relatoriosMensais = new ArrayList<RelatorioFrequencia>();
     }
 

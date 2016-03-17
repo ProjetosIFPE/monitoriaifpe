@@ -1,8 +1,8 @@
 package com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.impl;
 
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.impl.SemanaImpl;
-import com.softwarecorporativo.monitoriaifpe.instituto.monitor.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.instituto.monitor.impl.MonitorImpl;
+import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
+import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.impl.MonitoriaImpl;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
 
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
@@ -33,25 +33,23 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
     @Column(name = "RELATORIO_MES", nullable = false)
     private int mes;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true, targetEntity = MonitorImpl.class)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, targetEntity = MonitoriaImpl.class)
     @JoinColumn(name = "MONITOR_ID", referencedColumnName = "MONITOR_ID")
-    private Monitoria monitor;
+    private Monitoria monitoria;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "SITUACAO_RELATORIO", columnDefinition = "ENUM('ESPERA', 'APROVADO')")
+    @Column(name = "SITUACAO_RELATORIO", nullable = false, columnDefinition = "ENUM('ESPERA', 'APROVADO')")
     private Situacao situacao;
 
     @OneToMany(mappedBy = "relatorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = SemanaImpl.class)
     private List<Semana> semanas;
 
-    public RelatorioFrequenciaImpl() {
-        semanas = new ArrayList<Semana>();
-    }
 
     /*
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.frequencia.impl.RelatorioFrequencia#getMes()
      */
+    @Override
     public int getMes() {
 
         return mes;
@@ -66,6 +64,7 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.frequencia.impl.RelatorioFrequencia#setMes(int)
      */
+    @Override
     public void setMes(int mes) {
 
         this.mes = mes;
@@ -75,9 +74,10 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.frequencia.impl.RelatorioFrequencia#getMonitor()
      */
-    public Monitoria getMonitor() {
+    @Override
+    public Monitoria getMonitoria() {
 
-        return monitor;
+        return monitoria;
     }
 
     /*
@@ -85,17 +85,21 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
 	 * @see br.com.projetoperiodo.model.relatorio.frequencia.impl.RelatorioFrequencia#setMonitor(br.com.projetoperiodo.model.instituto.monitor.impl.
 	 * MonitorImpl)
      */
-    public void setMonitor(Monitoria monitor) {
+    @Override
+    public void setMonitoria(Monitoria monitoria) {
 
-        this.monitor = monitor;
+        this.monitoria = monitoria;
     }
 
     /*
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.frequencia.impl.RelatorioFrequencia#getSemanas(int)
      */
+    @Override
     public Semana getSemana(int index) {
-
+        if (semanas == null) {
+            semanas = new ArrayList<>();
+        }
         return semanas.get(index);
     }
 
@@ -107,8 +111,11 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.frequencia.impl.RelatorioFrequencia#setSemanas(br.com.projetoperiodo.model.relatorio.semana.Semana)
      */
+    @Override
     public void setSemanas(Semana semana) {
-
+        if (semanas == null) {
+            semanas = new ArrayList<>();
+        }
         this.semanas.add(semana);
     }
 
