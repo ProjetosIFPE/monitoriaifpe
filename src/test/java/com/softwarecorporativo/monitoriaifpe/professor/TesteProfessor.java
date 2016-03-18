@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.software.corporativo.monitoriaifpe.professor;
+package com.softwarecorporativo.monitoriaifpe.professor;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.instituto.curso.Curso;
