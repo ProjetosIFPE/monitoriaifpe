@@ -30,8 +30,11 @@ import com.softwarecorporativo.monitoriaifpe.util.constantes.Semestre;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
 import java.util.Calendar;
 import java.util.Locale;
+import javax.persistence.SynchronizationType;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -42,34 +45,89 @@ import org.junit.Test;
 public class TesteRelatorioFrequencia extends MonitoriaTestCase {
 
     @Test
-    public void testeCadastrarRelatorioFrequencia() {
+    public void testeInserirRelatorioFrequencia() {
         
-        super.entityManager.getTransaction().begin();
+        int index = 0;
+        
         RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
         relatorio = this.prepararCenarioInsercao(relatorio);
+        
         super.entityManager.persist(relatorio);
- 
-        super.entityManager.getTransaction().commit();
-
+        entityManager.flush();
+        entityManager.detach(relatorio);
+     
         assertTrue(relatorio.getChavePrimaria() > 0);
         
         RelatorioFrequencia relatorioObtido = super.entityManager
                 .find(relatorio.getClass(), relatorio.getChavePrimaria());
-        
-        int index = 0;
-        
+      
         assertEquals(relatorio.getChavePrimaria(),relatorioObtido.getChavePrimaria());
         assertEquals(relatorio.getSemana(index), relatorioObtido.getSemana(index));
         assertEquals(relatorio.getSemana(index).getAtividade(index), relatorioObtido.getSemana(index).getAtividade(index));
     }
     
+    @Test
+    public void testeRemoverRelatorioFrequencia() {
+        
+        RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
+        relatorio = this.prepararCenarioInsercao(relatorio);
+        
+        super.entityManager.persist(relatorio);
+        entityManager.flush();
+        entityManager.detach(relatorio);
+        
+        assertTrue(relatorio.getChavePrimaria() > 0);
+        
+        RelatorioFrequencia relatorioObtido = super.entityManager
+                .find(relatorio.getClass(), relatorio.getChavePrimaria());
+        
+        assertNotNull(relatorioObtido);
+        
+        super.entityManager.remove(relatorioObtido);
+        
+        relatorioObtido = super.entityManager
+                .find(relatorio.getClass(), relatorio.getChavePrimaria());
+        
+        assertNull(relatorioObtido);
+    }
+    
+     @Test
+    public void testeAtualizarRelatorioFrequencia() {
+        
+        RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
+        relatorio = this.prepararCenarioInsercao(relatorio);
+        
+        super.entityManager.persist(relatorio);
+        
+        assertTrue(relatorio.getChavePrimaria() > 0);
+        
+        relatorio.setSituacao(Situacao.ESPERA);
+        
+        int quantidadeSemanasPreAlteracao =  relatorio.getSemanas().size();
+        
+        relatorio.getSemanas().clear();
+        
+        entityManager.flush();
+        entityManager.detach(relatorio);
+        
+        RelatorioFrequencia relatorioObtido = super.entityManager
+                .find(relatorio.getClass(), relatorio.getChavePrimaria());
+        
+        int quantidadeSemanasPosAlteracao = relatorioObtido.getSemanas().size();
+        
+        assertEquals(quantidadeSemanasPreAlteracao - 1, quantidadeSemanasPosAlteracao);
+        assertEquals(Situacao.ESPERA, relatorioObtido.getSituacao());
+        
+    }
+    
+   
     private RelatorioFrequencia prepararCenarioInsercao(RelatorioFrequencia relatorio) {
         
         Monitoria monitoria = relatorio.getMonitoria();
         Disciplina disciplina = monitoria.getDisciplina();
         Periodo periodo = monitoria.getPeriodo();
         Aluno aluno = monitoria.getAluno();
-        Curso curso = aluno.getCurso();
+        Curso curso = montarObjetoCurso();
 
         super.entityManager.persist(curso);
         super.entityManager.persist(periodo);

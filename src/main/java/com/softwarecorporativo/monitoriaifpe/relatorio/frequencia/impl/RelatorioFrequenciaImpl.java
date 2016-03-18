@@ -41,9 +41,14 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
     @Column(name = "SITUACAO_RELATORIO", nullable = false, columnDefinition = "ENUM('ESPERA', 'APROVADO')")
     private Situacao situacao;
 
-    @OneToMany(mappedBy = "relatorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = SemanaImpl.class)
+    @OneToMany(mappedBy = "relatorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, targetEntity = SemanaImpl.class)
     private List<Semana> semanas;
 
+    public RelatorioFrequenciaImpl() {
+        
+    }
+
+    
 
     /*
 	 * (non-Javadoc)
@@ -97,14 +102,20 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
      */
     @Override
     public Semana getSemana(int index) {
-        if (semanas == null) {
+        if ( semanas == null ) {
             semanas = new ArrayList<>();
         }
         return semanas.get(index);
     }
-
+    
+    @Override
     public List<Semana> getSemanas() {
         return semanas;
+    }
+    
+    @Override
+    public void setSemanas(List<Semana> semanas) {
+        this.semanas = semanas;
     }
 
     /*
@@ -113,9 +124,10 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
      */
     @Override
     public void setSemanas(Semana semana) {
-        if (semanas == null) {
+        if ( semanas == null ) {
             semanas = new ArrayList<>();
         }
+        semana.setRelatorio(this);
         this.semanas.add(semana);
     }
 

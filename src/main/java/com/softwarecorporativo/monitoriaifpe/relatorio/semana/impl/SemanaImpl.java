@@ -30,20 +30,21 @@ public class SemanaImpl extends EntidadeNegocioImpl implements Semana {
     @Column(name = "SEMANA_OBS", nullable = true)
     private String observacoes;
     @OneToMany(mappedBy = "semana",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.ALL, orphanRemoval = true,
             fetch = FetchType.EAGER, targetEntity = AtividadeImpl.class)
     private List<Atividade> atividades;
     @ManyToOne(fetch = FetchType.LAZY, optional = true, targetEntity = RelatorioFrequenciaImpl.class)
-    @JoinColumn(name = "RELATORIO_ID", referencedColumnName = "RELATORIO_ID")
+    @JoinColumn(name = "RELATORIO_ID",   referencedColumnName = "RELATORIO_ID")
     private RelatorioFrequencia relatorio;
 
     public SemanaImpl() {
-        atividades = new ArrayList<Atividade>();
+      
     }
 
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.semana.impl.Semana#getDescricao()
      */
+    @Override
     public String getDescricao() {
         return this.descricao;
     }
@@ -51,6 +52,7 @@ public class SemanaImpl extends EntidadeNegocioImpl implements Semana {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.semana.impl.Semana#getObservacoes()
      */
+    @Override
     public String getObservacoes() {
         return this.observacoes;
     }
@@ -58,6 +60,7 @@ public class SemanaImpl extends EntidadeNegocioImpl implements Semana {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.semana.impl.Semana#setDescricao(java.lang.String)
      */
+    @Override
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -65,6 +68,7 @@ public class SemanaImpl extends EntidadeNegocioImpl implements Semana {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.semana.impl.Semana#setObservacoes(java.lang.String)
      */
+    @Override
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
     }
@@ -74,7 +78,9 @@ public class SemanaImpl extends EntidadeNegocioImpl implements Semana {
      */
     @Override
     public Atividade getAtividade(int index) {
-
+        if ( atividades == null ) {
+            atividades = new ArrayList<>();
+        }
         return atividades.get(index);
     }
 
@@ -82,17 +88,26 @@ public class SemanaImpl extends EntidadeNegocioImpl implements Semana {
         return this.atividades;
     }
 
+    public void setAtividades(List<Atividade> atividades) {
+        this.atividades = atividades;
+    }
+
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.semana.impl.Semana#setAtividades(br.com.projetoperiodo.model.relatorio.atividade.Atividade)
      */
+    @Override
     public void setAtividades(Atividade atividade) {
-
+        if ( atividades == null ) {
+            atividades = new ArrayList<>();
+        }
+        atividade.setSemana(this);
         this.atividades.add(atividade);
     }
 
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.semana.impl.Semana#getRelatorio()
      */
+    @Override
     public RelatorioFrequencia getRelatorio() {
 
         return relatorio;
@@ -101,6 +116,7 @@ public class SemanaImpl extends EntidadeNegocioImpl implements Semana {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.semana.impl.Semana#setRelatorio(br.com.projetoperiodo.model.relatorio.frequencia.RelatorioFrequencia)
      */
+    @Override
     public void setRelatorio(RelatorioFrequencia relatorio) {
 
         this.relatorio = relatorio;

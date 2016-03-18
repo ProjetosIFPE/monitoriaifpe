@@ -38,6 +38,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#getData()
      */
+    @Override
     public Date getData() {
         return this.data;
     }
@@ -45,6 +46,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#setData(java.util.Date)
      */
+    @Override
     public void setData(Date data) {
         this.data = data;
     }
@@ -52,6 +54,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#getHorarioEntrada()
      */
+    @Override
     public String getHorarioEntrada() {
 
         return horario_entrada;
@@ -60,6 +63,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#setHorarioEntrada(java.lang.String)
      */
+    @Override
     public void setHorarioEntrada(String horarioEntrada) {
 
         this.horario_entrada = horarioEntrada;
@@ -68,6 +72,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#getHorarioSaida()
      */
+    @Override
     public String getHorarioSaida() {
 
         return horario_saida;
@@ -76,6 +81,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#setHorarioSaida(java.lang.String)
      */
+    @Override
     public void setHorarioSaida(String horarioSaida) {
 
         this.horario_saida = horarioSaida;
@@ -84,6 +90,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#getSemana()
      */
+    @Override
     public Semana getSemana() {
 
         return semana;
@@ -92,6 +99,7 @@ public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.relatorio.atividade.impl.Atividade#setSemana(br.com.projetoperiodo.model.relatorio.semana.Semana)
      */
+    @Override
     public void setSemana(Semana semana) {
 
         this.semana = semana;

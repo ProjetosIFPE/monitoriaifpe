@@ -24,12 +24,9 @@ import org.junit.Test;
 public class MonitoriaTestCase {
 
     private static final String PERSISTENCE_UNIT_NAME = "com.softwarecorporativo_monitoriaifpe_war_1.0-SNAPSHOTPU";
-    private static EntityManagerFactory entityManagerFactory;
+
+    protected static EntityManagerFactory entityManagerFactory;
     protected EntityManager entityManager;
-
-    public MonitoriaTestCase() {
-
-    }
 
     @BeforeClass
     public static void setUpClass() {
@@ -38,17 +35,19 @@ public class MonitoriaTestCase {
 
     @AfterClass
     public static void tearDownClass() {
+
         entityManagerFactory.close();
     }
 
     @Before
     public void setUp() {
         entityManager = entityManagerFactory.createEntityManager();
-        
+        entityManager.getTransaction().begin();
     }
 
     @After
     public void tearDown() {
+        entityManager.getTransaction().commit();
         entityManager.close();
     }
 

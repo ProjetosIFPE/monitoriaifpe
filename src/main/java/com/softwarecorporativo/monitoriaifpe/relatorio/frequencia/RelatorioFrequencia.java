@@ -4,6 +4,7 @@ import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
+import java.util.List;
 
 public interface RelatorioFrequencia extends EntidadeNegocio {
 
@@ -16,6 +17,10 @@ public interface RelatorioFrequencia extends EntidadeNegocio {
     void setMonitoria(Monitoria monitoria);
 
     Semana getSemana(int index);
+    
+    List<Semana> getSemanas();
+    
+    void setSemanas(List<Semana> semanas);
 
     void setSemanas(Semana semana);
 
