@@ -34,6 +34,7 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
     @Column(name = "DISCIPLINA_DS", nullable = false)
     private String descricao;
 
+    //Mudar nome por favor!
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = AlunoImpl.class)
     @JoinTable(name = "DISCIPLINA_ALUNO", joinColumns = @JoinColumn(name = "DISCIPLINA_ID"), inverseJoinColumns = @JoinColumn(name = "ALUNO_ID"))
     private List<Aluno> pagantes;
@@ -42,6 +43,7 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
     private Curso curso;
 
+    //Não seria lazy?
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = true, targetEntity = ProfessorImpl.class)
     @JoinColumn(name = "PROFESSOR_ID", referencedColumnName = "PROFESSOR_ID")
     private Professor professor;

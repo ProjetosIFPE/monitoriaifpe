@@ -56,6 +56,7 @@ public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
     @Column(name = "HORARIO_ENTRADA", nullable = true)
     private String horario_saida;
 
+    //O relatório não é uma entidade. Modelagem artificial
     @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, targetEntity = RelatorioFrequenciaImpl.class)
     private List<RelatorioFrequencia> relatoriosMensais;
 

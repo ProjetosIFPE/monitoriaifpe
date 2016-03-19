@@ -15,7 +15,6 @@ import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

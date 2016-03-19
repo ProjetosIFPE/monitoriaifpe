@@ -6,13 +6,10 @@
 package com.softwarecorporativo.monitoriaifpe.monitoria;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
-import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
-import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.impl.DisciplinaImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.impl.MonitoriaImpl;
-import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.impl.PeriodoImpl;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
 import static org.junit.Assert.*;

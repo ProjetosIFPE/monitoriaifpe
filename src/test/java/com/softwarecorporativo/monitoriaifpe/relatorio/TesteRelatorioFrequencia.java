@@ -77,13 +77,6 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
                 .find(relatorio.getClass(), relatorio.getChavePrimaria());
 
         assertNotNull(relatorioObtido);
-
-        super.entityManager.remove(relatorioObtido);
-
-        relatorioObtido = super.entityManager
-                .find(relatorio.getClass(), relatorio.getChavePrimaria());
-
-        assertNull(relatorioObtido);
     }
 
     @Test

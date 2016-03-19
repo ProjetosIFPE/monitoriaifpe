@@ -57,6 +57,7 @@ public class CursoImpl extends EntidadeNegocioImpl implements Curso {
     /*
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.curso.impl.Curso#setDisciplinas(java.util.Collection)
+         * addDisplina
      */
     @Override
     public void setDisciplinas(Disciplina disciplina) {
