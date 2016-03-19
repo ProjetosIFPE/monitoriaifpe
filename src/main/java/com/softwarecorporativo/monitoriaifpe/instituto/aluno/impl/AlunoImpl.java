@@ -9,6 +9,8 @@ import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.impl.Disciplin
 import com.softwarecorporativo.monitoriaifpe.usuario.impl.UsuarioImpl;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -29,11 +31,12 @@ import javax.persistence.Transient;
 @Table(name = "ALUNO")
 @PrimaryKeyJoinColumn(name = "ALUNO_ID")
 @DiscriminatorValue(value = "A")
+@Access(AccessType.FIELD)
 public class AlunoImpl extends UsuarioImpl implements Aluno {
 
     @Column(name = "ALUNO_MATRICULA", nullable = false)
     private String matricula;
-    @ManyToOne(fetch = FetchType.EAGER, optional = true, targetEntity = CursoImpl.class)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, targetEntity = CursoImpl.class)
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
     private Curso curso;
 
@@ -41,7 +44,7 @@ public class AlunoImpl extends UsuarioImpl implements Aluno {
     @JoinTable(name = "DISCIPLINA_ALUNO",
             joinColumns = @JoinColumn(name = "ALUNO_ID"),
             inverseJoinColumns = @JoinColumn(name = "DISCIPLINA_ID"))
-    private List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+    private List<Disciplina> disciplinas;
     
     /* (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.aluno.impl.Aluno#getMatricula()
@@ -84,7 +87,9 @@ public class AlunoImpl extends UsuarioImpl implements Aluno {
      */
     @Override
     public Disciplina getDisciplinas(int index) {
-
+        if ( this.disciplinas == null ) {
+            this.disciplinas = new ArrayList<>();
+        }
         return disciplinas.get(index);
     }
 
@@ -93,7 +98,10 @@ public class AlunoImpl extends UsuarioImpl implements Aluno {
      */
     @Override
     public void setDisciplinas(Disciplina disciplina) {
-
+        if ( this.disciplinas == null ) {
+            this.disciplinas = new ArrayList<>();
+        }
+        disciplina.setPagantes(this);
         this.disciplinas.add(disciplina);
     }
 

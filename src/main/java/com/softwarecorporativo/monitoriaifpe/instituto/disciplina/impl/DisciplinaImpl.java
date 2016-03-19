@@ -8,7 +8,10 @@ import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -25,9 +28,10 @@ import javax.persistence.Table;
 @Table(name = "DISCIPLINA")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "DISCIPLINA_ID"))})
+@Access(AccessType.FIELD)
 public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
 
-    @Column(name = "DISCIPLINA_DS")
+    @Column(name = "DISCIPLINA_DS", nullable = false)
     private String descricao;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = AlunoImpl.class)
@@ -46,6 +50,7 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.disciplina.impl.Disciplina#getDescricao()
      */
+    @Override
     public String getDescricao() {
 
         return descricao;
@@ -55,6 +60,7 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.disciplina.impl.Disciplina#setDescricao(java.lang.String)
      */
+    @Override
     public void setDescricao(String descricao) {
 
         this.descricao = descricao;
@@ -64,8 +70,11 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.disciplina.impl.Disciplina#getPagantes()
      */
+    @Override
     public Aluno getPagantes(int index) {
-
+        if ( this.pagantes == null ) {
+            this.pagantes = new ArrayList<>();
+        }
         return pagantes.get(index);
     }
 
@@ -73,8 +82,12 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.disciplina.impl.Disciplina#setPagantes(java.util.Collection)
      */
+    @Override
     public void setPagantes(Aluno aluno) {
-
+        if ( this.pagantes == null ) {
+            this.pagantes = new ArrayList<>();
+        }
+        aluno.setDisciplinas(this);
         this.pagantes.add(aluno);
     }
 
@@ -82,6 +95,7 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.disciplina.impl.Disciplina#getCurso()
      */
+    @Override
     public Curso getCurso() {
 
         return curso;
@@ -91,6 +105,7 @@ public class DisciplinaImpl extends EntidadeNegocioImpl implements Disciplina {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.disciplina.impl.Disciplina#setCurso(br.com.projetoperiodo.model.instituto.curso.Curso)
      */
+    @Override
     public void setCurso(Curso curso) {
 
         this.curso = curso;

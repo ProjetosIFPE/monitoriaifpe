@@ -29,7 +29,7 @@ public class TesteProfessor extends MonitoriaTestCase {
     
     @Test
     public void testePersistProfessor() {
-        super.entityManager.getTransaction().begin();
+        
         Curso curso = montarObjetoCurso();
         super.entityManager.persist(curso);
         
@@ -38,7 +38,7 @@ public class TesteProfessor extends MonitoriaTestCase {
         disciplina.setCurso(curso);
         super.entityManager.persist(disciplina);
         
-        lista_de_professores = quantidadeProfessores(super.entityManager);
+        lista_de_professores = quantidadeProfessores();
         assertNotNull(lista_de_professores);
         
         int valor_pre_cadastro = lista_de_professores.size();
@@ -47,9 +47,8 @@ public class TesteProfessor extends MonitoriaTestCase {
         professor.setDisciplina(disciplina);
         
         super.entityManager.persist(professor);
-        super.entityManager.getTransaction().commit();
         
-        lista_de_professores = quantidadeProfessores(super.entityManager);
+        lista_de_professores = quantidadeProfessores();
         assertNotNull(lista_de_professores);
         
         int valor_pos_cadastro = lista_de_professores.size();
@@ -84,8 +83,8 @@ public class TesteProfessor extends MonitoriaTestCase {
         return curso;
     }
     
-    private List<ProfessorImpl> quantidadeProfessores(EntityManager entity_manager) {
-        Query query = entity_manager.createQuery(" select u from ProfessorImpl u ");
+    private List<ProfessorImpl> quantidadeProfessores() {
+        Query query = super.entityManager.createQuery(" select u from ProfessorImpl u ");
         List<ProfessorImpl> lista_professores = query.getResultList();
         
         return lista_professores;

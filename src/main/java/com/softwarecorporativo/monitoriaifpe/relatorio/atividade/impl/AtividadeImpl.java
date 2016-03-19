@@ -7,6 +7,8 @@ import com.softwarecorporativo.monitoriaifpe.relatorio.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.impl.SemanaImpl;
 import java.util.Date;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -22,6 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "ATIVIDADE")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "ATIVIDADE_ID"))})
+@Access(AccessType.FIELD)
 public class AtividadeImpl extends EntidadeNegocioImpl implements Atividade {
 
     @Column(name = "HORARIO_SAIDA", nullable = true)

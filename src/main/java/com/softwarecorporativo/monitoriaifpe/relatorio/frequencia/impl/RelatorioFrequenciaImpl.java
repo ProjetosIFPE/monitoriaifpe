@@ -11,6 +11,8 @@ import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
 import com.softwarecorporativo.monitoriaifpe.util.Util;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -28,6 +30,7 @@ import javax.persistence.Table;
 @Table(name = "RELATORIO_FREQUENCIA")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "RELATORIO_ID"))})
+@Access(AccessType.FIELD)
 public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements RelatorioFrequencia {
 
     @Column(name = "RELATORIO_MES", nullable = false)
@@ -44,11 +47,6 @@ public class RelatorioFrequenciaImpl extends EntidadeNegocioImpl implements Rela
     @OneToMany(mappedBy = "relatorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, targetEntity = SemanaImpl.class)
     private List<Semana> semanas;
 
-    public RelatorioFrequenciaImpl() {
-        
-    }
-
-    
 
     /*
 	 * (non-Javadoc)

@@ -2,20 +2,17 @@ package com.softwarecorporativo.monitoriaifpe.usuario.impl;
 
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
 import com.softwarecorporativo.monitoriaifpe.usuario.Usuario;
-import com.sun.scenario.effect.Effect;
-import java.util.Date;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "USUARIO")
@@ -23,6 +20,7 @@ import javax.persistence.TemporalType;
 @DiscriminatorColumn(name = "PAPEL_USUARIO", discriminatorType = DiscriminatorType.STRING, length = 1)
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))})
+@Access(AccessType.FIELD)
 public abstract class UsuarioImpl extends EntidadeNegocioImpl implements Usuario {
 
     @Column(name = "USUARIO_NOME", nullable = false)

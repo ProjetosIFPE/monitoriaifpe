@@ -1,14 +1,11 @@
 package com.softwarecorporativo.monitoriaifpe.util;
 
-import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
 
 public class Util {
 

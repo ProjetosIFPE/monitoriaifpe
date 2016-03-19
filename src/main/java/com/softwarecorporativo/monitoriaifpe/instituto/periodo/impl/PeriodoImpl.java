@@ -3,6 +3,8 @@ package com.softwarecorporativo.monitoriaifpe.instituto.periodo.impl;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.negocio.impl.EntidadeNegocioImpl;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Semestre;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -15,13 +17,14 @@ import javax.persistence.Table;
 @Table(name = "PERIODO")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "PERIODO_ID"))})
+@Access(AccessType.FIELD)
 public class PeriodoImpl extends EntidadeNegocioImpl implements Periodo {
 
-    @Column(name = "PERIODO_ANO")
+    @Column(name = "PERIODO_ANO", nullable = false)
     private int ano;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('PRIMEIRO', 'SEGUNDO')", name = "SEMESTRE")
+    @Column(columnDefinition = "ENUM('PRIMEIRO', 'SEGUNDO')", name = "SEMESTRE", nullable = false)
     private Semestre semestre;
 
     /* (non-Javadoc)

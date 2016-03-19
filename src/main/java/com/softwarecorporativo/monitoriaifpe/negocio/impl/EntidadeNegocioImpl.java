@@ -24,7 +24,7 @@ public abstract class EntidadeNegocioImpl implements EntidadeNegocio, Serializab
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long chavePrimaria;
+    protected Long chavePrimaria;
 
     @Override
     public Date getUltimaAlteracao() {
@@ -54,18 +54,16 @@ public abstract class EntidadeNegocioImpl implements EntidadeNegocio, Serializab
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
+    public boolean equals(Object object) {
+        if (!(object instanceof EntidadeNegocioImpl)) {
             return false;
         }
-        final EntidadeNegocioImpl other = (EntidadeNegocioImpl) obj;
-        
-        return this.chavePrimaria == other.chavePrimaria;
+        final EntidadeNegocioImpl other = (EntidadeNegocioImpl) object;
+
+        if ((this.chavePrimaria == null && other.chavePrimaria != null) || (this.chavePrimaria != null && !this.chavePrimaria.equals(other.chavePrimaria))) {
+            return false;
+        }
+        return true;
     }
-    
-    
 
 }

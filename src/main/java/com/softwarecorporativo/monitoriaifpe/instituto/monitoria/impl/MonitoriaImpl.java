@@ -13,6 +13,8 @@ import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
 import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -30,10 +32,11 @@ import javax.persistence.Table;
 @Table(name = "MONITORIA")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITOR_ID"))})
+@Access(AccessType.FIELD)
 public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('BOLSISTA', 'VOLUNTARIO')")
+    @Column(columnDefinition = "ENUM('BOLSISTA', 'VOLUNTARIO')", nullable = false)
     private Modalidade modalidade;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false, targetEntity = DisciplinaImpl.class)
@@ -59,14 +62,13 @@ public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
     @Column(name = "HABILITADO")
     private boolean habilitado;
 
-    public MonitoriaImpl() {
-        relatoriosMensais = new ArrayList<RelatorioFrequencia>();
-    }
+ 
 
     /*
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.monitor.impl.Monitor#getModalidade()
      */
+    @Override
     public Modalidade getModalidade() {
 
         return modalidade;
@@ -76,6 +78,7 @@ public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.monitor.impl.Monitor#setModalidade(br.com.projetoperiodo.util.constantes.enumeracoes.Modalidade)
      */
+    @Override
     public void setModalidade(Modalidade modalidade) {
 
         this.modalidade = modalidade;
@@ -85,6 +88,7 @@ public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.monitor.impl.Monitor#getDisciplina()
      */
+    @Override
     public Disciplina getDisciplina() {
 
         return disciplina;
@@ -94,6 +98,7 @@ public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
 	 * (non-Javadoc)
 	 * @see br.com.projetoperiodo.model.instituto.monitor.impl.Monitor#setDisciplina(br.com.projetoperiodo.model.instituto.disciplina.Disciplina)
      */
+    @Override
     public void setDisciplina(Disciplina disciplina) {
 
         this.disciplina = disciplina;
@@ -105,7 +110,9 @@ public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
      */
     @Override
     public RelatorioFrequencia getRelatoriosMensais(int index) {
-
+        if ( this.relatoriosMensais == null ) {
+            this.relatoriosMensais = new ArrayList<>();
+        }
         return relatoriosMensais.get(index);
     }
 
@@ -115,7 +122,10 @@ public class MonitoriaImpl extends EntidadeNegocioImpl implements Monitoria {
      */
     @Override
     public void setRelatoriosMensais(RelatorioFrequencia relatorio) {
-
+        if ( this.relatoriosMensais == null ) {
+            this.relatoriosMensais = new ArrayList<>();
+        }
+        relatorio.setMonitoria(this);
         this.relatoriosMensais.add(relatorio);
     }
 

@@ -27,12 +27,12 @@ public class TesteAluno extends MonitoriaTestCase {
 
     @Test
     public void testePersistAluno() {
-        super.entityManager.getTransaction().begin();
+        
         List<AlunoImpl> lista_de_alunos;
         Curso curso = montarObjetoCurso();
         super.entityManager.persist(curso);
 
-        lista_de_alunos = quantidadeAlunos(super.entityManager);
+        lista_de_alunos = quantidadeAlunos();
         assertNotNull(lista_de_alunos);
 
         int valor_pre_cadastro = lista_de_alunos.size();
@@ -41,9 +41,9 @@ public class TesteAluno extends MonitoriaTestCase {
         aluno.setCurso(curso);
 
         super.entityManager.persist(aluno);
-        super.entityManager.getTransaction().commit();
+        
 
-        lista_de_alunos = quantidadeAlunos(super.entityManager);
+        lista_de_alunos = quantidadeAlunos();
         assertNotNull(lista_de_alunos);
 
         int valor_pos_cadastro = lista_de_alunos.size();
@@ -65,8 +65,8 @@ public class TesteAluno extends MonitoriaTestCase {
         return aluno_criado;
     }
 
-    private List<AlunoImpl> quantidadeAlunos(EntityManager entity_manager) {
-        Query query = entity_manager.createQuery(" select u from AlunoImpl u ");
+    private List<AlunoImpl> quantidadeAlunos() {
+        Query query = super.entityManager.createQuery(" select u from AlunoImpl u ");
         List<AlunoImpl> lista_alunos = query.getResultList();
 
         return lista_alunos;

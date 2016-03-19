@@ -8,10 +8,6 @@ package com.softwarecorporativo.monitoriaifpe.relatorio;
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
-import com.softwarecorporativo.monitoriaifpe.instituto.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.instituto.curso.impl.CursoImpl;
-import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
-import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.impl.DisciplinaImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.impl.MonitoriaImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
@@ -22,16 +18,9 @@ import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequ
 import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.impl.RelatorioFrequenciaImpl;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.impl.SemanaImpl;
-import com.softwarecorporativo.monitoriaifpe.util.Util;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.Semestre;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
 import java.util.Calendar;
-import java.util.Locale;
-import javax.persistence.SynchronizationType;
-import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -44,101 +33,90 @@ import org.junit.Test;
  */
 public class TesteRelatorioFrequencia extends MonitoriaTestCase {
 
+    @Override
+    public void setUp() {
+        super.setUp(); 
+        this.prepararCenario();
+    }
+
+    
     @Test
     public void testeInserirRelatorioFrequencia() {
-        
+
         int index = 0;
-        
+
         RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
-        relatorio = this.prepararCenarioInsercao(relatorio);
-        
+
         super.entityManager.persist(relatorio);
         entityManager.flush();
         entityManager.detach(relatorio);
-     
+
         assertTrue(relatorio.getChavePrimaria() > 0);
-        
+
         RelatorioFrequencia relatorioObtido = super.entityManager
                 .find(relatorio.getClass(), relatorio.getChavePrimaria());
-      
-        assertEquals(relatorio.getChavePrimaria(),relatorioObtido.getChavePrimaria());
+
+        assertEquals(relatorio, relatorioObtido);
         assertEquals(relatorio.getSemana(index), relatorioObtido.getSemana(index));
         assertEquals(relatorio.getSemana(index).getAtividade(index), relatorioObtido.getSemana(index).getAtividade(index));
+        assertEquals(relatorio.getMonitoria(), relatorioObtido.getMonitoria());
     }
-    
+
     @Test
     public void testeRemoverRelatorioFrequencia() {
-        
+
         RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
-        relatorio = this.prepararCenarioInsercao(relatorio);
-        
+
         super.entityManager.persist(relatorio);
         entityManager.flush();
         entityManager.detach(relatorio);
-        
+
         assertTrue(relatorio.getChavePrimaria() > 0);
-        
+
         RelatorioFrequencia relatorioObtido = super.entityManager
                 .find(relatorio.getClass(), relatorio.getChavePrimaria());
-        
+
         assertNotNull(relatorioObtido);
-        
+
         super.entityManager.remove(relatorioObtido);
-        
+
         relatorioObtido = super.entityManager
                 .find(relatorio.getClass(), relatorio.getChavePrimaria());
-        
+
         assertNull(relatorioObtido);
     }
-    
-     @Test
+
+    @Test
     public void testeAtualizarRelatorioFrequencia() {
-        
+
         RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
-        relatorio = this.prepararCenarioInsercao(relatorio);
-        
+
         super.entityManager.persist(relatorio);
-        
+
         assertTrue(relatorio.getChavePrimaria() > 0);
-        
+
         relatorio.setSituacao(Situacao.ESPERA);
-        
-        int quantidadeSemanasPreAlteracao =  relatorio.getSemanas().size();
-        
+
+        int quantidadeSemanasPreAlteracao = relatorio.getSemanas().size();
+
         relatorio.getSemanas().clear();
-        
+
         entityManager.flush();
         entityManager.detach(relatorio);
-        
+
         RelatorioFrequencia relatorioObtido = super.entityManager
                 .find(relatorio.getClass(), relatorio.getChavePrimaria());
-        
+
         int quantidadeSemanasPosAlteracao = relatorioObtido.getSemanas().size();
-        
+
         assertEquals(quantidadeSemanasPreAlteracao - 1, quantidadeSemanasPosAlteracao);
         assertEquals(Situacao.ESPERA, relatorioObtido.getSituacao());
-        
+
     }
-    
-   
-    private RelatorioFrequencia prepararCenarioInsercao(RelatorioFrequencia relatorio) {
-        
-        Monitoria monitoria = relatorio.getMonitoria();
-        Disciplina disciplina = monitoria.getDisciplina();
-        Periodo periodo = monitoria.getPeriodo();
-        Aluno aluno = monitoria.getAluno();
-        Curso curso = montarObjetoCurso();
 
-        super.entityManager.persist(curso);
-        super.entityManager.persist(periodo);
+    private void prepararCenario() {
 
-        aluno.setCurso(curso);
-        disciplina.setCurso(curso);
-
-        super.entityManager.persist(aluno);
-        super.entityManager.persist(disciplina);
-        super.entityManager.persist(monitoria);
-        return relatorio;
+        super.entityManager.persist(montarObjetoMonitoria());
     }
 
     private RelatorioFrequencia montarObjetoRelatorioFrequencia() {
@@ -146,7 +124,8 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
         relatorio.setMes(01);
         relatorio.setSituacao(Situacao.APROVADO);
         relatorio.setSemanas(montarObjetoSemana());
-        relatorio.setMonitoria(montarObjetoMonitoria());
+        Monitoria monitoria = super.entityManager.find(MonitoriaImpl.class, 1L);
+        relatorio.setMonitoria(monitoria);
         return relatorio;
     }
 
@@ -168,43 +147,13 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
 
     private Monitoria montarObjetoMonitoria() {
         Monitoria monitoria = new MonitoriaImpl();
-        monitoria.setAluno(montarObjetoAluno());
-        monitoria.setDisciplina(montarObjetoDisciplina());
+        Aluno aluno = super.entityManager.find(AlunoImpl.class, 1L);
+        monitoria.setAluno(aluno);
+        monitoria.setDisciplina(aluno.getDisciplinas(0));
         monitoria.setModalidade(Modalidade.BOLSISTA);
-        monitoria.setPeriodo(montarObjetoPeriodo());
+        Periodo periodo = super.entityManager.find(PeriodoImpl.class, 1L);
+        monitoria.setPeriodo(periodo);
         return monitoria;
-    }
-
-    private Aluno montarObjetoAluno() {
-        Aluno aluno = new AlunoImpl();
-        String senha = "alunoteste";
-        aluno.setNome("Aluno");
-        aluno.setSobrenome("Teste");
-        aluno.setLogin("AlunoTeste");
-        aluno.setMatricula("00001Y6-AA0000");
-        aluno.setEmail("aluno_teste@gmail.com");
-        aluno.setSenha(Util.criptografarSenha(senha, senha, Constantes.CONSTANTE_CRIPTOGRAFIA));
-        return aluno;
-    }
-
-    private Periodo montarObjetoPeriodo() {
-        Periodo periodo = new PeriodoImpl();
-        periodo.setAno(2015);
-        periodo.setSemestre(Semestre.SEGUNDO);
-        return periodo;
-    }
-
-    private Disciplina montarObjetoDisciplina() {
-        Disciplina disciplina = new DisciplinaImpl();
-        disciplina.setDescricao("Desenvolvimento de Software Corporativo");
-        return disciplina;
-    }
-
-    private Curso montarObjetoCurso() {
-        Curso curso = new CursoImpl();
-        curso.setDescricao("Análise de Sistemas");
-        curso.setModalidade(Grau.SUPERIOR);
-        return curso;
     }
 
 }
