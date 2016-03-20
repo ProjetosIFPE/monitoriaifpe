@@ -34,7 +34,6 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
         this.prepararCenarioInsercao();
     }
 
-    
     @Test
     public void testeInserirRelatorioFrequencia() {
         EntityTransaction transaction = null;
@@ -45,7 +44,7 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
 
             transaction = super.entityManager.getTransaction();
             transaction.begin();
-      
+
             RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
 
             super.entityManager.persist(relatorio);
@@ -63,14 +62,14 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
             assertEquals(relatorio.getSemana(index).getAtividade(index), relatorioObtido.getSemana(index).getAtividade(index));
             assertEquals(relatorio.getMonitoria(), relatorioObtido.getMonitoria());
 
-        } catch (Exception e) {   
+        } catch (Exception e) {
             fail();
             if (transaction != null && transaction.isActive()) {
                 logger.log(Level.FATAL, "Cancelando Transação com erro. Mensagem: " + e.getMessage());
                 transaction.rollback();
                 logger.info("Transação Cancelada.");
             }
-            
+
         }
 
     }
@@ -82,15 +81,13 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
             transaction.begin();
             super.entityManager.persist(montarObjetoMonitoria());
             transaction.commit();
-        }catch(Exception e ) {
+        } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 logger.log(Level.FATAL, "Cancelando Transação com erro. Mensagem: " + e.getMessage());
                 transaction.rollback();
                 logger.info("Transação Cancelada.");
             }
         }
-        
-        
 
     }
 
