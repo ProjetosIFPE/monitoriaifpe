@@ -6,16 +6,18 @@
 package com.softwarecorporativo.monitoriaifpe.aluno;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
-import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
+import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.instituto.curso.impl.CursoImpl;
 import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import java.util.List;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import org.apache.log4j.Level;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -26,33 +28,49 @@ public class TesteAluno extends MonitoriaTestCase {
 
     @Test
     public void testePersistAluno() {
-        
-        List<AlunoImpl> lista_de_alunos;
-        Curso curso = montarObjetoCurso();
-        super.entityManager.persist(curso);
 
-        lista_de_alunos = quantidadeAlunos();
-        assertNotNull(lista_de_alunos);
+        EntityTransaction transaction = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
 
-        int valor_pre_cadastro = lista_de_alunos.size();
+            List<Aluno> lista_de_alunos;
+            Curso curso = montarObjetoCurso();
 
-        AlunoImpl aluno = montarObjetoAluno();
-        aluno.setCurso(curso);
+            super.entityManager.persist(curso);
 
-        super.entityManager.persist(aluno);
-        
+            lista_de_alunos = quantidadeAlunos();
+            assertNotNull(lista_de_alunos);
 
-        lista_de_alunos = quantidadeAlunos();
-        assertNotNull(lista_de_alunos);
+            int valor_pre_cadastro = lista_de_alunos.size();
 
-        int valor_pos_cadastro = lista_de_alunos.size();
+            Aluno aluno = montarObjetoAluno();
+            aluno.setCurso(curso);
 
-        assertEquals(valor_pre_cadastro + 1, valor_pos_cadastro);
+            super.entityManager.persist(aluno);
+
+            lista_de_alunos = quantidadeAlunos();
+            assertNotNull(lista_de_alunos);
+
+            int valor_pos_cadastro = lista_de_alunos.size();
+
+            transaction.commit();
+
+            assertEquals(valor_pre_cadastro + 1, valor_pos_cadastro);
+        } catch (Exception e) {
+            fail();
+            if (transaction != null && transaction.isActive()) {
+                logger.log(Level.FATAL, "Cancelando Transação com erro. Mensagem: " + e.getMessage());
+                transaction.rollback();
+                logger.info("Transação Cancelada.");
+            }
+
+        }
 
     }
 
-    private AlunoImpl montarObjetoAluno() {
-        AlunoImpl aluno_criado = new AlunoImpl();
+    private Aluno montarObjetoAluno() {
+        Aluno aluno_criado = new Aluno();
         aluno_criado.setNome("Douglas");
         aluno_criado.setSobrenome("Albuquerque");
         aluno_criado.setEmail("douglasalbuquerque@gmail.com");
@@ -64,15 +82,15 @@ public class TesteAluno extends MonitoriaTestCase {
         return aluno_criado;
     }
 
-    private List<AlunoImpl> quantidadeAlunos() {
-        Query query = super.entityManager.createQuery(" select u from AlunoImpl u ");
-        List<AlunoImpl> lista_alunos = query.getResultList();
+    private List<Aluno> quantidadeAlunos() {
+        Query query = super.entityManager.createQuery(" select u from Aluno u ");
+        List<Aluno> lista_alunos = query.getResultList();
 
         return lista_alunos;
     }
 
     private Curso montarObjetoCurso() {
-        Curso curso = new CursoImpl();
+        Curso curso = new Curso();
         curso.setDescricao("Tec Edificacoes");
         curso.setModalidade(Grau.TECNICO);
         return curso;

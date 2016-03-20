@@ -7,24 +7,19 @@ package com.softwarecorporativo.monitoriaifpe.relatorio;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.instituto.aluno.impl.AlunoImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.impl.MonitoriaImpl;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
-import com.softwarecorporativo.monitoriaifpe.instituto.periodo.impl.PeriodoImpl;
 import com.softwarecorporativo.monitoriaifpe.relatorio.atividade.Atividade;
-import com.softwarecorporativo.monitoriaifpe.relatorio.atividade.impl.AtividadeImpl;
 import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
-import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.impl.RelatorioFrequenciaImpl;
 import com.softwarecorporativo.monitoriaifpe.relatorio.semana.Semana;
-import com.softwarecorporativo.monitoriaifpe.relatorio.semana.impl.SemanaImpl;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
 import java.util.Calendar;
+import javax.persistence.EntityTransaction;
+import org.apache.log4j.Level;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -35,116 +30,103 @@ public class TesteRelatorioFrequencia extends MonitoriaTestCase {
 
     @Override
     public void setUp() {
-        super.setUp(); 
-        this.prepararCenario();
+        super.setUp();
+        this.prepararCenarioInsercao();
     }
 
     
     @Test
     public void testeInserirRelatorioFrequencia() {
+        EntityTransaction transaction = null;
 
-        int index = 0;
+        try {
 
-        RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
+            int index = 0;
 
-        super.entityManager.persist(relatorio);
-        entityManager.flush();
-        entityManager.detach(relatorio);
+            transaction = super.entityManager.getTransaction();
+            transaction.begin();
+      
+            RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
 
-        assertTrue(relatorio.getChavePrimaria() > 0);
+            super.entityManager.persist(relatorio);
 
-        RelatorioFrequencia relatorioObtido = super.entityManager
-                .find(relatorio.getClass(), relatorio.getChavePrimaria());
+            assertTrue(relatorio.getChavePrimaria() > 0);
 
-        assertEquals(relatorio, relatorioObtido);
-        assertEquals(relatorio.getSemana(index), relatorioObtido.getSemana(index));
-        assertEquals(relatorio.getSemana(index).getAtividade(index), relatorioObtido.getSemana(index).getAtividade(index));
-        assertEquals(relatorio.getMonitoria(), relatorioObtido.getMonitoria());
-    }
+            entityManager.detach(relatorio);
+            RelatorioFrequencia relatorioObtido = super.entityManager
+                    .find(relatorio.getClass(), relatorio.getChavePrimaria());
 
-    @Test
-    public void testeRemoverRelatorioFrequencia() {
+            transaction.commit();
 
-        RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
+            assertEquals(relatorio, relatorioObtido);
+            assertEquals(relatorio.getSemana(index), relatorioObtido.getSemana(index));
+            assertEquals(relatorio.getSemana(index).getAtividade(index), relatorioObtido.getSemana(index).getAtividade(index));
+            assertEquals(relatorio.getMonitoria(), relatorioObtido.getMonitoria());
 
-        super.entityManager.persist(relatorio);
-        entityManager.flush();
-        entityManager.detach(relatorio);
-
-        assertTrue(relatorio.getChavePrimaria() > 0);
-
-        RelatorioFrequencia relatorioObtido = super.entityManager
-                .find(relatorio.getClass(), relatorio.getChavePrimaria());
-
-        assertNotNull(relatorioObtido);
-    }
-
-    @Test
-    public void testeAtualizarRelatorioFrequencia() {
-
-        RelatorioFrequencia relatorio = montarObjetoRelatorioFrequencia();
-
-        super.entityManager.persist(relatorio);
-
-        assertTrue(relatorio.getChavePrimaria() > 0);
-
-        relatorio.setSituacao(Situacao.ESPERA);
-
-        int quantidadeSemanasPreAlteracao = relatorio.getSemanas().size();
-
-        relatorio.getSemanas().clear();
-
-        entityManager.flush();
-        entityManager.detach(relatorio);
-
-        RelatorioFrequencia relatorioObtido = super.entityManager
-                .find(relatorio.getClass(), relatorio.getChavePrimaria());
-
-        int quantidadeSemanasPosAlteracao = relatorioObtido.getSemanas().size();
-
-        assertEquals(quantidadeSemanasPreAlteracao - 1, quantidadeSemanasPosAlteracao);
-        assertEquals(Situacao.ESPERA, relatorioObtido.getSituacao());
+        } catch (Exception e) {   
+            fail();
+            if (transaction != null && transaction.isActive()) {
+                logger.log(Level.FATAL, "Cancelando Transação com erro. Mensagem: " + e.getMessage());
+                transaction.rollback();
+                logger.info("Transação Cancelada.");
+            }
+            
+        }
 
     }
 
-    private void prepararCenario() {
+    private void prepararCenarioInsercao() {
+        EntityTransaction transaction = null;
+        try {
+            transaction = super.entityManager.getTransaction();
+            transaction.begin();
+            super.entityManager.persist(montarObjetoMonitoria());
+            transaction.commit();
+        }catch(Exception e ) {
+            if (transaction != null && transaction.isActive()) {
+                logger.log(Level.FATAL, "Cancelando Transação com erro. Mensagem: " + e.getMessage());
+                transaction.rollback();
+                logger.info("Transação Cancelada.");
+            }
+        }
+        
+        
 
-        super.entityManager.persist(montarObjetoMonitoria());
     }
 
     private RelatorioFrequencia montarObjetoRelatorioFrequencia() {
-        RelatorioFrequencia relatorio = new RelatorioFrequenciaImpl();
+        RelatorioFrequencia relatorio = new RelatorioFrequencia();
         relatorio.setMes(01);
         relatorio.setSituacao(Situacao.APROVADO);
-        relatorio.setSemanas(montarObjetoSemana());
-        Monitoria monitoria = super.entityManager.find(MonitoriaImpl.class, 1L);
+        relatorio.addSemana(montarObjetoSemana());
+        Monitoria monitoria = super.entityManager.find(Monitoria.class, 1L);
         relatorio.setMonitoria(monitoria);
         return relatorio;
     }
 
     private Semana montarObjetoSemana() {
-        Semana semana = new SemanaImpl();
+        Semana semana = new Semana();
         semana.setDescricao("Semana de Teste");
         semana.setObservacoes("Observações de Teste");
-        semana.setAtividades(montarObjetoAtividade());
+        semana.addAtividade(montarObjetoAtividade());
         return semana;
     }
 
     private Atividade montarObjetoAtividade() {
-        Atividade atividade = new AtividadeImpl();
+        Atividade atividade = new Atividade();
         atividade.setData(Calendar.getInstance().getTime());
-        atividade.setHorarioEntrada("14:00");
-        atividade.setHorarioSaida("18:00");
+        atividade.setHorarioEntrada(Calendar.getInstance().getTime());
+        atividade.setHorarioSaida(Calendar.getInstance().getTime());
         return atividade;
     }
 
     private Monitoria montarObjetoMonitoria() {
-        Monitoria monitoria = new MonitoriaImpl();
-        Aluno aluno = super.entityManager.find(AlunoImpl.class, 1L);
+        Monitoria monitoria = new Monitoria();
+        Aluno aluno = super.entityManager.find(Aluno.class, 1L);
         monitoria.setAluno(aluno);
-        monitoria.setDisciplina(aluno.getDisciplinas(0));
+        monitoria.setDisciplina(aluno.getDisciplina(0));
         monitoria.setModalidade(Modalidade.BOLSISTA);
-        Periodo periodo = super.entityManager.find(PeriodoImpl.class, 1L);
+        Periodo periodo = super.entityManager.find(Periodo.class, 1L);
         monitoria.setPeriodo(periodo);
         return monitoria;
     }

@@ -4,43 +4,137 @@ import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
-import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
+import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-public interface Monitoria extends EntidadeNegocio {
+@Entity
+@Table(name = "MONITORIA")
+@AttributeOverrides({
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITOR_ID"))})
+@Access(AccessType.FIELD)
+public class Monitoria extends EntidadeNegocio  {
 
-    Modalidade getModalidade();
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Modalidade modalidade;
 
-    void setModalidade(Modalidade modalidade);
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "DISCIPLINA_ID", referencedColumnName = "DISCIPLINA_ID")
+    private Disciplina disciplina;
 
-    Disciplina getDisciplina();
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
+    private Aluno aluno;
 
-    void setDisciplina(Disciplina disciplina);
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
+    private Periodo periodo;
 
-    RelatorioFrequencia getRelatoriosMensais(int index);
+    //O relatório não é uma entidade. Modelagem artificial
+    @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RelatorioFrequencia> relatoriosMensais;
 
-    void setRelatoriosMensais(RelatorioFrequencia relatorio);
+    @Column(name = "HABILITADO")
+    private boolean habilitado;
 
-    Periodo getPeriodo();
+ 
+    public Modalidade getModalidade() {
 
-    void setPeriodo(Periodo periodo);
+        return modalidade;
+    }
 
-    boolean isHabilitado();
+ 
+    public void setModalidade(Modalidade modalidade) {
 
-    void setHabilitado(boolean habilitado);
+        this.modalidade = modalidade;
+    }
 
-    void setAluno(Aluno aluno);
+   
+    public Disciplina getDisciplina() {
 
-    Aluno getAluno();
+        return disciplina;
+    }
 
-    String getHorarioEntrada();
+ 
+    public void setDisciplina(Disciplina disciplina) {
 
-    String getHorarioSaida();
+        this.disciplina = disciplina;
+    }
 
-    void setHorarioEntrada(String horario);
+   
+    public RelatorioFrequencia getRelatorioFrequencia(int index) {
+        if ( this.relatoriosMensais == null ) {
+            this.relatoriosMensais = new ArrayList<>();
+        }
+        return relatoriosMensais.get(index);
+    }
 
-    void setHorarioSaida(String horario);
+  
+    public void addRelatorio(RelatorioFrequencia relatorio) {
+        if ( this.relatoriosMensais == null ) {
+            this.relatoriosMensais = new ArrayList<>();
+        }
+        relatorio.setMonitoria(this);
+        this.relatoriosMensais.add(relatorio);
+    }
 
-    long getCargaDiariaEmMinutos();
+    
+    public Periodo getPeriodo() {
+
+        return periodo;
+    }
+
+    
+    public void setPeriodo(Periodo periodo) {
+
+        this.periodo = periodo;
+    }
+
+    
+    public boolean isHabilitado() {
+
+        return habilitado;
+    }
+
+    
+    public void setHabilitado(boolean habilitado) {
+
+        this.habilitado = habilitado;
+    }
+
+    
+    public void setAluno(Aluno aluno) {
+
+        this.aluno = aluno;
+
+    }
+
+    
+    public Aluno getAluno() {
+
+        return aluno;
+    }
+
+   
+  
+
+   
+    
 
 }
