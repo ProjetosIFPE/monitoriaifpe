@@ -13,7 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PERIODO")
+@Table(name = "TB_PERIODO")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "PERIODO_ID"))})
 @Access(AccessType.FIELD)

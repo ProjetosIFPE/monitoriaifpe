@@ -25,7 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DISCIPLINA")
+@Table(name = "TB_DISCIPLINA")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "DISCIPLINA_ID"))})
 @Access(AccessType.FIELD)
@@ -35,7 +35,7 @@ public class Disciplina extends EntidadeNegocio {
     private String descricao;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "DISCIPLINA_ALUNO", joinColumns = @JoinColumn(name = "DISCIPLINA_ID"), inverseJoinColumns = @JoinColumn(name = "ALUNO_ID"))
+    @JoinTable(name = "TB_DISCIPLINA_ALUNO", joinColumns = @JoinColumn(name = "DISCIPLINA_ID"), inverseJoinColumns = @JoinColumn(name = "ALUNO_ID"))
     private List<Aluno> alunos;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

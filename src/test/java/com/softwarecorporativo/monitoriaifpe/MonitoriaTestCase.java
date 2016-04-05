@@ -5,16 +5,20 @@
  */
 package com.softwarecorporativo.monitoriaifpe;
 
+import com.softwarecorporativo.monitoriaifpe.util.DbUnitUtil;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 /**
  *
@@ -23,19 +27,24 @@ import org.junit.BeforeClass;
 public class MonitoriaTestCase {
 
     private static final String PERSISTENCE_UNIT_NAME = "com.softwarecorporativo_monitoriaifpe_war_1.0-SNAPSHOTPU";
-    protected Logger logger;
+    protected static final Logger LOGGER = Logger.getGlobal();
     private static EntityManagerFactory entityManagerFactory;
+    @Rule
+    public final TestName name;
     protected EntityManager entityManager;
+    protected EntityTransaction entityTransaction;
 
     public MonitoriaTestCase() {
-        logger = Logger.getLogger(getClass());
-      
+        this.name = new TestName();
     }
 
     @BeforeClass
     public static void setUpClass() {
+        LOGGER.setLevel(Level.INFO);
         entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
+
+   
 
     @AfterClass
     public static void tearDownClass() {
@@ -48,18 +57,34 @@ public class MonitoriaTestCase {
     @Before
     public void setUp() {
         try {
+            prepararCenario();
             entityManager = entityManagerFactory.createEntityManager();
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
         } catch (Exception e) {
-            logger.log(Level.FATAL, "Não foi possível criar o EntityManager. Mensagem: " + e.getMessage());
-            fail();
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            fail("Não foi possível iniciar a transação. Mensagem " + e.getMessage());
         }
 
     }
 
+    protected void prepararCenario() {
+        DbUnitUtil.inserirDados();
+    }
+
     @After
     public void tearDown() {
-        if (entityManager != null) {
-            entityManager.close();
+        try {
+            if (entityTransaction != null && entityTransaction.isActive()) {
+                entityTransaction.commit();
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            entityTransaction.rollback();
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
         }
 
     }

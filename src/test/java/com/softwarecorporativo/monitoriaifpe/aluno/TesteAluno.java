@@ -12,12 +12,9 @@ import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import java.util.List;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import org.apache.log4j.Level;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -29,43 +26,27 @@ public class TesteAluno extends MonitoriaTestCase {
     @Test
     public void testePersistAluno() {
 
-        EntityTransaction transaction = null;
-        try {
-            transaction = entityManager.getTransaction();
-            transaction.begin();
+        List<Aluno> lista_de_alunos;
+        Curso curso = montarObjetoCurso();
 
-            List<Aluno> lista_de_alunos;
-            Curso curso = montarObjetoCurso();
+        super.entityManager.persist(curso);
 
-            super.entityManager.persist(curso);
+        lista_de_alunos = quantidadeAlunos();
+        assertNotNull(lista_de_alunos);
 
-            lista_de_alunos = quantidadeAlunos();
-            assertNotNull(lista_de_alunos);
+        int valor_pre_cadastro = lista_de_alunos.size();
 
-            int valor_pre_cadastro = lista_de_alunos.size();
+        Aluno aluno = montarObjetoAluno();
+        aluno.setCurso(curso);
 
-            Aluno aluno = montarObjetoAluno();
-            aluno.setCurso(curso);
+        super.entityManager.persist(aluno);
 
-            super.entityManager.persist(aluno);
+        lista_de_alunos = quantidadeAlunos();
+        assertNotNull(lista_de_alunos);
 
-            lista_de_alunos = quantidadeAlunos();
-            assertNotNull(lista_de_alunos);
+        int valor_pos_cadastro = lista_de_alunos.size();
 
-            int valor_pos_cadastro = lista_de_alunos.size();
-
-            transaction.commit();
-
-            assertEquals(valor_pre_cadastro + 1, valor_pos_cadastro);
-        } catch (Exception e) {
-            fail();
-            if (transaction != null && transaction.isActive()) {
-                logger.log(Level.FATAL, "Cancelando Transação com erro. Mensagem: " + e.getMessage());
-                transaction.rollback();
-                logger.info("Transação Cancelada.");
-            }
-
-        }
+        assertEquals(valor_pre_cadastro + 1, valor_pos_cadastro);
 
     }
 

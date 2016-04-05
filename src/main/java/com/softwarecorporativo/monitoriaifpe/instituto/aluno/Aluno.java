@@ -21,7 +21,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ALUNO")
+@Table(name = "TB_ALUNO")
 @PrimaryKeyJoinColumn(name = "ALUNO_ID")
 @DiscriminatorValue(value = "A")
 @Access(AccessType.FIELD)

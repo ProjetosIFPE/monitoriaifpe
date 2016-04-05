@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SEMANA")
+@Table(name = "TB_SEMANA")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "SEMANA_ID"))})
 @Access(AccessType.FIELD)

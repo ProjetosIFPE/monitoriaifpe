@@ -24,7 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MONITORIA")
+@Table(name = "TB_MONITORIA")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITOR_ID"))})
 @Access(AccessType.FIELD)

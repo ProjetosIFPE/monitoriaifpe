@@ -19,7 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "ATIVIDADE")
+@Table(name = "TB_ATIVIDADE")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "ATIVIDADE_ID"))})
 @Access(AccessType.FIELD)

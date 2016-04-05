@@ -14,7 +14,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PROFESSOR")
+@Table(name = "TB_PROFESSOR")
 @PrimaryKeyJoinColumn(name = "PROFESSOR_ID")
 @DiscriminatorValue(value = "P")
 @Access(AccessType.FIELD)

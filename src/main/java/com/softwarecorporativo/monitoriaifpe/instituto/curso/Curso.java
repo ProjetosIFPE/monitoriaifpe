@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CURSO")
+@Table(name = "TB_CURSO")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "CURSO_ID"))})
 @Access(AccessType.FIELD)

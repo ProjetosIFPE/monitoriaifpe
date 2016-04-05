@@ -14,7 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "TB_USUARIO")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "PAPEL_USUARIO", discriminatorType = DiscriminatorType.STRING, length = 1)
 @AttributeOverrides({

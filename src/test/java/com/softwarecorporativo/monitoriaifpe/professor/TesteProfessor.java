@@ -13,12 +13,10 @@ import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import java.util.List;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import org.apache.log4j.Level;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -30,47 +28,30 @@ public class TesteProfessor extends MonitoriaTestCase {
     @Test
     public void testePersistProfessor() {
 
-        EntityTransaction transaction = null;
-        
-        try {
-            transaction = super.entityManager.getTransaction();
-            transaction.begin();
-            
-            Curso curso = montarObjetoCurso();
-            super.entityManager.persist(curso);
+        Curso curso = montarObjetoCurso();
+        super.entityManager.persist(curso);
 
-            List<Professor> lista_de_professores;
-            Disciplina disciplina = montarObjetoDisciplina();
-            disciplina.setCurso(curso);
-            super.entityManager.persist(disciplina);
+        List<Professor> lista_de_professores;
+        Disciplina disciplina = montarObjetoDisciplina();
+        disciplina.setCurso(curso);
+        super.entityManager.persist(disciplina);
 
-            lista_de_professores = quantidadeProfessores();
-            assertNotNull(lista_de_professores);
+        lista_de_professores = quantidadeProfessores();
+        assertNotNull(lista_de_professores);
 
-            int valor_pre_cadastro = lista_de_professores.size();
+        int valor_pre_cadastro = lista_de_professores.size();
 
-            Professor professor = montarObjetoProfessor();
-            professor.addDisciplina(disciplina);
+        Professor professor = montarObjetoProfessor();
+        professor.addDisciplina(disciplina);
 
-            super.entityManager.persist(professor);
+        super.entityManager.persist(professor);
 
-            lista_de_professores = quantidadeProfessores();
-            assertNotNull(lista_de_professores);
+        lista_de_professores = quantidadeProfessores();
+        assertNotNull(lista_de_professores);
 
-            int valor_pos_cadastro = lista_de_professores.size();
+        int valor_pos_cadastro = lista_de_professores.size();
 
-            transaction.commit();
-            
-            assertEquals(valor_pre_cadastro + 1, valor_pos_cadastro);
-        } catch (Exception e) {
-            fail();
-            if (transaction != null && transaction.isActive()) {
-                logger.log(Level.FATAL, "Cancelando Transação com erro. Mensagem: " + e.getMessage());
-                transaction.rollback();
-                logger.info("Transação Cancelada.");
-            }
-            
-        }
+        assertEquals(valor_pre_cadastro + 1, valor_pos_cadastro);
 
     }
 
