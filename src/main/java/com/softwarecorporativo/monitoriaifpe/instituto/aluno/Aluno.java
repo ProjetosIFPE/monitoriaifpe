@@ -34,7 +34,7 @@ public class Aluno extends Usuario  {
     private Curso curso;
 
     @ManyToMany(targetEntity = Disciplina.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "DISCIPLINA_ALUNO",
+    @JoinTable(name = "TB_DISCIPLINA_ALUNO",
             joinColumns = @JoinColumn(name = "ALUNO_ID"),
             inverseJoinColumns = @JoinColumn(name = "DISCIPLINA_ID"))
     private List<Disciplina> disciplinas;
@@ -75,7 +75,6 @@ public class Aluno extends Usuario  {
         if ( this.disciplinas == null ) {
             this.disciplinas = new ArrayList<>();
         }
-        disciplina.addAluno(this);
         this.disciplinas.add(disciplina);
     }
 

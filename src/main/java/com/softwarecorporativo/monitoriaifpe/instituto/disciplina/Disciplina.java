@@ -66,8 +66,7 @@ public class Disciplina extends EntidadeNegocio {
     public void addAluno(Aluno aluno) {
         if (this.alunos == null) {
             this.alunos = new ArrayList<>();
-        }
-        aluno.addDisciplina(this);
+        }  
         this.alunos.add(aluno);
     }
 
