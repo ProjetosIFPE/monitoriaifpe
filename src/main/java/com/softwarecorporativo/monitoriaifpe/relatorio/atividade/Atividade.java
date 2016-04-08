@@ -26,11 +26,11 @@ import javax.persistence.TemporalType;
 public class Atividade extends EntidadeNegocio  {
 
     @Column(name = "HORARIO_SAIDA", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date horarioEntrada;
  
     @Column(name = "HORARIO_ENTRADA", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date horarioSaida;
     
     @Column(name = "ATIVIDADE_DATA", nullable = true)
