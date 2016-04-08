@@ -9,6 +9,12 @@ import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.instituto.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.instituto.professor.Professor;
+import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
+import java.util.List;
+import java.util.logging.Level;
+import javax.persistence.TypedQuery;
+import org.junit.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -31,6 +37,20 @@ public class TesteDisciplina extends MonitoriaTestCase {
 
         assertTrue(disciplina.getChavePrimaria() > 0);
 
+    }
+    
+    @Test
+    public void consultarDisciplinaPorProfessor()
+    {
+          LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
+
+        TypedQuery<Disciplina> query = super.entityManager.createQuery(
+                "SELECT d FROM Disciplina d WHERE d.professor = :professor",
+                Disciplina.class);
+        query.setParameter("professor",2l);
+
+        List<Disciplina> disciplina = query.getResultList();
+        assertEquals("Software Corporativo", disciplina.get(0).getDescricao());
     }
 
 }
