@@ -64,14 +64,29 @@ public class TesteDisciplina extends MonitoriaTestCase {
         
         TypedQuery<Disciplina> query = super.entityManager.createQuery("SELECT d FROM Disciplina d", Disciplina.class);
         List<Disciplina> disciplina = query.getResultList();
-        
-        for(int i=disciplina.size();i>0;i--)
-        {
-           System.out.println(disciplina.get(i-1).getDescricao());
-        }
-        
         assertEquals(4,disciplina.size());
+        
+        for(Disciplina disc : disciplina)
+        {
+           System.out.println(disc.getDescricao());
+        }
+      
+    }
     
+    @Test
+    public void ConsultarDisciplinaPorNome()
+    {
+        LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
+        
+        TypedQuery<Disciplina> query = super.entityManager.createQuery("SELECT d FROM Disciplina d"
+                + " WHERE d.descricao = :nomeDisciplina", Disciplina.class);
+        
+        query.setParameter("nomeDisciplina", "Teste de Software");
+        Disciplina disciplina = query.getSingleResult();
+             
+        assertNotNull(disciplina);
+        
+                
     }
 
 }
