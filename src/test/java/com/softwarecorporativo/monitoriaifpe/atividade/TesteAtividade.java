@@ -163,7 +163,6 @@ public class TesteAtividade extends MonitoriaTestCase {
         }
     }
 
-
     @Test
     public void testeConsultarAtividadesSemObservacoes() {
 
@@ -185,19 +184,19 @@ public class TesteAtividade extends MonitoriaTestCase {
     public void testeVerificarAtividadeNaMonitoria() {
 
         LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
-        
+
         TypedQuery<Atividade> queryAtividade = super.entityManager.createQuery(
                 "SELECT a FROM Atividade a INNER JOIN FETCH a.monitoria WHERE a.chavePrimaria = ?1",
                 Atividade.class);
         queryAtividade.setParameter(1, 1L);
-        
+
         Atividade atividade = queryAtividade.getSingleResult();
-        
+
         TypedQuery<Monitoria> queryMonitoria = super.entityManager.createQuery(
                 "SELECT m FROM Monitoria m WHERE :item MEMBER OF m.atividades",
                 Monitoria.class);
         queryMonitoria.setParameter("item", atividade);
-        
+
         Monitoria monitoria = queryMonitoria.getSingleResult();
         assertEquals(atividade.getMonitoria(), monitoria);
     }
@@ -220,9 +219,6 @@ public class TesteAtividade extends MonitoriaTestCase {
         }
 
     }
-
-
-   
 
     @Test
     public void testeConsultarAtividadePorMonitoriaBolsista() {
@@ -309,11 +305,6 @@ public class TesteAtividade extends MonitoriaTestCase {
         Long quantidadeEsperada = 0L;
         Long quantidade = typedQuery.getSingleResult();
         assertEquals(quantidadeEsperada, quantidade);
-    }
-
-    @Test
-    public void testeConsultarAtividadesDoPeriodo() {
-
     }
 
     private Atividade montarObjetoAtividade() {

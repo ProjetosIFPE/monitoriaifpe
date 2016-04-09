@@ -44,8 +44,6 @@ public class MonitoriaTestCase {
         entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 
-   
-
     @AfterClass
     public static void tearDownClass() {
         if (entityManagerFactory != null) {
