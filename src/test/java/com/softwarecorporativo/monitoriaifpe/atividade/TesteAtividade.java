@@ -36,55 +36,33 @@ public class TesteAtividade extends MonitoriaTestCase {
     public void testeInserirAtividade() {
 
         LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
-        try {
-            Atividade atividade = montarObjetoAtividade();
-            super.entityManager.persist(atividade);
-            super.entityTransaction.commit();
-            assertTrue(Boolean.TRUE);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+        Atividade atividade = montarObjetoAtividade();
+        super.entityManager.persist(atividade);
+        super.entityManager.flush();
+        super.entityManager.refresh(atividade);
+        assertNotNull(atividade.getChavePrimaria());
     }
 
     @Test
     public void testeRemoverAtividade() {
         LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
-        try {
-            Atividade atividade = super.entityManager.find(Atividade.class, 1L);
-            super.entityManager.remove(atividade);
-            super.entityTransaction.commit();
-            assertTrue(Boolean.TRUE);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+        Atividade atividade = super.entityManager.find(Atividade.class, 1L);
+        super.entityManager.remove(atividade);
+        super.entityManager.flush();
+        assertNull(super.entityManager.find(Atividade.class, 1L));
     }
 
     @Test
     public void testeAlterarAtividade() {
         LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
-        try {
-            Atividade atividade = super.entityManager.find(Atividade.class, 1L);
-            super.entityManager.detach(atividade);
-            atividade.setSituacao(Situacao.ESPERA);
-            atividade.setDescricao("Descrição Alterada");
-            super.entityManager.merge(atividade);
-            super.entityTransaction.commit();
-            assertTrue(Boolean.TRUE);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+        Atividade atividade = super.entityManager.find(Atividade.class, 1L);
+        atividade.setSituacao(Situacao.ESPERA);
+        atividade.setDescricao("Descrição Alterada");
+        super.entityManager.merge(atividade);
+        super.entityManager.flush();
+        super.entityManager.clear();
+        atividade = super.entityManager.find(Atividade.class, 1L);
+        assertEquals(Situacao.ESPERA, atividade.getSituacao());
     }
 
     @Test
@@ -98,8 +76,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         query.setParameter("situacao", Situacao.APROVADO);
 
         List<Atividade> atividadesAprovadas = query.getResultList();
-        assertNotNull(atividadesAprovadas);
-        assertFalse(atividadesAprovadas.isEmpty());
+        assertEquals(20, atividadesAprovadas.size());
         for (Atividade atividade : atividadesAprovadas) {
             atividade.getSituacao().equals(Situacao.APROVADO);
         }
@@ -116,8 +93,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         query.setParameter("situacao", Situacao.ESPERA);
 
         List<Atividade> atividadesEmEspera = query.getResultList();
-        assertNotNull(atividadesEmEspera);
-        assertFalse(atividadesEmEspera.isEmpty());
+        assertEquals(26, atividadesEmEspera.size());
         for (Atividade atividade : atividadesEmEspera) {
             atividade.getSituacao().equals(Situacao.ESPERA);
         }
@@ -134,8 +110,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         query.setParameter("descricao", "Correção%");
 
         List<Atividade> atividades = query.getResultList();
-        assertNotNull(atividades);
-        assertFalse(atividades.isEmpty());
+        assertEquals(26, atividades.size());
         for (Atividade atividade : atividades) {
             assertTrue(atividade.getDescricao().startsWith("Correção"));
         }
@@ -154,8 +129,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         query.setParameter(2, Util.getData(31, Calendar.JANUARY, 2016));
 
         List<Atividade> atividades = query.getResultList();
-        assertNotNull(atividades);
-        assertFalse(atividades.isEmpty());
+        assertEquals(23, atividades.size());
         Calendar calendar = Calendar.getInstance();
         for (Atividade atividade : atividades) {
             calendar.setTime(atividade.getData());
@@ -173,8 +147,7 @@ public class TesteAtividade extends MonitoriaTestCase {
                 Atividade.class);
 
         List<Atividade> atividades = query.getResultList();
-        assertNotNull(atividades);
-        assertFalse(atividades.isEmpty());
+        assertEquals(46, atividades.size());
         for (Atividade atividade : atividades) {
             assertNull(atividade.getObservacoes());
         }
@@ -207,13 +180,12 @@ public class TesteAtividade extends MonitoriaTestCase {
         LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
 
         TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a WHERE a.data < CURRENT_DATE ORDER BY a.descricao",
+                "SELECT a FROM Atividade a WHERE a.data < current_date() ORDER BY a.descricao",
                 Atividade.class);
 
         Date dataAtual = Calendar.getInstance().getTime();
         List<Atividade> atividades = query.getResultList();
-        assertNotNull(atividades);
-        assertFalse(atividades.isEmpty());
+        assertEquals(46, atividades.size());
         for (Atividade atividade : atividades) {
             assertTrue(atividade.getData().before(dataAtual));
         }
@@ -230,8 +202,7 @@ public class TesteAtividade extends MonitoriaTestCase {
                 Atividade.class);
 
         List<Atividade> atividades = query.getResultList();
-        assertNotNull(atividades);
-        assertFalse(atividades.isEmpty());
+        assertEquals(23, atividades.size());
         for (Atividade atividade : atividades) {
             assertEquals(Modalidade.BOLSISTA, atividade.getMonitoria().getModalidade());
         }
@@ -272,8 +243,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         String nomeAluno = alunoEsperado.getNome().concat(alunoEsperado.getSobrenome());
         query.setParameter("nomeAluno", nomeAluno);
         List<Atividade> atividades = query.getResultList();
-        assertNotNull(atividades);
-        assertFalse(atividades.isEmpty());
+        assertEquals(23, atividades.size());
         for (Atividade atividade : atividades) {
             assertEquals(alunoEsperado, atividade.getMonitoria().getAluno());
         }

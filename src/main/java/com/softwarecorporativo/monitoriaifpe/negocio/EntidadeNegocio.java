@@ -44,11 +44,11 @@ public abstract class EntidadeNegocio implements Serializable {
         this.ultimaAlteracao = ultimaAlteracao;
     }
 
-    public long getChavePrimaria() {
+    public Long getChavePrimaria() {
         return chavePrimaria;
     }
 
-    public void setChavePrimaria(long chavePrimaria) {
+    public void setChavePrimaria(Long chavePrimaria) {
         this.chavePrimaria = chavePrimaria;
     }
 
