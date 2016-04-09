@@ -56,5 +56,22 @@ public class TesteDisciplina extends MonitoriaTestCase {
         List<Disciplina> disciplina = query.getResultList();
         assertEquals("Software Corporativo", disciplina.get(0).getDescricao());
     }
+    
+    @Test
+    public void consultarQuantidadeDisciplinas()
+    {
+        LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
+        
+        TypedQuery<Disciplina> query = super.entityManager.createQuery("SELECT d FROM Disciplina d", Disciplina.class);
+        List<Disciplina> disciplina = query.getResultList();
+        
+        for(int i=disciplina.size();i>0;i--)
+        {
+           System.out.println(disciplina.get(i-1).getDescricao());
+        }
+        
+        assertEquals(4,disciplina.size());
+    
+    }
 
 }
