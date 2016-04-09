@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -55,30 +56,12 @@ public class Util {
         return formatter.format(data);
     }
 
-    public static Date parseTextoData(String texto) throws ParseException {
-        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt", "br"));
-        return fmt.parse(texto);
-    }
-
-    public static String obterNomeMes(int mes) {
-        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        return meses[mes - 1];
-    }
-
-    public static boolean isNull(Object object) {
-        boolean isNull = Boolean.FALSE;
-        if (object == null) {
-            isNull = Boolean.TRUE;
-        }
-        return isNull;
-    }
-
-    public static String invalidarCampoCadastrado(boolean cadastrado) {
-        if (cadastrado) {
-            return "invalido";
-        }
-        return "valido";
+    public static Date getData(Integer dia, Integer mes, Integer ano) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, ano);
+        c.set(Calendar.MONTH, mes);
+        c.set(Calendar.DAY_OF_MONTH, dia);
+        return c.getTime();
     }
 
 }

@@ -2,10 +2,10 @@ package com.softwarecorporativo.monitoriaifpe.instituto.monitoria;
 
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.instituto.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
-import com.softwarecorporativo.monitoriaifpe.relatorio.frequencia.RelatorioFrequencia;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Access;
@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TB_MONITORIA")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITOR_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITORIA_ID"))})
 @Access(AccessType.FIELD)
 public class Monitoria extends EntidadeNegocio  {
 
@@ -46,9 +46,8 @@ public class Monitoria extends EntidadeNegocio  {
     @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
     private Periodo periodo;
 
-    //O relatório não é uma entidade. Modelagem artificial
     @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<RelatorioFrequencia> relatoriosMensais;
+    private List<Atividade> atividades;
 
     @Column(name = "HABILITADO")
     private boolean habilitado;
@@ -78,20 +77,20 @@ public class Monitoria extends EntidadeNegocio  {
     }
 
    
-    public RelatorioFrequencia getRelatorioFrequencia(int index) {
-        if ( this.relatoriosMensais == null ) {
-            this.relatoriosMensais = new ArrayList<>();
+    public Atividade getAtividade(int index) {
+        if ( this.atividades == null ) {
+            this.atividades = new ArrayList<>();
         }
-        return relatoriosMensais.get(index);
+        return atividades.get(index);
     }
 
   
-    public void addRelatorio(RelatorioFrequencia relatorio) {
-        if ( this.relatoriosMensais == null ) {
-            this.relatoriosMensais = new ArrayList<>();
+    public void addAtividade(Atividade atividade) {
+        if ( this.atividades == null ) {
+            this.atividades = new ArrayList<>();
         }
-        relatorio.setMonitoria(this);
-        this.relatoriosMensais.add(relatorio);
+        atividade.setMonitoria(this);
+        this.atividades.add(atividade);
     }
 
     
