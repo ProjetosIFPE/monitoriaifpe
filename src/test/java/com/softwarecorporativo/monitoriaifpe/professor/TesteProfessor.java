@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import javax.persistence.TypedQuery;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 /**
@@ -26,43 +26,30 @@ public class TesteProfessor extends MonitoriaTestCase {
 
     @Test
     public void testePersistProfessor() {
-
+        // DUVIDA
         LOGGER.log(Level.INFO, "Teste de Persistência Professor - {0}", name.getMethodName());
-        try {
-            Professor professor = montarObjetoProfessor();
-            Disciplina disciplina = montarObjetoDisciplina();
-            disciplina.setProfessor(professor);
-            professor.addDisciplina(disciplina);
-            super.entityManager.persist(disciplina);
-            super.entityTransaction.commit();
-            assertTrue(Boolean.TRUE);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+        Professor professor = montarObjetoProfessor();
+        Disciplina disciplina = montarObjetoDisciplina();
+        disciplina.setProfessor(professor);
+        professor.addDisciplina(disciplina);
+        super.entityManager.persist(professor);
+        super.entityManager.flush();
+        super.entityManager.refresh(professor);
+        assertNotNull(professor.getChavePrimaria());
 
     }
 
     @Test
     public void testeUpdateProfessor() {
         LOGGER.log(Level.INFO, "Teste de Atualização Sobrenome de um Professor - {1}", name.getMethodName());
-        try {
-            //super.entityTransaction.begin();
-            Professor professorBuscado = super.entityManager.find(Professor.class, 8L);
-            String sobrenomeAntigo = professorBuscado.getSobrenome();
-            professorBuscado.setSobrenome("Araujo");
-            super.entityTransaction.commit();
-            assertEquals(true, true);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+        Professor professorBuscado = super.entityManager.find(Professor.class, 8L);
+        String sobrenomeAntigo = professorBuscado.getSobrenome();
+        professorBuscado.setSobrenome("Araujo");
+        super.entityManager.merge(professorBuscado);
+        super.entityManager.flush();
+        super.entityManager.clear();
+        professorBuscado = super.entityManager.find(Professor.class, 8L);
+        assertEquals("Araujo", professorBuscado.getSobrenome());
     }
 
     @Test

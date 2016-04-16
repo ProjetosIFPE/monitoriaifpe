@@ -14,7 +14,7 @@ import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import java.util.logging.Level;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 /**
@@ -27,56 +27,37 @@ public class TesteAluno extends MonitoriaTestCase {
     public void testePersistAluno() {
 
         LOGGER.log(Level.INFO, "Teste de Persistência Aluno - {0}", name.getMethodName());
-        try {
-            Aluno aluno = montarObjetoAluno();
-            super.entityManager.persist(aluno);
-            super.entityTransaction.commit();
-            assertTrue(Boolean.TRUE);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+
+        Aluno aluno = montarObjetoAluno();
+        super.entityManager.persist(aluno);
+        super.entityManager.flush();
+        super.entityManager.refresh(aluno);
+        assertNotNull(aluno.getChavePrimaria());
 
     }
 
     @Test
     public void testeUpdateAluno() {
         LOGGER.log(Level.INFO, "Teste de Atualização Email de um Aluno - {1}", name.getMethodName());
-        try {
-            //super.entityTransaction.begin();
-            Aluno alunoBuscado = super.entityManager.find(Aluno.class, 1L);
-            String emailAntigo = alunoBuscado.getEmail();
-            alunoBuscado.setEmail("edmilson@hotmail.com");
-            super.entityTransaction.commit();
-            assertEquals(true, true);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+        Aluno alunoBuscado = super.entityManager.find(Aluno.class, 1L);
+        String emailAntigo = alunoBuscado.getEmail();
+        alunoBuscado.setEmail("edmilson@hotmail.com");
+        super.entityManager.merge(alunoBuscado);
+        super.entityManager.flush();
+        super.entityManager.clear();
+        alunoBuscado = super.entityManager.find(Aluno.class, 1L);
+        assertEquals("edmilson@hotmail.com", alunoBuscado.getEmail());
+
     }
 
     @Test
     public void testeDeleteAluno() {
         LOGGER.log(Level.INFO, "Teste de Remoção de um Aluno - {2}", name.getMethodName());
-        try {
-            Aluno alunoBuscado = super.entityManager.find(Aluno.class, 3L);
-            alunoBuscado = super.entityManager.merge(alunoBuscado);
-            super.entityManager.remove(alunoBuscado);
-            super.entityTransaction.commit();
-            assertEquals(true, true);
-        } catch (Exception e) {
-            if (entityTransaction != null && entityTransaction.isActive()) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                entityTransaction.rollback();
-            }
-            Assert.fail(e.getMessage());
-        }
+        Aluno alunoBuscado = super.entityManager.find(Aluno.class, 3L);
+        alunoBuscado = super.entityManager.merge(alunoBuscado);
+        super.entityManager.remove(alunoBuscado);
+        super.entityTransaction.commit();
+        assertEquals(true, true);
     }
 
     private Aluno montarObjetoAluno() {
