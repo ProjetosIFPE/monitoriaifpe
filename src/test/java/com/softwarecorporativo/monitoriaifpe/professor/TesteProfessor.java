@@ -11,9 +11,10 @@ import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.instituto.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
+import java.util.List;
 import java.util.logging.Level;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -31,7 +32,7 @@ public class TesteProfessor extends MonitoriaTestCase {
         Professor professor = montarObjetoProfessor();
         Disciplina disciplina = montarObjetoDisciplina();
         disciplina.setProfessor(professor);
-        professor.addDisciplina(disciplina);
+        //professor.addDisciplina(disciplina);
         super.entityManager.persist(professor);
         super.entityManager.flush();
         super.entityManager.refresh(professor);
@@ -73,6 +74,38 @@ public class TesteProfessor extends MonitoriaTestCase {
 
     }
 
+    @Test
+    public void testeJPQLProfessorPeloCurso() {
+        LOGGER.log(Level.INFO, "Teste de JPQL Nome de Professor por curso - {3}", name.getMethodName());
+        TypedQuery<String> query = super.entityManager.createQuery(
+                "SELECT u.nome FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d WHERE d.curso = :curso)", String.class);
+        Curso curso = super.entityManager.find(Curso.class, 1L);
+        query.setParameter("curso", curso);
+        List<String> resultado = query.getResultList();
+        assertEquals(4, resultado.size());
+    }
+
+    @Test
+    public void testeJPQLProfessorPelaDisciplina() {
+        LOGGER.log(Level.INFO, "Teste de JPQL Nome do Professor de uma disciplina - {3}", name.getMethodName());
+        TypedQuery<String> query = super.entityManager.createQuery(
+                "SELECT u.nome FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d WHERE d.descricao = :nomeDisciplina)", String.class);
+        query.setParameter("nomeDisciplina", "Engenharia De Requisitos");
+        String resultado = query.getSingleResult();
+        assertEquals("Renata", resultado);
+    }
+
+    @Test
+    public void testeJPQLVerificarCONCATProfessores() {
+        LOGGER.log(Level.INFO, "Teste de JPQL CONCAT professor - {3}", name.getMethodName());
+        TypedQuery<String> query = super.entityManager.createQuery(
+                "SELECT CONCAT(u.nome,u.sobrenome) FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d WHERE d.descricao = :nomeDisciplina)", String.class);
+        query.setParameter("nomeDisciplina", "Teste de Software");
+        String resultado = query.getSingleResult();
+        assertEquals("RamideDantas", resultado);
+
+    }
+    
     private Professor montarObjetoProfessor() {
         Professor professor_criado = new Professor();
 

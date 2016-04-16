@@ -9,12 +9,14 @@ import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.instituto.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import java.util.logging.Level;
-import org.junit.Assert;
+import javax.persistence.TypedQuery;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
@@ -53,11 +55,50 @@ public class TesteAluno extends MonitoriaTestCase {
     @Test
     public void testeDeleteAluno() {
         LOGGER.log(Level.INFO, "Teste de Remoção de um Aluno - {2}", name.getMethodName());
-        Aluno alunoBuscado = super.entityManager.find(Aluno.class, 3L);
-        alunoBuscado = super.entityManager.merge(alunoBuscado);
+        Usuario alunoBuscado = super.entityManager.find(Usuario.class, 3L);
         super.entityManager.remove(alunoBuscado);
-        super.entityTransaction.commit();
-        assertEquals(true, true);
+        super.entityManager.flush();
+        assertNull(super.entityManager.find(Aluno.class, 3L));
+    }
+
+    @Test
+    public void testeJPQLSelecionarAlunosPeloAnoDaMatricula() {
+        LOGGER.log(Level.INFO, "Teste de JPQL LIKE Ano de Aluno - {1}", name.getMethodName());
+        TypedQuery<Long> query = super.entityManager.createQuery(
+                "SELECT COUNT(a.chavePrimaria) from Aluno a WHERE a.matricula LIKE :matricula", Long.class);
+        query.setParameter("matricula", "2014%");
+        Long resultado = query.getSingleResult();
+        assertEquals(new Long(3), resultado);
+    }
+
+    @Test
+    public void testeJPQLSelecionarAlunosPeloCurso() {
+        LOGGER.log(Level.INFO, "Teste de JPQL Aluno por curso - {1}", name.getMethodName());
+        TypedQuery<Long> query = super.entityManager.createQuery(
+                "SELECT COUNT(a.chavePrimaria) from Aluno a WHERE a.curso = :curso", Long.class);
+        Curso curso = super.entityManager.find(Curso.class, 1L);
+        query.setParameter("curso", curso);
+        Long resultado = query.getSingleResult();
+        assertEquals(new Long(5), resultado);
+    }
+
+    @Test
+    public void testeJPQLSelecionarAlunosPelaInicialDoNome() {
+        LOGGER.log(Level.INFO, "Teste de JPQL Inicial de Auno - {1}", name.getMethodName());
+        TypedQuery<Long> query = super.entityManager.createQuery(
+                "SELECT COUNT(a.chavePrimaria) from Aluno a WHERE a.nome LIKE :nome", Long.class);
+        query.setParameter("nome", "M%");
+        Long resultado = query.getSingleResult();
+        assertEquals(new Long(1), resultado);
+    }
+
+    @Test
+    public void testeJPQLQuantidadeDeAlunos() {
+        LOGGER.log(Level.INFO, "Teste de JPQL Aluno por grau do curso - {1}", name.getMethodName());
+        TypedQuery<Long> query = super.entityManager.createQuery(
+                "SELECT COUNT(a.chavePrimaria) from Aluno a WHERE a.curso = (SELECT c.chavePrimaria FROM Curso c WHERE c.grau = 'TECNICO')", Long.class);
+        Long resultado = query.getSingleResult();
+        assertEquals(new Long(2), resultado);
     }
 
     private Aluno montarObjetoAluno() {
