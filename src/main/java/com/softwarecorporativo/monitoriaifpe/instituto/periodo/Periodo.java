@@ -2,6 +2,8 @@ package com.softwarecorporativo.monitoriaifpe.instituto.periodo;
 
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Semestre;
+import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
@@ -11,6 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TB_PERIODO")
@@ -19,21 +24,23 @@ import javax.persistence.Table;
 @Access(AccessType.FIELD)
 public class Periodo extends EntidadeNegocio {
 
+    @Min(1970)
     @Column(name = "PERIODO_ANO", nullable = false)
-    private int ano;
+    private Integer ano;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "SEMESTRE", nullable = false)
     private Semestre semestre;
 
   
-    public int getAno() {
+    public Integer getAno() {
 
         return ano;
     }
 
   
-    public void setAno(int ano) {
+    public void setAno(Integer ano) {
 
         this.ano = ano;
     }

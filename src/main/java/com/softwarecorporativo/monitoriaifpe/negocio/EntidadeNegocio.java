@@ -54,9 +54,10 @@ public abstract class EntidadeNegocio implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 73 * hash + (int) (this.chavePrimaria ^ (this.chavePrimaria >>> 32));
-        return hash;
+
+        int result = 5;
+        int hash = this.chavePrimaria == null ? 0 : this.chavePrimaria.hashCode();
+        return (37 * result) + hash;
     }
 
     @Override
