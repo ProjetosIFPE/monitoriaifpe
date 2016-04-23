@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class Periodo extends EntidadeNegocio {
 
-    @Min(1970)
+    @Min(value = 1970)
     @Column(name = "PERIODO_ANO", nullable = false)
     private Integer ano;
 

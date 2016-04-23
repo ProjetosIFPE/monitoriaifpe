@@ -34,6 +34,7 @@
 
     
     <tb_periodo periodo_id="1" semestre="PRIMEIRO" periodo_ano="2015" />
+    <tb_periodo periodo_id="2" semestre="SEGUNDO" periodo_ano="2016" />
     
     <tb_aluno aluno_id="1" aluno_matricula="20141Y6-RC0323"  curso_id="1" />
     <tb_aluno aluno_id="3" aluno_matricula="20141Y6-RC0439"  curso_id="1" />

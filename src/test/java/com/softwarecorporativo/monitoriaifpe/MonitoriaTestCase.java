@@ -12,6 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.fail;
@@ -27,15 +30,18 @@ import org.junit.rules.TestName;
 public class MonitoriaTestCase {
 
     private static final String PERSISTENCE_UNIT_NAME = "com.softwarecorporativo_monitoriaifpe_war_1.0-SNAPSHOTPU";
-    protected static final Logger LOGGER = Logger.getGlobal();
     private static EntityManagerFactory entityManagerFactory;
-    @Rule
-    public final TestName name;
+    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     protected EntityManager entityManager;
     protected EntityTransaction entityTransaction;
-
+    protected Validator validator;
+    protected static final Logger LOGGER = Logger.getGlobal();
+    @Rule
+    public final TestName name;
+    
     public MonitoriaTestCase() {
         this.name = new TestName();
+        this.validator = factory.getValidator();
     }
 
     @BeforeClass
