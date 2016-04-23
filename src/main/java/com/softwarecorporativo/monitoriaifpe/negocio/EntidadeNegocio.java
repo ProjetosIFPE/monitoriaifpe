@@ -52,24 +52,24 @@ public abstract class EntidadeNegocio implements Serializable {
         this.chavePrimaria = chavePrimaria;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 73 * hash + (int) (this.chavePrimaria ^ (this.chavePrimaria >>> 32));
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof EntidadeNegocio)) {
-            return false;
-        }
-        final EntidadeNegocio other = (EntidadeNegocio) object;
-
-        if ((this.chavePrimaria == null && other.chavePrimaria != null) || (this.chavePrimaria != null && !this.chavePrimaria.equals(other.chavePrimaria))) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public int hashCode() {
+//        int hash = 7;
+//        hash = 73 * hash + (int) (this.chavePrimaria ^ (this.chavePrimaria >>> 32));
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        if (!(object instanceof EntidadeNegocio)) {
+//            return false;
+//        }
+//        final EntidadeNegocio other = (EntidadeNegocio) object;
+//
+//        if ((this.chavePrimaria == null && other.chavePrimaria != null) || (this.chavePrimaria != null && !this.chavePrimaria.equals(other.chavePrimaria))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
 }

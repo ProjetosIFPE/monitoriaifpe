@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotBlank;
 
 
 
@@ -27,8 +28,11 @@ import javax.persistence.Table;
 @Access(AccessType.FIELD)
 public class Aluno extends Usuario  {
 
+    @NotBlank
+    @ValidaMatricula
     @Column(name = "ALUNO_MATRICULA", nullable = false)
     private String matricula;
+    
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
     private Curso curso;

@@ -102,20 +102,20 @@ public class TesteAluno extends MonitoriaTestCase {
     }
 
     private Aluno montarObjetoAluno() {
-        Aluno aluno_criado = new Aluno();
-        aluno_criado.setNome("Fulano");
-        aluno_criado.setSobrenome("Silva");
-        aluno_criado.setEmail("fulano@gmail.com");
-        aluno_criado.setLogin("fulano21");
-        aluno_criado.setMatricula("20142Y6-RC2222");
+        Aluno alunoCriado = new Aluno();
+        alunoCriado.setNome("Fulano");
+        alunoCriado.setSobrenome("Silva");
+        alunoCriado.setEmail("fulano@gmail.com");
+        alunoCriado.setLogin("fulano21");
+        alunoCriado.setMatricula("1911Y6-RC2222");
         String password = Util.criptografarSenha("123", "123", Constantes.CONSTANTE_CRIPTOGRAFIA);
-        aluno_criado.setSenha(password);
+        alunoCriado.setSenha(password);
         Curso curso = super.entityManager.find(Curso.class, 1L);
-        aluno_criado.setCurso(curso);
+        alunoCriado.setCurso(curso);
         Disciplina disciplina = super.entityManager.find(Disciplina.class, 1L);
-        aluno_criado.addDisciplina(disciplina);
+        alunoCriado.addDisciplina(disciplina);
 
-        return aluno_criado;
+        return alunoCriado;
     }
 
 }
