@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.aluno;
+package com.softwarecorporativo.monitoriaifpe.instituto.aluno;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
@@ -33,6 +33,7 @@ public class TesteAluno extends MonitoriaTestCase {
         Aluno aluno = montarObjetoAluno();
         super.entityManager.persist(aluno);
         super.entityManager.flush();
+        super.entityManager.refresh(aluno.getCurso());
         super.entityManager.refresh(aluno);
         assertNotNull(aluno.getChavePrimaria());
 
