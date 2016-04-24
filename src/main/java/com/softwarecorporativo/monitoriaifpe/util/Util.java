@@ -63,5 +63,13 @@ public class Util {
         c.set(Calendar.DAY_OF_MONTH, dia);
         return c.getTime();
     }
+    
+    public static Date getTime(Integer horas, Integer minutos, Integer segundos) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, horas);
+        c.set(Calendar.MINUTE, minutos);
+        c.set(Calendar.SECOND, segundos);
+        return c.getTime();
+    }
 
 }

@@ -7,7 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.instituto.monitoria.atividade;
 
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.SituacaoAtividade;
 import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -23,6 +23,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
+import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.atividade.validation.ValidaHorarioAtividade;
 
 /**
  *
@@ -33,30 +38,39 @@ import javax.persistence.TemporalType;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "ATIVIDADE_ID"))})
 @Access(AccessType.FIELD)
+@ValidaHorarioAtividade
 public class Atividade extends EntidadeNegocio {
 
-    @Column(name = "ATIVIDADE_DESCRICAO", nullable = true)
+    @NotEmpty
+    @Size(min = 10, max = 140)
+    @Column(name = "ATIVIDADE_DESCRICAO", nullable = false)
     private String descricao;
 
+    @Size(max = 140)
     @Column(name = "ATIVIDADE_OBSERVACAO", nullable = true)
     private String observacoes;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "SITUACAO_ATIVIDADE", nullable = false)
-    private Situacao situacao;
+    private SituacaoAtividade situacao;
 
-    @Column(name = "HORARIO_SAIDA", nullable = true)
+    @NotNull
+    @Column(name = "HORARIO_SAIDA", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horarioEntrada;
 
-    @Column(name = "HORARIO_ENTRADA", nullable = true)
+    @NotNull
+    @Column(name = "HORARIO_ENTRADA", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horarioSaida;
-
-    @Column(name = "ATIVIDADE_DATA", nullable = true)
+    
+    @NotNull
+    @Column(name = "ATIVIDADE_DATA", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date data;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "MONITORIA_ID", referencedColumnName = "MONITORIA_ID")
     private Monitoria monitoria;
@@ -77,11 +91,11 @@ public class Atividade extends EntidadeNegocio {
         this.observacoes = observacoes;
     }
 
-    public Situacao getSituacao() {
+    public SituacaoAtividade getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(Situacao situacao) {
+    public void setSituacao(SituacaoAtividade situacao) {
         this.situacao = situacao;
     }
 

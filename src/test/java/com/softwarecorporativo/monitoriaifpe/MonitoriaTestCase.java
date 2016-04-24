@@ -79,12 +79,14 @@ public class MonitoriaTestCase {
     @After
     public void tearDown() {
         try {
-            if (entityTransaction != null && entityTransaction.isActive()) {
+            if (entityTransaction != null && entityTransaction.isActive() && !entityTransaction.getRollbackOnly()) {
                 entityTransaction.commit();
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            entityTransaction.rollback();
+            if ( entityTransaction != null && entityTransaction.isActive() ) {
+                entityTransaction.rollback();
+            } 
         } finally {
             if (entityManager != null) {
                 entityManager.close();

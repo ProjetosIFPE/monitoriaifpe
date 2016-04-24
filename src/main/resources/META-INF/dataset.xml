@@ -61,60 +61,60 @@
     <tb_monitoria monitoria_id="1" aluno_id="1" disciplina_id="1" habilitado="true" modalidade="BOLSISTA" periodo_id="1" />
     <tb_monitoria monitoria_id="2" aluno_id="3" disciplina_id="2" habilitado="true" modalidade="VOLUNTARIO" periodo_id="1" />
    
-    <tb_atividade atividade_id="1" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-01" monitoria_id="1" />
-    <tb_atividade atividade_id="2" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-02" monitoria_id="1" />
-    <tb_atividade atividade_id="3" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-03" monitoria_id="1" />
-    <tb_atividade atividade_id="4" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-04" monitoria_id="1" />
-    <tb_atividade atividade_id="5" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-05" monitoria_id="1" />
+    <tb_atividade atividade_id="1" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-01" monitoria_id="1" />
+    <tb_atividade atividade_id="2" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-02" monitoria_id="1" />
+    <tb_atividade atividade_id="3" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-03" monitoria_id="1" />
+    <tb_atividade atividade_id="4" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-04" monitoria_id="1" />
+    <tb_atividade atividade_id="5" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-05" monitoria_id="1" />
     
-    <tb_atividade atividade_id="6" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-08" monitoria_id="1" />
-    <tb_atividade atividade_id="7" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-09" monitoria_id="1" />
-    <tb_atividade atividade_id="8" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-10" monitoria_id="1" />
-    <tb_atividade atividade_id="9" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-11" monitoria_id="1" />
-    <tb_atividade atividade_id="10" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-12" monitoria_id="1" />
+    <tb_atividade atividade_id="6" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-08" monitoria_id="1" />
+    <tb_atividade atividade_id="7" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-09" monitoria_id="1" />
+    <tb_atividade atividade_id="8" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-10" monitoria_id="1" />
+    <tb_atividade atividade_id="9" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-11" monitoria_id="1" />
+    <tb_atividade atividade_id="10" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-12" monitoria_id="1" />
     
-    <tb_atividade atividade_id="11" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-15" monitoria_id="1" />
-    <tb_atividade atividade_id="12" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-16" monitoria_id="1" />
-    <tb_atividade atividade_id="13" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-17" monitoria_id="1" />
-    <tb_atividade atividade_id="14" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-18" monitoria_id="1" />
-    <tb_atividade atividade_id="15" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADO" atividade_data="2016-01-19" monitoria_id="1" />
+    <tb_atividade atividade_id="11" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-15" monitoria_id="1" />
+    <tb_atividade atividade_id="12" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-16" monitoria_id="1" />
+    <tb_atividade atividade_id="13" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-17" monitoria_id="1" />
+    <tb_atividade atividade_id="14" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-18" monitoria_id="1" />
+    <tb_atividade atividade_id="15" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-19" monitoria_id="1" />
     
-    <tb_atividade atividade_id="16" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-22" monitoria_id="1" />
-    <tb_atividade atividade_id="17" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-23" monitoria_id="1" />
-    <tb_atividade atividade_id="18" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-24" monitoria_id="1" />
-    <tb_atividade atividade_id="19" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-25" monitoria_id="1" />
-    <tb_atividade atividade_id="20" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-26" monitoria_id="1" />
+    <tb_atividade atividade_id="16" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-22" monitoria_id="1" />
+    <tb_atividade atividade_id="17" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-23" monitoria_id="1" />
+    <tb_atividade atividade_id="18" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-24" monitoria_id="1" />
+    <tb_atividade atividade_id="19" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-25" monitoria_id="1" />
+    <tb_atividade atividade_id="20" atividade_descricao="Resolução de Dúvidas" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-26" monitoria_id="1" />
     
-    <tb_atividade atividade_id="21" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-29" monitoria_id="1" />
-    <tb_atividade atividade_id="22" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-30" monitoria_id="1" />
-    <tb_atividade atividade_id="23" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="ESPERA" atividade_data="2016-01-31" monitoria_id="1" />
+    <tb_atividade atividade_id="21" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-29" monitoria_id="1" />
+    <tb_atividade atividade_id="22" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-30" monitoria_id="1" />
+    <tb_atividade atividade_id="23" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-01-31" monitoria_id="1" />
    
-    <tb_atividade atividade_id="24" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-01" monitoria_id="2" />
-    <tb_atividade atividade_id="25" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-02" monitoria_id="2" />
-    <tb_atividade atividade_id="26" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-03" monitoria_id="2" />
-    <tb_atividade atividade_id="27" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-04" monitoria_id="2" />
-    <tb_atividade atividade_id="28" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-05" monitoria_id="2" />
+    <tb_atividade atividade_id="24" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-01" monitoria_id="2" />
+    <tb_atividade atividade_id="25" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-02" monitoria_id="2" />
+    <tb_atividade atividade_id="26" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-03" monitoria_id="2" />
+    <tb_atividade atividade_id="27" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-04" monitoria_id="2" />
+    <tb_atividade atividade_id="28" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-05" monitoria_id="2" />
     
-    <tb_atividade atividade_id="29" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-08" monitoria_id="2" />
-    <tb_atividade atividade_id="30" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-09" monitoria_id="2" />
-    <tb_atividade atividade_id="31" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-10" monitoria_id="2" />
-    <tb_atividade atividade_id="32" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-11" monitoria_id="2" />
-    <tb_atividade atividade_id="33" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-12" monitoria_id="2" />
+    <tb_atividade atividade_id="29" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-08" monitoria_id="2" />
+    <tb_atividade atividade_id="30" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-09" monitoria_id="2" />
+    <tb_atividade atividade_id="31" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-10" monitoria_id="2" />
+    <tb_atividade atividade_id="32" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-11" monitoria_id="2" />
+    <tb_atividade atividade_id="33" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-12" monitoria_id="2" />
     
-    <tb_atividade atividade_id="34" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-15" monitoria_id="2" />
-    <tb_atividade atividade_id="35" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-16" monitoria_id="2" />
-    <tb_atividade atividade_id="36" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-17" monitoria_id="2" />
-    <tb_atividade atividade_id="37" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-18" monitoria_id="2" />
-    <tb_atividade atividade_id="38" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADO" atividade_data="2016-02-19" monitoria_id="2" />
+    <tb_atividade atividade_id="34" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-15" monitoria_id="2" />
+    <tb_atividade atividade_id="35" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-16" monitoria_id="2" />
+    <tb_atividade atividade_id="36" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-17" monitoria_id="2" />
+    <tb_atividade atividade_id="37" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-18" monitoria_id="2" />
+    <tb_atividade atividade_id="38" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00" horario_saida="12:00:00" situacao_atividade="APROVADA" atividade_data="2016-02-19" monitoria_id="2" />
     
-    <tb_atividade atividade_id="39" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-22" monitoria_id="2" />
-    <tb_atividade atividade_id="40" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-23" monitoria_id="2" />
-    <tb_atividade atividade_id="41" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-24" monitoria_id="2" />
-    <tb_atividade atividade_id="42" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-25" monitoria_id="2" />
-    <tb_atividade atividade_id="43" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-26" monitoria_id="2" />
+    <tb_atividade atividade_id="39" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-22" monitoria_id="2" />
+    <tb_atividade atividade_id="40" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-23" monitoria_id="2" />
+    <tb_atividade atividade_id="41" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-24" monitoria_id="2" />
+    <tb_atividade atividade_id="42" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-25" monitoria_id="2" />
+    <tb_atividade atividade_id="43" atividade_descricao="Resolução de Dúvidas" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-26" monitoria_id="2" />
     
-    <tb_atividade atividade_id="44" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-29" monitoria_id="2" />
-    <tb_atividade atividade_id="45" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-30" monitoria_id="2" />
-    <tb_atividade atividade_id="46" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="ESPERA" atividade_data="2016-02-31" monitoria_id="2" />
+    <tb_atividade atividade_id="44" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-29" monitoria_id="2" />
+    <tb_atividade atividade_id="45" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-30" monitoria_id="2" />
+    <tb_atividade atividade_id="46" atividade_descricao="Correção de exercícios" horario_entrada="09:00:00"  horario_saida="12:00:00" situacao_atividade="AGUARDANDO_APROVACAO" atividade_data="2016-02-31" monitoria_id="2" />
    
 </dataset>

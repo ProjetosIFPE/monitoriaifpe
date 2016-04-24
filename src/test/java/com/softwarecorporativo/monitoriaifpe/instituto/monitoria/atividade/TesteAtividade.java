@@ -8,19 +8,19 @@ package com.softwarecorporativo.monitoriaifpe.instituto.monitoria.atividade;
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.instituto.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.util.Util;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.Situacao;
+import com.softwarecorporativo.monitoriaifpe.util.constantes.SituacaoAtividade;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.junit.Assert;
+import javax.validation.ConstraintViolation;
+import org.apache.commons.lang.RandomStringUtils;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
@@ -56,13 +56,13 @@ public class TesteAtividade extends MonitoriaTestCase {
     public void testeAlterarAtividade() {
         LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
         Atividade atividade = super.entityManager.find(Atividade.class, 1L);
-        atividade.setSituacao(Situacao.ESPERA);
+        atividade.setSituacao(SituacaoAtividade.AGUARDANDO_APROVACAO);
         atividade.setDescricao("Descrição Alterada");
         super.entityManager.merge(atividade);
         super.entityManager.flush();
         super.entityManager.clear();
         atividade = super.entityManager.find(Atividade.class, 1L);
-        assertEquals(Situacao.ESPERA, atividade.getSituacao());
+        assertEquals(SituacaoAtividade.AGUARDANDO_APROVACAO, atividade.getSituacao());
     }
 
     @Test
@@ -73,12 +73,12 @@ public class TesteAtividade extends MonitoriaTestCase {
         TypedQuery<Atividade> query = super.entityManager.createQuery(
                 "SELECT a FROM Atividade a WHERE a.situacao = :situacao ORDER BY a.descricao",
                 Atividade.class);
-        query.setParameter("situacao", Situacao.APROVADO);
+        query.setParameter("situacao", SituacaoAtividade.APROVADA);
 
         List<Atividade> atividadesAprovadas = query.getResultList();
         assertEquals(20, atividadesAprovadas.size());
         for (Atividade atividade : atividadesAprovadas) {
-            atividade.getSituacao().equals(Situacao.APROVADO);
+            atividade.getSituacao().equals(SituacaoAtividade.APROVADA);
         }
     }
 
@@ -90,12 +90,12 @@ public class TesteAtividade extends MonitoriaTestCase {
         TypedQuery<Atividade> query = super.entityManager.createQuery(
                 "SELECT a FROM Atividade a WHERE a.situacao = :situacao ORDER BY a.descricao ASC",
                 Atividade.class);
-        query.setParameter("situacao", Situacao.ESPERA);
+        query.setParameter("situacao", SituacaoAtividade.AGUARDANDO_APROVACAO);
 
         List<Atividade> atividadesEmEspera = query.getResultList();
         assertEquals(26, atividadesEmEspera.size());
         for (Atividade atividade : atividadesEmEspera) {
-            atividade.getSituacao().equals(Situacao.ESPERA);
+            atividade.getSituacao().equals(SituacaoAtividade.AGUARDANDO_APROVACAO);
         }
     }
 
@@ -253,11 +253,11 @@ public class TesteAtividade extends MonitoriaTestCase {
     public void testeAprovarAtividadesDeMonitoria() {
         LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
         Query query = super.entityManager.createQuery("UPDATE Atividade AS a SET a.situacao = ?1 WHERE a.situacao = ?2");
-        query.setParameter(1, Situacao.APROVADO);
-        query.setParameter(2, Situacao.ESPERA);
+        query.setParameter(1, SituacaoAtividade.APROVADA);
+        query.setParameter(2, SituacaoAtividade.AGUARDANDO_APROVACAO);
         query.executeUpdate();
         TypedQuery<Long> typedQuery = super.entityManager.createQuery("SELECT COUNT(a) FROM Atividade a where a.situacao = :situacao", Long.class);
-        typedQuery.setParameter("situacao", Situacao.ESPERA);
+        typedQuery.setParameter("situacao", SituacaoAtividade.AGUARDANDO_APROVACAO);
         Long quantidadeEsperada = 0L;
         Long quantidade = typedQuery.getSingleResult();
         assertEquals(quantidadeEsperada, quantidade);
@@ -277,16 +277,102 @@ public class TesteAtividade extends MonitoriaTestCase {
         assertEquals(quantidadeEsperada, quantidade);
     }
 
+    @Test
+    public void testeCriarAtividadeComHorarioEntradaAposSaida() {
+        LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
+        String mensagemEsperada = "O horário de saída deve ser posterior ao horário de entrada";
+        Atividade atividade = montarObjetoAtividade();
+        atividade.setHorarioEntrada(Util.getTime(14, 30, 0));
+        atividade.setHorarioSaida(Util.getTime(14, 0, 0));
+        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
+        assertEquals(1, constraintViolations.size());
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(mensagemEsperada, mensagemObtida);
+    }
+    
+    @Test
+    public void testeCriarAtividadeComHorarioEntradaIgualSaida() {
+        LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
+        String mensagemEsperada = "O horário de saída deve ser posterior ao horário de entrada";
+        Atividade atividade = montarObjetoAtividade();
+        atividade.setHorarioEntrada(Util.getTime(14, 0, 0));
+        atividade.setHorarioSaida(Util.getTime(14, 0, 0));
+        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
+        assertEquals(1, constraintViolations.size());
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(mensagemEsperada, mensagemObtida);
+    }
+
+    @Test
+    public void testeCriarAtividadeComDescricaoTamanhoExcedente() {
+        LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
+        String mensagemEsperada = "tamanho deve estar entre 10 e 140";
+        Atividade atividade = montarObjetoAtividade();
+        String descricao = RandomStringUtils.random(145);
+        atividade.setDescricao(descricao);
+        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
+        assertEquals(1, constraintViolations.size());
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(mensagemEsperada, mensagemObtida);
+    }
+    
+    @Test
+    public void testeCriarAtividadeComDescricaoVazia() {
+        LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
+        String mensagemTamanhoMinimo = "tamanho deve estar entre 10 e 140";
+        String mensagemDescricaoVazia = "Não pode estar vazio";
+        Atividade atividade = montarObjetoAtividade();
+        atividade.setDescricao("");
+        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
+        assertEquals(2, constraintViolations.size());
+    }
+    
+    @Test
+    public void testeCriarAtividadeComObservacaoTamanhoExcedente() {
+        LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
+        String mensagemEsperada = "tamanho deve estar entre 10 e 140";
+        Atividade atividade = montarObjetoAtividade();
+        String descricao = RandomStringUtils.random(145);
+        atividade.setDescricao(descricao);
+        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
+        assertEquals(1, constraintViolations.size());
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(mensagemEsperada, mensagemObtida);
+    }
+
+    @Test
+    public void testeCriarAtividadeComAtributosInvalidos() {
+        LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
+        Atividade atividade = montarObjetoAtividade();
+        atividade.setData(null);
+        atividade.setDescricao(null);
+        atividade.setMonitoria(null);
+        atividade.setHorarioEntrada(null);
+        atividade.setHorarioSaida(null);
+        atividade.setSituacao(null);
+        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
+        assertEquals(7, constraintViolations.size());
+        
+    }
+    
+    @Test
+    public void testeCriarAtividadeValida() {
+        LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
+        Atividade atividade = montarObjetoAtividade();
+        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
+        assertEquals(0, constraintViolations.size());
+    }
+
     private Atividade montarObjetoAtividade() {
         Atividade atividade = new Atividade();
-        Date timestamp = Calendar.getInstance().getTime();
-        atividade.setData(timestamp);
+        Date date = Calendar.getInstance().getTime();
+        atividade.setData(date);
         atividade.setDescricao("Descrição da Atividade");
-        atividade.setHorarioEntrada(timestamp);
+        atividade.setHorarioEntrada(Util.getTime(14, 0, 0));
+        atividade.setHorarioSaida(Util.getTime(15, 0, 0));
         atividade.setObservacoes("Observação da Atividade");
-        atividade.setSituacao(Situacao.APROVADO);
+        atividade.setSituacao(SituacaoAtividade.APROVADA);
         atividade.setMonitoria(super.entityManager.find(Monitoria.class, 1L));
-        atividade.setData(timestamp);
         return atividade;
     }
 

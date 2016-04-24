@@ -18,6 +18,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "TB_CURSO")
@@ -26,9 +29,12 @@ import javax.persistence.Table;
 @Access(AccessType.FIELD)
 public class Curso extends EntidadeNegocio  {
 
+    @NotEmpty
+    @Size(max = 30)
     @Column(name = "CURSO_DS", nullable = false)
     private String descricao;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Grau grau;
