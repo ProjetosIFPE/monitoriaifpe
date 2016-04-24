@@ -13,11 +13,11 @@ import javax.validation.ConstraintValidatorContext;
  *
  * @author EdmilsonS
  */
-public class ValidadorAtividade implements ConstraintValidator<ValidaHorarioAtividade, Atividade> {
+public class ValidadorHorarioAtividade implements ConstraintValidator<ValidaHorarioAtividade, Atividade> {
 
     @Override
     public void initialize(ValidaHorarioAtividade validaAtividade) {
-
+        
     }
 
     @Override

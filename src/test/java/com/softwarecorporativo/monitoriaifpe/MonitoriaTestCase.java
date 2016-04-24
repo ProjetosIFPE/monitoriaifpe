@@ -38,7 +38,7 @@ public class MonitoriaTestCase {
     protected static final Logger LOGGER = Logger.getGlobal();
     @Rule
     public final TestName name;
-    
+
     public MonitoriaTestCase() {
         this.name = new TestName();
         this.validator = factory.getValidator();
@@ -79,14 +79,16 @@ public class MonitoriaTestCase {
     @After
     public void tearDown() {
         try {
-            if (entityTransaction != null && entityTransaction.isActive() && !entityTransaction.getRollbackOnly()) {
-                entityTransaction.commit();
+            if (entityTransaction != null && entityTransaction.isActive()) {
+                if (entityTransaction.getRollbackOnly()) {
+                    entityTransaction.rollback();
+                } else {
+                    entityTransaction.commit();
+                }
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            if ( entityTransaction != null && entityTransaction.isActive() ) {
-                entityTransaction.rollback();
-            } 
+            entityTransaction.rollback();
         } finally {
             if (entityManager != null) {
                 entityManager.close();

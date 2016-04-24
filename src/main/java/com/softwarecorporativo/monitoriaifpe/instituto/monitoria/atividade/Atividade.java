@@ -24,10 +24,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.atividade.validation.ValidaHorarioAtividade;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -41,8 +41,8 @@ import com.softwarecorporativo.monitoriaifpe.instituto.monitoria.atividade.valid
 @ValidaHorarioAtividade
 public class Atividade extends EntidadeNegocio {
 
-    @NotEmpty
-    @Size(min = 10, max = 140)
+    @NotBlank
+    @Size(max = 140)
     @Column(name = "ATIVIDADE_DESCRICAO", nullable = false)
     private String descricao;
 
@@ -56,12 +56,12 @@ public class Atividade extends EntidadeNegocio {
     private SituacaoAtividade situacao;
 
     @NotNull
-    @Column(name = "HORARIO_SAIDA", nullable = false)
+    @Column(name = "HORARIO_ENTRADA", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horarioEntrada;
 
     @NotNull
-    @Column(name = "HORARIO_ENTRADA", nullable = false)
+    @Column(name = "HORARIO_SAIDA", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horarioSaida;
     

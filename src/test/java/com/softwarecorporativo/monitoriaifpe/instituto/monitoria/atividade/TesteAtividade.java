@@ -306,7 +306,7 @@ public class TesteAtividade extends MonitoriaTestCase {
     @Test
     public void testeCriarAtividadeComDescricaoTamanhoExcedente() {
         LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
-        String mensagemEsperada = "tamanho deve estar entre 10 e 140";
+        String mensagemEsperada = "tamanho deve estar entre 0 e 140";
         Atividade atividade = montarObjetoAtividade();
         String descricao = RandomStringUtils.random(145);
         atividade.setDescricao(descricao);
@@ -319,18 +319,19 @@ public class TesteAtividade extends MonitoriaTestCase {
     @Test
     public void testeCriarAtividadeComDescricaoVazia() {
         LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
-        String mensagemTamanhoMinimo = "tamanho deve estar entre 10 e 140";
-        String mensagemDescricaoVazia = "Não pode estar vazio";
+        String mensagemEsperada = "Não pode estar em branco";
         Atividade atividade = montarObjetoAtividade();
         atividade.setDescricao("");
         Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
-        assertEquals(2, constraintViolations.size());
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(1, constraintViolations.size());
+        assertEquals(mensagemEsperada, mensagemObtida);
     }
     
     @Test
     public void testeCriarAtividadeComObservacaoTamanhoExcedente() {
         LOGGER.log(Level.INFO, "Iniciando Teste - ", name.getMethodName());
-        String mensagemEsperada = "tamanho deve estar entre 10 e 140";
+        String mensagemEsperada = "tamanho deve estar entre 0 e 140";
         Atividade atividade = montarObjetoAtividade();
         String descricao = RandomStringUtils.random(145);
         atividade.setDescricao(descricao);

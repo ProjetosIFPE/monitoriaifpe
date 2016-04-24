@@ -56,10 +56,10 @@ public class TesteAluno extends MonitoriaTestCase {
     @Test
     public void testeDeleteAluno() {
         LOGGER.log(Level.INFO, "Teste de Remoção de um Aluno - {2}", name.getMethodName());
-        Usuario alunoBuscado = super.entityManager.find(Usuario.class, 3L);
+        Aluno alunoBuscado = super.entityManager.find(Aluno.class, 11L);
         super.entityManager.remove(alunoBuscado);
         super.entityManager.flush();
-        assertNull(super.entityManager.find(Aluno.class, 3L));
+        assertNull(super.entityManager.find(Aluno.class, 11L));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class TesteAluno extends MonitoriaTestCase {
                 "SELECT COUNT(a.chavePrimaria) from Aluno a WHERE a.nome LIKE :nome", Long.class);
         query.setParameter("nome", "M%");
         Long resultado = query.getSingleResult();
-        assertEquals(new Long(1), resultado);
+        assertEquals(new Long(2), resultado);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class TesteAluno extends MonitoriaTestCase {
         alunoCriado.setSobrenome("Silva");
         alunoCriado.setEmail("fulano@gmail.com");
         alunoCriado.setLogin("fulano21");
-        alunoCriado.setMatricula("1911Y6-RC2222");
+        alunoCriado.setMatricula("20141Y6-RC2222");
         String password = Util.criptografarSenha("123", "123", Constantes.CONSTANTE_CRIPTOGRAFIA);
         alunoCriado.setSenha(password);
         Curso curso = super.entityManager.find(Curso.class, 1L);

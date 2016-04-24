@@ -24,6 +24,8 @@
     <!--curso de eletronica-->
     <tb_curso curso_id="2" grau="TECNICO" curso_ds="Eletronica" />
     
+    <tb_curso curso_id="3" grau="SUPERIOR" curso_ds="Engenharia da Computacão" />
+    
     <tb_disciplina disciplina_id="1" disciplina_ds="Software Corporativo" curso_id="1" professor_id="2" />
     <tb_disciplina disciplina_id="2" disciplina_ds="Engenharia De Requisitos" curso_id="1" professor_id="6" />
     <tb_disciplina disciplina_id="3" disciplina_ds="Teste de Software" curso_id="1" professor_id="7" />

@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TB_CURSO")
@@ -29,8 +29,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Access(AccessType.FIELD)
 public class Curso extends EntidadeNegocio  {
 
-    @NotEmpty
-    @Size(max = 30)
+    @NotBlank
+    @Size(max = 100)
     @Column(name = "CURSO_DS", nullable = false)
     private String descricao;
 
@@ -39,10 +39,10 @@ public class Curso extends EntidadeNegocio  {
     @Column(nullable = false)
     private Grau grau;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Disciplina> disciplinas;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Aluno> alunos;
 
    

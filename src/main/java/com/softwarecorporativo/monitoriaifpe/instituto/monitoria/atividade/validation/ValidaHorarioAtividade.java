@@ -19,7 +19,7 @@ import javax.validation.Payload;
  */
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidadorAtividade.class)
+@Constraint(validatedBy = ValidadorHorarioAtividade.class)
 @Documented
 public @interface ValidaHorarioAtividade {
 

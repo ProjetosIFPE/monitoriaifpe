@@ -31,8 +31,8 @@ public class ValidadadorDeMatricula implements ConstraintValidator<ValidaMatricu
 
         String anoFornecido = value.substring(0, 4);
         int anoForn = Integer.parseInt(anoFornecido);
-        String codigoDoCurso = value.substring(4, 6);
-        String codigoCampus = value.substring(7, 9);
+        String codigoDoCurso = value.substring(5, 7);
+        String codigoCampus = value.substring(8, 10);
 
         return anoForn > 1910 && codigoCampus.equals("RC") && this.listaCodigosDoCurso.contains(codigoDoCurso);
 
