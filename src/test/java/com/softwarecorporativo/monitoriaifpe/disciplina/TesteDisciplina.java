@@ -7,10 +7,13 @@ package com.softwarecorporativo.monitoriaifpe.disciplina;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.curso.Curso;
+import com.softwarecorporativo.monitoriaifpe.monitoria.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.professor.Professor;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolation;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -98,6 +101,73 @@ public class TesteDisciplina extends MonitoriaTestCase {
             assertEquals(cursoEsperado, disciplina.getCurso());
         }
     }
+    
+    @Test
+    public void testeCadastrarDisciplinaComDescricaoNula()
+    {
+        Disciplina disciplina = new Disciplina();
+        Professor professor = super.entityManager.find(Professor.class, 6l);
+        Curso curso = super.entityManager.find(Curso.class, 1l);
+        disciplina.setProfessor(professor);
+        disciplina.setCurso(curso);
+        disciplina.setDescricao(null);
+        Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
+        assertEquals(1, constraintViolations.size());
+    
+    }
+    
+    @Test
+    public void TesteCadastrarDisciplinaComTodosOsAtributosNulos()
+    {
+        Disciplina disciplina = new Disciplina();
+        disciplina.setProfessor(null);
+        disciplina.setCurso(null);
+        disciplina.setDescricao(null);
+        Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
+        assertEquals(2, constraintViolations.size());
+    }
+    
+    @Test
+    public void TesteCadastrarDisciplinaComDescricaoEmBranco()
+    {
+        Disciplina disciplina = new Disciplina();
+        Professor professor = super.entityManager.find(Professor.class, 6l);
+        Curso curso = super.entityManager.find(Curso.class, 1l);
+        disciplina.setProfessor(professor);
+        disciplina.setCurso(curso);
+        disciplina.setDescricao("");
+        Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
+        assertEquals(1, constraintViolations.size()); 
+    }
+    
+    @Test
+    public void TesteCadastrarDisciplinaComAtributosValidos()
+    {
+        Disciplina disciplina = new Disciplina();
+        Professor professor = super.entityManager.find(Professor.class, 6l);
+        Curso curso = super.entityManager.find(Curso.class, 1l);
+        disciplina.setProfessor(professor);
+        disciplina.setCurso(curso);
+        disciplina.setDescricao("Sistemas Embarcados");
+        Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
+        assertEquals(0, constraintViolations.size()); 
+    }
+    
+    @Test
+    public void TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres()
+    {
+         Disciplina disciplina = new Disciplina();
+        Professor professor = super.entityManager.find(Professor.class, 6l);
+        Curso curso = super.entityManager.find(Curso.class, 1l);
+        disciplina.setProfessor(professor);
+        disciplina.setCurso(curso);
+        disciplina.setDescricao("TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres"
+                + "TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres"
+                + "TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres");
+        Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
+        assertEquals(1, constraintViolations.size()); 
+    }
+    
 
     public Disciplina montarObjetoDisciplina() {
         Disciplina disciplina = new Disciplina();
@@ -108,4 +178,6 @@ public class TesteDisciplina extends MonitoriaTestCase {
         disciplina.setDescricao("Desenvolvimento de Sofware Corporativo");
         return disciplina;
     }
+    
+    
 }
