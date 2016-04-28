@@ -56,7 +56,7 @@ public class Util {
         return formatter.format(data);
     }
 
-    public static Date getData(Integer dia, Integer mes, Integer ano) {
+    public static Date getDate(Integer dia, Integer mes, Integer ano) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, ano);
         c.set(Calendar.MONTH, mes);

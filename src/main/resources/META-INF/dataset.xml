@@ -13,28 +13,22 @@
     <tb_usuario usuario_id="11" usuario_nome="Michael" usuario_sobrenome="Barney" usuario_email="mb@recife.ifpe.edu.br" usuario_login="MichaelBarney" usuario_senha="f6fdffe48c908debf4c3bd36c32e72" PAPEL_USUARIO="A" />
     <tb_usuario usuario_id="12" usuario_nome="Gilmar" usuario_sobrenome="Silva" usuario_email="gs@recife.ifpe.edu.br" usuario_login="GilmarSilva" usuario_senha="f6fdffe48c908debf4c3bd36c32e72" PAPEL_USUARIO="P" />
 
-    
     <tb_professor professor_id="2" />
     <tb_professor professor_id="6" />
     <tb_professor professor_id="7" />
     <tb_professor professor_id="8" />
     <tb_professor professor_id="12" />
     
-    <tb_curso curso_id="1" grau="SUPERIOR" curso_ds="Análise de Sistemas" />
-    <!--curso de eletronica-->
-    <tb_curso curso_id="2" grau="TECNICO" curso_ds="Eletronica" />
-    
-    <tb_curso curso_id="3" grau="SUPERIOR" curso_ds="Engenharia da Computacão" />
+    <tb_curso  curso_id="1" codigo_campus="RC" codigo_curso="Y6" grau="SUPERIOR" curso_ds="Análise de Sistemas" />
+    <tb_curso  curso_id="2" codigo_campus="RC" codigo_curso="T4" grau="TECNICO"  curso_ds="Eletronica" />
+    <tb_curso  curso_id="3" codigo_campus="RC" codigo_curso="C2" grau="SUPERIOR" curso_ds="Engenharia da Computacão" />
     
     <tb_disciplina disciplina_id="1" disciplina_ds="Software Corporativo" curso_id="1" professor_id="2" />
     <tb_disciplina disciplina_id="2" disciplina_ds="Engenharia De Requisitos" curso_id="1" professor_id="6" />
     <tb_disciplina disciplina_id="3" disciplina_ds="Teste de Software" curso_id="1" professor_id="7" />
     <tb_disciplina disciplina_id="4" disciplina_ds="TCC I" curso_id="1" professor_id="8" />
-    
-    <!--disciplina de eletronica-->
     <tb_disciplina disciplina_id="5" disciplina_ds="Circuitos" curso_id="2" professor_id="12" />
-
-    
+   
     <tb_periodo periodo_id="1" semestre="PRIMEIRO" periodo_ano="2015" />
     <tb_periodo periodo_id="2" semestre="SEGUNDO" periodo_ano="2016" />
     
@@ -43,10 +37,8 @@
     <tb_aluno aluno_id="4" aluno_matricula="20131Y6-RC0000"  curso_id="1" />
     <tb_aluno aluno_id="5" aluno_matricula="20141Y6-RC0321"  curso_id="1" />
     <tb_aluno aluno_id="9" aluno_matricula="20111Y6-RC0321"  curso_id="1" />
-    
-    <!--alunos de eletronica-->
-    <tb_aluno aluno_id="10" aluno_matricula="20121Y6-XX0321"  curso_id="2" />
-    <tb_aluno aluno_id="11" aluno_matricula="20111Y6-XX0321"  curso_id="2" />
+    <tb_aluno aluno_id="10" aluno_matricula="20121T4-RC0321"  curso_id="2" />
+    <tb_aluno aluno_id="11" aluno_matricula="20111T4-RC0321"  curso_id="2" />
     
     <tb_disciplina_aluno disciplina_id="1" aluno_id="1"  />
     <tb_disciplina_aluno disciplina_id="1" aluno_id="3"  />
@@ -56,7 +48,6 @@
     <tb_disciplina_aluno disciplina_id="3" aluno_id="3"  />
     <tb_disciplina_aluno disciplina_id="4" aluno_id="5"  />
     <tb_disciplina_aluno disciplina_id="4" aluno_id="9"  />
-    <!--disciplina de eletronica-->
     <tb_disciplina_aluno disciplina_id="5" aluno_id="10"  />
     <tb_disciplina_aluno disciplina_id="5" aluno_id="11"  />
     

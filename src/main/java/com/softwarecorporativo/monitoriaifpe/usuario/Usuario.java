@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -27,22 +26,25 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.FIELD)
 public abstract class Usuario extends EntidadeNegocio  {
 
-    @NotNull
+    @NotBlank
+    @Size(max = 30)
+    @Pattern(regexp = "^[A-Z]{1}[A-Za-z]*$")
     @Column(name = "USUARIO_NOME", nullable = false)
     private String nome;
     
-    @NotNull
+    @NotBlank
+    @Size(max = 30)
+    @Pattern(regexp = "^[A-Z]{1}[A-Za-z]*$")
     @Column(name = "USUARIO_SOBRENOME", nullable = false)
     private String sobrenome;
     
+    /* TODO: Criar validação para o login */
     @NotBlank
     @Column(name = "USUARIO_LOGIN", nullable = false)
     private String login;
     
+     /* TODO: Criar validação para a senha */
     @NotBlank
-//    @Size(min = 4, max = 10)
-//    @Pattern(regexp = "((?=.*\\p{Digit})(?=.*\\p{Lower}) (?=.*{Upper}) . {4,10})", 
-//            message = "Senha não se enquadra no padrão estabelecido!")
     @Column(name = "USUARIO_SENHA", nullable = false)
     private String senha;
     

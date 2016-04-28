@@ -74,18 +74,15 @@ public class MonitoriaTestCase {
 
     protected void prepararCenario() {
         DbUnitUtil.inserirDados();
+        LOGGER.log(Level.INFO, "Iniciando Teste - {0}", name.getMethodName());
     }
 
     @After
     public void tearDown() {
         try {
             if (entityTransaction != null && entityTransaction.isActive()) {
-                if (entityTransaction.getRollbackOnly()) {
-                    entityTransaction.rollback();
-                } else {
-                    entityTransaction.commit();
-                }
-            }
+                entityTransaction.commit();
+            } 
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             entityTransaction.rollback();
