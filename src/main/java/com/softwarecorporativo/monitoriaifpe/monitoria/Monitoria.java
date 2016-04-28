@@ -31,6 +31,7 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class Monitoria extends EntidadeNegocio  {
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Modalidade modalidade;
@@ -54,7 +55,7 @@ public class Monitoria extends EntidadeNegocio  {
     @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> atividades;
 
-    @NotNull
+    
     @Column(name = "HABILITADO")
     private boolean habilitado;
 
