@@ -21,6 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TB_DISCIPLINA")
@@ -29,7 +31,8 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class Disciplina extends EntidadeNegocio {
 
-    @Max(value = 150)
+    @NotBlank
+    @Size(max = 150)
     @Column(name = "DISCIPLINA_DS", nullable = false)
     private String descricao;
 
