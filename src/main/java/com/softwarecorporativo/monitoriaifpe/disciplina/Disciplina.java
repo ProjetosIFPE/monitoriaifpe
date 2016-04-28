@@ -19,6 +19,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TB_DISCIPLINA")
@@ -27,6 +29,7 @@ import javax.persistence.Table;
 @Access(AccessType.FIELD)
 public class Disciplina extends EntidadeNegocio {
 
+    @Max(value = 150)
     @Column(name = "DISCIPLINA_DS", nullable = false)
     private String descricao;
 
@@ -34,6 +37,7 @@ public class Disciplina extends EntidadeNegocio {
     @JoinTable(name = "TB_DISCIPLINA_ALUNO", joinColumns = @JoinColumn(name = "DISCIPLINA_ID"), inverseJoinColumns = @JoinColumn(name = "ALUNO_ID"))
     private List<Aluno> alunos;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
     private Curso curso;
