@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.monitoria.atividade.validation;
+package com.softwarecorporativo.monitoriaifpe.atividade.validation;
 
-import com.softwarecorporativo.monitoriaifpe.monitoria.atividade.Atividade;
+import com.softwarecorporativo.monitoriaifpe.atividade.Atividade;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

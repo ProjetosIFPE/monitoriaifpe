@@ -19,8 +19,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -32,7 +32,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Disciplina extends EntidadeNegocio {
 
     @NotBlank
-    @Size(max = 150)
+    @Size(min = 1, max = 150)
+    @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.disciplina.descricao}")
     @Column(name = "DISCIPLINA_DS", nullable = false)
     private String descricao;
 

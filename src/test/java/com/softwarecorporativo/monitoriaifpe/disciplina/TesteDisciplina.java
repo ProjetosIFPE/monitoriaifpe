@@ -7,11 +7,9 @@ package com.softwarecorporativo.monitoriaifpe.disciplina;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.monitoria.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.professor.Professor;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
 import static org.junit.Assert.*;
@@ -117,7 +115,7 @@ public class TesteDisciplina extends MonitoriaTestCase {
     }
     
     @Test
-    public void TesteCadastrarDisciplinaComTodosOsAtributosNulos()
+    public void testeCadastrarDisciplinaComTodosOsAtributosNulos()
     {
         Disciplina disciplina = new Disciplina();
         disciplina.setProfessor(null);
@@ -128,7 +126,7 @@ public class TesteDisciplina extends MonitoriaTestCase {
     }
     
     @Test
-    public void TesteCadastrarDisciplinaComDescricaoEmBranco()
+    public void testeCadastrarDisciplinaComDescricaoEmBranco()
     {
         Disciplina disciplina = new Disciplina();
         Professor professor = super.entityManager.find(Professor.class, 6l);
@@ -137,11 +135,11 @@ public class TesteDisciplina extends MonitoriaTestCase {
         disciplina.setCurso(curso);
         disciplina.setDescricao("");
         Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
-        assertEquals(1, constraintViolations.size()); 
+        assertEquals(3, constraintViolations.size()); 
     }
     
     @Test
-    public void TesteCadastrarDisciplinaComAtributosValidos()
+    public void testeCadastrarDisciplinaComAtributosValidos()
     {
         Disciplina disciplina = new Disciplina();
         Professor professor = super.entityManager.find(Professor.class, 6l);
@@ -154,7 +152,7 @@ public class TesteDisciplina extends MonitoriaTestCase {
     }
     
     @Test
-    public void TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres()
+    public void testeCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres()
     {
          Disciplina disciplina = new Disciplina();
         Professor professor = super.entityManager.find(Professor.class, 6l);
@@ -167,6 +165,19 @@ public class TesteDisciplina extends MonitoriaTestCase {
         Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
         assertEquals(1, constraintViolations.size()); 
     }
+    
+     @Test
+    public void testeCriarCursoComDescricaoInvalida() {
+        Disciplina disciplina = montarObjetoDisciplina();
+        String mensagemEsperada = "A descrição da disciplina deve iniciar com "
+                + "uma letra maiúscula, seguida de caracteres que não sejam dígitos";
+        disciplina.setDescricao("A2alise de Sistemas");
+        Set<ConstraintViolation<Disciplina>> constraintViolations = validator.validate(disciplina);
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(1, constraintViolations.size());
+        assertEquals(mensagemEsperada, mensagemObtida);
+    }
+   
     
 
     public Disciplina montarObjetoDisciplina() {

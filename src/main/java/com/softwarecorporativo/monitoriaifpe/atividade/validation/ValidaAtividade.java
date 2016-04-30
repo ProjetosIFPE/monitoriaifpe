@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.monitoria.atividade.validation;
+package com.softwarecorporativo.monitoriaifpe.atividade.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -23,7 +23,7 @@ import javax.validation.Payload;
 @Documented
 public @interface ValidaAtividade {
 
-    String message() default "{com.softwarecorporativo.monitoriaifpe.monitoria.atividade.horario}";
+    String message() default "{com.softwarecorporativo.monitoriaifpe.atividade.horario}";
 
     Class<?>[] groups() default {};
 

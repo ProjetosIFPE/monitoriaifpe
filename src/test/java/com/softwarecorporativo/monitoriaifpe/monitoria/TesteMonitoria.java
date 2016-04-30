@@ -50,82 +50,80 @@ public class TesteMonitoria extends MonitoriaTestCase {
         super.entityManager.flush();
         assertNull(super.entityManager.find(Monitoria.class, 2L));
     }
-    
+
     @Test
-    public void testeMonitoriaComAtributosNulos()
-    {
+    public void testeMonitoriaComAtributosNulos() {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(null);
         monitoria.setModalidade(null);
         monitoria.setDisciplina(null);
         monitoria.setPeriodo(null);
-        monitoria.setHabilitado(false);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
-        assertEquals(4, constraintViolations.size()); 
-        
-        
+        assertEquals(5, constraintViolations.size());
+
     }
-    
+
     @Test
-    public void testeMonitoriaComDisciplinaNula()
-    {
+    public void testeMonitoriaComDisciplinaNula() {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(null);
         monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
-        monitoria.setHabilitado(Boolean.TRUE);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
-        assertEquals(1, constraintViolations.size()); 
+        assertEquals(2, constraintViolations.size());
     }
-    
+
     @Test
-    public void testeMonitoriaComAlunoNulo()
-    {
-       Monitoria monitoria = new Monitoria();
+    public void testeMonitoriaComAlunoNulo() {
+        Monitoria monitoria = new Monitoria();
         monitoria.setAluno(null);
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
-        monitoria.setHabilitado(Boolean.TRUE);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
-        assertEquals(1, constraintViolations.size()); 
+        assertEquals(2, constraintViolations.size());
     }
-    
+
     @Test
-    public void testeMonitoriaComPeriodoNulo()
-    {
+    public void testeMonitoriaComPeriodoNulo() {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(null);
-        monitoria.setHabilitado(Boolean.TRUE);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
-        assertEquals(1, constraintViolations.size()); 
+        assertEquals(1, constraintViolations.size());
     }
-    
+
     @Test
-    public void testeMonitoriaComModalidadeNula()
-    {
+    public void testeMonitoriaComModalidadeNula() {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(null);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
-        monitoria.setHabilitado(Boolean.TRUE);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
-        assertEquals(1, constraintViolations.size()); 
+        assertEquals(1, constraintViolations.size());
     }
-    
-    
+
+    @Test
+    public void testeCriarMonitoriaComDisciplinaInvalida() {
+        Monitoria monitoria = montarObjetoMonitoria();
+        String mensagemEsperada = "A disciplina da monitoria deve ser cursada pelo aluno";
+        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 5l));
+        Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(1, constraintViolations.size());
+        assertEquals(mensagemEsperada, mensagemObtida);
+    }
+
     public Monitoria montarObjetoMonitoria() {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
-        monitoria.setHabilitado(Boolean.TRUE);
         return monitoria;
     }
 

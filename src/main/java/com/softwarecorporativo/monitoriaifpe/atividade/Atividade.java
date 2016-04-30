@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.monitoria.atividade;
+package com.softwarecorporativo.monitoriaifpe.atividade;
 
 import com.softwarecorporativo.monitoriaifpe.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
-import com.softwarecorporativo.monitoriaifpe.monitoria.atividade.validation.ValidaAtividade;
+import com.softwarecorporativo.monitoriaifpe.atividade.validation.ValidaAtividade;
 
 /**
  *

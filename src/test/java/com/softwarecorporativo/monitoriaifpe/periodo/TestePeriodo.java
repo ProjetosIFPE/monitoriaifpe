@@ -50,13 +50,15 @@ public class TestePeriodo extends MonitoriaTestCase {
         super.entityManager.flush();
         assertNull(super.entityManager.find(Periodo.class, 2L));
     }
-        
+
     @Test
-    public void testeCriarPeriodoAnoInvalido() {
+    public void testeCriarPeriodoComAtributosInvalidos() {
         Periodo periodo = montarObjetoPeriodo();
+        String mensagemEsperada = "O período deve iniciar no mínimo no ano de 1970";
         periodo.setAno(1969);
         Set<ConstraintViolation<Periodo>> constraintViolations = validator.validate(periodo);
-        assertEquals(1, constraintViolations.size());
+        String mensagemObtida = constraintViolations.iterator().next().getMessage();
+        assertEquals(mensagemEsperada, mensagemObtida);
     }
 
     public Periodo montarObjetoPeriodo() {

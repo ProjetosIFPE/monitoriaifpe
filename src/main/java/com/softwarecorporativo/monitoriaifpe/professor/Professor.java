@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Access(AccessType.FIELD)
 public class Professor extends Usuario  {
 
-    @OneToMany(mappedBy = "professor", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY)
     private List<Disciplina> disciplinas;
 
     

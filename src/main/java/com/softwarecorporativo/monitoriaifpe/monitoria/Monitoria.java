@@ -2,7 +2,8 @@ package com.softwarecorporativo.monitoriaifpe.monitoria;
 
 import com.softwarecorporativo.monitoriaifpe.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
-import com.softwarecorporativo.monitoriaifpe.monitoria.atividade.Atividade;
+import com.softwarecorporativo.monitoriaifpe.atividade.Atividade;
+import com.softwarecorporativo.monitoriaifpe.monitoria.validation.ValidaMonitoria;
 import com.softwarecorporativo.monitoriaifpe.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
@@ -29,6 +30,7 @@ import javax.validation.constraints.NotNull;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITORIA_ID"))})
 @Access(AccessType.FIELD)
+@ValidaMonitoria
 public class Monitoria extends EntidadeNegocio  {
 
     @NotNull
@@ -37,12 +39,12 @@ public class Monitoria extends EntidadeNegocio  {
     private Modalidade modalidade;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DISCIPLINA_ID", referencedColumnName = "DISCIPLINA_ID")
     private Disciplina disciplina;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
     private Aluno aluno;
 
@@ -51,13 +53,8 @@ public class Monitoria extends EntidadeNegocio  {
     @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
     private Periodo periodo;
 
-    
     @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> atividades;
-
-    
-    @Column(name = "HABILITADO")
-    private boolean habilitado;
 
  
     public Modalidade getModalidade() {
@@ -112,19 +109,6 @@ public class Monitoria extends EntidadeNegocio  {
         this.periodo = periodo;
     }
 
-    
-    public boolean isHabilitado() {
-
-        return habilitado;
-    }
-
-    
-    public void setHabilitado(boolean habilitado) {
-
-        this.habilitado = habilitado;
-    }
-
-    
     public void setAluno(Aluno aluno) {
 
         this.aluno = aluno;

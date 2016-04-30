@@ -8,8 +8,6 @@ package com.softwarecorporativo.monitoriaifpe.professor;
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
-import com.softwarecorporativo.monitoriaifpe.util.Util;
-import com.softwarecorporativo.monitoriaifpe.util.constantes.Constantes;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import static org.junit.Assert.assertEquals;
@@ -24,11 +22,8 @@ public class TesteProfessor extends MonitoriaTestCase {
 
     @Test
     public void testePersistProfessor() {
-        // DUVIDA
+ 
         Professor professor = montarObjetoProfessor();
-        Disciplina disciplina = montarObjetoDisciplina();
-        disciplina.setProfessor(professor);
-        //professor.addDisciplina(disciplina);
         super.entityManager.persist(professor);
         super.entityManager.flush();
         super.entityManager.refresh(professor);
@@ -39,7 +34,6 @@ public class TesteProfessor extends MonitoriaTestCase {
     @Test
     public void testeUpdateProfessor() {
         Professor professorBuscado = super.entityManager.find(Professor.class, 8L);
-        String sobrenomeAntigo = professorBuscado.getSobrenome();
         professorBuscado.setSobrenome("Araujo");
         super.entityManager.merge(professorBuscado);
         super.entityManager.flush();
@@ -102,10 +96,9 @@ public class TesteProfessor extends MonitoriaTestCase {
         professor_criado.setNome("Paulo");
         professor_criado.setSobrenome("Abadie");
         professor_criado.setEmail("PauloAbadie@gmail.com");
-        professor_criado.setLogin("PauloAbadie");
-        String password = Util.criptografarSenha("senha", "ssenha", Constantes.CONSTANTE_CRIPTOGRAFIA);
-        professor_criado.setSenha(password);
-
+        professor_criado.setLogin("pauloabadie");
+        professor_criado.setSenha("paulo123");
+        professor_criado.addDisciplina(montarObjetoDisciplina());
         return professor_criado;
     }
 

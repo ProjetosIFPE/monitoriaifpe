@@ -6,11 +6,8 @@
 package com.softwarecorporativo.monitoriaifpe.curso;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
-import com.softwarecorporativo.monitoriaifpe.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import java.util.Set;
-import java.util.logging.Level;
 import javax.validation.ConstraintViolation;
 import org.apache.commons.lang.RandomStringUtils;
 import static org.junit.Assert.assertEquals;
@@ -20,7 +17,7 @@ import org.junit.Test;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 public class TesteCurso extends MonitoriaTestCase {
 
@@ -45,7 +42,7 @@ public class TesteCurso extends MonitoriaTestCase {
     }
 
     @Test
-    public void testeRemoverPeriodo() {
+    public void testeRemoverCurso() {
         Curso curso = super.entityManager.find(Curso.class, 3L);
         super.entityManager.remove(curso);
         super.entityManager.flush();
@@ -54,9 +51,9 @@ public class TesteCurso extends MonitoriaTestCase {
 
     @Test
     public void testeCriarCursoComDescricaoTamanhoExcedente() {
-        String mensagemEsperada = "tamanho deve estar entre 0 e 100";
+        String mensagemEsperada = "tamanho deve estar entre 1 e 100";
         Curso curso = montarObjetoCurso();
-        String descricao = RandomStringUtils.random(101);
+        String descricao = RandomStringUtils.random(101, "C");
         curso.setDescricao(descricao);
         Set<ConstraintViolation<Curso>> constraintViolations = validator.validate(curso);
         assertEquals(1, constraintViolations.size());
@@ -66,7 +63,7 @@ public class TesteCurso extends MonitoriaTestCase {
     
     @Test
     public void testeCriarCursoComCodigoDoCursoInvalido() {
-        String mensagemEsperada = "O código do curso deve começar com uma letra maiúscula seguida de um inteiro entre 0 e 9";
+        String mensagemEsperada = "O código do curso deve começar com uma letra maiúscula, seguida de um inteiro entre 0 e 9";
         Curso curso = montarObjetoCurso();
         curso.setCodigoCurso("2R");
         Set<ConstraintViolation<Curso>> constraintViolations = validator.validate(curso);
@@ -88,14 +85,24 @@ public class TesteCurso extends MonitoriaTestCase {
 
     @Test
     public void testeCriarCursoComDescricaoVazia() {
-        String mensagemEsperada = "Não pode estar em branco";
         Curso curso = montarObjetoCurso();
         curso.setDescricao("");
+        Set<ConstraintViolation<Curso>> constraintViolations = validator.validate(curso);
+        assertEquals(3, constraintViolations.size());
+    }
+    
+    @Test
+    public void testeCriarCursoComDescricaoInvalida() {
+        Curso curso = montarObjetoCurso();
+        String mensagemEsperada = "A descrição do curso deve iniciar com uma letra "
+                + "maiúscula seguido de caracteres que não sejam dígitos";
+        curso.setDescricao("ciência da computação");
         Set<ConstraintViolation<Curso>> constraintViolations = validator.validate(curso);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
         assertEquals(1, constraintViolations.size());
         assertEquals(mensagemEsperada, mensagemObtida);
     }
+   
 
     public Curso montarObjetoCurso() {
         Curso curso = new Curso();

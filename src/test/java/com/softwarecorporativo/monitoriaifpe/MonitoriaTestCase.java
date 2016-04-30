@@ -25,7 +25,7 @@ import org.junit.rules.TestName;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 public class MonitoriaTestCase {
 

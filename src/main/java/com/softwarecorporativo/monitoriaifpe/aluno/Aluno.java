@@ -21,20 +21,18 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
-
-
 @Entity
 @Table(name = "TB_ALUNO")
 @PrimaryKeyJoinColumn(name = "ALUNO_ID")
 @DiscriminatorValue(value = "A")
 @Access(AccessType.FIELD)
 @ValidaMatricula
-public class Aluno extends Usuario  {
+public class Aluno extends Usuario {
 
     @NotBlank
     @Column(name = "ALUNO_MATRICULA", nullable = false)
     private String matricula;
-    
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
@@ -45,8 +43,7 @@ public class Aluno extends Usuario  {
             joinColumns = @JoinColumn(name = "ALUNO_ID"),
             inverseJoinColumns = @JoinColumn(name = "DISCIPLINA_ID"))
     private List<Disciplina> disciplinas;
-    
-   
+
     public String getMatricula() {
 
         return matricula;
@@ -57,35 +54,31 @@ public class Aluno extends Usuario  {
         this.matricula = matricula;
     }
 
-   
     public Curso getCurso() {
 
         return curso;
     }
 
-   
     public void setCurso(Curso curso) {
 
         this.curso = curso;
     }
 
-  
-    public Disciplina getDisciplina(int index) {
-        if ( this.disciplinas == null ) {
-            this.disciplinas = new ArrayList<>();
+    public Boolean verificarDisciplinaNoAluno(Disciplina disciplina) {
+        Boolean possuiDisciplina = Boolean.FALSE;
+        if (this.disciplinas != null) {
+            possuiDisciplina = this.disciplinas.contains(disciplina);
         }
-        return disciplinas.get(index);
+        return possuiDisciplina;
     }
 
-    
     public void addDisciplina(Disciplina disciplina) {
-        if ( this.disciplinas == null ) {
+        if (this.disciplinas == null) {
             this.disciplinas = new ArrayList<>();
         }
         this.disciplinas.add(disciplina);
     }
 
-    
     public int quantidadeDisciplinasCursadas() {
 
         return disciplinas.size();

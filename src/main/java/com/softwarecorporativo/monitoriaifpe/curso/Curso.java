@@ -31,7 +31,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Curso extends EntidadeNegocio  {
 
     @NotBlank
-    @Size(max = 100)
+    @Size(min = 1, max = 100)
+    @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.curso.descricao}")
     @Column(name = "CURSO_DS", nullable = false)
     private String descricao;
 
@@ -51,7 +52,7 @@ public class Curso extends EntidadeNegocio  {
     @Column(name = "CODIGO_CAMPUS", nullable = false)
     private String codigoCampus;
     
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Disciplina> disciplinas;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
