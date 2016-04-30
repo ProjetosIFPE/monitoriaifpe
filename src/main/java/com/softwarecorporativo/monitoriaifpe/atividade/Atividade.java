@@ -53,7 +53,7 @@ public class Atividade extends EntidadeNegocio {
     @Enumerated(EnumType.STRING)
     @Column(name = "SITUACAO_ATIVIDADE", nullable = false)
     private SituacaoAtividade situacao;
-
+    
     @NotNull
     @Column(name = "HORARIO_ENTRADA", nullable = false)
     @Temporal(TemporalType.TIME)

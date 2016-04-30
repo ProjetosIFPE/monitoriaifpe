@@ -29,7 +29,7 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(1, constraintViolations.size());
         assertEquals(mensagemEsperada, mensagemObtida);
     }
-
+    /* Remover RandomStringUtils */
     @Test
     public void testeCriarUsuarioComNomeTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();

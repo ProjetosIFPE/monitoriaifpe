@@ -41,7 +41,6 @@ public class Curso extends EntidadeNegocio  {
     @Column(name = "GRAU", nullable = false)
     private Grau grau;
 
-    /* TODO: Verificar se é necessário colocar campo no equals */
     @NotBlank
     @Pattern(regexp = "^[A-Z][0-9]$", message = "{com.softwarecorporativo.monitoriaifpe.curso.codigoCurso}")
     @Column(name = "CODIGO_CURSO", nullable = false, unique = true)

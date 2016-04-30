@@ -63,7 +63,7 @@ public class Aluno extends Usuario {
 
         this.curso = curso;
     }
-
+    /* Adicionar média do aluno a entidade */
     public Boolean verificarDisciplinaNoAluno(Disciplina disciplina) {
         Boolean possuiDisciplina = Boolean.FALSE;
         if (this.disciplinas != null) {

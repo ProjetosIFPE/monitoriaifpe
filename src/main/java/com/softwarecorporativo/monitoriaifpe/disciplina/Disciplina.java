@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.NotBlank;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "DISCIPLINA_ID"))})
 @Access(AccessType.FIELD)
 public class Disciplina extends EntidadeNegocio {
-
+    /* Lembrar de adicionar nota ao aluno e disciplina */
     @NotBlank
     @Size(min = 1, max = 150)
     @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.disciplina.descricao}")
@@ -46,6 +46,7 @@ public class Disciplina extends EntidadeNegocio {
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
     private Curso curso;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "PROFESSOR_ID", referencedColumnName = "PROFESSOR_ID")
     private Professor professor;

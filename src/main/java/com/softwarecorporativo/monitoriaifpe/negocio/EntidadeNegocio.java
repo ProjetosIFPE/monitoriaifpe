@@ -22,7 +22,7 @@ public abstract class EntidadeNegocio implements Serializable {
      */
     private static final long serialVersionUID = 1874851173773909132L;
 
-    @Past
+    
     @Column(name = "ULTIMA_ALTERACAO", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaAlteracao;
