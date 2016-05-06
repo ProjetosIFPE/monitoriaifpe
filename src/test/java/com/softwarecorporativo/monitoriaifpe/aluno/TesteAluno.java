@@ -7,7 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.aluno;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
 import java.util.Set;
 import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
@@ -112,7 +112,7 @@ public class TesteAluno extends MonitoriaTestCase {
         alunoCriado.setSenha("fulano123");
         Curso curso = super.entityManager.find(Curso.class, 1L);
         alunoCriado.setCurso(curso);
-        Disciplina disciplina = super.entityManager.find(Disciplina.class, 1L);
+        ComponenteCurricular disciplina = super.entityManager.find(ComponenteCurricular.class, 1L);
         alunoCriado.addDisciplina(disciplina);
 
         return alunoCriado;

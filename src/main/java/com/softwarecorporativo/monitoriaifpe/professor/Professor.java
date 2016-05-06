@@ -18,33 +18,28 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "PROFESSOR_ID")
 @DiscriminatorValue(value = "P")
 @Access(AccessType.FIELD)
-public class Professor extends Usuario  {
+public class Professor extends Usuario {
 
     @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY)
     private List<Disciplina> disciplinas;
 
-    
     public Disciplina getDisciplina(int index) {
-        if ( this.disciplinas == null ) {
+        if (this.disciplinas == null) {
             this.disciplinas = new ArrayList<>();
         }
         return disciplinas.get(index);
     }
 
-    
     public void addDisciplina(Disciplina disciplina) {
-        if ( this.disciplinas == null ) {
+        if (this.disciplinas == null) {
             this.disciplinas = new ArrayList<>();
         }
         disciplina.setProfessor(this);
         this.disciplinas.add(disciplina);
     }
 
-    
     public int getQuantidadeDisciplinasDoProfessor() {
         return disciplinas.size();
     }
-
-   
 
 }

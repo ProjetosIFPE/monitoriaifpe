@@ -29,12 +29,12 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(1, constraintViolations.size());
         assertEquals(mensagemEsperada, mensagemObtida);
     }
-    /* Remover RandomStringUtils */
+    
     @Test
     public void testeCriarUsuarioComNomeTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 1 e 30";
-        String nome = "E".concat(RandomStringUtils.random(30, "e"));
+        String nome = "Edmilsonmanoelguilhermedesantana";
         usuario.setNome(nome);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
@@ -57,7 +57,7 @@ public class TesteUsuario extends MonitoriaTestCase {
     public void testeCriarUsuarioComSobrenomeTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 1 e 30";
-        String sobrenome = "E".concat(RandomStringUtils.random(30, "e"));
+        String sobrenome = "Edmilsonmanoelguilhermedesantana";
         usuario.setNome(sobrenome);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
@@ -80,7 +80,7 @@ public class TesteUsuario extends MonitoriaTestCase {
     public void testeCriarUsuarioComLoginTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 3 e 16";
-        String login = RandomStringUtils.random(17, "e");
+        String login = "kfjgurtdhwis9857-";
         usuario.setLogin(login);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
@@ -92,7 +92,7 @@ public class TesteUsuario extends MonitoriaTestCase {
     public void testeCriarUsuarioComLoginTamanhoMinInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 3 e 16";
-        String login = RandomStringUtils.random(2, "e");
+        String login = "e1";
         usuario.setLogin(login);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
@@ -103,8 +103,8 @@ public class TesteUsuario extends MonitoriaTestCase {
     @Test
     public void testeCriarUsuarioComSenhaInvalida() {
         Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "A senha permite apenas letras minúsculas, números, caractere sublinhado e hífen com tamanho mínimo 6 e máximo 18";
-        usuario.setSenha("Senha_1");
+        String mensagemEsperada = "A senha permite apenas letras, números, caractere sublinhado, hífen e os seguintes caracteres especiais: @#$; deve ter tamanho mínimo 6 e máximo 18";
+        usuario.setSenha("senha\\1");
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
         assertEquals(1, constraintViolations.size());
@@ -115,7 +115,7 @@ public class TesteUsuario extends MonitoriaTestCase {
     public void testeCriarUsuarioComSenhaTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 6 e 18";
-        String senha = RandomStringUtils.random(19, "e");
+        String senha = "Senha1234@s-4_&ah#s9";
         usuario.setSenha(senha);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
@@ -127,7 +127,7 @@ public class TesteUsuario extends MonitoriaTestCase {
     public void testeCriarUsuarioComSenhaTamanhoMinInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 6 e 18";
-        String senha = RandomStringUtils.random(5, "e");
+        String senha = "s1@_#";
         usuario.setSenha(senha);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();

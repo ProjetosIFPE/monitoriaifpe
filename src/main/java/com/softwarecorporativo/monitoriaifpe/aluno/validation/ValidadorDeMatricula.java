@@ -25,11 +25,10 @@ public class ValidadorDeMatricula implements ConstraintValidator<ValidaMatricula
         String codigoCampusAluno = curso.getCodigoCampus();
         Boolean matriculaValida = Boolean.FALSE;
         if (!matricula.isEmpty()) {
-            
             int anoMatricula = Integer.parseInt(matricula.substring(0, 4));
             String codigoCursoMatricula = matricula.substring(5, 7);
             String codigoCampusMatricula = matricula.substring(8, 10);
-            
+
             if (anoMatricula > 1910 && codigoCursoMatricula.equals(codigoCursoAluno)
                     && codigoCampusMatricula.equals(codigoCampusAluno)) {
                 matriculaValida = Boolean.TRUE;

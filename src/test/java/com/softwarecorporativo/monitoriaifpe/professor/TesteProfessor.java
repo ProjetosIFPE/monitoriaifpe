@@ -7,6 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.professor;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.curso.Curso;
+import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import java.util.List;
 import javax.persistence.TypedQuery;
@@ -105,8 +106,10 @@ public class TesteProfessor extends MonitoriaTestCase {
     private Disciplina montarObjetoDisciplina() {
         Disciplina disciplina = new Disciplina();
         Curso curso = super.entityManager.find(Curso.class, 1L);
-        disciplina.setCurso(curso);
-        disciplina.setDescricao("Sistemas De Tempo Real");
+        ComponenteCurricular componenteCurricular = new ComponenteCurricular();
+        componenteCurricular.setCurso(curso);
+        componenteCurricular.setDescricao("Sistemas De Tempo Real");
+        disciplina.setComponenteCurricular(componenteCurricular);
         return disciplina;
     }
 

@@ -2,7 +2,7 @@ package com.softwarecorporativo.monitoriaifpe.curso;
 
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +52,13 @@ public class Curso extends EntidadeNegocio  {
     private String codigoCampus;
     
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Disciplina> disciplinas;
+    private List<ComponenteCurricular> disciplinas;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Aluno> alunos;
 
    
-    public Disciplina getDisciplina(int index) {
+    public ComponenteCurricular getDisciplina(int index) {
         if (this.disciplinas == null) {
             this.disciplinas = new ArrayList<>();
         }
@@ -66,7 +66,7 @@ public class Curso extends EntidadeNegocio  {
     }
 
    
-    public void addDisciplina(Disciplina disciplina) {
+    public void addDisciplina(ComponenteCurricular disciplina) {
         if (this.disciplinas == null) {
             this.disciplinas = new ArrayList<>();
         }

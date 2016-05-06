@@ -1,13 +1,16 @@
 package com.softwarecorporativo.monitoriaifpe.aluno;
 
+import com.softwarecorporativo.monitoriaifpe.boletim.BoletimCurricular;
+import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.aluno.validation.ValidaMatricula;
 import com.softwarecorporativo.monitoriaifpe.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.usuario.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -16,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -38,11 +42,8 @@ public class Aluno extends Usuario {
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
     private Curso curso;
 
-    @ManyToMany(targetEntity = Disciplina.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_DISCIPLINA_ALUNO",
-            joinColumns = @JoinColumn(name = "ALUNO_ID"),
-            inverseJoinColumns = @JoinColumn(name = "DISCIPLINA_ID"))
-    private List<Disciplina> disciplinas;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<BoletimCurricular> boletins;
 
     public String getMatricula() {
 
@@ -66,21 +67,21 @@ public class Aluno extends Usuario {
     /* Adicionar média do aluno a entidade */
     public Boolean verificarDisciplinaNoAluno(Disciplina disciplina) {
         Boolean possuiDisciplina = Boolean.FALSE;
-        if (this.disciplinas != null) {
-            possuiDisciplina = this.disciplinas.contains(disciplina);
+        if (this.boletins != null) {
+            possuiDisciplina = this.boletins.contains(disciplina);
         }
         return possuiDisciplina;
     }
 
-    public void addDisciplina(Disciplina disciplina) {
-        if (this.disciplinas == null) {
-            this.disciplinas = new ArrayList<>();
+    public void addBoletimCurricular(BoletimCurricular boletimCurricular) {
+        if (this.boletins == null) {
+            this.boletins = new ArrayList<>();
         }
-        this.disciplinas.add(disciplina);
+        this.boletins.add(boletimCurricular);
     }
 
     public int quantidadeDisciplinasCursadas() {
 
-        return disciplinas.size();
+        return boletins.size();
     }
 }

@@ -1,8 +1,9 @@
 package com.softwarecorporativo.monitoriaifpe.monitoria;
 
 import com.softwarecorporativo.monitoriaifpe.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.atividade.Atividade;
+import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.monitoria.validation.ValidaMonitoria;
 import com.softwarecorporativo.monitoriaifpe.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
