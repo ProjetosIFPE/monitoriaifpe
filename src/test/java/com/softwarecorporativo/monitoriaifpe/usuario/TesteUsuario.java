@@ -115,7 +115,7 @@ public class TesteUsuario extends MonitoriaTestCase {
     public void testeCriarUsuarioComSenhaTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 6 e 18";
-        String senha = "Senha1234@s-4_&ah#s9";
+        String senha = "Senha12342s-4_sahvs9";
         usuario.setSenha(senha);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
@@ -127,7 +127,7 @@ public class TesteUsuario extends MonitoriaTestCase {
     public void testeCriarUsuarioComSenhaTamanhoMinInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 6 e 18";
-        String senha = "s1@_#";
+        String senha = "s1_";
         usuario.setSenha(senha);
         Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();

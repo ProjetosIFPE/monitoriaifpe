@@ -27,7 +27,7 @@ public class DbUnitUtil {
     private static final String XML_FILE = "\\src\\main\\resources\\META-INF\\dataset.xml";
     private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306/monitoriaifpe";
     private static final String CONNECTION_USER = "root";
-    private static final String CONNECTION_PASSWORD = "root";
+    private static final String CONNECTION_PASSWORD = "";
 
     public static void inserirDados() {
 

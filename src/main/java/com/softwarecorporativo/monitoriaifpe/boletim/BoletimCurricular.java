@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.boletim;
 
+import com.softwarecorporativo.monitoriaifpe.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.SituacaoDisciplina;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -34,6 +36,7 @@ import org.hibernate.validator.constraints.Range;
 @Access(AccessType.FIELD)
 public class BoletimCurricular extends EntidadeNegocio {
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Disciplina disciplina;
 
@@ -46,9 +49,10 @@ public class BoletimCurricular extends EntidadeNegocio {
     @DecimalMin(value = "0.0")
     @Column(name = "FREQUENCIA_BOLETIM")
     private Double frequencia;
-
-    @Transient
-    private SituacaoDisciplina situacaoDisciplina;
+    
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Aluno aluno;
 
     public Disciplina getDisciplina() {
         return disciplina;
@@ -73,13 +77,14 @@ public class BoletimCurricular extends EntidadeNegocio {
     public void setFrequencia(Double frequencia) {
         this.frequencia = frequencia;
     }
-
-    public SituacaoDisciplina getSituacaoDisciplina() {
-        return situacaoDisciplina;
+    
+     public Aluno getAluno() {
+        return aluno;
     }
 
-    public void setSituacaoDisciplina(SituacaoDisciplina situacaoDisciplina) {
-        this.situacaoDisciplina = situacaoDisciplina;
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
+    
 
 }

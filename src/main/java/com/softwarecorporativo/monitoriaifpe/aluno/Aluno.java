@@ -77,6 +77,7 @@ public class Aluno extends Usuario {
         if (this.boletins == null) {
             this.boletins = new ArrayList<>();
         }
+        boletimCurricular.setAluno(this);
         this.boletins.add(boletimCurricular);
     }
 

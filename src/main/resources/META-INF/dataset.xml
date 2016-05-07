@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
+    <!-- Usuários -->
     <tb_usuario usuario_id="1" usuario_nome="Edmilson" usuario_sobrenome="Santana" usuario_email="emgs@a.recife.ifpe.edu.br" usuario_login="EdmilsonS" usuario_senha="edmilson123" PAPEL_USUARIO="A" />
     <tb_usuario usuario_id="2" usuario_nome="Marcos" usuario_sobrenome="Costa" usuario_email="mac@recife.ifpe.edu.br" usuario_login="MarcosCosta" usuario_senha="Marcos123" PAPEL_USUARIO="P" />
     <tb_usuario usuario_id="3" usuario_nome="Douglas" usuario_sobrenome="Albuquerque" usuario_email="das@a.recife.ifpe.edu.br" usuario_login="Dougla1" usuario_senha="albuquerque123" PAPEL_USUARIO="A" />
@@ -13,24 +14,38 @@
     <tb_usuario usuario_id="11" usuario_nome="Michael" usuario_sobrenome="Barney" usuario_email="mb@recife.ifpe.edu.br" usuario_login="MichaelBarney" usuario_senha="barney252" PAPEL_USUARIO="A" />
     <tb_usuario usuario_id="12" usuario_nome="Gilmar" usuario_sobrenome="Silva" usuario_email="gs@recife.ifpe.edu.br" usuario_login="GilmarSilva" usuario_senha="gilmar632" PAPEL_USUARIO="P" />
 
+    <!-- Professores -->
     <tb_professor professor_id="2" />
     <tb_professor professor_id="6" />
     <tb_professor professor_id="7" />
     <tb_professor professor_id="8" />
     <tb_professor professor_id="12" />
     
+    <!-- Períodos -->
+    <tb_periodo periodo_id="1" semestre="PRIMEIRO" periodo_ano="2015" />
+    <tb_periodo periodo_id="2" semestre="SEGUNDO" periodo_ano="2016" />
+   
+    <!-- Cursos -->
     <tb_curso  curso_id="1" codigo_campus="RC" codigo_curso="Y6" grau="SUPERIOR" curso_ds="Análise de Sistemas" />
     <tb_curso  curso_id="2" codigo_campus="RC" codigo_curso="T4" grau="TECNICO"  curso_ds="Eletronica" />
     <tb_curso  curso_id="3" codigo_campus="RC" codigo_curso="C2" grau="SUPERIOR" curso_ds="Engenharia da Computacão" />
     
-    <tb_disciplina disciplina_id="1" disciplina_ds="Software Corporativo" curso_id="1" professor_id="2" />
-    <tb_disciplina disciplina_id="2" disciplina_ds="Engenharia De Requisitos" curso_id="1" professor_id="6" />
-    <tb_disciplina disciplina_id="3" disciplina_ds="Teste de Software" curso_id="1" professor_id="7" />
-    <tb_disciplina disciplina_id="4" disciplina_ds="TCC I" curso_id="1" professor_id="8" />
-    <tb_disciplina disciplina_id="5" disciplina_ds="Circuitos" curso_id="2" professor_id="12" />
-   
-    <tb_periodo periodo_id="1" semestre="PRIMEIRO" periodo_ano="2015" />
-    <tb_periodo periodo_id="2" semestre="SEGUNDO" periodo_ano="2016" />
+    <!-- Componentes curriculates da ementa do curso -->
+    <tb_componente_curricular componente_curricular_id="1" codigo_comp_curricular="Y61" comp_curricular_ds="Engenharia de Requisitos" curso_id="1"  />
+    <tb_componente_curricular componente_curricular_id="2" codigo_comp_curricular="Y62" comp_curricular_ds="Engenharia de Software" curso_id="1"  />
+    <tb_componente_curricular componente_curricular_id="3" codigo_comp_curricular="Y63" comp_curricular_ds="Teste de Software" curso_id="1"   />
+    <tb_componente_curricular componente_curricular_id="4" codigo_comp_curricular="Y64" comp_curricular_ds="TCC I" curso_id="1"     />
+    <tb_componente_curricular componente_curricular_id="5" codigo_comp_curricular="T41" comp_curricular_ds="Eletrônica" curso_id="2"  />    
+    <tb_componente_curricular componente_curricular_id="6" codigo_comp_curricular="T42" comp_curricular_ds="Circuitos" curso_id="2"    />
+    
+    <!-- Disciplinas (Turmas) -->
+    <tb_disciplina disciplina_id="1" componente_curricular_id="1"  professor_id="2" periodo_id="1" />
+    <tb_disciplina disciplina_id="2" componente_curricular_id="2"  professor_id="6" periodo_id="1" />
+    <tb_disciplina disciplina_id="3" componente_curricular_id="3"  professor_id="7" periodo_id="1" />
+    <tb_disciplina disciplina_id="4" componente_curricular_id="4"  professor_id="8" periodo_id="1" />
+    <tb_disciplina disciplina_id="5" componente_curricular_id="5"  professor_id="12" periodo_id="1" />
+
+     <!-- Alunos -->
     
     <tb_aluno aluno_id="1" aluno_matricula="20141Y6-RC0323"  curso_id="1" />
     <tb_aluno aluno_id="3" aluno_matricula="20141Y6-RC0439"  curso_id="1" />
@@ -40,17 +55,15 @@
     <tb_aluno aluno_id="10" aluno_matricula="20121T4-RC0321"  curso_id="2" />
     <tb_aluno aluno_id="11" aluno_matricula="20111T4-RC0321"  curso_id="2" />
     
-    <tb_disciplina_aluno disciplina_id="1" aluno_id="1"  />
-    <tb_disciplina_aluno disciplina_id="1" aluno_id="3"  />
-    <tb_disciplina_aluno disciplina_id="1" aluno_id="4"  />
-    <tb_disciplina_aluno disciplina_id="2" aluno_id="3"  />
-    <tb_disciplina_aluno disciplina_id="3" aluno_id="1"  />
-    <tb_disciplina_aluno disciplina_id="3" aluno_id="3"  />
-    <tb_disciplina_aluno disciplina_id="4" aluno_id="5"  />
-    <tb_disciplina_aluno disciplina_id="4" aluno_id="9"  />
-    <tb_disciplina_aluno disciplina_id="5" aluno_id="10"  />
-    <tb_disciplina_aluno disciplina_id="5" aluno_id="11"  />
+   <!-- Atividades Curriculares dos Alunos -->
+   
+    <tb_boletim_curricular boletim_curricular_id="1" aluno_id="1" disciplina_id="1" nota_boletim="10.0" frequencia_boletim="86.5" />
+    <tb_boletim_curricular boletim_curricular_id="2" aluno_id="3" disciplina_id="2" nota_boletim="6.0" frequencia_boletim="94.0" />
+    <tb_boletim_curricular boletim_curricular_id="3" aluno_id="4" disciplina_id="3" nota_boletim="8.5" frequencia_boletim="70.0" />
+ 
     
+    <!-- Monitorias e suas atividades -->
+   
     <tb_monitoria monitoria_id="1" aluno_id="1" disciplina_id="1" modalidade="BOLSISTA" periodo_id="1" />
     <tb_monitoria monitoria_id="2" aluno_id="3" disciplina_id="2" modalidade="VOLUNTARIO" periodo_id="1" />
    

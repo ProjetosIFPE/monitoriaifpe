@@ -52,26 +52,26 @@ public class Curso extends EntidadeNegocio  {
     private String codigoCampus;
     
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ComponenteCurricular> disciplinas;
+    private List<ComponenteCurricular> componentesCurriculares;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Aluno> alunos;
 
    
-    public ComponenteCurricular getDisciplina(int index) {
-        if (this.disciplinas == null) {
-            this.disciplinas = new ArrayList<>();
+    public ComponenteCurricular getComponenteCurricular(int index) {
+        if (this.componentesCurriculares == null) {
+            this.componentesCurriculares = new ArrayList<>();
         }
-        return disciplinas.get(index);
+        return componentesCurriculares.get(index);
     }
 
    
-    public void addDisciplina(ComponenteCurricular disciplina) {
-        if (this.disciplinas == null) {
-            this.disciplinas = new ArrayList<>();
+    public void addComponenteCurricular(ComponenteCurricular componenteCurricular) {
+        if (this.componentesCurriculares == null) {
+            this.componentesCurriculares = new ArrayList<>();
         }
-        disciplina.setCurso(this);
-        this.disciplinas.add(disciplina);
+        componenteCurricular.setCurso(this);
+        this.componentesCurriculares.add(componenteCurricular);
     }
 
    
