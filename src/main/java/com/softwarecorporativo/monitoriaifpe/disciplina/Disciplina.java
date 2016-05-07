@@ -35,6 +35,7 @@ public class Disciplina extends EntidadeNegocio {
 
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "COMPONENTE_CURRICULAR_ID", referencedColumnName = "COMPONENTE_CURRICULAR_ID")
     private ComponenteCurricular componenteCurricular;
 
     @NotNull

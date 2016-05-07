@@ -65,7 +65,7 @@ public class TesteProfessor extends MonitoriaTestCase {
     @Test
     public void testeJPQLProfessorPeloCurso() {
         TypedQuery<String> query = super.entityManager.createQuery(
-                "SELECT u.nome FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d WHERE d.curso = :curso)", String.class);
+                "SELECT u.nome FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d JOIN d.componenteCurricular cc JOIN cc.curso curso WHERE curso  = :curso)", String.class);
         Curso curso = super.entityManager.find(Curso.class, 1L);
         query.setParameter("curso", curso);
         List<String> resultado = query.getResultList();
@@ -75,7 +75,7 @@ public class TesteProfessor extends MonitoriaTestCase {
     @Test
     public void testeJPQLProfessorPelaDisciplina() {
         TypedQuery<String> query = super.entityManager.createQuery(
-                "SELECT u.nome FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d WHERE d.descricao = :nomeDisciplina)", String.class);
+                "SELECT u.nome FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d WHERE d.componenteCurricular.descricao = :nomeDisciplina)", String.class);
         query.setParameter("nomeDisciplina", "Engenharia De Requisitos");
         String resultado = query.getSingleResult();
         assertEquals("Renata", resultado);
@@ -84,7 +84,7 @@ public class TesteProfessor extends MonitoriaTestCase {
     @Test
     public void testeJPQLVerificarCONCATProfessores() {
         TypedQuery<String> query = super.entityManager.createQuery(
-                "SELECT CONCAT(u.nome,u.sobrenome) FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d WHERE d.descricao = :nomeDisciplina)", String.class);
+                "SELECT CONCAT(u.nome,u.sobrenome) FROM Usuario u WHERE u.chavePrimaria IN (SELECT d.professor FROM Disciplina d JOIN d.componenteCurricular cc WHERE cc.descricao = :nomeDisciplina)", String.class);
         query.setParameter("nomeDisciplina", "Teste de Software");
         String resultado = query.getSingleResult();
         assertEquals("RamideDantas", resultado);

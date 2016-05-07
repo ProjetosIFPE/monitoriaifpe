@@ -8,6 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.monitoria;
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
 import java.util.Set;
@@ -79,7 +80,7 @@ public class TesteMonitoria extends MonitoriaTestCase {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(null);
         monitoria.setModalidade(Modalidade.BOLSISTA);
-        monitoria.setDisciplina(super.entityManager.find(ComponenteCurricular.class, 1l));
+        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(2, constraintViolations.size());
@@ -90,7 +91,7 @@ public class TesteMonitoria extends MonitoriaTestCase {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
-        monitoria.setDisciplina(super.entityManager.find(ComponenteCurricular.class, 1l));
+        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(null);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(1, constraintViolations.size());
@@ -101,7 +102,7 @@ public class TesteMonitoria extends MonitoriaTestCase {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(null);
-        monitoria.setDisciplina(super.entityManager.find(ComponenteCurricular.class, 1l));
+        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(1, constraintViolations.size());
@@ -111,7 +112,7 @@ public class TesteMonitoria extends MonitoriaTestCase {
     public void testeCriarMonitoriaComDisciplinaInvalida() {
         Monitoria monitoria = montarObjetoMonitoria();
         String mensagemEsperada = "A disciplina da monitoria deve ser cursada pelo aluno";
-        monitoria.setDisciplina(super.entityManager.find(ComponenteCurricular.class, 5l));
+        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 5l));
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
         assertEquals(1, constraintViolations.size());
@@ -122,7 +123,7 @@ public class TesteMonitoria extends MonitoriaTestCase {
         Monitoria monitoria = new Monitoria();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
-        monitoria.setDisciplina(super.entityManager.find(ComponenteCurricular.class, 1l));
+        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
         monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
         return monitoria;
     }

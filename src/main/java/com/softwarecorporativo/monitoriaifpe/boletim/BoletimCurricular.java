@@ -16,6 +16,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,6 +39,7 @@ public class BoletimCurricular extends EntidadeNegocio {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "DISCIPLINA_ID", referencedColumnName = "DISCIPLINA_ID")
     private Disciplina disciplina;
 
     @DecimalMax(value = "10.0")
@@ -52,6 +54,7 @@ public class BoletimCurricular extends EntidadeNegocio {
     
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
     private Aluno aluno;
 
     public Disciplina getDisciplina() {

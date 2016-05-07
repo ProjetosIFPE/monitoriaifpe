@@ -39,8 +39,8 @@
     <tb_componente_curricular componente_curricular_id="6" codigo_comp_curricular="T42" comp_curricular_ds="Circuitos" curso_id="2"    />
     
     <!-- Disciplinas (Turmas) -->
-    <tb_disciplina disciplina_id="1" componente_curricular_id="1"  professor_id="2" periodo_id="1" />
-    <tb_disciplina disciplina_id="2" componente_curricular_id="2"  professor_id="6" periodo_id="1" />
+    <tb_disciplina disciplina_id="1" componente_curricular_id="2"  professor_id="2" periodo_id="1" />
+    <tb_disciplina disciplina_id="2" componente_curricular_id="1"  professor_id="6" periodo_id="1" />
     <tb_disciplina disciplina_id="3" componente_curricular_id="3"  professor_id="7" periodo_id="1" />
     <tb_disciplina disciplina_id="4" componente_curricular_id="4"  professor_id="8" periodo_id="1" />
     <tb_disciplina disciplina_id="5" componente_curricular_id="5"  professor_id="12" periodo_id="1" />

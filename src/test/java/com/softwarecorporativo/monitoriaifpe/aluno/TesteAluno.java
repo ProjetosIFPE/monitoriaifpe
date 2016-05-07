@@ -6,8 +6,9 @@
 package com.softwarecorporativo.monitoriaifpe.aluno;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
+import com.softwarecorporativo.monitoriaifpe.boletim.BoletimCurricular;
 import com.softwarecorporativo.monitoriaifpe.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import java.util.Set;
 import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
@@ -89,7 +90,7 @@ public class TesteAluno extends MonitoriaTestCase {
         Long resultado = query.getSingleResult();
         assertEquals(new Long(2), resultado);
     }
-    
+
     @Test
     public void testeCriarAlunoComMatriculaInvalida() {
         Aluno aluno = this.montarObjetoAluno();
@@ -99,7 +100,7 @@ public class TesteAluno extends MonitoriaTestCase {
         assertEquals(1, constraintViolations.size());
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
         assertEquals(mensagemEsperada, mensagemObtida);
-        
+
     }
 
     private Aluno montarObjetoAluno() {
@@ -112,8 +113,11 @@ public class TesteAluno extends MonitoriaTestCase {
         alunoCriado.setSenha("fulano123");
         Curso curso = super.entityManager.find(Curso.class, 1L);
         alunoCriado.setCurso(curso);
-        ComponenteCurricular disciplina = super.entityManager.find(ComponenteCurricular.class, 1L);
-        alunoCriado.addDisciplina(disciplina);
+        BoletimCurricular boletim = new BoletimCurricular();
+        boletim.setDisciplina(super.entityManager.find(Disciplina.class, 1L));
+        boletim.setFrequencia(100.0);
+        boletim.setNota(7.0);
+        alunoCriado.addBoletimCurricular(boletim);
 
         return alunoCriado;
     }
