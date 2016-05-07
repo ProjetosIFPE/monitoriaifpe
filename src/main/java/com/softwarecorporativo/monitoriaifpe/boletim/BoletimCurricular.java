@@ -96,22 +96,37 @@ public class BoletimCurricular extends EntidadeNegocio {
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
     }
+
     /**
-     * Recebe a disciplina de uma monitoria e verifica se o boletim curricular está apto 
-     * a exercer a atividade de monitoria para a disciplina recebida.
-     * @param disciplinaMonitoria
-     * @return 
+     * Recebe uma disciplina e verifica se o boletim curricular possui uma com o
+     * mesmo componente curricular e se o aluno está aprovado
+     *
+     * @param disciplina
+     * @return
      */
-    public Boolean validarBoletimParaExercerMonitoria(Disciplina disciplinaMonitoria) {
-        Boolean isValido = Boolean.TRUE;
-        if (this.getDisciplina().verificarIgualdadeComponenteCurricular(disciplinaMonitoria)
+    public Boolean verificarAprovacaoEmComponenteCurricular(Disciplina disciplina) {
+        Boolean aprovado = Boolean.FALSE;
+        if (this.getDisciplina().verificarIgualdadeComponenteCurricular(disciplina)
                 && this.isAlunoAprovadoEmDisciplina()) {
-            isValido = Boolean.TRUE;
-        } else if (this.getDisciplina().verificarIgualdadeComponenteCurricular(disciplinaMonitoria)
-                && !this.isAlunoAprovadoEmDisciplina()) {
-            isValido = Boolean.FALSE;
+            aprovado = Boolean.TRUE;
         }
-        return isValido;
+        return aprovado;
+    }
+
+    /**
+     * Recebe uma disciplina e verifica se o boletim curricular possui uma com o
+     * mesmo componente curricular e se o aluno está reprovado
+     *
+     * @param disciplina
+     * @return
+     */
+    public Boolean verificarReprovacaoEmComponenteCurricular(Disciplina disciplina) {
+        Boolean reprovado = Boolean.FALSE;
+        if (this.getDisciplina().verificarIgualdadeComponenteCurricular(disciplina)
+                && !this.isAlunoAprovadoEmDisciplina()) {
+            reprovado = Boolean.FALSE;
+        }
+        return reprovado;
     }
 
 }

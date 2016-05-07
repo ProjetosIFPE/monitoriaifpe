@@ -73,13 +73,16 @@ public class Aluno extends Usuario {
      * @return
      */
     public Boolean validarMonitoriaDoAluno(Disciplina disciplinaMonitoria) {
-        Boolean isValido = Boolean.FALSE;
         if (this.boletins != null) {
             for (BoletimCurricular boletimCurricular : this.boletins) {
-                isValido = boletimCurricular.validarBoletimParaExercerMonitoria(disciplinaMonitoria);
+                if (boletimCurricular.verificarAprovacaoEmComponenteCurricular(disciplinaMonitoria)) {
+                    return Boolean.TRUE;
+                } else if (boletimCurricular.verificarReprovacaoEmComponenteCurricular(disciplinaMonitoria)) {
+                    return Boolean.FALSE;
+                }
             }
         }
-        return isValido;
+        return Boolean.FALSE;
     }
 
     public void addBoletimCurricular(BoletimCurricular boletimCurricular) {

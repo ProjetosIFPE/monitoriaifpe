@@ -7,7 +7,6 @@ package com.softwarecorporativo.monitoriaifpe.monitoria;
 
 import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.util.constantes.Modalidade;
