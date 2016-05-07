@@ -47,7 +47,7 @@ public abstract class Usuario extends EntidadeNegocio {
     /* Adicionar caracteres especiais */
     @NotBlank
     @Size(min = 6, max = 18)
-    @Pattern(regexp = "((?=.*\\\\p{Digit})(?=.*\\\\p{Lower})(?=.*\\\\p{Upper})(?=.*\\\\p{Punct}).{6,20})", message = "{com.softwarecorporativo.monitoriaifpe.usuario.senha}")
+    @Pattern(regexp = "^[A-Za-z0-9_-]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.senha}")
     @Column(name = "USUARIO_SENHA", nullable = false)
     private String senha;
 
