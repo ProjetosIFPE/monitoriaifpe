@@ -34,7 +34,7 @@ import javax.validation.constraints.NotNull;
 public class Disciplina extends EntidadeNegocio {
 
     @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "COMPONENTE_CURRICULAR_ID", referencedColumnName = "COMPONENTE_CURRICULAR_ID")
     private ComponenteCurricular componenteCurricular;
 
@@ -74,6 +74,14 @@ public class Disciplina extends EntidadeNegocio {
 
     public void setComponenteCurricular(ComponenteCurricular componenteCurricular) {
         this.componenteCurricular = componenteCurricular;
+    }
+    
+   /** Recebe um Componente Curricular para verificar se a disciplina possui o mesmo
+     * @param disciplina
+     * @return 
+     **/
+    public Boolean verificarIgualdadeComponenteCurricular(Disciplina disciplina) {
+        return this.getComponenteCurricular().equals(disciplina.getComponenteCurricular());
     }
 
 }

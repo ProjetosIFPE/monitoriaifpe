@@ -64,13 +64,22 @@ public class Aluno extends Usuario {
 
         this.curso = curso;
     }
-    /* Adicionar média do aluno a entidade */
-    public Boolean verificarDisciplinaNoAluno(Disciplina disciplina) {
-        Boolean possuiDisciplina = Boolean.FALSE;
+
+    /**
+     * *Recebe uma disciplina de monitoria para verificar se o aluno está apto
+     * a exercer a atividade de monitoria na disciplina desta
+     *
+     * @param disciplinaMonitoria
+     * @return
+     */
+    public Boolean validarMonitoriaDoAluno(Disciplina disciplinaMonitoria) {
+        Boolean isValido = Boolean.FALSE;
         if (this.boletins != null) {
-            possuiDisciplina = this.boletins.contains(disciplina);
+            for (BoletimCurricular boletimCurricular : this.boletins) {
+                isValido = boletimCurricular.validarBoletimParaExercerMonitoria(disciplinaMonitoria);
+            }
         }
-        return possuiDisciplina;
+        return isValido;
     }
 
     public void addBoletimCurricular(BoletimCurricular boletimCurricular) {

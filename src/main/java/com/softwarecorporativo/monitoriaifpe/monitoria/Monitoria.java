@@ -31,6 +31,7 @@ import javax.validation.constraints.NotNull;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITORIA_ID"))})
 @Access(AccessType.FIELD)
+@ValidaMonitoria
 public class Monitoria extends EntidadeNegocio  {
 
     @NotNull

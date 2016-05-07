@@ -23,7 +23,7 @@ import javax.validation.Payload;
 @Documented
 public @interface ValidaMonitoria {
 
-    String message() default "{com.softwarecorporativo.monitoriaifpe.monitoria.disciplina}";
+    String message() default "{com.softwarecorporativo.monitoriaifpe.monitoria}";
 
     Class<?>[] groups() default {};
 

@@ -51,7 +51,7 @@ public class BoletimCurricular extends EntidadeNegocio {
     @DecimalMin(value = "0.0")
     @Column(name = "FREQUENCIA_BOLETIM")
     private Double frequencia;
-    
+
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
@@ -63,6 +63,14 @@ public class BoletimCurricular extends EntidadeNegocio {
 
     public void setDisciplina(Disciplina disciplina) {
         this.disciplina = disciplina;
+    }
+
+    public Boolean isAlunoAprovadoEmDisciplina() {
+        Boolean isAprovado = Boolean.FALSE;
+        if (this.nota >= 7.0 && this.frequencia >= 75.00) {
+            isAprovado = Boolean.TRUE;
+        }
+        return isAprovado;
     }
 
     public Double getNota() {
@@ -80,14 +88,30 @@ public class BoletimCurricular extends EntidadeNegocio {
     public void setFrequencia(Double frequencia) {
         this.frequencia = frequencia;
     }
-    
-     public Aluno getAluno() {
+
+    public Aluno getAluno() {
         return aluno;
     }
 
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
     }
-    
+    /**
+     * Recebe a disciplina de uma monitoria e verifica se o boletim curricular está apto 
+     * a exercer a atividade de monitoria para a disciplina recebida.
+     * @param disciplinaMonitoria
+     * @return 
+     */
+    public Boolean validarBoletimParaExercerMonitoria(Disciplina disciplinaMonitoria) {
+        Boolean isValido = Boolean.TRUE;
+        if (this.getDisciplina().verificarIgualdadeComponenteCurricular(disciplinaMonitoria)
+                && this.isAlunoAprovadoEmDisciplina()) {
+            isValido = Boolean.TRUE;
+        } else if (this.getDisciplina().verificarIgualdadeComponenteCurricular(disciplinaMonitoria)
+                && !this.isAlunoAprovadoEmDisciplina()) {
+            isValido = Boolean.FALSE;
+        }
+        return isValido;
+    }
 
 }

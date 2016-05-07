@@ -33,12 +33,12 @@ public class TesteMonitoria extends MonitoriaTestCase {
 
     @Test
     public void testAlterarMonitoria() {
-        Monitoria monitoria = super.entityManager.find(Monitoria.class, 2L);
+        Monitoria monitoria = super.entityManager.find(Monitoria.class, 1L);
         monitoria.setModalidade(Modalidade.BOLSISTA);
         super.entityManager.merge(monitoria);
         super.entityManager.flush();
         super.entityManager.clear();
-        Monitoria monitoriaAlterada = super.entityManager.find(Monitoria.class, 2L);
+        Monitoria monitoriaAlterada = super.entityManager.find(Monitoria.class, 1L);
         assertEquals(monitoria.getModalidade(), monitoriaAlterada.getModalidade());
 
     }
@@ -111,8 +111,8 @@ public class TesteMonitoria extends MonitoriaTestCase {
     @Test
     public void testeCriarMonitoriaComDisciplinaInvalida() {
         Monitoria monitoria = montarObjetoMonitoria();
-        String mensagemEsperada = "A disciplina da monitoria deve ser cursada pelo aluno";
-        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 5l));
+        String mensagemEsperada = "O aluno monitor não pode ter sido reprovado no componente curricular da disciplina e deve possuir aprovação com média maior ou igual a 7.0";
+        monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 3l));
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
         assertEquals(1, constraintViolations.size());
