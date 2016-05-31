@@ -23,6 +23,7 @@
             <properties>
                 <netbeans.deploy>true</netbeans.deploy>
                 <skipTests>true</skipTests>
+                <netbeans.deploy.clientUrlPart>ja ta querido</netbeans.deploy.clientUrlPart>
             </properties>
         </action>
         <action>

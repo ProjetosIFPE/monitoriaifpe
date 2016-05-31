@@ -6,6 +6,8 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
+import com.softwarecorporativo.monitoriaifpe.servico.AlunoService;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -17,14 +19,19 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class AlunoBean extends GenericBean<Aluno> {
     
+    @EJB
+    private AlunoService alunoService;
+    
     public AlunoBean() {
         super.setEntidadeNegocio(new Aluno());
     }
     
-    public String cadastrarAluno() {
+    public void cadastrarAluno() {
         
-        System.out.println("Cadastrando aluno");
-        return "login?faces-redirect=true";
+       alunoService.salvar(entidadeNegocio);
+        
+//        System.out.println("Cadastrando aluno");
+//        return "login?faces-redirect=true";
     }
     
 }

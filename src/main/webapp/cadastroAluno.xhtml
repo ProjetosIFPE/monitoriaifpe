@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="_template.xhtml" >        
+        <ui:define name="titulo">
+            <p:outputPanel>Cadastro Aluno</p:outputPanel>
+        </ui:define>
+
+        <ui:define name="conteudo">
+            <p:messages id="messages" globalOnly="true" />
+            <h:form id="cadastroAluno">
+                <p:fieldset legend="Cadastro Aluno">
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel for="nome" value="Nome"></p:outputLabel>
+                        <p:inputText id="nome" value="#{alunoBean.entidadeNegocio.nome}" required="true"></p:inputText>
+                        <p:outputLabel for="sobrenome" value="Sobrenome"></p:outputLabel>
+                        <p:inputText id="sobrenome" value="#{alunoBean.entidadeNegocio.sobrenome}" required="true"></p:inputText>
+                        <p:outputLabel for="login" value="Login"></p:outputLabel>
+                        <p:inputText id="login" value="#{alunoBean.entidadeNegocio.login}" required="true"></p:inputText>
+                        <p:outputLabel for="email" value="Email" ></p:outputLabel>
+                        <p:inputText id="email" value="#{alunoBean.entidadeNegocio.email}" required="true"></p:inputText>
+                        <p:outputLabel for="matricula" value="Matricula" ></p:outputLabel>
+                        <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{alunoBean.entidadeNegocio.matricula}"></p:inputMask>
+                        <p:outputLabel for="curso" value="Curso" ></p:outputLabel>
+                        <p:inputText id="curso" value="#{alunoBean.entidadeNegocio.curso}" required="true"></p:inputText>
+                        <p:outputLabel for="senha" value="Senha"></p:outputLabel>
+                        <p:password feedback="true" id="senha" inline="true" required="true"></p:password>
+                        
+                        <p:commandButton action="#{alunoBean.cadastrarAluno()}" value="Cadastrar" 
+                                         update="@form" process="@form"/>
+                    </h:panelGrid>
+
+                </p:fieldset>
+            </h:form>
+        </ui:define>
+    </ui:composition> 
+</html>
+

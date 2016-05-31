@@ -5,8 +5,8 @@
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-  
-    <h:head />
+    <h:head><title>Sistema Monitoria</title></h:head>
+    
     <h:body>
         <div id="cabecalho">
             <h:graphicImage library="img" name="icon.jpg" />
@@ -16,6 +16,14 @@
         <div id="conteudo">
             <ui:insert name="conteudo"></ui:insert> 
         </div>
+        
+        <p:menubar>
+            <p:menuitem value="Login" url="login.xhtml"></p:menuitem>
+            <p:menuitem value="Aluno" url="aluno.xhtml"></p:menuitem>
+            <p:menuitem value="Atividade" url="atividade.xhtml"></p:menuitem>
+            <p:menuitem value="Cadastro Aluno" url="cadastroAluno.xhtml"></p:menuitem>
+        </p:menubar>
+        
 
     </h:body>
 </html>

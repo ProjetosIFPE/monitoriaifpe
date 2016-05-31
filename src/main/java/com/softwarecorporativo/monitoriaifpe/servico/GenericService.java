@@ -6,9 +6,11 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 /**
  *
@@ -18,10 +20,32 @@ import javax.persistence.PersistenceContextType;
 public abstract class GenericService<T extends EntidadeNegocio> {
 
     @PersistenceContext(unitName = "monitoriaifpe-unit-dev", type = PersistenceContextType.TRANSACTION)
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     public T buscarEntidade(Long chavePrimaria) {
         return entityManager.find(getClasseEntidade(), chavePrimaria);
+    }
+
+    public T salvar(T entidadeNegocio) {
+        this.entityManager.persist(entidadeNegocio);
+        return entidadeNegocio;
+    }
+
+    public List<T> listarTodos() {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("select entidadeNegocio from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as entidadeNegocio ");
+        Query query = entityManager.createQuery(jpql.toString(), getClasseEntidade());
+        return query.getResultList();
+    }
+
+    public void remover(T entidadeNegocio) {
+        this.entityManager.remove(entidadeNegocio);
+    }
+
+    public void atualizar(T entidadeNegocio) {
+        this.entityManager.merge(entidadeNegocio);
     }
 
     public abstract T getEntidadeNegocio();
