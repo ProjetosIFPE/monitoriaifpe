@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="_template.xhtml" >
+        <ui:define name="titulo">
+            <p:outputLabel>Login</p:outputLabel>
+        </ui:define>
+        <ui:define name="conteudo">
+            <p:messages id="messages" globalOnly="true" />
+            <h:form id="login">
+                <p:fieldset legend="Dados da Atividade">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel for="email">Email</p:outputLabel>
+                        <p:inputText id="email" value="#{alunoBean.entidadeNegocio.email}" required="true" validatorMessage="Email inválido">
+                            <f:attribute name="type" value="email" />
+                            <f:passThroughAttribute name="placeholder" value="Email do Aluno" />
+                            <f:validateRegex pattern=".+@.+" />
+                            <f:ajax event="blur" render="messageEmail" />
+                        </p:inputText>
+                        <p:message for="email" id="messageEmail" />
+                        
+                        <p:commandButton action="#{alunoBean.cadastrarAluno()}" value="Cadastrar" 
+                                         update="@form" process="@form"/>
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

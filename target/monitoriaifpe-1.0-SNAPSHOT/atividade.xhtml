@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="_template.xhtml">
+
+        <ui:define name="titulo">
+            <p:outputPanel>Atividade</p:outputPanel>
+        </ui:define>
+
+        <ui:define name="conteudo">
+            <p:messages id="messages" globalOnly="true" />
+            <h:form id="formAtividade">
+                <p:fieldset legend="Atividade">
+                    <h:panelGrid  columns="3">
+                        <p:outputLabel for="descricao">Descrição</p:outputLabel>
+                        <p:inputTextarea rows="2" cols="70" id="descricao" value="#{atividadeBean.entidadeNegocio.descricao}" required="true" />
+                        <p:message for="descricao" id="messageDescricao" />
+                        <p:outputLabel for="observacoes">Observações</p:outputLabel>
+                        <p:inputText id="observacoes" value="#{atividadeBean.entidadeNegocio.observacoes}" />
+                        <p:message for="observacoes" id="messageObservacoes" />
+                        <p:outputLabel for="dataAtividade">Data</p:outputLabel>
+                        <p:calendar  id="dataAtividade" mode="inline" value="#{atividadeBean.entidadeNegocio.data}" required="true" />
+                        <p:message for="dataAtividade" id="messageDataAtividade" />
+                        <p:outputLabel for="horarioEntrada">Horário de Inicio da Atividade</p:outputLabel>
+                        <p:calendar timeOnly="true" pattern="HH:mm" id="horarioEntrada" value="#{atividadeBean.entidadeNegocio.horarioEntrada}" required="true" />
+                        <p:message for="horarioEntrada" id="messageHorarioEntrada" />
+                        <p:outputLabel for="horarioSaida">Horário de Término da Atividade</p:outputLabel>
+                        <p:calendar timeOnly="true" pattern="HH:mm" id="horarioSaida" value="#{atividadeBean.entidadeNegocio.horarioSaida}" required="true" />
+                        <p:message for="horarioEntrada" id="messageHorarioSaida" />
+                        <p:commandButton action="#{atividadeBean.cadastrarAtividade()}" value="Cadastrar" 
+                                         update="@form" process="@form :formTabelaAtividades"/>
+
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:form>
+            <h:form id="formTabelaAtividades">
+                <p:dataList value="#{atividadeBean.atividades}" var="atividade" type="definition">
+                    <f:facet name="header">
+                        Atividades
+                    </f:facet>
+
+                    <p:commandButton icon="fa fa-fw fa-edit" update=":formAtividade">
+                        <f:setPropertyActionListener value="#{atividade}" target="#{atividadeBean.entidadeNegocio}" />
+                    </p:commandButton>
+
+                    <p:commandButton icon="fa fa-fw fa-remove" style="float:left;margin-right: 10px"
+                                   action="#{atividadeBean.removerAtividade(atividade)}"  update="@form" />
+
+                    #{atividade.descricao}
+                </p:dataList>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>
