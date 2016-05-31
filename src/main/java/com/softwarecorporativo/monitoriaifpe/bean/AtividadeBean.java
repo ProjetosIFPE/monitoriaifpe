@@ -38,6 +38,7 @@ public class AtividadeBean extends GenericBean<Atividade>  {
     }
     
     public void cadastrarAtividade() {
+        System.out.println(atividadeService.getClasseEntidade().getSimpleName());
         System.out.println("Atividade: " + super.entidadeNegocio.getDescricao());
     }
     

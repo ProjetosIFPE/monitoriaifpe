@@ -22,12 +22,12 @@ import javax.ejb.TransactionManagementType;
 public class AtividadeService extends GenericService<Atividade> {
 
     @Override
-    Atividade getEntidadeNegocio() {
+    public Atividade getEntidadeNegocio() {
         return new Atividade();
     }
 
     @Override
-    Class<Atividade> getClasseEntidade() {
+    public Class<Atividade> getClasseEntidade() {
         return Atividade.class;
     }
     

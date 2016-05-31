@@ -19,6 +19,7 @@ import javax.faces.application.FacesMessage;
 public abstract class GenericBean<T extends EntidadeNegocio> implements Serializable {
     
     protected T entidadeNegocio;
+   
     
     public GenericBean() {
         

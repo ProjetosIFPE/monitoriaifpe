@@ -24,7 +24,7 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         return entityManager.find(getClasseEntidade(), chavePrimaria);
     }
 
-    abstract T getEntidadeNegocio();
+    public abstract T getEntidadeNegocio();
 
-    abstract Class<T> getClasseEntidade();
+    public abstract Class<T> getClasseEntidade();
 }

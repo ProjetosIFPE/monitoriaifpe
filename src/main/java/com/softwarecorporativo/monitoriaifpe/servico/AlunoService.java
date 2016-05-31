@@ -23,13 +23,13 @@ public class AlunoService extends GenericService<Aluno> {
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
-    Class<Aluno> getClasseEntidade() {
+    public Class<Aluno> getClasseEntidade() {
         return Aluno.class;
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @Override
-    Aluno getEntidadeNegocio() {
+    public Aluno getEntidadeNegocio() {
         return new Aluno();
     }
 
