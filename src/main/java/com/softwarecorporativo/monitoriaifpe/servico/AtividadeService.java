@@ -6,6 +6,7 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
+import java.io.Serializable;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -14,13 +15,14 @@ import javax.ejb.TransactionManagementType;
 
 /**
  *
- * @author Clarice
+ * @author Edmilson Santana
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AtividadeService extends GenericService<Atividade> {
+public class AtividadeService extends GenericService<Atividade>  {
 
+    
     @Override
     public Atividade getEntidadeNegocio() {
         return new Atividade();

@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.validation.ValidaAtividade;
+import java.io.Serializable;
 
 /**
  *
@@ -38,8 +39,8 @@ import com.softwarecorporativo.monitoriaifpe.modelo.atividade.validation.ValidaA
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "ATIVIDADE_ID"))})
 @Access(AccessType.FIELD)
 @ValidaAtividade
-public class Atividade extends EntidadeNegocio {
-
+public class Atividade extends EntidadeNegocio  {
+    
     @NotBlank
     @Size(max = 140)
     @Column(name = "ATIVIDADE_DESCRICAO", nullable = false)
