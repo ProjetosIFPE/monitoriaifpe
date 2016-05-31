@@ -35,12 +35,7 @@ and open the template in the editor.
                         <p:outputLabel for="horarioSaida">Horário de Término da Atividade</p:outputLabel>
                         <p:calendar timeOnly="true" pattern="HH:mm" id="horarioSaida" value="#{atividadeBean.entidadeNegocio.horarioSaida}" required="true" />
                         <p:message for="horarioEntrada" id="messageHorarioSaida" />
-                        <!--<p:panelGrid columns="2">
-                            <p:selectOneMenu value="#{atividadeBean.entidadeNegocio.monitoria}">
-                              <<f:selectItems value="#{ativida}" var="monitoria" itemLabel="#{atividadeBean.entidadeNegocio.monitoria.disciplina.periodo}" itemValue="#{atividadeBean.entidadeNegocio.monitoria.chavePrimaria}" /> 
-                            </p:selectOneMenu>
-                          <p:commandLink value="Cadastrar nova monitoria" action="" update="@all"  />
-                        </p:panelGrid> -->
+                        
                         <p:commandButton action="#{atividadeBean.cadastrarAtividade()}" value="Cadastrar" 
                                          update="@form" process="@form :formTabelaAtividades"/>
 
@@ -65,9 +60,6 @@ and open the template in the editor.
             </h:form>
 
             <p:dataTable value="#{atividadeBean.atividades}" var="atividade" id="tabelaAtividades" emptyMessage="Não possuem atividades registradas">
-                <p:column>
-                    <h:outputText>#{atividade.descricao}</h:outputText>
-                </p:column>
                 <p:column>
                     <h:outputText>#{atividade.data}</h:outputText>
                 </p:column>

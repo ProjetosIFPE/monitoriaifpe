@@ -6,7 +6,9 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -17,7 +19,9 @@ import javax.persistence.Query;
  * @author Edmilson Santana
  * @param <T>
  */
-public abstract class GenericService<T extends EntidadeNegocio> {
+public abstract class GenericService<T extends EntidadeNegocio> implements Serializable {
+
+    private static final long serialVersionUID = 6861187490716747057L;
 
     @PersistenceContext(unitName = "monitoriaifpe-unit-dev", type = PersistenceContextType.TRANSACTION)
     EntityManager entityManager;

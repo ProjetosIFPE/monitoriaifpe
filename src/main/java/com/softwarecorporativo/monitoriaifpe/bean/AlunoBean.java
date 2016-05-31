@@ -33,5 +33,10 @@ public class AlunoBean extends GenericBean<Aluno> {
 //        System.out.println("Cadastrando aluno");
 //        return "login?faces-redirect=true";
     }
+
+    @Override
+    void inicializarEntidadeNegocio() {
+        setEntidadeNegocio(alunoService.getEntidadeNegocio());
+    }
     
 }

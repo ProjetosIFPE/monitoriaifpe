@@ -5,7 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
+import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -14,23 +14,21 @@ import javax.ejb.TransactionManagementType;
 
 /**
  *
- * @author Douglas Albuqerque
+ * @author Edmilson Santana
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AlunoService extends GenericService<Aluno> {
+public class LoginService extends GenericService<Usuario>  {
 
-    
     @Override
-    public Class<Aluno> getClasseEntidade() {
-        return Aluno.class;
+    public Usuario getEntidadeNegocio() {
+        return new Usuario();
     }
 
-    
     @Override
-    public Aluno getEntidadeNegocio() {
-        return new Aluno();
+    public Class<Usuario> getClasseEntidade() {
+        return Usuario.class;
     }
-
+    
 }

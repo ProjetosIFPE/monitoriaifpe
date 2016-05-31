@@ -7,8 +7,6 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -20,46 +18,33 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class AtividadeBean extends GenericBean<Atividade>  {
+public class AtividadeBean extends GenericBean<Atividade> {
 
     @EJB
     private AtividadeService atividadeService;
 
-    public AtividadeService getAtividadeService() {
-        return atividadeService;
+ 
+    public void cadastrarAtividade() {
+        this.atividadeService.salvar(entidadeNegocio);
+        this.inicializarEntidadeNegocio();
     }
 
-    public void setAtividadeService(AtividadeService atividadeService) {
-        this.atividadeService = atividadeService;
-    }
-    
-    public AtividadeBean() {
-        setEntidadeNegocio(new Atividade());
-    }
-    
-    public void cadastrarAtividade() {
-        System.out.println(atividadeService.getClasseEntidade().getSimpleName());
-        System.out.println("Atividade: " + super.entidadeNegocio.getDescricao());
-    }
-    
-    
     public List<Atividade> getAtividades() {
-        List<Atividade> atividades = new ArrayList<>();
-        Atividade atividade = new Atividade();
-        atividade.setDescricao("Descrição da Atividade");
-        atividades.add(atividade);
-        atividades.add(atividade);
-        return atividades;
+        return atividadeService.listarTodos();
     }
-    
+
     public void removerAtividade(Atividade atividade) {
-        super.adicionarMensagemView("Removendo Atividade");
+        this.atividadeService.remover(atividade);
     }
-    
+
     public void alterarAtividade(Atividade atividade) {
-        super.adicionarMensagemView("Alterando Atividade");
+       this.atividadeService.atualizar(atividade);
+       this.inicializarEntidadeNegocio();
     }
-    
-    
-    
+
+    @Override
+    void inicializarEntidadeNegocio() {
+        setEntidadeNegocio(atividadeService.getEntidadeNegocio());
+    }
+
 }

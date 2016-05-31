@@ -16,10 +16,7 @@ import javax.persistence.TemporalType;
 @MappedSuperclass
 public abstract class EntidadeNegocio implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1874851173773909132L;
+    private static final long serialVersionUID = 268142493479959195L;
 
     
     @Column(name = "ULTIMA_ALTERACAO", nullable = false)
