@@ -34,12 +34,12 @@ public class TesteCurso extends MonitoriaTestCase {
     @Test
     public void testAlterarCurso() {
         Curso cursoObtido = super.entityManager.find(Curso.class, 1L);
-        cursoObtido.setModalidade(Grau.TECNICO);
+        //cursoObtido.setGrau(Grau.TECNICO);
         super.entityManager.merge(cursoObtido);
         super.entityManager.flush();
         super.entityManager.clear();
         Curso cursoAlterado = super.entityManager.find(Curso.class, 1L);
-        assertEquals(cursoObtido.getModalidade(), cursoAlterado.getModalidade());
+        assertEquals(cursoObtido.getGrau(), cursoAlterado.getGrau());
     }
 
     @Test
@@ -107,7 +107,6 @@ public class TesteCurso extends MonitoriaTestCase {
 
     public Curso montarObjetoCurso() {
         Curso curso = new Curso();
-        curso.setModalidade(Grau.SUPERIOR);
         curso.setDescricao("Ciência da Computação");
         curso.setCodigoCampus("RC");
         curso.setCodigoCurso("Y7");

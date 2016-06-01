@@ -28,8 +28,8 @@
                         <p:outputLabel for="curso" value="Curso" ></p:outputLabel>
                         <p:inputText id="curso" value="#{alunoBean.entidadeNegocio.curso}" required="true"></p:inputText>
                         <p:outputLabel for="senha" value="Senha"></p:outputLabel>
-                        <p:password feedback="true" id="senha" inline="true" required="true"></p:password>
-                        
+                        <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
+                        <h:message for="senha" id="messageSenha" />
                         <p:commandButton action="#{alunoBean.cadastrarAluno()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>

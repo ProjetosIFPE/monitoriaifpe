@@ -27,7 +27,7 @@ public class AlunoBean extends GenericBean<Aluno> {
     }
     
     public void cadastrarAluno() {
-        
+       super.adicionarMensagemView("Cadastrando aluno");
        alunoService.salvar(entidadeNegocio);
         
 //        System.out.println("Cadastrando aluno");

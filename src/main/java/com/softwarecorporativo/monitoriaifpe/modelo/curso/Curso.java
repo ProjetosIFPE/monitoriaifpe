@@ -30,16 +30,14 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.FIELD)
 public class Curso extends EntidadeNegocio  {
 
+    
+
     @NotBlank
     @Size(min = 1, max = 100)
     @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.curso.descricao}")
     @Column(name = "CURSO_DS", nullable = false)
     private String descricao;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "GRAU", nullable = false)
-    private Grau grau;
 
     @NotBlank
     @Pattern(regexp = "^[A-Z][0-9]$", message = "{com.softwarecorporativo.monitoriaifpe.curso.codigoCurso}")
@@ -100,18 +98,6 @@ public class Curso extends EntidadeNegocio  {
         }
         aluno.setCurso(this);
         this.alunos.add(aluno);
-    }
-
- 
-    public Grau getModalidade() {
-
-        return grau;
-    }
-
-    
-    public void setModalidade(Grau modalidade) {
-
-        this.grau = modalidade;
     }
     
      public String getCodigoCurso() {

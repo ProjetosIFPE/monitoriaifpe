@@ -23,7 +23,7 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
     protected T entidadeNegocio;
 
     @PostConstruct
-    public void inicializar() {
+    protected void inicializar() {
         inicializarEntidadeNegocio();
     }
 

@@ -61,7 +61,7 @@ public class Periodo extends EntidadeNegocio {
         StringBuilder builder = new StringBuilder();
         builder.append(getAno());
         builder.append('.');
-        builder.append(getSemestre());
+        builder.append(getSemestre().ordinal() + 1);
         return builder.toString();
     }
 }
