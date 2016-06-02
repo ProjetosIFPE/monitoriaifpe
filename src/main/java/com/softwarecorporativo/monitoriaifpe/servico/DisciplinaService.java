@@ -16,14 +16,12 @@ import javax.ejb.TransactionManagementType;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class DisciplinaService extends GenericService<Disciplina> {
-
-    private static final long serialVersionUID = -98075646630672728L;
 
     @Override
     public Disciplina getEntidadeNegocio() {

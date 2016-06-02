@@ -5,9 +5,8 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
-import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
+import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -16,27 +15,28 @@ import javax.faces.bean.ViewScoped;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 @ManagedBean
 @ViewScoped
-public class CursoBean extends GenericBean<Curso> {
+public class ComponenteCurricularBean extends GenericBean<ComponenteCurricular> {
 
     @EJB
-    private CursoService cursoService;
-
+    private ComponenteCurricularService componenteCurricularService;
+    
     @Override
     void inicializarEntidadeNegocio() {
-        super.setEntidadeNegocio(cursoService.getEntidadeNegocio());
-    }
-
-    public Grau[] getModalidades() {
-        return Grau.values();
+        setEntidadeNegocio(componenteCurricularService.getEntidadeNegocio());
+        
     }
 
     @Override
     void inicializarServico() {
-        setService(cursoService);
+        setService(componenteCurricularService);
     }
+
+   
+    
+    
 
 }

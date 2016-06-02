@@ -5,8 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
-import java.io.Serializable;
+import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -20,16 +19,19 @@ import javax.ejb.TransactionManagementType;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AtividadeService extends GenericService<Atividade> {
+public class ComponenteCurricularService extends GenericService<ComponenteCurricular> {
 
     @Override
-    public Atividade getEntidadeNegocio() {
-        return new Atividade();
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public ComponenteCurricular getEntidadeNegocio() {
+        return new ComponenteCurricular();
     }
 
+    
     @Override
-    public Class<Atividade> getClasseEntidade() {
-        return Atividade.class;
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public Class<ComponenteCurricular> getClasseEntidade() {
+        return ComponenteCurricular.class;
     }
 
 }

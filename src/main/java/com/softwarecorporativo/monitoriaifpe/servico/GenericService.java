@@ -6,9 +6,9 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
-import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -19,13 +19,12 @@ import javax.persistence.Query;
  * @author Edmilson Santana
  * @param <T>
  */
-public abstract class GenericService<T extends EntidadeNegocio> implements Serializable {
-
-    private static final long serialVersionUID = 6861187490716747057L;
+public abstract class GenericService<T extends EntidadeNegocio> {
 
     @PersistenceContext(unitName = "monitoriaifpe-unit-dev", type = PersistenceContextType.TRANSACTION)
     EntityManager entityManager;
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public T buscarEntidade(Long chavePrimaria) {
         return entityManager.find(getClasseEntidade(), chavePrimaria);
     }
@@ -35,6 +34,7 @@ public abstract class GenericService<T extends EntidadeNegocio> implements Seria
         return entidadeNegocio;
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<T> listarTodos() {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select entidadeNegocio from ");
@@ -45,6 +45,7 @@ public abstract class GenericService<T extends EntidadeNegocio> implements Seria
     }
 
     public void remover(T entidadeNegocio) {
+        entidadeNegocio = this.entityManager.find(this.getClasseEntidade(), entidadeNegocio.getChavePrimaria());
         this.entityManager.remove(entidadeNegocio);
     }
 

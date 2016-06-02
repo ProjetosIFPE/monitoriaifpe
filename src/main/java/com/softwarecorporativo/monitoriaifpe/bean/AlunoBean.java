@@ -26,17 +26,14 @@ public class AlunoBean extends GenericBean<Aluno> {
         super.setEntidadeNegocio(new Aluno());
     }
     
-    public void cadastrarAluno() {
-       super.adicionarMensagemView("Cadastrando aluno");
-       alunoService.salvar(entidadeNegocio);
-        
-//        System.out.println("Cadastrando aluno");
-//        return "login?faces-redirect=true";
-    }
-
     @Override
     void inicializarEntidadeNegocio() {
         setEntidadeNegocio(alunoService.getEntidadeNegocio());
+    }
+    
+    @Override
+    void inicializarServico() {
+        setService(alunoService);
     }
     
 }

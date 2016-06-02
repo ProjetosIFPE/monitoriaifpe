@@ -20,13 +20,16 @@ import javax.ejb.TransactionManagementType;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class CursoService extends GenericService<Curso> {
-
+    
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Curso getEntidadeNegocio() {
         return new Curso();
     }
-
+    
+    
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Class<Curso> getClasseEntidade() {
         return Curso.class;
     }

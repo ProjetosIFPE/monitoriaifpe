@@ -23,28 +23,14 @@ public class AtividadeBean extends GenericBean<Atividade> {
     @EJB
     private AtividadeService atividadeService;
 
- 
-    public void cadastrarAtividade() {
-        this.atividadeService.salvar(entidadeNegocio);
-        this.inicializarEntidadeNegocio();
-    }
-
-    public List<Atividade> getAtividades() {
-        return atividadeService.listarTodos();
-    }
-
-    public void removerAtividade(Atividade atividade) {
-        this.atividadeService.remover(atividade);
-    }
-
-    public void alterarAtividade(Atividade atividade) {
-       this.atividadeService.atualizar(atividade);
-       this.inicializarEntidadeNegocio();
-    }
-
     @Override
     void inicializarEntidadeNegocio() {
         setEntidadeNegocio(atividadeService.getEntidadeNegocio());
+    }
+
+    @Override
+    void inicializarServico() {
+        setService(atividadeService);
     }
 
 }

@@ -19,20 +19,25 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class LoginBean extends GenericBean<Usuario> {
-
+    
     @EJB
     private LoginService loginService;
-
+    
     public String efetuarLogon() {
         System.out.println("Entrando no sistema");
         super.adicionarMensagemView("Bem-vindo" + super.entidadeNegocio.getLogin());
-
+        
         return "login?faces-redirect=true";
     }
-
+    
     @Override
     void inicializarEntidadeNegocio() {
         setEntidadeNegocio(loginService.getEntidadeNegocio());
     }
-
+    
+    @Override
+    void inicializarServico() {
+        setService(loginService);
+    }
+    
 }

@@ -26,60 +26,25 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class MonitoriaBean extends GenericBean<Monitoria> {
-
+    
     private static final long serialVersionUID = -4736071102515881964L;
-
+    
     @EJB
     private MonitoriaService monitoriaService;
-
-    private final List<Monitoria> monitorias = new ArrayList<>();
-
+    
     @Override
     void inicializarEntidadeNegocio() {
         super.setEntidadeNegocio(monitoriaService.getEntidadeNegocio());
     }
-
+    
     public Modalidade[] getModalidades() {
-
+        
         return Modalidade.values();
     }
-
-    public List<Monitoria> getMonitorias() {
-
-        if (monitorias.isEmpty()) {
-            Monitoria monitoria = new Monitoria();
-            Aluno aluno = new Aluno();
-            aluno.setNome("Edmilson Santana");
-            monitoria.setAluno(aluno);
-            ComponenteCurricular componenteCurricular = new ComponenteCurricular();
-            componenteCurricular.setDescricao("Software Corporativo");
-            Disciplina disciplina = new Disciplina();
-            disciplina.setComponenteCurricular(componenteCurricular);
-            monitoria.setDisciplina(disciplina);
-            Periodo periodo = new Periodo();
-            periodo.setAno(2015);
-            periodo.setSemestre(Semestre.PRIMEIRO);
-            monitoria.setPeriodo(periodo);
-            monitoria.setModalidade(Modalidade.BOLSISTA);
-            monitorias.add(monitoria);
-            monitoria = new Monitoria();
-            aluno = new Aluno();
-            aluno.setNome("Edmilson Santana");
-            monitoria.setAluno(aluno);
-            componenteCurricular = new ComponenteCurricular();
-            componenteCurricular.setDescricao("Arquitetura de Software");
-            disciplina = new Disciplina();
-            disciplina.setComponenteCurricular(componenteCurricular);
-            monitoria.setDisciplina(disciplina);
-            periodo = new Periodo();
-            periodo.setAno(2015);
-            periodo.setSemestre(Semestre.SEGUNDO);
-            monitoria.setPeriodo(periodo);
-            monitoria.setModalidade(Modalidade.VOLUNTARIO);
-            monitorias.add(monitoria);
-            System.out.println("Consultei");
-        }
-        return monitorias;
+    
+    @Override
+    void inicializarServico() {
+        setService(monitoriaService);
     }
-
+    
 }

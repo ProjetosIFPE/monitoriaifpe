@@ -6,7 +6,10 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import com.softwarecorporativo.monitoriaifpe.servico.GenericService;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
@@ -22,9 +25,14 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
 
     protected T entidadeNegocio;
 
+    protected GenericService<T> service;
+
+    protected List<T> entidades = new ArrayList<>();
+
     @PostConstruct
     protected void inicializar() {
         inicializarEntidadeNegocio();
+        inicializarServico();
     }
 
     public void adicionarMensagemView(String mensagem) {
@@ -44,6 +52,45 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         this.entidadeNegocio = entidadeNegocio;
     }
 
+    public void gravar() {
+        if (this.entidadeNegocio.getChavePrimaria() != null) {
+            this.service.atualizar(entidadeNegocio);
+        } else {
+            this.service.salvar(entidadeNegocio);
+        }
+
+         popularEntidades();
+
+        inicializarEntidadeNegocio();
+    }
+
+    protected void popularEntidades() {
+        entidades = this.service.listarTodos();
+    }
+
+    public List<T> getEntidades() {
+
+        if (entidades.isEmpty()) {
+            popularEntidades();
+        }
+        return entidades;
+    }
+
+    public void remover(T entidadeNegocio) {
+        this.service.remover(entidadeNegocio);
+        popularEntidades();
+    }
+
+    public GenericService<T> getService() {
+        return service;
+    }
+
+    protected void setService(GenericService<T> service) {
+        this.service = service;
+    }
+
     abstract void inicializarEntidadeNegocio();
+
+    abstract void inicializarServico();
 
 }
