@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="_template.xhtml" >
+        <ui:define name="titulo">
+            <p:outputLabel>Monitoria</p:outputLabel>
+        </ui:define>
+        <ui:define name="conteudo">
+            <p:messages id="messages" globalOnly="true" />
+            <h:form id="formMonitoria">
+                <p:fieldset legend="Dados da Monitoria">
+                    <h:panelGrid columns="2">    
+                        <p:outputLabel>Modalidade</p:outputLabel>
+                        <p:selectOneRadio id="modalidade" layout="grid" columns="2" value="#{monitoriaBean.entidadeNegocio.modalidade}">
+                            <f:selectItems value="#{monitoriaBean.modalidades}" var="modalidade" itemLabel="#{modalidade.name()}" itemValue="#{modalidade}" />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:form>
+            <p:dataTable id="tabelaMonitorias" value="#{monitoriaBean.monitorias}" var="monitoria" paginator="true" rows="1" >
+                <f:facet name="header">Monitorias</f:facet>
+                <p:column headerText="Disciplina" filterMatchMode="startsWith" filterBy="#{monitoria.disciplina.componenteCurricular.descricao}" sortBy="#{monitoria.disciplina.componenteCurricular.descricao}">
+                    <h:outputText value="#{monitoria.disciplina.componenteCurricular.descricao}" />
+                </p:column>
+                <p:column headerText="Período"  sortBy="#{monitoria.periodo.ano}">
+                    <h:outputText value="#{monitoria.periodo}" />
+                </p:column>
+                <p:column headerText="Modalidade" sortBy="#{monitoria.modalidade}">
+                    <h:outputText value="#{monitoria.modalidade}" />
+                </p:column>
+            </p:dataTable>
+        </ui:define>
+       
+    </ui:composition>
+</html>

@@ -18,10 +18,13 @@
 
                         <p:outputLabel for="nome" value="Nome"></p:outputLabel>
                         <p:inputText id="nome" value="#{alunoBean.entidadeNegocio.nome}" required="true"></p:inputText>
+                        <p:message for="nome" id="messageNome" />
                         <p:outputLabel for="sobrenome" value="Sobrenome"></p:outputLabel>
                         <p:inputText id="sobrenome" value="#{alunoBean.entidadeNegocio.sobrenome}" required="true"></p:inputText>
+                        <p:message for="sobrenome" id="messageSobrenome" />
                         <p:outputLabel for="login" value="Login"></p:outputLabel>
                         <p:inputText id="login" value="#{alunoBean.entidadeNegocio.login}" required="true"></p:inputText>
+                        <p:message for="login" id="messageLogin" />
                         <p:outputLabel for="email">Email</p:outputLabel>
                         <p:inputText id="email" value="#{alunoBean.entidadeNegocio.email}" required="true" validatorMessage="Email inválido">
                             <f:attribute name="type" value="email" />
@@ -32,26 +35,30 @@
                         <p:message for="email" id="messageEmail" />
                         <p:outputLabel for="matricula" value="Matricula" ></p:outputLabel>
                         <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{alunoBean.entidadeNegocio.matricula}"></p:inputMask>
-                        <!--                        <p:outputLabel for="curso" value="Curso" ></p:outputLabel>
-                                                <p:inputText id="curso" value="#{alunoBean.entidadeNegocio.curso}" required="true"></p:inputText>-->
-
-                        <p:outputLabel for="curso" value="Curso"></p:outputLabel>
-                        <p:selectOneMenu id="curso" var="c" value="#{alunoBean.entidadeNegocio.curso}" required="true">
-                            <f:selectItem itemLabel="Selecione um curso" itemValue="" />
-                            <f:selectItems value="#{alunoBean.listarCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.descricao}" />    
-                            <p:column>
-                                <h:outputText value="#{c.descricao}" />
-                            </p:column>
+                        <p:message for="matricula" id="messageMatricula" />
+                        <p:outputLabel for="curso" value="Curso" />
+                        <p:selectOneMenu id="curso"  value="#{alunoBean.cursoId}" required="true">
+                            <f:selectItems value="#{alunoBean.listarCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.chavePrimaria}"  />   
                         </p:selectOneMenu>
-                        <p:outputLabel for="senha" value="Senha"></p:outputLabel>
+                        <p:message for="curso" id="messageCurso" />
+                        <p:outputLabel for="senha" value="Senha" />
                         <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
                         <p:commandButton action="#{alunoBean.gravar()}" value="Cadastrar" 
-                                         update="@form" process="@form"/>
+                                         update="@form :listaAluno" process="@form"/>
                     </h:panelGrid>
 
                 </p:fieldset>
             </h:form>
+            <p:dataList id="listaAluno" value="#{alunoBean.entidades}" var="aluno" emptyMessage="Não há alunos">
+                <f:facet name="header">Alunos</f:facet>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{aluno.nome}" />
+                </p:column> -
+                <p:column headerText="Nome">
+                    <h:outputText value="#{aluno.matricula}" />
+                </p:column>
+            </p:dataList>
         </ui:define>
     </ui:composition> 
 </html>

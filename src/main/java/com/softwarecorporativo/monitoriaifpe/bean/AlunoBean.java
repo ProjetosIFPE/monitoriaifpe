@@ -27,10 +27,8 @@ public class AlunoBean extends GenericBean<Aluno> {
     
     @EJB
     private CursoService cursoService;
-    
-    public AlunoBean() {
-        super.setEntidadeNegocio(new Aluno());
-    }
+
+    private Long cursoId;
     
     @Override
     void inicializarEntidadeNegocio() {
@@ -45,5 +43,21 @@ public class AlunoBean extends GenericBean<Aluno> {
     public List<Curso> listarCursos(){
         return cursoService.listarTodos();
     } 
+
+    @Override
+    public void gravar() {
+        Curso curso = cursoService.buscarEntidade(cursoId);
+        entidadeNegocio.setCurso(curso);
+        super.gravar(); 
+    }
+    
+    
+     public Long getCursoId() {
+        return cursoId;
+    }
+
+    public void setCursoId(Long cursoId) {
+        this.cursoId = cursoId;
+    }
     
 }

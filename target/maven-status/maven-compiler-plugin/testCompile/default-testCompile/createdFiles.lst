@@ -1,0 +1,9 @@
+com\softwarecorporativo\monitoriaifpe\usuario\TesteUsuario.class
+com\softwarecorporativo\monitoriaifpe\atividade\TesteAtividade.class
+com\softwarecorporativo\monitoriaifpe\periodo\TestePeriodo.class
+com\softwarecorporativo\monitoriaifpe\MonitoriaTestCase.class
+com\softwarecorporativo\monitoriaifpe\curso\TesteCurso.class
+com\softwarecorporativo\monitoriaifpe\aluno\TesteAluno.class
+com\softwarecorporativo\monitoriaifpe\professor\TesteProfessor.class
+com\softwarecorporativo\monitoriaifpe\disciplina\TesteDisciplina.class
+com\softwarecorporativo\monitoriaifpe\monitoria\TesteMonitoria.class
