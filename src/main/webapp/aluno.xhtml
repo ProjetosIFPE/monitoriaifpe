@@ -14,7 +14,7 @@
             <p:messages id="messages" globalOnly="true" />
             <h:form id="cadastroAluno">
                 <p:fieldset legend="Cadastro Aluno">
-                    <h:panelGrid columns="2">
+                    <h:panelGrid columns="3">
 
                         <p:outputLabel for="nome" value="Nome"></p:outputLabel>
                         <p:inputText id="nome" value="#{alunoBean.entidadeNegocio.nome}" required="true"></p:inputText>
@@ -27,16 +27,26 @@
                             <f:attribute name="type" value="email" />
                             <f:passThroughAttribute name="placeholder" value="Email do Aluno" />
                             <f:validateRegex pattern=".+@.+" />
-                            <f:ajax event="blur" render="messageEmail" />
+                            <f:ajax event="blur" execute="email" render="messageEmail" />
                         </p:inputText>
+                        <p:message for="email" id="messageEmail" />
                         <p:outputLabel for="matricula" value="Matricula" ></p:outputLabel>
                         <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{alunoBean.entidadeNegocio.matricula}"></p:inputMask>
-                        <p:outputLabel for="curso" value="Curso" ></p:outputLabel>
-                        <p:inputText id="curso" value="#{alunoBean.entidadeNegocio.curso}" required="true"></p:inputText>
+                        <!--                        <p:outputLabel for="curso" value="Curso" ></p:outputLabel>
+                                                <p:inputText id="curso" value="#{alunoBean.entidadeNegocio.curso}" required="true"></p:inputText>-->
+
+                        <p:outputLabel for="curso" value="Curso"></p:outputLabel>
+                        <p:selectOneMenu id="curso" var="c" value="#{alunoBean.entidadeNegocio.curso}" required="true">
+                            <f:selectItem itemLabel="Selecione um curso" itemValue="" />
+                            <f:selectItems value="#{alunoBean.listarCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.descricao}" />    
+                            <p:column>
+                                <h:outputText value="#{c.descricao}" />
+                            </p:column>
+                        </p:selectOneMenu>
                         <p:outputLabel for="senha" value="Senha"></p:outputLabel>
                         <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
-                        <p:commandButton action="#{alunoBean.cadastrarAluno()}" value="Cadastrar" 
+                        <p:commandButton action="#{alunoBean.gravar()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
 
