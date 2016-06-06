@@ -32,5 +32,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
     void inicializarServico() {
         setService(atividadeService);
     }
+    
+    
 
 }
