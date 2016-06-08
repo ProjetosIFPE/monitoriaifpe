@@ -11,6 +11,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
@@ -19,6 +21,8 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class AtividadeBean extends GenericBean<Atividade> {
+
+    private ScheduleModel calendarioAtividades;
 
     @EJB
     private AtividadeService atividadeService;
@@ -32,7 +36,19 @@ public class AtividadeBean extends GenericBean<Atividade> {
     void inicializarServico() {
         setService(atividadeService);
     }
-    
-    
+
+    @Override
+    protected void inicializar() {
+        calendarioAtividades = new DefaultScheduleModel();
+        super.inicializar();
+    }
+
+    public ScheduleModel getCalendarioAtividades() {
+        return calendarioAtividades;
+    }
+
+    public void setCalendarioAtividades(ScheduleModel calendarioAtividades) {
+        this.calendarioAtividades = calendarioAtividades;
+    }
 
 }

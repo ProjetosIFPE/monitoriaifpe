@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.component.tabview.TabView;
 
 /**
  *
@@ -24,6 +25,9 @@ public class CursoBean extends GenericBean<Curso> {
 
     @EJB
     private CursoService cursoService;
+
+    private Integer tabViewIndex;
+
 
     @Override
     void inicializarEntidadeNegocio() {
@@ -38,5 +42,30 @@ public class CursoBean extends GenericBean<Curso> {
     void inicializarServico() {
         setService(cursoService);
     }
+
+    @Override
+    public void gravar() {
+        tabViewIndex = 1;
+        super.gravar();
+    }
+
+    @Override
+    public void setEntidadeNegocio(Curso entidadeNegocio) {
+        tabViewIndex = 0;
+        super.setEntidadeNegocio(entidadeNegocio); 
+    }
+    
+    
+    public Integer getTabViewIndex() {
+        return tabViewIndex;
+    }
+
+    public void setTabViewIndex(Integer tabViewIndex) {
+        this.tabViewIndex = tabViewIndex;
+    }
+    
+    
+
+
 
 }

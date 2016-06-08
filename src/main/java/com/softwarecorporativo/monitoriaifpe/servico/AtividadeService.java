@@ -35,6 +35,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return Atividade.class;
     }
     
+    
     public byte[] obterRelatorioFrequencia(Monitoria monitoria, Integer mes) {
         List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
        

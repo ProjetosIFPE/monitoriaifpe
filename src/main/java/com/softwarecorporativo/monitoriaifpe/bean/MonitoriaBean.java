@@ -12,6 +12,7 @@ import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
+import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
     
     @EJB
     private MonitoriaService monitoriaService;
+    
+    @EJB
+    private DisciplinaService disciplinaService;
     
     @Override
     void inicializarEntidadeNegocio() {

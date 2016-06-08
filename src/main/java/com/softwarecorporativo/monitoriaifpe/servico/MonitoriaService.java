@@ -6,6 +6,8 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -15,6 +17,9 @@ import javax.ejb.Stateless;
 @Stateless
 public class MonitoriaService extends GenericService<Monitoria> {
 
+    @EJB
+    private BoletimCurricularService boletimCurricularService;
+    
     @Override
     public Monitoria getEntidadeNegocio() {
        return new Monitoria();
@@ -25,6 +30,6 @@ public class MonitoriaService extends GenericService<Monitoria> {
        return Monitoria.class;
     }
     
-
+  
     
 }

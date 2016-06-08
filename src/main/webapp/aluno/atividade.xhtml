@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="../_template.xhtml">
+        <ui:define name="conteudo">
+            <h:form>
+                <h:panelGrid columnClasses="value">
+                    <h3 style="margin-top: 0">Calendário de Atividades</h3>
+                    <p:schedule id="calendario" value="#{atividadeBean.calendarioAtividades}"  locale="pt-br" widgetVar="calendario" timeZone="GMT+2">
+                        <p:ajax event="dateSelect"  update="detalhesAtividade" oncomplete="PF('eventDialog').show();" />
+                        <p:ajax event="eventSelect" update="detalhesAtividade" oncomplete="PF('eventDialog').show();" />
+                    </p:schedule>
+                </h:panelGrid>
+                <p:dialog widgetVar="dialogAtividade" header="Detalhes da Atividade" showEffect="clip" hideEffect="clip">
+                    <h:panelGrid id="detalhesAtividade" columns="2">
+                        
+                        <p:outputLabel for="descricao" value="Descrição:" />
+                        <p:inputText id="descricao" value="#{atividadeBean.entidadeNegocio.descricao}" required="true" />
+
+                        <p:outputLabel for="horarioEntrada">Horário de Inicio da Atividade:</p:outputLabel>
+                        <p:calendar timeOnly="true" pattern="HH:mm" id="horarioEntrada" value="#{atividadeBean.entidadeNegocio.horarioEntrada}" required="true" />
+                       
+                        <p:outputLabel for="horarioSaida">Horário de Término da Atividade:</p:outputLabel>
+                        <p:calendar timeOnly="true" pattern="HH:mm" id="horarioSaida" value="#{atividadeBean.entidadeNegocio.horarioSaida}" required="true" />
+
+                        <p:commandButton type="reset" value="Limpar" />
+                        <p:commandButton value="Salvar" actionListener="#{atividadeBean.gravar()}" oncomplete="PF('calendario').update();PF('dialogAtividade').hide();" />
+                    </h:panelGrid>
+                </p:dialog>    
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
