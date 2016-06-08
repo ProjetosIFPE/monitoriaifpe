@@ -27,34 +27,29 @@ public class Periodo extends EntidadeNegocio {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "SEMESTRE", nullable = false)
+    @Column(nullable = false, columnDefinition = "ENUM('PRIMEIRO', 'SEGUNDO')")
     private Semestre semestre;
 
-  
     public Integer getAno() {
 
         return ano;
     }
 
-  
     public void setAno(Integer ano) {
 
         this.ano = ano;
     }
 
-    
     public Semestre getSemestre() {
 
         return semestre;
     }
 
-  
     public void setSemestre(Semestre semestre) {
 
         this.semestre = semestre;
     }
 
-    
     @Override
     public String toString() {
 

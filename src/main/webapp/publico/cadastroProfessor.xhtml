@@ -10,13 +10,12 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <ui:composition template="_template.xhtml">
+    <ui:composition template="../_template.xhtml">
         <ui:define name="titulo">
             <p:outputPanel>Cadastro Professor</p:outputPanel>
         </ui:define>
         
         <ui:define name="conteudo">
-            <p:messages id="messages" globalOnly="true" />
             <h:form id="cadastroProfessor">
                 <p:fieldset legend="Cadastro Professor">
                     <h:panelGrid columns="3">

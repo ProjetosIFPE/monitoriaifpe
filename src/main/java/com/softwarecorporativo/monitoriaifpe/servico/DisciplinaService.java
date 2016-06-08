@@ -5,11 +5,9 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -25,6 +23,9 @@ import javax.ejb.TransactionManagementType;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class DisciplinaService extends GenericService<Disciplina> {
 
+    @EJB
+    private PeriodoService periodoService;
+
     @Override
     public Disciplina getEntidadeNegocio() {
         return new Disciplina();
@@ -35,12 +36,9 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return Disciplina.class;
     }
 
-    @Override
-    public Disciplina salvar(Disciplina entidadeNegocio) {
-        Periodo periodo = this.entityManager.find(Periodo.class, 1l);
+    public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina entidadeNegocio) {
+        Periodo periodo = periodoService.obterPeriodoAtual();
         entidadeNegocio.setPeriodo(periodo);
-        this.entityManager.persist(entidadeNegocio);
-        return entidadeNegocio;
+        return super.salvar(entidadeNegocio);
     }
 }
-
