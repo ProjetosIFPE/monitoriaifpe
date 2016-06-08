@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="_template.xhtml" >        
+        <ui:define name="titulo">
+            <p:outputPanel>Cadastro Disciplinas</p:outputPanel>
+        </ui:define>
+
+        <ui:define name="conteudo">
+            <p:messages id="messages" globalOnly="true" />
+            <h:form id="cadastroDisciplinas">
+                <p:growl id="msgs" showDetail="true" />
+                <p:panel header="Criar Disciplina" style="margin-bottom:10px;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="componenteCurricular" value="Componente Curricular: " />
+                        <p:selectOneMenu id="componenteCurricular" value="#{disciplinaBean.componenteCurricularID}" style="width:150px">
+                            <f:selectItem itemLabel="Select Componente Curricular" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{disciplinaBean.listarComponentesCurriculares()}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente.chavePrimaria}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="professor" value="Professor: " />
+                        <p:selectOneMenu id="professor" value="#{disciplinaBean.professorId}" style="width:150px">
+                            <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{disciplinaBean.listarProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor.chavePrimaria}"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                    <p:separator />
+
+                    <p:commandButton value="Submit" update="msgs" actionListener="#{disciplinaBean.gravar()}" icon="ui-icon-check" />
+                </p:panel>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>
+

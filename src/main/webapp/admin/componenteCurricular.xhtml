@@ -21,7 +21,7 @@ and open the template in the editor.
                         <p:outputLabel for="descricao">Descrição</p:outputLabel>
                         <p:inputText id="descricao" value="#{componenteCurricularBean.entidadeNegocio.descricao}"  required="true">
                             <f:validateLength maximum="150"  />
-                            <f:validateRegex pattern="^[A-Z]{1}\\D+$" />
+                            <!--<f:validateRegex pattern="^[A-Z]{1}\\D+$" />-->
                             <f:ajax event="blur" execute="descricao" render="messageDescricao" />
                         </p:inputText>
                         <p:message for="descricao" id="messageDescricao" />
@@ -31,12 +31,15 @@ and open the template in the editor.
                         </p:inputText>                     
                         <p:message for="codigoComponenteCurricular" id="messageCodigoComponenteCurricular" />
                         <h:outputLabel for="curso">Curso</h:outputLabel>
-                        <p:selectOneMenu id="curso" value="#{componenteCurricularBean.entidadeNegocio.curso}" required="true">
-                            <f:selectItems value="#{cursoBean.cursos}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}" />
+                        <p:selectOneMenu id="curso" value="#{componenteCurricularBean.cursoId}" required="true">
+                            <f:selectItems value="#{componenteCurricularBean.listarTodosOsCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.chavePrimaria}" />
                         </p:selectOneMenu>
+                        <p:message for="curso" id="messageCurso" />
+
+
                     </h:panelGrid>
 
-                    <p:commandButton action="#{cursoBean.gravarCurso()}" value="Cadastrar" 
+                    <p:commandButton action="#{componenteCurricularBean.gravar()}" value="Cadastrar" 
                                      update="@form formTabelaComponenteCurricular:tabelaComponenteCurricular" process="@form"/>
                 </p:fieldset>
             </h:form>

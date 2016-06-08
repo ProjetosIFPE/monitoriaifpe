@@ -46,6 +46,16 @@ public class ComponenteCurricular extends EntidadeNegocio {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "componenteCurricular", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Disciplina> disciplinas;
     
+    /* TODO: Construtor criado para facilitar a criação de objetos */ 
+    public ComponenteCurricular(String codigoComponenteCurricular, String descricao){
+        this.codigoComponenteCurricular = codigoComponenteCurricular;
+        this.descricao = descricao;
+    }
+    
+    public ComponenteCurricular(){
+    }
+    
+    
     public String getDescricao() {
 
         return descricao;
