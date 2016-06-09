@@ -43,7 +43,7 @@ public class Disciplina extends EntidadeNegocio {
     private Professor professor;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
     private Periodo periodo;
 
