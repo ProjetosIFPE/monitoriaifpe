@@ -11,13 +11,9 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="../_template.xhtml">
-        <ui:define name="titulo">
-            <p:outputPanel>Cadastro Professor</p:outputPanel>
-        </ui:define>
-        
         <ui:define name="conteudo">
             <h:form id="cadastroProfessor">
-                <p:fieldset legend="Cadastro Professor">
+                <p:fieldset legend="Dados do Professor">
                     <h:panelGrid columns="3">
                         <p:outputLabel for="nome" value="Nome" />
                         <p:inputText id="nome" value="#{professorBean.entidadeNegocio.nome}" required="true" />
@@ -39,19 +35,11 @@ and open the template in the editor.
                         <p:outputLabel for="senha" value="Senha" />
                         <p:password feedback="true" value="#{professorBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
-                        <p:commandButton action="#{professorBean.gravar()}" value="Cadastrar" 
-                                         update="@form :listaProfessor" process="@form"/>
+                        <p:commandButton action="#{professorBean.cadastrarProfessor()}" value="Cadastrar" 
+                                         update="@form" process="@form"/>
                     </h:panelGrid>
                 </p:fieldset>
-            </h:form>
-            <p:dataList id="listaProfessor" value="#{professorBean.entidades}" var="professor" emptyMessage="Não há professores">
-                <f:facet name="header">Professores</f:facet>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{professor.nome}" />
-                </p:column>
-            </p:dataList>      
+            </h:form>  
         </ui:define>
-        
     </ui:composition>
 </html>
-    

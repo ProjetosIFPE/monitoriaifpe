@@ -5,7 +5,6 @@
  */
 package com.softwarecorporativo.monitoriaifpe.converter;
 
-import antlr.StringUtils;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

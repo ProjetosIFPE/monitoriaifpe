@@ -21,6 +21,8 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class AlunoBean extends GenericBean<Aluno> {
+
+    private static final long serialVersionUID = 2777583349263188203L;
     
     @EJB
     private AlunoService alunoService;
@@ -28,7 +30,6 @@ public class AlunoBean extends GenericBean<Aluno> {
     @EJB
     private CursoService cursoService;
 
-    private Long cursoId;
     
     @Override
     void inicializarEntidadeNegocio() {
@@ -43,21 +44,9 @@ public class AlunoBean extends GenericBean<Aluno> {
     public List<Curso> listarCursos(){
         return cursoService.listarTodos();
     } 
-
-    @Override
-    public void gravar() {
-        Curso curso = cursoService.buscarEntidade(cursoId);
-        entidadeNegocio.setCurso(curso);
-        super.gravar(); 
-    }
     
-    
-     public Long getCursoId() {
-        return cursoId;
+    public String cadastrarAluno() {
+        super.gravar();
+        return "login?faces-redirect=true";
     }
-
-    public void setCursoId(Long cursoId) {
-        this.cursoId = cursoId;
-    }
-    
 }

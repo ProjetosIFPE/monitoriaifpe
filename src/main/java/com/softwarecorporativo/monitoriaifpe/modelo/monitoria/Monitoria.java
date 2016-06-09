@@ -33,6 +33,8 @@ import javax.validation.constraints.NotNull;
 @ValidaMonitoria
 public class Monitoria extends EntidadeNegocio  {
 
+    private static final long serialVersionUID = -4572493586452867519L;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

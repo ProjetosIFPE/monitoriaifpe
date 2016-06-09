@@ -5,21 +5,23 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
+import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 @Stateless
 public class MonitoriaService extends GenericService<Monitoria> {
 
-    @EJB
-    private BoletimCurricularService boletimCurricularService;
-    
+
     @Override
     public Monitoria getEntidadeNegocio() {
        return new Monitoria();
@@ -29,6 +31,10 @@ public class MonitoriaService extends GenericService<Monitoria> {
     public Class<Monitoria> getClasseEntidade() {
        return Monitoria.class;
     }
+    
+    
+    
+    
     
   
     

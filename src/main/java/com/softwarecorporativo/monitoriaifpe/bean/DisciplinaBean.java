@@ -24,6 +24,8 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class DisciplinaBean extends GenericBean<Disciplina> {
 
+    private static final long serialVersionUID = -4299577354116933320L;
+
     @EJB
     private DisciplinaService disciplinaService;
 
