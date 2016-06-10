@@ -49,12 +49,7 @@ public class Monitoria extends EntidadeNegocio  {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
     private Aluno aluno;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
-    private Periodo periodo;
-
+    
     @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> atividades;
 
@@ -98,19 +93,7 @@ public class Monitoria extends EntidadeNegocio  {
         atividade.setMonitoria(this);
         this.atividades.add(atividade);
     }
-
     
-    public Periodo getPeriodo() {
-
-        return periodo;
-    }
-
-    
-    public void setPeriodo(Periodo periodo) {
-
-        this.periodo = periodo;
-    }
-
     public void setAluno(Aluno aluno) {
 
         this.aluno = aluno;

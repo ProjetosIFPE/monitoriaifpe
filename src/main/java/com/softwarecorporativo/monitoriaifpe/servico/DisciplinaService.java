@@ -8,6 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
+import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -39,10 +40,10 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return Disciplina.class;
     }
 
-    public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina entidadeNegocio) {
+    public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina disciplina) {
         Periodo periodo = periodoService.obterPeriodoAtual();
-        entidadeNegocio.setPeriodo(periodo);
-        return super.salvar(entidadeNegocio);
+        disciplina.setPeriodo(periodo);
+        return super.salvar(disciplina);
     }
 
     public List<Disciplina> obterDisciplinasDoCursoPorPeriodo(Curso curso, Periodo periodo) {
@@ -58,10 +59,10 @@ public class DisciplinaService extends GenericService<Disciplina> {
                 .createQuery(jpql.toString(), getClasseEntidade());
         query.setParameter("paramPeriodo", periodo);
         query.setParameter("paramCurso", curso);
-        
+
         return query.getResultList();
     }
-    
+
     public List<Disciplina> obterDisciplinasPorCursoDoPeriodoAtual(Curso curso) {
         Periodo periodo = periodoService.obterPeriodoAtual();
         return this.obterDisciplinasDoCursoPorPeriodo(curso, periodo);

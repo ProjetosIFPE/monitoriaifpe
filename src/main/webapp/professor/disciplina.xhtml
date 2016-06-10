@@ -20,17 +20,7 @@
                             <f:selectItem itemLabel="Select Componente Curricular" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{disciplinaBean.listarComponentesCurriculares()}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
                         </p:selectOneMenu>
-
-                        <p:outputLabel for="professor" value="Professor: " />
-                        <p:selectOneMenu id="professor" value="#{disciplinaBean.entidadeNegocio.professor}" style="width:150px" converter="entidadeNegocioConverter">
-                            <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{disciplinaBean.listarProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
-                        </p:selectOneMenu>
-
                     </h:panelGrid>
-
-                    <p:separator />
-
                     <p:commandButton value="Submit" update="msgs" actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria()}" icon="ui-icon-check" />
                 </p:panel>
             </h:form>

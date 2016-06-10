@@ -7,7 +7,7 @@
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="none"/>
             <property name="eclipselink.jdbc.native-sql" value="true"/>
-            <property name="eclipselink.weaving" value="true"/>
+            <property name="eclipselink.weaving" value="static"/>
             <property name="javax.persistence.validation.group.pre-persist" value="javax.validation.groups.Default"/>
             <property name="javax.persistence.validation.group.pre-update" value="javax.validation.groups.Default"/>
             <property name="javax.persistence.validation.group.pre-remove" value="javax.validation.groups.Default"/>      

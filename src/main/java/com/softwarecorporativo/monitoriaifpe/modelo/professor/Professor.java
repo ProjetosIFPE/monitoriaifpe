@@ -20,6 +20,8 @@ import javax.persistence.Table;
 @Access(AccessType.FIELD)
 public class Professor extends Usuario {
 
+    private static final long serialVersionUID = -8880339274163624313L;
+
     @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY)
     private List<Disciplina> disciplinas;
 

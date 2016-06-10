@@ -32,13 +32,15 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class Disciplina extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -7788698676039962643L;
+
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "COMPONENTE_CURRICULAR_ID", referencedColumnName = "COMPONENTE_CURRICULAR_ID")
     private ComponenteCurricular componenteCurricular;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "PROFESSOR_ID", referencedColumnName = "PROFESSOR_ID")
     private Professor professor;
 
