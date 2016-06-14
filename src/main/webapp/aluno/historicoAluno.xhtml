@@ -6,61 +6,63 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="../_template.xhtml" >        
-        <ui:define name="titulo">
-            <p:outputPanel>Cadastro Boletim</p:outputPanel>
-        </ui:define>
-
         <ui:define name="conteudo">
             <h:form id="cadastroBoletim">
-                <p:growl id="msgs" showDetail="true" />
-                <p:panel header="Cadastrar Boletim Curricular" style="margin-bottom:10px;">
+                <p:fieldset legend="Dados do Boletim Curricular">
+                    <p:wizard flowListener="#{boletimCurricularBean.fluxoDeCadastro}">
+                        <p:tab title="Disciplina">
+                            <p:panel header="Dados da Disciplina">
+                                <p:panelGrid columns="3">
+                                    <p:outputLabel for="componenteCurricular" value="Componente Curricular:" />
+                                    <p:selectOneMenu id="componenteCurricular" value="#{boletimCurricularBean.disciplina.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
+                                        <f:selectItems value="#{boletimCurricularBean.listarTodosComponentesCurriculares()}" var="componenteCurricular" itemLabel="#{componenteCurricular.descricao}" itemValue="#{componenteCurricular}"/>
+                                    </p:selectOneMenu>
+                                    <h:message for="componenteCurricular" id="messageDisciplina" />   
 
-                    <h:panelGrid columns="3">
 
-                        <p:outputLabel for="componenteCurricular" value="Componente Curricular:" />
-                        <p:selectOneMenu id="componenteCurricular" value="#{boletimCurricularBean.entidadeNegocio.disciplina.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
-                            <f:selectItem itemLabel="Select Componente Curricular" itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{boletimCurricularBean.listarTodosComponentesCurriculares()}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
-                        </p:selectOneMenu>
-                    </h:panelGrid>
-                    <h:panelGrid columns="3">
-                        <p:outputLabel for="professor" value=" Professor:" />
-                        <p:selectOneMenu id="professor" value="#{boletimCurricularBean.entidadeNegocio.disciplina.professor}" style="width:150px" converter="entidadeNegocioConverter">
-                            <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{boletimCurricularBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
-                        </p:selectOneMenu>
-                    </h:panelGrid>                    
+                                    <p:outputLabel for="professor" value=" Professor:" />            
+                                    <p:selectOneMenu id="professor" value="#{boletimCurricularBean.disciplina.professor}" style="width:150px" converter="entidadeNegocioConverter">
+                                        <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{boletimCurricularBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
+                                    </p:selectOneMenu>
+                                    <h:message for="professor" id="messageProfessor" />
 
-                    <h:panelGrid columns="2" >
 
-                        <p:outputLabel for="ano" value="Ano:" />
-                        <p:inputMask id="ano" mask="9999" value="#{boletimCurricularBean.entidadeNegocio.disciplina.periodo.ano}" />
-                    </h:panelGrid>
-                    <h:panelGrid columns="3">
+                                    <p:outputLabel for="ano" value="Ano:" />                       
+                                    <p:inputMask id="ano" mask="9999" value="#{boletimCurricularBean.periodo.ano}" />
+                                    <h:message for="ano" id="messageAno" />
 
-                        <p:outputLabel for="semestre" value="Semestre:" />
-                        <p:selectOneMenu id="semestre" value="#{boletimCurricularBean.entidadeNegocio.disciplina.periodo.semestre}" style="width:150px">
-                            <f:selectItem itemLabel="Select Semestre" itemValue="" noSelectionOption="true" />
-                            <f:selectItem  itemLabel="1" itemValue="1"/>
-                            <f:selectItem  itemLabel="2" itemValue="2"/>
-                        </p:selectOneMenu>
-                    </h:panelGrid>
-                    <!--Referente a boletim-->
-                    <h:panelGrid columns="2">
+                                    <p:outputLabel for="semestre" value="Semestre:" />                       
+                                    <p:selectOneMenu id="semestre" value="#{boletimCurricularBean.periodo.semestre}" style="width:150px">
+                                        <f:selectItems value="#{boletimCurricularBean.semestres}" />
+                                    </p:selectOneMenu>
+                                    <h:message for="semestre" id="messageSemestre" />
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Boletim">
+                            <p:panel header="Dados do Boletim">
+                                <p:panelGrid columns="3">
+                                    <p:outputLabel for="nota" value="Nota:" />
+                                    <p:inputText id="nota" value="#{boletimCurricularBean.entidadeNegocio.nota}">
+                                        <f:validateDoubleRange minimum="0.0" maximum="10.0" />
+                                        <f:ajax event="blur" execute="nota" render="messageNota" />
+                                    </p:inputText>
+                                    <h:message for="nota" id="messageNota" />
 
-                        <p:outputLabel for="nota" value="Nota:" />
-                        <p:inputMask id="nota" mask="99.99" value="#{boletimCurricularBean.entidadeNegocio.nota}" />
-
-                        <p:outputLabel for="frequencia" value="Frequencia:" />
-                        <p:inputMask id="frequencia" mask="99.99" maxlength="3" value="#{boletimCurricularBean.entidadeNegocio.frequencia}" />
-
-                    </h:panelGrid>
-
-                    <p:separator />
-                    <p:commandButton action="#{boletimCurricularBean.gravar()}" value="Cadastrar" 
-                                     update="@form " process="@form"/>
-                    <!--<p:commandButton value="Submit" update="msgs" actionListener="" icon="ui-icon-check" />-->
-                </p:panel>
+                                    <p:outputLabel for="frequencia" value="Frequencia:" />
+                                    <p:inputText id="frequencia" value="#{boletimCurricularBean.entidadeNegocio.frequencia}">
+                                        <f:validateDoubleRange minimum="0.0" maximum="100.0" />
+                                        <f:ajax event="blur" execute="frequencia" render="messageFrequencia" />
+                                    </p:inputText> 
+                                    <h:message for="frequencia" id="messageFrequencia" />
+                                    
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                    <p:commandButton action="#{boletimCurricularBean.cadastrarBoletim()}" value="Cadastrar" update="@form" process="@form"/>
+                </p:fieldset>
             </h:form>
         </ui:define>
 

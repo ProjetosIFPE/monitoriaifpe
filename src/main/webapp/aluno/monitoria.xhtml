@@ -17,8 +17,14 @@ and open the template in the editor.
             <h:form id="formMonitoria">
                 <p:fieldset legend="Dados da Monitoria">
                     <h:panelGrid columns="2">    
-                        <p:outputLabel>Modalidade</p:outputLabel>
-                        
+                        <p:outputLabel>Disciplinas</p:outputLabel>
+                        <p:selectOneMenu value="#{monitoriaBean.entidadeNegocio.disciplina}" converter="entidadeNegocioConverter">
+                            <f:selectItems value="#{monitoriaBean.disciplinasOfertadasParaMonitoria}" var="disciplina" itemLabel="#{disciplina.componenteCurricular.descricao} - #{disciplina.periodo} " itemValue="#{disciplina}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel>Disciplinas</p:outputLabel>
+                        <p:selectOneMenu value="#{monitoriaBean.entidadeNegocio.disciplina}" converter="entidadeNegocioConverter">
+                            <f:selectItems value="#{monitoriaBean.disciplinasOfertadasParaMonitoria}" var="disciplina" itemLabel="#{disciplina.componenteCurricular.descricao} - #{disciplina.periodo} " itemValue="#{disciplina}" />
+                        </p:selectOneMenu>
                     </h:panelGrid>
                 </p:fieldset>
             </h:form>

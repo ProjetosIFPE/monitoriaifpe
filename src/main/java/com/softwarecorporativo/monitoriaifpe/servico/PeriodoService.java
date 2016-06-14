@@ -71,7 +71,6 @@ public class PeriodoService extends GenericService<Periodo> {
             super.salvar(periodo);
         }
         return periodo;
-
     }
 
     public Periodo obterPeriodoCadastradoPorAnoEsemestre(Periodo periodo) {
@@ -96,8 +95,7 @@ public class PeriodoService extends GenericService<Periodo> {
         }else{
             periodo.setSemestre(Semestre.SEGUNDO);
         }
-        
-        return periodo;
+         return periodo;
     }
 
 }

@@ -6,15 +6,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="../_template.xhtml" >        
-        <ui:define name="titulo">
-            <p:outputPanel>Cadastro Aluno</p:outputPanel>
-        </ui:define>
-
         <ui:define name="conteudo">
             <h:form id="cadastroAluno">
-                <p:fieldset legend="Cadastro Aluno">
+                <p:fieldset legend="Dados do Aluno">
                     <h:panelGrid columns="3">
-
                         <p:outputLabel for="nome" value="Nome"></p:outputLabel>
                         <p:inputText id="nome" value="#{alunoBean.entidadeNegocio.nome}" required="true"></p:inputText>
                         <p:message for="nome" id="messageNome" />
@@ -36,29 +31,18 @@
                         <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{alunoBean.entidadeNegocio.matricula}"></p:inputMask>
                         <p:message for="matricula" id="messageMatricula" />
                         <p:outputLabel for="curso" value="Curso" />
-                        <p:selectOneMenu id="curso"  value="#{alunoBean.cursoId}" required="true">
-                            <f:selectItems value="#{alunoBean.listarCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.chavePrimaria}"  />   
+                        <p:selectOneMenu id="curso"  value="#{alunoBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
+                            <f:selectItems value="#{alunoBean.listarCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
                         </p:selectOneMenu>
                         <p:message for="curso" id="messageCurso" />
                         <p:outputLabel for="senha" value="Senha" />
                         <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
-                        <p:commandButton action="#{alunoBean.gravar()}" value="Cadastrar" 
-                                         update="@form :listaAluno" process="@form"/>
+                        <p:commandButton action="#{alunoBean.cadastrarAluno()}" value="Cadastrar" 
+                                         update="@form" process="@form"/>
                     </h:panelGrid>
-
                 </p:fieldset>
             </h:form>
-            
-            <p:dataList id="listaAluno" value="#{alunoBean.entidades}" var="aluno" emptyMessage="Não há alunos">
-                <f:facet name="header">Alunos</f:facet>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{aluno.nome}" />
-                </p:column> -
-                <p:column headerText="Nome">
-                    <h:outputText value="#{aluno.matricula}" />
-                </p:column>
-            </p:dataList>
         </ui:define>
     </ui:composition> 
 </html>

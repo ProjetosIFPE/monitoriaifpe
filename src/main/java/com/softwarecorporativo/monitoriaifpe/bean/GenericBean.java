@@ -59,7 +59,7 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
             this.service.salvar(entidadeNegocio);
         }
 
-         popularEntidades();
+        popularEntidades();
 
         inicializarEntidadeNegocio();
     }

@@ -10,6 +10,7 @@ import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
+import com.softwarecorporativo.monitoriaifpe.servico.PeriodoService;
 import com.softwarecorporativo.monitoriaifpe.servico.ProfessorService;
 import java.util.List;
 import javax.ejb.EJB;
@@ -24,6 +25,8 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class DisciplinaBean extends GenericBean<Disciplina> {
 
+    private static final long serialVersionUID = -4299577354116933320L;
+
     @EJB
     private DisciplinaService disciplinaService;
 
@@ -31,13 +34,22 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     private ComponenteCurricularService componenteCurrService;
 
     @EJB
+    private PeriodoService periodoService;
+    
+    @EJB
     private ProfessorService professorService;
 
     @Override
     void inicializarEntidadeNegocio() {
+      
         super.setEntidadeNegocio(disciplinaService.getEntidadeNegocio());
     }
 
+    @Override
+    protected void inicializar() {
+        super.inicializar(); 
+    }
+    
     @Override
     void inicializarServico() {
         setService(disciplinaService);
@@ -54,5 +66,6 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     public void ofertarDisciplinaParaMonitoria() {
         disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
     }
+    
 
 }

@@ -39,7 +39,7 @@ and open the template in the editor.
                     </h:panelGrid>
 
                     <p:commandButton action="#{componenteCurricularBean.gravar()}" value="Cadastrar" 
-                                     update="@form formTabelaComponenteCurricular:tabelaComponenteCurricular" process="@form"/>
+                                     update="@form :formTabelaComponenteCurricular" process="@form"/>
                 </p:fieldset>
             </h:form>
             <h:form id="formTabelaComponenteCurricular">
@@ -56,7 +56,7 @@ and open the template in the editor.
                     </p:column>
 
                     <p:column headerText="Alterar">
-                        <p:commandButton icon="fa fa-fw fa-edit" process="@this" update=":formCurso" >
+                        <p:commandButton icon="fa fa-fw fa-edit" process="@this" update=":formTabelaComponenteCurricular" >
                             <f:setPropertyActionListener target="#{componenteCurricularBean.entidadeNegocio}" value="#{curso}" />
                         </p:commandButton>
                     </p:column>
