@@ -40,6 +40,8 @@ import java.io.Serializable;
 @Access(AccessType.FIELD)
 @ValidaAtividade
 public class Atividade extends EntidadeNegocio  {
+
+    private static final long serialVersionUID = 5800521845344151539L;
     
     @NotBlank
     @Size(max = 140)

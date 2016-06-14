@@ -8,6 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
 import com.softwarecorporativo.monitoriaifpe.servico.PeriodoService;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -39,6 +41,7 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     @EJB
     private ProfessorService professorService;
 
+
     @Override
     void inicializarEntidadeNegocio() {
       
@@ -59,11 +62,11 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         return this.componenteCurrService.listarTodos();
     }
 
-    public List<Professor> listarProfessores() {
-        return this.professorService.listarTodos();
-    }
 
     public void ofertarDisciplinaParaMonitoria() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Professor professor = (Professor) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
+        professor.addDisciplina(entidadeNegocio);
         disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
     }
     

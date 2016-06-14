@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITORIA_ID"))})
 @Access(AccessType.FIELD)
 @ValidaMonitoria
-public class Monitoria extends EntidadeNegocio  {
+public class Monitoria extends EntidadeNegocio {
 
     private static final long serialVersionUID = -4572493586452867519L;
 
@@ -50,65 +50,50 @@ public class Monitoria extends EntidadeNegocio  {
     @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
     private Aluno aluno;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
-    private Periodo periodo;
-
     @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> atividades;
 
- 
+    public int getAnoMonitoria() {
+        return disciplina.obterAnoDaDisciplina();
+    }
+
+    public String getEditalMonitoria() {
+        return disciplina.getPeriodo().toString();
+    }
+
     public Modalidade getModalidade() {
 
         return modalidade;
     }
 
- 
     public void setModalidade(Modalidade modalidade) {
 
         this.modalidade = modalidade;
     }
 
-   
     public Disciplina getDisciplina() {
 
         return disciplina;
     }
 
- 
     public void setDisciplina(Disciplina disciplina) {
 
         this.disciplina = disciplina;
     }
 
-   
     public Atividade getAtividade(int index) {
-        if ( this.atividades == null ) {
+        if (this.atividades == null) {
             this.atividades = new ArrayList<>();
         }
         return atividades.get(index);
     }
 
-  
     public void addAtividade(Atividade atividade) {
-        if ( this.atividades == null ) {
+        if (this.atividades == null) {
             this.atividades = new ArrayList<>();
         }
         atividade.setMonitoria(this);
         this.atividades.add(atividade);
-    }
-
-    
-    public Periodo getPeriodo() {
-
-        return periodo;
-    }
-
-    
-    public void setPeriodo(Periodo periodo) {
-
-        this.periodo = periodo;
     }
 
     public void setAluno(Aluno aluno) {
@@ -117,16 +102,9 @@ public class Monitoria extends EntidadeNegocio  {
 
     }
 
-    
     public Aluno getAluno() {
 
         return aluno;
     }
-
-   
-  
-
-   
-    
 
 }

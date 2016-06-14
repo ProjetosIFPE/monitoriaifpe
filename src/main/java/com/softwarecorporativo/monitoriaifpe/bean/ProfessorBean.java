@@ -34,6 +34,4 @@ public class ProfessorBean extends GenericBean<Professor> {
         super.gravar();
         return "login?faces-redirect=true";
     }
-    
-    
 }

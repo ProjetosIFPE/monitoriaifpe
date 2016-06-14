@@ -58,7 +58,6 @@ public class TesteMonitoria extends MonitoriaTestCase {
         monitoria.setAluno(null);
         monitoria.setModalidade(null);
         monitoria.setDisciplina(null);
-        monitoria.setPeriodo(null);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(5, constraintViolations.size());
 
@@ -70,7 +69,6 @@ public class TesteMonitoria extends MonitoriaTestCase {
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(null);
-        monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(2, constraintViolations.size());
     }
@@ -81,7 +79,6 @@ public class TesteMonitoria extends MonitoriaTestCase {
         monitoria.setAluno(null);
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
-        monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(2, constraintViolations.size());
     }
@@ -92,7 +89,6 @@ public class TesteMonitoria extends MonitoriaTestCase {
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
-        monitoria.setPeriodo(null);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(1, constraintViolations.size());
     }
@@ -103,7 +99,6 @@ public class TesteMonitoria extends MonitoriaTestCase {
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(null);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
-        monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(1, constraintViolations.size());
     }
@@ -124,7 +119,6 @@ public class TesteMonitoria extends MonitoriaTestCase {
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setModalidade(Modalidade.BOLSISTA);
         monitoria.setDisciplina(super.entityManager.find(Disciplina.class, 1l));
-        monitoria.setPeriodo(super.entityManager.find(Periodo.class, 1l));
         return monitoria;
     }
 

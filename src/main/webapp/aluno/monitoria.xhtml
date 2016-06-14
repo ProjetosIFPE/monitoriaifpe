@@ -10,9 +10,6 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml" >
-        <ui:define name="titulo">
-            <p:outputLabel>Monitoria</p:outputLabel>
-        </ui:define>
         <ui:define name="conteudo">
             <h:form id="formMonitoria">
                 <p:fieldset legend="Dados da Monitoria">
@@ -20,12 +17,16 @@ and open the template in the editor.
                         <p:outputLabel>Disciplinas</p:outputLabel>
                         <p:selectOneMenu value="#{monitoriaBean.entidadeNegocio.disciplina}" converter="entidadeNegocioConverter">
                             <f:selectItems value="#{monitoriaBean.disciplinasOfertadasParaMonitoria}" var="disciplina" itemLabel="#{disciplina.componenteCurricular.descricao} - #{disciplina.periodo} " itemValue="#{disciplina}" />
+                        <p:outputLabel>Modalidades</p:outputLabel>
+                        <p:selectOneMenu value="#{monitoriaBean.entidadeNegocio.modalidade}">
+                            <f:selectItems value="#{monitoriaBean.modalidades}" var="modalidade"  />
                         </p:selectOneMenu>
                         <p:outputLabel>Disciplinas</p:outputLabel>
                         <p:selectOneMenu value="#{monitoriaBean.entidadeNegocio.disciplina}" converter="entidadeNegocioConverter">
                             <f:selectItems value="#{monitoriaBean.disciplinasOfertadasParaMonitoria}" var="disciplina" itemLabel="#{disciplina.componenteCurricular.descricao} - #{disciplina.periodo} " itemValue="#{disciplina}" />
                         </p:selectOneMenu>
                     </h:panelGrid>
+                    <p:commandButton action="#{monitoriaBean.gravar()}" value="Cadastrar Monitoria" process="@form" />
                 </p:fieldset>
             </h:form>
         </ui:define>

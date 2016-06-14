@@ -30,6 +30,8 @@ import org.hibernate.validator.constraints.NotBlank;
 @ValidaMatricula
 public class Aluno extends Usuario {
 
+    private static final long serialVersionUID = -5010100705429213855L;
+
     @NotBlank
     @Column(name = "ALUNO_MATRICULA", nullable = false)
     private String matricula;
