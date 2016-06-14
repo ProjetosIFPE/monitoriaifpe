@@ -49,6 +49,11 @@ public class Disciplina extends EntidadeNegocio {
     @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
     private Periodo periodo;
 
+    
+    public int obterAnoDaDisciplina() {
+        
+        return getPeriodo().getAno();
+    }
     public Professor getProfessor() {
 
         return this.professor;

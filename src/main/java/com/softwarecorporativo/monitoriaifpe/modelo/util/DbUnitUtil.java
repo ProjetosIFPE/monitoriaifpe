@@ -61,6 +61,10 @@ public class DbUnitUtil {
                 CONNECTION_URL, CONNECTION_USER, CONNECTION_PASSWORD);
         return new DatabaseConnection(connection);
     }
+    
+    public static void main(String[] args) {
+        inserirDados();
+    }
 
   
 }
