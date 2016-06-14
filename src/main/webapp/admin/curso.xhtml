@@ -10,9 +10,6 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml" >
-        <ui:define name="titulo">
-
-        </ui:define>
         <ui:define name="conteudo">
             <h:form>
                 <p:tabView activeIndex="#{cursoBean.tabViewIndex}" dynamic="true"  >
@@ -49,25 +46,57 @@ and open the template in the editor.
                     </p:tab>
                     <p:tab title="Cursos Cadastrados" id="painelCursosCadastrados">
                         <h:form id="formTabelaCurso">
-                            <p:dataTable id="tabelaCurso"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
+                            <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
                                 <f:facet name="header">Cursos</f:facet>
                                 <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{curso.descricao}" sortBy="#{curso.descricao}">
-                                    <h:outputText value="#{curso.descricao}" />
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{curso.descricao}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="descricao" value="#{cursoBean.entidadeNegocio.descricao}" 
+                                                         validatorMessage="Descrição é obrigatória e deve ter no máximo 100 caracteres."  required="true">
+                                                <f:validateLength maximum="100"  />
+                                                <f:ajax event="blur" execute="descricao" render="messageDescricao" />
+                                            </p:inputText>
+                                            <p:message for="descricao" id="messageDescricao" />
+                                        </f:facet>
+                                    </p:cellEditor>
                                 </p:column>
                                 <p:column headerText="Código Curso" filterMatchMode="contains" sortBy="#{curso.codigoCurso}" filterBy="#{curso.codigoCurso}" >
-                                    <h:outputText value="#{curso.codigoCurso}" />
+                                    <p:cellEditor>
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{curso.codigoCurso}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="codigoCurso" value="#{cursoBean.entidadeNegocio.codigoCurso}" required="true">
+                                                <f:validateRegex for="codigoCurso" pattern="^[A-Z][0-9]$"  />
+                                                <f:ajax event="blur" execute="codigoCurso" render="messageCodigoCurso" />
+                                            </p:inputText>
+                                            <p:message for="codigoCurso" id="messageCodigoCurso" />
+                                        </f:facet>
+                                    </p:cellEditor>
                                 </p:column>
                                 <p:column headerText="Código Campus" filterMatchMode="contains" sortBy="#{curso.codigoCampus}" filterBy="#{curso.codigoCampus}">
-                                    <h:outputText value="#{curso.codigoCampus}" />
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{curso.codigoCampus}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="codigoCampus" value="#{cursoBean.entidadeNegocio.codigoCampus}"  required="true">
+                                                <f:validateRegex for="codigoCampus" pattern="^[A-Z]{2}$"  />
+                                                <f:ajax event="blur" execute="codigoCampus" render="messageCodigoCampus" />
+                                            </p:inputText>   
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column style="width:32px">
+                                    <p:rowEditor />
                                 </p:column>
 
                                 <p:column width="%50">
-                                    <p:commandButton icon="fa fa-fw fa-edit" process="@this">
-                                        <f:setPropertyActionListener target="#{cursoBean.entidadeNegocio}" value="#{curso}" />
-                                    </p:commandButton>
-                                </p:column>
-                                <p:column width="%50">
-                                    <p:commandButton icon="fa fa-fw fa-remove" style="float:left;margin-right:10px"  action="#{cursoBean.remover(curso)}" process="@this" update="tabelaCurso">
+                                    <p:commandButton icon="fa fa-fw fa-remove"  action="#{cursoBean.remover(curso)}" process="@this" update="tabelaCurso">
                                         <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                     </p:commandButton>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

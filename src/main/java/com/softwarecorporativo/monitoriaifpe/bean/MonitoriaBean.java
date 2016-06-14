@@ -25,33 +25,44 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class MonitoriaBean extends GenericBean<Monitoria> {
-
+    
     private static final long serialVersionUID = -4736071102515881964L;
-
+    
     @EJB
     private MonitoriaService monitoriaService;
-
+    
     @EJB
     private DisciplinaService disciplinaService;
-
+    
     @Override
     void inicializarEntidadeNegocio() {
         super.setEntidadeNegocio(monitoriaService.getEntidadeNegocio());
     }
-
+    
     public Modalidade[] getModalidades() {
-
+        
         return Modalidade.values();
     }
-
+    
     @Override
     void inicializarServico() {
         setService(monitoriaService);
     }
-
+    
+    @Override
+    public void gravar() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Aluno aluno = (Aluno) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
+        entidadeNegocio.setAluno(aluno);
+        super.gravar();        
+    }
+    
     public List<Disciplina> getDisciplinasOfertadasParaMonitoria() {
         FacesContext context = FacesContext.getCurrentInstance();
         Aluno aluno = (Aluno) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
         return disciplinaService.obterDisciplinasPorCursoDoPeriodoAtual(aluno.getCurso());
     }
+    
+   
+    
 }

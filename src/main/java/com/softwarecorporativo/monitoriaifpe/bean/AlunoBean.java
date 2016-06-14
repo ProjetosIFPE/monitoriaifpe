@@ -49,4 +49,6 @@ public class AlunoBean extends GenericBean<Aluno> {
         super.gravar();
         return "login?faces-redirect=true";
     }
+    
+    
 }

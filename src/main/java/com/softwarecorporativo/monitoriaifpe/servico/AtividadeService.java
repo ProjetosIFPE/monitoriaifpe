@@ -57,9 +57,22 @@ public class AtividadeService extends GenericService<Atividade> {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select a from ");
         jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as a where a.monitoria = :paramMonitoria ");
-        jpql.append(" and a.data ");
+        jpql.append(" as a where a.monitoria = :monitoria ");
+        jpql.append(" and FUNC('MONTH', a.data) = :mes ");
+        jpql.append(" order by a.data ");
         Query query = super.entityManager.createQuery(jpql.toString(), Atividade.class);
+        query.setParameter("monitoria", monitoria);
+        query.setParameter("mes", mes);
+        return query.getResultList();
+    }
+    
+    public List<Atividade> consultarAtividadesDaMonitoria(Monitoria monitoria) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("select a from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as a where a.monitoria = :monitoria ");
+        Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter("monitoria", monitoria);
         return query.getResultList();
     }
 

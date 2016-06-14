@@ -55,23 +55,18 @@ public class Atividade extends EntidadeNegocio  {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "SITUACAO_ATIVIDADE", nullable = false)
-    private SituacaoAtividade situacao;
+    private SituacaoAtividade situacao = SituacaoAtividade.AGUARDANDO_APROVACAO;
     
     @NotNull
-    @Column(name = "HORARIO_ENTRADA", nullable = false)
-    @Temporal(TemporalType.TIME)
-    private Date horarioEntrada;
+    @Column(name = "DATA_INICIO", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataInicio;
 
     @NotNull
-    @Column(name = "HORARIO_SAIDA", nullable = false)
-    @Temporal(TemporalType.TIME)
-    private Date horarioSaida;
+    @Column(name = "DATA_FIM", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataFim;
     
-    @NotNull
-    @Column(name = "ATIVIDADE_DATA", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date data;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "MONITORIA_ID", referencedColumnName = "MONITORIA_ID")
@@ -101,36 +96,28 @@ public class Atividade extends EntidadeNegocio  {
         this.situacao = situacao;
     }
 
-    public Date getHorarioEntrada() {
-        return horarioEntrada;
-    }
-
-    public void setHorarioEntrada(Date horarioEntrada) {
-        this.horarioEntrada = horarioEntrada;
-    }
-
-    public Date getHorarioSaida() {
-        return horarioSaida;
-    }
-
-    public void setHorarioSaida(Date horarioSaida) {
-        this.horarioSaida = horarioSaida;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
     public Monitoria getMonitoria() {
         return monitoria;
     }
 
     public void setMonitoria(Monitoria monitoria) {
         this.monitoria = monitoria;
+    }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
     }
 
 }

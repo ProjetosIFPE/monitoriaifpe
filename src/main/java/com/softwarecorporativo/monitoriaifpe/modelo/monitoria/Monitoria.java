@@ -30,7 +30,7 @@ import javax.validation.constraints.NotNull;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITORIA_ID"))})
 @Access(AccessType.FIELD)
-@ValidaMonitoria
+//@ValidaMonitoria
 public class Monitoria extends EntidadeNegocio  {
 
     private static final long serialVersionUID = -4572493586452867519L;

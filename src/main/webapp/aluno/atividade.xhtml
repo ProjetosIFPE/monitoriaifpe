@@ -11,31 +11,82 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml">
         <ui:define name="conteudo">
-            <h:form>
-                <h:panelGrid columnClasses="value">
-                    <h3 style="margin-top: 0">Calendário de Atividades</h3>
-                    <p:schedule id="calendario" value="#{atividadeBean.calendarioAtividades}"  locale="pt-br" widgetVar="calendario" timeZone="GMT+2">
-                        <p:ajax event="dateSelect"  update="detalhesAtividade" oncomplete="PF('eventDialog').show();" />
-                        <p:ajax event="eventSelect" update="detalhesAtividade" oncomplete="PF('eventDialog').show();" />
-                    </p:schedule>
-                </h:panelGrid>
-                <p:dialog widgetVar="dialogAtividade" header="Detalhes da Atividade" showEffect="clip" hideEffect="clip">
-                    <h:panelGrid id="detalhesAtividade" columns="2">
-                        
-                        <p:outputLabel for="descricao" value="Descrição:" />
-                        <p:inputText id="descricao" value="#{atividadeBean.entidadeNegocio.descricao}" required="true" />
 
-                        <p:outputLabel for="horarioEntrada">Horário de Inicio da Atividade:</p:outputLabel>
-                        <p:calendar timeOnly="true" pattern="HH:mm" id="horarioEntrada" value="#{atividadeBean.entidadeNegocio.horarioEntrada}" required="true" />
-                       
-                        <p:outputLabel for="horarioSaida">Horário de Término da Atividade:</p:outputLabel>
-                        <p:calendar timeOnly="true" pattern="HH:mm" id="horarioSaida" value="#{atividadeBean.entidadeNegocio.horarioSaida}" required="true" />
 
-                        <p:commandButton type="reset" value="Limpar" />
-                        <p:commandButton value="Salvar" actionListener="#{atividadeBean.gravar()}" oncomplete="PF('calendario').update();PF('dialogAtividade').hide();" />
-                    </h:panelGrid>
-                </p:dialog>    
+            <h:form> 
+
+                <div class="ui-fluid">
+                    <p:panelGrid columns="2"  layout="grid">
+                        <p:fieldset legend="Monitorias">
+                            <p:dataList value="#{monitoriaBean.entidades}" var="monitoria" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+                                <f:facet name="header">
+                                    Monitorias
+                                </f:facet>
+                                <p:commandLink  title="Visualizar atividades" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+
+                                </p:commandLink>
+                                <h:outputText value="#{monitoria.disciplina.componenteCurricular.descricao}, #{monitoria.disciplina.periodo}" style="display:inline-block"/>
+                            </p:dataList>
+                        </p:fieldset>
+                        <p:fieldset legend="Calendário de Atividades"> 
+                            <p:schedule  id="calendario" value="#{atividadeBean.calendarioAtividades}"   locale="pt-br" widgetVar="calendarioAtividades">
+                                <p:ajax event="dateSelect"  listener="#{atividadeBean.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+                                <p:ajax event="eventSelect" listener="#{atividadeBean.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+                            </p:schedule>
+                            <p:dialog widgetVar="dialogAtividade" header="Detalhes da Atividade" showEffect="clip" hideEffect="clip">
+                                <h:panelGrid id="detalhesAtividade" columns="2">
+
+                                    <p:outputLabel for="descricao" value="Descrição:" />
+                                    <p:inputText id="descricao" value="#{atividadeBean.entidadeNegocio.descricao}" required="true" />
+
+                                    <p:outputLabel for="dataInicio">Início da Atividade:</p:outputLabel>
+                                    <p:calendar  pattern="dd/MM/yyyy HH:mm"  id="dataInicio" value="#{atividadeBean.entidadeNegocio.dataInicio}" required="true" />
+
+                                    <p:outputLabel for="dataFim">Fim da Atividade:</p:outputLabel>
+                                    <p:calendar pattern="dd/MM/yyyy HH:mm" id="dataFim" value="#{atividadeBean.entidadeNegocio.dataFim}" required="true" />
+
+                                    <p:outputLabel for="observacoes">Observações</p:outputLabel>
+                                    <p:inputText id="observacoes" value="#{atividadeBean.entidadeNegocio.observacoes}"/>
+
+                                    <p:commandButton type="reset" value="Limpar" />
+                                    <p:commandButton value="Salvar" actionListener="#{atividadeBean.adicionarAtividade}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
+                                </h:panelGrid>
+                            </p:dialog>  
+                        </p:fieldset> 
+                    </p:panelGrid>
+                </div>
+
             </h:form>
+
+            <script type="text/javascript">
+                PrimeFaces.locales['pt-br'] = {
+                    closeText: 'Fechar',
+                    prevText: 'Anterior',
+                    nextText: 'Próximo',
+                    currentText: 'Começo',
+                    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Des'],
+                    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                    dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                    weekHeader: 'Semana',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    timeOnlyTitle: 'Só Horas',
+                    timeText: 'Tempo',
+                    hourText: 'Hora',
+                    minuteText: 'Minuto',
+                    secondText: 'Segundo',
+                    ampm: false,
+                    month: 'Mês',
+                    week: 'Semana',
+                    day: 'Dia',
+                    allDayText: 'Todo Dia'
+                };
+            </script>
         </ui:define>
     </ui:composition>
+
 </html>
