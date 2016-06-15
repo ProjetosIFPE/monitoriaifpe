@@ -30,6 +30,7 @@ import javax.validation.constraints.NotNull;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITORIA_ID"))})
 @Access(AccessType.FIELD)
+<<<<<<< HEAD
 //@ValidaMonitoria
 public class Monitoria extends EntidadeNegocio  {
 
@@ -49,67 +50,62 @@ public class Monitoria extends EntidadeNegocio  {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
     private Aluno aluno;
-    
+
     @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> atividades;
 
- 
+    public int getAnoMonitoria() {
+        return disciplina.obterAnoDaDisciplina();
+    }
+
+    public String getEditalMonitoria() {
+        return disciplina.getPeriodo().toString();
+    }
+
     public Modalidade getModalidade() {
 
         return modalidade;
     }
 
- 
     public void setModalidade(Modalidade modalidade) {
 
         this.modalidade = modalidade;
     }
 
-   
     public Disciplina getDisciplina() {
 
         return disciplina;
     }
 
- 
     public void setDisciplina(Disciplina disciplina) {
 
         this.disciplina = disciplina;
     }
 
-   
     public Atividade getAtividade(int index) {
-        if ( this.atividades == null ) {
+        if (this.atividades == null) {
             this.atividades = new ArrayList<>();
         }
         return atividades.get(index);
     }
 
-  
     public void addAtividade(Atividade atividade) {
-        if ( this.atividades == null ) {
+        if (this.atividades == null) {
             this.atividades = new ArrayList<>();
         }
         atividade.setMonitoria(this);
         this.atividades.add(atividade);
     }
-    
+
     public void setAluno(Aluno aluno) {
 
         this.aluno = aluno;
 
     }
 
-    
     public Aluno getAluno() {
 
         return aluno;
     }
-
-   
-  
-
-   
-    
 
 }

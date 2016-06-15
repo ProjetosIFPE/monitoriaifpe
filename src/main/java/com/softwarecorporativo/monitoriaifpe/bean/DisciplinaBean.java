@@ -11,6 +11,7 @@ import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
+import com.softwarecorporativo.monitoriaifpe.servico.PeriodoService;
 import com.softwarecorporativo.monitoriaifpe.servico.ProfessorService;
 import java.util.List;
 import javax.ejb.EJB;
@@ -34,11 +35,24 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     @EJB
     private ComponenteCurricularService componenteCurrService;
 
+    @EJB
+    private PeriodoService periodoService;
+    
+    @EJB
+    private ProfessorService professorService;
+
+
     @Override
     void inicializarEntidadeNegocio() {
+      
         super.setEntidadeNegocio(disciplinaService.getEntidadeNegocio());
     }
 
+    @Override
+    protected void inicializar() {
+        super.inicializar(); 
+    }
+    
     @Override
     void inicializarServico() {
         setService(disciplinaService);
@@ -55,5 +69,6 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         professor.addDisciplina(entidadeNegocio);
         disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
     }
+    
 
 }

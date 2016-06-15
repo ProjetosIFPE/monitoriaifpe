@@ -10,17 +10,27 @@ import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoAtividade;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
+<<<<<<< HEAD
 import java.util.Date;
+=======
+>>>>>>> 59de89132c8bf6542ae8c671bbdfe6b1e44d2c17
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+<<<<<<< HEAD
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
+=======
+import org.primefaces.model.ByteArrayContent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.DefaultStreamedContent;
+>>>>>>> 59de89132c8bf6542ae8c671bbdfe6b1e44d2c17
 import org.primefaces.model.ScheduleModel;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -36,9 +46,14 @@ public class AtividadeBean extends GenericBean<Atividade> {
 
     public Monitoria monitoria;
 
+    private StreamedContent relatorio;
+    
     @EJB
     private AtividadeService atividadeService;
     
+    @EJB
+    private MonitoriaService monitoriaService;
+
     @EJB
     private MonitoriaService monitoriaService;
 
@@ -106,12 +121,19 @@ public class AtividadeBean extends GenericBean<Atividade> {
         this.calendarioAtividades = calendarioAtividades;
     }
 
+
     public ScheduleEvent getAtividade() {
         return evento;
     }
 
     public void setAtividade(ScheduleEvent atividade) {
         this.evento = atividade;
+    }
+
+    public StreamedContent getRelatorio() {
+        byte[] bytes = atividadeService.obterRelatorioFrequencia(monitoriaService.buscarEntidade(1L), Integer.BYTES);
+        return new ByteArrayContent(bytes, "application/pdf", "relatorioFrequencia.pdf");
+
     }
 
 }

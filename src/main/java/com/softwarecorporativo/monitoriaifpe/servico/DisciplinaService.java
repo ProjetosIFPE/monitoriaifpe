@@ -7,6 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.List;
@@ -67,4 +68,11 @@ public class DisciplinaService extends GenericService<Disciplina> {
         Periodo periodo = periodoService.obterPeriodoAtual();
         return this.obterDisciplinasDoCursoPorPeriodo(curso, periodo);
     }
+
+    public Disciplina salvarDisciplinaComPeriodoAntigo(Disciplina entidadeNegocio, String ano, String semestre) {
+        Periodo periodo = periodoService.criarPeriodoAnterior(ano, semestre);
+        entidadeNegocio.setPeriodo(periodo);
+        return super.salvar(entidadeNegocio);
+    }
+
 }

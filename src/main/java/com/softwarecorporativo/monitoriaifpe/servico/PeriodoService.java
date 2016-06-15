@@ -71,7 +71,6 @@ public class PeriodoService extends GenericService<Periodo> {
             super.salvar(periodo);
         }
         return periodo;
-
     }
 
     public Periodo obterPeriodoCadastradoPorAnoEsemestre(Periodo periodo) {
@@ -86,6 +85,17 @@ public class PeriodoService extends GenericService<Periodo> {
         query.setParameter("paramAno", periodo.getAno());
         query.setParameter("paramSemestre", periodo.getSemestre());
         return query.getSingleResult();
+    }
+    
+    public Periodo criarPeriodoAnterior(String ano, String semestre){
+        Periodo periodo = getEntidadeNegocio();
+        periodo.setAno(Integer.parseInt(ano));
+        if(semestre.equals("1")){
+            periodo.setSemestre(Semestre.PRIMEIRO);
+        }else{
+            periodo.setSemestre(Semestre.SEGUNDO);
+        }
+         return periodo;
     }
 
 }
