@@ -11,8 +11,8 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form>
-                <p:tabView activeIndex="#{cursoBean.tabViewIndex}" dynamic="true"  >
+            <h:form id="formularioCurso">
+                <p:tabView>
                     <p:tab title="Cadastro de Cursos">
                         <h:panelGrid columns="1" cellpadding="10">
                             <h:form id="formCurso">
@@ -39,7 +39,7 @@ and open the template in the editor.
                                         <p:message for="codigoCurso" id="messageCodigoCurso" />
                                     </h:panelGrid>
                                     <p:commandButton action="#{cursoBean.gravar()}" value="Cadastrar" 
-                                                     update="@form" process="@form"/>
+                                                     update=":formularioCurso" process="@form"/>
                                 </p:fieldset>
                             </h:form>
                         </h:panelGrid>
@@ -48,18 +48,17 @@ and open the template in the editor.
                         <h:form id="formTabelaCurso">
                             <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
                                 <f:facet name="header">Cursos</f:facet>
+                                
+                                <p:ajax event="rowEdit" listener="#{cursoBean.alterarEntidadeCadastrada}" />
+
                                 <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{curso.descricao}" sortBy="#{curso.descricao}">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{curso.descricao}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="descricao" value="#{cursoBean.entidadeNegocio.descricao}" 
-                                                         validatorMessage="Descrição é obrigatória e deve ter no máximo 100 caracteres."  required="true">
-                                                <f:validateLength maximum="100"  />
-                                                <f:ajax event="blur" execute="descricao" render="messageDescricao" />
-                                            </p:inputText>
-                                            <p:message for="descricao" id="messageDescricao" />
+                                            <p:inputText id="descricao" value="#{curso.descricao}" 
+                                                         validatorMessage="Descrição é obrigatória e deve ter no máximo 100 caracteres."  required="true" />
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
@@ -69,11 +68,7 @@ and open the template in the editor.
                                             <h:outputText value="#{curso.codigoCurso}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="codigoCurso" value="#{cursoBean.entidadeNegocio.codigoCurso}" required="true">
-                                                <f:validateRegex for="codigoCurso" pattern="^[A-Z][0-9]$"  />
-                                                <f:ajax event="blur" execute="codigoCurso" render="messageCodigoCurso" />
-                                            </p:inputText>
-                                            <p:message for="codigoCurso" id="messageCodigoCurso" />
+                                            <p:inputText id="codigoCurso" value="#{curso.codigoCurso}" required="true" />
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
@@ -83,22 +78,19 @@ and open the template in the editor.
                                             <h:outputText value="#{curso.codigoCampus}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="codigoCampus" value="#{cursoBean.entidadeNegocio.codigoCampus}"  required="true">
-                                                <f:validateRegex for="codigoCampus" pattern="^[A-Z]{2}$"  />
-                                                <f:ajax event="blur" execute="codigoCampus" render="messageCodigoCampus" />
-                                            </p:inputText>   
+                                            <p:inputText id="codigoCampus" value="#{curso.codigoCampus}"  required="true" />
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column style="width:32px">
+                                <p:column>
                                     <p:rowEditor />
                                 </p:column>
 
-                                <p:column width="%50">
-                                    <p:commandButton icon="fa fa-fw fa-remove"  action="#{cursoBean.remover(curso)}" process="@this" update="tabelaCurso">
+                                <p:column>
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{cursoBean.remover(curso)}" process="@this" update="tabelaCurso">
                                         <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
-                                    </p:commandButton>
+                                    </p:commandLink>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                         <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                         <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

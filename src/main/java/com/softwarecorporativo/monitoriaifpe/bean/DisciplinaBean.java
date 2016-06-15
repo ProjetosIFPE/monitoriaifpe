@@ -8,11 +8,8 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
-import com.softwarecorporativo.monitoriaifpe.servico.PeriodoService;
-import com.softwarecorporativo.monitoriaifpe.servico.ProfessorService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -35,24 +32,17 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     @EJB
     private ComponenteCurricularService componenteCurrService;
 
-    @EJB
-    private PeriodoService periodoService;
-    
-    @EJB
-    private ProfessorService professorService;
-
-
     @Override
     void inicializarEntidadeNegocio() {
-      
+
         super.setEntidadeNegocio(disciplinaService.getEntidadeNegocio());
     }
 
     @Override
     protected void inicializar() {
-        super.inicializar(); 
+        super.inicializar();
     }
-    
+
     @Override
     void inicializarServico() {
         setService(disciplinaService);
@@ -62,13 +52,11 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         return this.componenteCurrService.listarTodos();
     }
 
-
     public void ofertarDisciplinaParaMonitoria() {
         FacesContext context = FacesContext.getCurrentInstance();
-        Professor professor = (Professor) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
+        Professor professor = (Professor) context.getExternalContext().getSessionMap().get("usuarioLogado");
         professor.addDisciplina(entidadeNegocio);
         disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
     }
-    
 
 }

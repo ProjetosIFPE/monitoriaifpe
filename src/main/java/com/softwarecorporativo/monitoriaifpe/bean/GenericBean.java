@@ -13,6 +13,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -35,13 +37,25 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         inicializarServico();
     }
 
-    public void adicionarMensagemView(String mensagem) {
-        this.adicionarMensagemComponente(null, mensagem);
+    public void mensagemAlteracaoSucesso() {
+        this.adicionarMensagemView("Alteração realizada com sucesso!", FacesMessage.SEVERITY_INFO);
     }
 
-    public void adicionarMensagemComponente(String componente, String mensagem) {
+    public void mensagemCadastroSucesso() {
+        this.adicionarMensagemView("Cadastro realizado com sucesso!", FacesMessage.SEVERITY_INFO);
+    }
+
+    public void adicionarMensagemView(String mensagem) {
+        this.adicionarMensagemComponente(null, mensagem, null);
+    }
+
+    public void adicionarMensagemView(String mensagem, Severity severity) {
+        this.adicionarMensagemComponente(null, mensagem, severity);
+    }
+
+    private void adicionarMensagemComponente(String componente, String mensagem, Severity severity) {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(componente, new FacesMessage(mensagem));
+        context.addMessage(componente, new FacesMessage(severity, mensagem, null));
     }
 
     public T getEntidadeNegocio() {
@@ -52,6 +66,11 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         this.entidadeNegocio = entidadeNegocio;
     }
 
+    public void alterar() {
+        this.service.atualizar(entidadeNegocio);
+        mensagemAlteracaoSucesso();
+    }
+
     public void gravar() {
         if (this.entidadeNegocio.getChavePrimaria() != null) {
             this.service.atualizar(entidadeNegocio);
@@ -59,10 +78,13 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
             this.service.salvar(entidadeNegocio);
         }
 
+        mensagemCadastroSucesso();
+
         popularEntidades();
 
         inicializarEntidadeNegocio();
     }
+    
 
     protected void popularEntidades() {
         entidades = this.service.listarTodos();
@@ -87,6 +109,11 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
 
     protected void setService(GenericService<T> service) {
         this.service = service;
+    }
+    
+     public void alterarEntidadeCadastrada(RowEditEvent editEvent) {
+        entidadeNegocio = (T) editEvent.getObject();
+        alterar();
     }
 
     abstract void inicializarEntidadeNegocio();

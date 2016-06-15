@@ -49,6 +49,11 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
         setService(monitoriaService);
     }
     
+    public String visualizarAtividadesDaMonitoria(Monitoria monitoria) {
+        FacesContext.getCurrentInstance().getExternalContext()
+                .getFlash().put("monitoria", monitoria);
+        return "atividade?faces-redirect=true";
+    }
     @Override
     public void gravar() {
         FacesContext context = FacesContext.getCurrentInstance();

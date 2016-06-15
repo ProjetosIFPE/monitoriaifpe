@@ -9,13 +9,18 @@ import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
+import java.time.Year;
+import java.util.Calendar;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import java.util.List;
+import java.util.TimeZone;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.SelectEvent;
@@ -35,11 +40,11 @@ import org.primefaces.model.StreamedContent;
 @ViewScoped
 public class AtividadeBean extends GenericBean<Atividade> {
 
-    private ScheduleModel calendarioAtividades;
+    private static final long serialVersionUID = -3272784032346171935L;
 
-    public ScheduleEvent evento;
+    private ScheduleModel calendarioAtividades = new DefaultScheduleModel();
 
-    public Monitoria monitoria;
+    private ScheduleEvent evento = new DefaultScheduleEvent();
 
     private StreamedContent relatorio;
 
@@ -49,8 +54,13 @@ public class AtividadeBean extends GenericBean<Atividade> {
     @EJB
     private MonitoriaService monitoriaService;
 
+    private Monitoria monitoria;
+
     @Override
     void inicializarEntidadeNegocio() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        this.monitoria = (Monitoria) context.getExternalContext()
+                .getFlash().get("monitoria");
         setEntidadeNegocio(atividadeService.getEntidadeNegocio());
     }
 
@@ -61,24 +71,34 @@ public class AtividadeBean extends GenericBean<Atividade> {
 
     @Override
     protected void inicializar() {
-
-        inicializarCalendarioAtividades();
         super.inicializar();
+        
+        inicializarCalendarioAtividades();
     }
 
     private void inicializarCalendarioAtividades() {
-        calendarioAtividades = new DefaultScheduleModel();
-        evento = new DefaultScheduleEvent();
         List<Atividade> atividades = atividadeService.consultarAtividadesMensaisDaMonitoria(monitoria);
+        this.adicionarAtividadesNoCalendario(atividades);
+    }
+
+    private void adicionarAtividadesNoCalendario(List<Atividade> atividades) {
         for (Atividade atividade : atividades) {
+            
             DefaultScheduleEvent scheduleEvent = new DefaultScheduleEvent();
+            Calendar calendar = new GregorianCalendar();
+           
             scheduleEvent.setId(String.valueOf(atividade.getChavePrimaria()));
             scheduleEvent.setDescription(atividade.getDescricao());
-            scheduleEvent.setStartDate(atividade.getDataInicio());
-            scheduleEvent.setEndDate(atividade.getDataFim());
+            
+            calendar.setTime(atividade.getDataInicio());
+            System.out.println(calendar.get(Calendar.WEEK_OF_YEAR));
+            scheduleEvent.setStartDate(calendar.getTime());
+            
+            calendar.setTime(atividade.getDataFim());
+            scheduleEvent.setEndDate(calendar.getTime());
+            
             calendarioAtividades.addEvent(evento);
         }
-
     }
 
     public void adicionarAtividade(ActionEvent actionEvent) {
@@ -89,8 +109,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
         } else {
             calendarioAtividades.updateEvent(evento);
         }
-        List<Monitoria> monitorias = monitoriaService.listarTodos();
-        entidadeNegocio.setMonitoria(monitorias.get(0));
+        entidadeNegocio.setMonitoria(monitoria);
         super.gravar();
         evento = new DefaultScheduleEvent();
     }
@@ -121,8 +140,16 @@ public class AtividadeBean extends GenericBean<Atividade> {
         this.evento = atividade;
     }
 
+    public Monitoria getMonitoria() {
+        return monitoria;
+    }
+
+    public void setMonitoria(Monitoria monitoria) {
+        this.monitoria = monitoria;
+    }
+
     public StreamedContent getRelatorio() {
-        byte[] bytes = atividadeService.obterRelatorioFrequencia(monitoriaService.buscarEntidade(1L), Integer.BYTES);
+        byte[] bytes = atividadeService.obterRelatorioFrequencia(monitoria, Integer.BYTES);
         return new ByteArrayContent(bytes, "application/pdf", "relatorioFrequencia.pdf");
 
     }

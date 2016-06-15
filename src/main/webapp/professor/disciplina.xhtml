@@ -6,23 +6,18 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="../_template.xhtml" >        
-        <ui:define name="titulo">
-            <p:outputPanel>Cadastro Disciplinas</p:outputPanel>
-        </ui:define>
-
         <ui:define name="conteudo">
             <h:form id="cadastroDisciplinas">
-                <p:growl id="msgs" showDetail="true" />
-                <p:panel header="Criar Disciplina" style="margin-bottom:10px;">
+                <p:fieldset legend="Dados da Disciplina">
                     <h:panelGrid columns="2" cellpadding="5">
                         <p:outputLabel for="componenteCurricular" value="Componente Curricular: " />
                         <p:selectOneMenu id="componenteCurricular" value="#{disciplinaBean.entidadeNegocio.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
-                            <f:selectItem itemLabel="Select Componente Curricular" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Selecionar Componente Curricular" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{disciplinaBean.listarComponentesCurriculares()}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
                         </p:selectOneMenu>
                     </h:panelGrid>
-                    <p:commandButton value="Submit" update="msgs" actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria()}" icon="ui-icon-check" />
-                </p:panel>
+                    <p:commandButton value="Cadastrar"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria()}" icon="ui-icon-check" />
+                </p:fieldset>
             </h:form>
         </ui:define>
 
