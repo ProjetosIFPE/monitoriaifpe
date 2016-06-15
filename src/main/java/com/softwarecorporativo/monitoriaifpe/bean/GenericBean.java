@@ -70,6 +70,11 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         this.service.atualizar(entidadeNegocio);
         mensagemAlteracaoSucesso();
     }
+    
+    public void cadastrar() {
+        this.service.salvar(entidadeNegocio);
+        mensagemCadastroSucesso();   
+    }
 
     public void gravar() {
         if (this.entidadeNegocio.getChavePrimaria() != null) {

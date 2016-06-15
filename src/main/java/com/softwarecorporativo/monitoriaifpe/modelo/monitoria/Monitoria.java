@@ -104,5 +104,13 @@ public class Monitoria extends EntidadeNegocio {
 
         return aluno;
     }
+    
+    public String getNomeMonitor() {
+        return aluno.getNomeCompleto();
+    }
+    
+    public String getNomeOrientador() {
+        return disciplina.getProfessor().getNomeCompleto();
+    }
 
 }

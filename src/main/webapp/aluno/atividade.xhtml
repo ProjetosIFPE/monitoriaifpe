@@ -10,16 +10,17 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml">
-        
+
         <ui:define name="conteudo">
             <h:form>
+                        <p:commandButton style="margin-bottom: 20px"  value="Exportar Relatório Mensal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{atividadeBean.relatorio}" />
+                        </p:commandButton>
+                    </h:form>
+            <h:form>
                 <p:fieldset legend="Calendário de Atividades"> 
-
-                    <p:commandButton style="margin-bottom: 20px"  value="Exportar Relatório Mensal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                        <p:fileDownload value="#{atividadeBean.relatorio}" />
-                    </p:commandButton>
-
-                    <p:schedule  id="calendario" value="#{atividadeBean.calendarioAtividades}"  axisFormat="H:mm" timeFormat="H:mm" clientTimeZone="false"  locale="pt" widgetVar="calendarioAtividades">
+                    
+                    <p:schedule timeZone="America/Sao_Paulo" id="calendario" value="#{atividadeBean.calendarioAtividades}"  axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
                         <p:ajax event="dateSelect"  listener="#{atividadeBean.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                         <p:ajax event="eventSelect" listener="#{atividadeBean.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                     </p:schedule>
@@ -30,16 +31,18 @@ and open the template in the editor.
                             <p:inputText id="descricao" value="#{atividadeBean.entidadeNegocio.descricao}" required="true" />
 
                             <p:outputLabel for="dataInicio">Início da Atividade:</p:outputLabel>
-                            <p:calendar  pattern="dd/MM/yyyy HH:mm"  id="dataInicio" value="#{atividadeBean.entidadeNegocio.dataInicio}" required="true" />
+                            <p:calendar  pattern="dd/MM/yyyy HH:mm" id="dataInicio" value="#{atividadeBean.entidadeNegocio.dataInicio}" required="true" />
 
                             <p:outputLabel for="dataFim">Fim da Atividade:</p:outputLabel>
-                            <p:calendar pattern="dd/MM/yyyy HH:mm" id="dataFim" value="#{atividadeBean.entidadeNegocio.dataFim}" required="true" />
+                            <p:calendar pattern="dd/MM/yyyy HH:mm"  id="dataFim" value="#{atividadeBean.entidadeNegocio.dataFim}" required="true" />
 
                             <p:outputLabel for="observacoes">Observações</p:outputLabel>
                             <p:inputText id="observacoes" value="#{atividadeBean.entidadeNegocio.observacoes}"/>
 
-                            <p:commandButton type="reset" value="Limpar" />
+                            <p:commandLink styleClass="ui-icon ui-icon-trash" style="float: left;" action="#{atividadeBean.removerAtividade()}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
+
                             <p:commandButton value="Salvar" actionListener="#{atividadeBean.adicionarAtividade}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
+
                         </h:panelGrid>
                     </p:dialog>  
                 </p:fieldset> 
