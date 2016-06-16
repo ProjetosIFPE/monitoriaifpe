@@ -48,5 +48,11 @@ public class Util {
         return periodo;
 
     }
+    
+    public static String obterNomeMes(int mes) {
+    	String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    	                  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+    	return meses[mes - 1];
+    }
 
 }

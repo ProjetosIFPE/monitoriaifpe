@@ -13,14 +13,14 @@ and open the template in the editor.
 
         <ui:define name="conteudo">
             <h:form>
-                        <p:commandButton style="margin-bottom: 20px"  value="Exportar Relatório Mensal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                            <p:fileDownload value="#{atividadeBean.relatorio}" />
-                        </p:commandButton>
-                    </h:form>
+                <p:commandButton style="margin-bottom: 20px"  value="Exportar Relatório Mensal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{atividadeBean.relatorio}" />
+                </p:commandButton>
+            </h:form>
             <h:form>
                 <p:fieldset legend="Calendário de Atividades"> 
-                    
-                    <p:schedule timeZone="America/Sao_Paulo" id="calendario" value="#{atividadeBean.calendarioAtividades}"  axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
+
+                    <p:schedule timeZone="America/Sao_Paulo" draggable="false" resizable="false" id="calendario" value="#{atividadeBean.calendarioAtividades}"  axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
                         <p:ajax event="dateSelect"  listener="#{atividadeBean.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                         <p:ajax event="eventSelect" listener="#{atividadeBean.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                     </p:schedule>

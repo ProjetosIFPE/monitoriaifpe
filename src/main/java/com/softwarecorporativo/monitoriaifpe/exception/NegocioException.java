@@ -12,6 +12,15 @@ import javax.ejb.ApplicationException;
  * @author Edmilson Santana
  */
 @ApplicationException(rollback = true)
-public class NegocioException extends RuntimeException {
+public class NegocioException extends Exception {
+    
+    private static final long serialVersionUID = -4032758349094923282L;
+
+    @Override
+    public String getMessage() {
+        return super.getMessage(); 
+    }
+    
+    
     
 }

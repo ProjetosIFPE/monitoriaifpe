@@ -5,15 +5,18 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.servico.GenericService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
+import javax.validation.ConstraintViolationException;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -70,10 +73,21 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         this.service.atualizar(entidadeNegocio);
         mensagemAlteracaoSucesso();
     }
-    
+
     public void cadastrar() {
-        this.service.salvar(entidadeNegocio);
-        mensagemCadastroSucesso();   
+        try {
+            this.service.salvar(entidadeNegocio);
+            mensagemCadastroSucesso();
+        } catch (NegocioException e) {
+
+        } catch (EJBException ejbe) {
+            if (ejbe.getCause() instanceof ConstraintViolationException) {
+                adicionarMensagemView(ejbe.getCause().getMessage(), FacesMessage.SEVERITY_WARN);
+            } else {
+                throw ejbe;
+            }
+        }
+
     }
 
     public void gravar() {
@@ -89,7 +103,6 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
 
         inicializarEntidadeNegocio();
     }
-    
 
     protected void popularEntidades() {
         entidades = this.service.listarTodos();
@@ -115,8 +128,8 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
     protected void setService(GenericService<T> service) {
         this.service = service;
     }
-    
-     public void alterarEntidadeCadastrada(RowEditEvent editEvent) {
+
+    public void alterarEntidadeCadastrada(RowEditEvent editEvent) {
         entidadeNegocio = (T) editEvent.getObject();
         alterar();
     }
