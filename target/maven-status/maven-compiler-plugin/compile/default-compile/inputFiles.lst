@@ -11,10 +11,12 @@ C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\bean\AlunoBean.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\modelo\aluno\Aluno.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\servico\ComponenteCurricularService.java
+C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\bean\ProfessorBean.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\modelo\curso\Curso.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\servico\LoginService.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\modelo\util\constantes\Grau.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\servico\AtividadeService.java
+C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\servico\ProfessorService.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\modelo\util\constantes\Modalidade.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\modelo\util\constantes\SituacaoDisciplina.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\bean\GenericBean.java
@@ -30,6 +32,7 @@ C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\servico\GenericService.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\bean\AtividadeBean.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\servico\DisciplinaService.java
+C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\converter\CursoConverter.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\bean\LoginBean.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\modelo\util\constantes\Constantes.java
 C:\Users\Matheus Levi\git\projeto_periodo\src\main\java\com\softwarecorporativo\monitoriaifpe\exception\NegocioException.java
