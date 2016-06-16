@@ -8,19 +8,18 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 @ManagedBean
 @ViewScoped
 public class CursoBean extends GenericBean<Curso> {
+
+    private static final long serialVersionUID = -1771136068297478129L;
 
     @EJB
     private CursoService cursoService;
@@ -38,5 +37,9 @@ public class CursoBean extends GenericBean<Curso> {
     void inicializarServico() {
         setService(cursoService);
     }
+
+   
+
+
 
 }

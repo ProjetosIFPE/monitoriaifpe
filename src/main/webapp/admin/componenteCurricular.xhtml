@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="../_template.xhtml" >
+
+        <ui:define name="conteudo">
+            <p:tabView id="painelComponentesCurriculares">
+                <p:tab title="Cadastro de Componentes Curriculares">
+                    <h:form id="formComponenteCurricular">
+                        <p:fieldset legend="Dados do Componente Curricular">
+                            <h:panelGrid columns="3">
+                                <p:outputLabel for="descricao">Descrição</p:outputLabel>
+                                <p:inputText id="descricao" value="#{componenteCurricularBean.entidadeNegocio.descricao}"  required="true">
+                                    <f:validateLength maximum="150"  />
+                                    <f:validateRegex pattern="^[A-Z]{1}\\D+$" />
+                                    <f:ajax event="blur" execute="descricao" render="messageDescricao" />
+                                </p:inputText>
+                                <p:message for="descricao" id="messageDescricao" />
+                                <p:outputLabel for="codigoComponenteCurricular">Código Componente Curricular</p:outputLabel>
+                                <p:inputText id="codigoComponenteCurricular" value="#{componenteCurricularBean.entidadeNegocio.codigoComponenteCurricular}" required="true">
+                                    <f:ajax event="blur" execute="codigoComponenteCurricular" render="messageCodigoComponenteCurricular" />
+                                </p:inputText>                     
+                                <p:message for="codigoComponenteCurricular" id="messageCodigoComponenteCurricular" />
+                                <h:outputLabel for="curso">Curso</h:outputLabel>
+                                <p:selectOneMenu id="curso" value="#{componenteCurricularBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
+                                    <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.chavePrimaria}" />
+                                </p:selectOneMenu>
+                                <p:message for="curso" id="messageCurso" />
+                            </h:panelGrid>
+                            <p:commandButton action="#{componenteCurricularBean.gravar()}" value="Cadastrar" 
+                                             update="@form :painelComponentesCurriculares" process="@form"/>
+                        </p:fieldset>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Componentes Curriculares Cadastrados">
+                    <h:form id="formTabelaComponenteCurricular">
+                        <p:dataTable id="formTabelaComponenteCurricular" var="componenteCurricular" editable="true" value="#{componenteCurricularBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Componente Curricular registrado">
+                            <f:facet name="header">Componentes Curriculares</f:facet>
+                            <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{componenteCurricular.descricao}" sortBy="#{componenteCurricular.descricao}">
+                                <h:outputText value="#{componenteCurricular.descricao}" />
+                            </p:column>
+                            <p:column headerText="Código Componente Curricular" filterMatchMode="contains" sortBy="#{componenteCurricular.codigoComponenteCurricular}" filterBy="#{componenteCurricular.codigoComponenteCurricular}" >
+                                <h:outputText value="#{componenteCurricular.codigoComponenteCurricular}" />
+                            </p:column>
+                            <p:column headerText="Curso" filterMatchMode="startsWith" sortBy="#{componenteCurricular.curso.descricao}" filterBy="#{componenteCurricular.curso.descricao}">
+                                <h:outputText value="#{componenteCurricular.curso.descricao}" />
+                            </p:column>
+
+                            <p:column>
+                                <p:rowEditor />
+                            </p:column>
+
+                            <p:column>
+                                <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{componenteCurricularBean.remover(componenteCurricular)}" process="@this" update="formTabelaComponenteCurricular">
+                                    <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                </p:commandLink>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+        </ui:define>
+    </ui:composition>
+</html>

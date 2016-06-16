@@ -21,40 +21,37 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class Periodo extends EntidadeNegocio {
 
+    private static final long serialVersionUID = 21290824252510458L;
+
     @Min(value = 1970, message = "{com.softwarecorporativo.monitoriaifpe.periodo.ano}")
     @Column(name = "PERIODO_ANO", nullable = false)
     private Integer ano;
 
-    @NotNull
+    @NotNull 
     @Enumerated(EnumType.STRING)
-    @Column(name = "SEMESTRE", nullable = false)
+    @Column(columnDefinition = "ENUM('PRIMEIRO', 'SEGUNDO')", name="SEMESTRE", nullable = false)
     private Semestre semestre;
 
-  
     public Integer getAno() {
 
         return ano;
     }
 
-  
     public void setAno(Integer ano) {
 
         this.ano = ano;
     }
 
-    
     public Semestre getSemestre() {
 
         return semestre;
     }
 
-  
     public void setSemestre(Semestre semestre) {
 
         this.semestre = semestre;
     }
 
-    
     @Override
     public String toString() {
 

@@ -7,8 +7,6 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -21,22 +19,19 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ComponenteCurricularBean extends GenericBean<ComponenteCurricular> {
 
+    private static final long serialVersionUID = -3700833037294884488L;
+
     @EJB
     private ComponenteCurricularService componenteCurricularService;
-    
+
     @Override
     void inicializarEntidadeNegocio() {
         setEntidadeNegocio(componenteCurricularService.getEntidadeNegocio());
-        
+
     }
 
     @Override
     void inicializarServico() {
         setService(componenteCurricularService);
     }
-
-   
-    
-    
-
 }

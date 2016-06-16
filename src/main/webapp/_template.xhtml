@@ -9,16 +9,48 @@
 
     <h:body>
         <div id="cabecalho">
-            <h:graphicImage library="img" name="icon.jpg" />
-            <p:menubar>
-                <p:menuitem value="Login" url="login.xhtml"></p:menuitem>
-                <p:menuitem value="Curso" url="curso.xhtml"></p:menuitem>
-                <p:menuitem value="Cadastro Aluno" url="aluno.xhtml"></p:menuitem>
-                <p:menuitem value="Cadastro Professor" url="professor.xhtml"></p:menuitem>
-            </p:menubar>
-            <h1><ui:insert name="titulo"></ui:insert></h1>
-        </div>
+            <p:growl showDetail="true" globalOnly="true" id="messages" autoUpdate="true" />
 
+            <h:panelGrid columns="3">
+                <f:facet name="header">
+                    <h:graphicImage library="img" name="icon.jpg" />
+                    <p:outputPanel>Sistema de Monitoria IFPE</p:outputPanel>
+                </f:facet>       
+                <h:form>
+                    <p:themeSwitcher id="basic" value="#{temaBean.tema}">
+                        <f:selectItem itemLabel="Escolha o Tema"/>
+                        <f:selectItems value="${temaBean.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
+                        <f:ajax />
+                    </p:themeSwitcher>
+                </h:form>
+            </h:panelGrid>
+
+            <p:separator />
+
+            <h:form rendered="#{usuarioLogado != null}">
+                <p:menubar>
+                    <p:submenu label="Navegação">
+                        <p:menuitem value="Monitorias" action="/aluno/monitoria?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Cursos" action="/admin/curso?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Componente Curricular" action="/admin/componenteCurricular.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Atividades" action="/aluno/atividade.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Disciplinas" action="/professor/disciplina.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />           
+                    </p:submenu>
+                    <p:menuitem value="Logout" action="#{loginBean.efetuarLogout()}" icon="fa fa-fw fa-sign-out" />
+                </p:menubar>
+
+            </h:form>
+
+            <h:form rendered="#{usuarioLogado == null}">
+                <p:menubar>
+                    <p:submenu label="Cadastro">
+                        <p:menuitem value="Cadastro do Professor" action="/publico/cadastroProfessor.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Cadastro do Aluno" action="/publico/cadastroAluno.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                    </p:submenu>
+                </p:menubar>
+            </h:form>
+        </div>
+        <p:separator />
         <div id="conteudo">
             <ui:insert name="conteudo"></ui:insert> 
         </div>

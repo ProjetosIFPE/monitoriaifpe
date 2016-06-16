@@ -105,4 +105,7 @@ public class Usuario extends EntidadeNegocio {
         this.sobrenome = sobrenome;
     }
 
+    public String getNomeCompleto() {
+        return String.format("%s %s", nome, sobrenome);
+    }
 }

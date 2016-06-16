@@ -64,8 +64,8 @@
     
     <!-- Monitorias e suas atividades -->
    
-    <tb_monitoria monitoria_id="1" aluno_id="1" disciplina_id="1" modalidade="BOLSISTA" periodo_id="1" />
-    <tb_monitoria monitoria_id="2" aluno_id="3" disciplina_id="2" modalidade="VOLUNTARIO" periodo_id="1" />
+    <tb_monitoria monitoria_id="1" aluno_id="1" disciplina_id="1" modalidade="BOLSISTA"  />
+    <tb_monitoria monitoria_id="2" aluno_id="3" disciplina_id="2" modalidade="VOLUNTARIO"  />
    
     <tb_atividade atividade_id="1" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-01" monitoria_id="1" />
     <tb_atividade atividade_id="2" atividade_descricao="Correção de exercícios" horario_entrada="14:00:00" horario_saida="18:00:00" situacao_atividade="APROVADA" atividade_data="2016-01-02" monitoria_id="1" />

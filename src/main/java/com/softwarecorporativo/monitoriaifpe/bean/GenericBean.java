@@ -5,14 +5,19 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.servico.GenericService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.validation.ConstraintViolationException;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -35,13 +40,25 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         inicializarServico();
     }
 
-    public void adicionarMensagemView(String mensagem) {
-        this.adicionarMensagemComponente(null, mensagem);
+    public void mensagemAlteracaoSucesso() {
+        this.adicionarMensagemView("Alteração realizada com sucesso!", FacesMessage.SEVERITY_INFO);
     }
 
-    public void adicionarMensagemComponente(String componente, String mensagem) {
+    public void mensagemCadastroSucesso() {
+        this.adicionarMensagemView("Cadastro realizado com sucesso!", FacesMessage.SEVERITY_INFO);
+    }
+
+    public void adicionarMensagemView(String mensagem) {
+        this.adicionarMensagemComponente(null, mensagem, null);
+    }
+
+    public void adicionarMensagemView(String mensagem, Severity severity) {
+        this.adicionarMensagemComponente(null, mensagem, severity);
+    }
+
+    private void adicionarMensagemComponente(String componente, String mensagem, Severity severity) {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(componente, new FacesMessage(mensagem));
+        context.addMessage(componente, new FacesMessage(severity, mensagem, null));
     }
 
     public T getEntidadeNegocio() {
@@ -52,6 +69,27 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         this.entidadeNegocio = entidadeNegocio;
     }
 
+    public void alterar() {
+        this.service.atualizar(entidadeNegocio);
+        mensagemAlteracaoSucesso();
+    }
+
+    public void cadastrar() {
+        try {
+            this.service.salvar(entidadeNegocio);
+            mensagemCadastroSucesso();
+        } catch (NegocioException e) {
+
+        } catch (EJBException ejbe) {
+            if (ejbe.getCause() instanceof ConstraintViolationException) {
+                adicionarMensagemView(ejbe.getCause().getMessage(), FacesMessage.SEVERITY_WARN);
+            } else {
+                throw ejbe;
+            }
+        }
+
+    }
+
     public void gravar() {
         if (this.entidadeNegocio.getChavePrimaria() != null) {
             this.service.atualizar(entidadeNegocio);
@@ -59,7 +97,9 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
             this.service.salvar(entidadeNegocio);
         }
 
-         popularEntidades();
+        mensagemCadastroSucesso();
+
+        popularEntidades();
 
         inicializarEntidadeNegocio();
     }
@@ -87,6 +127,11 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
 
     protected void setService(GenericService<T> service) {
         this.service = service;
+    }
+
+    public void alterarEntidadeCadastrada(RowEditEvent editEvent) {
+        entidadeNegocio = (T) editEvent.getObject();
+        alterar();
     }
 
     abstract void inicializarEntidadeNegocio();
