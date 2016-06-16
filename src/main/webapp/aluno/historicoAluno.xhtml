@@ -7,62 +7,118 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="../_template.xhtml" >        
         <ui:define name="conteudo">
-            <h:form id="cadastroBoletim">
-                <p:fieldset legend="Dados do Boletim Curricular">
-                    <p:wizard flowListener="#{boletimCurricularBean.fluxoDeCadastro}">
-                        <p:tab title="Disciplina">
-                            <p:panel header="Dados da Disciplina">
-                                <p:panelGrid columns="3">
-                                    <p:outputLabel for="componenteCurricular" value="Componente Curricular:" />
-                                    <p:selectOneMenu id="componenteCurricular" value="#{boletimCurricularBean.disciplina.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
-                                        <f:selectItems value="#{boletimCurricularBean.listarTodosComponentesCurriculares()}" var="componenteCurricular" itemLabel="#{componenteCurricular.descricao}" itemValue="#{componenteCurricular}"/>
-                                    </p:selectOneMenu>
-                                    <h:message for="componenteCurricular" id="messageDisciplina" />   
+            <h:form id="formBoletimCurricular"> 
+                <p:tabView>
+                    <p:tab title="Cadastrar Boletim Curricular">
+                        <h:form id="cadastroBoletim">
+                            <p:fieldset legend="Dados do Boletim Curricular">
+                                <p:wizard flowListener="#{boletimCurricularBean.fluxoDeCadastro}">
+                                    <p:tab title="Disciplina">
+                                        <p:panel header="Dados da Disciplina">
+                                            <p:panelGrid columns="3">
+                                                <p:outputLabel for="componenteCurricular" value="Componente Curricular:" />
+                                                <p:selectOneMenu id="componenteCurricular" value="#{boletimCurricularBean.disciplina.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
+                                                    <f:selectItems value="#{boletimCurricularBean.listarTodosComponentesCurriculares()}" var="componenteCurricular" itemLabel="#{componenteCurricular.descricao}" itemValue="#{componenteCurricular}"/>
+                                                </p:selectOneMenu>
+                                                <h:message for="componenteCurricular" id="messageDisciplina" />   
 
 
-                                    <p:outputLabel for="professor" value=" Professor:" />            
-                                    <p:selectOneMenu id="professor" value="#{boletimCurricularBean.disciplina.professor}" style="width:150px" converter="entidadeNegocioConverter">
-                                        <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
-                                        <f:selectItems value="#{boletimCurricularBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
-                                    </p:selectOneMenu>
-                                    <h:message for="professor" id="messageProfessor" />
+                                                <p:outputLabel for="professor" value=" Professor:" />            
+                                                <p:selectOneMenu id="professor" value="#{boletimCurricularBean.disciplina.professor}" style="width:150px" converter="entidadeNegocioConverter">
+                                                    <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems value="#{boletimCurricularBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
+                                                </p:selectOneMenu>
+                                                <h:message for="professor" id="messageProfessor" />
 
 
-                                    <p:outputLabel for="ano" value="Ano:" />                       
-                                    <p:inputMask id="ano" mask="9999" value="#{boletimCurricularBean.periodo.ano}" />
-                                    <h:message for="ano" id="messageAno" />
+                                                <p:outputLabel for="ano" value="Ano:" />                       
+                                                <p:inputMask id="ano" mask="9999" value="#{boletimCurricularBean.periodo.ano}" />
+                                                <h:message for="ano" id="messageAno" />
 
-                                    <p:outputLabel for="semestre" value="Semestre:" />                       
-                                    <p:selectOneMenu id="semestre" value="#{boletimCurricularBean.periodo.semestre}" style="width:150px">
-                                        <f:selectItems value="#{boletimCurricularBean.semestres}" />
-                                    </p:selectOneMenu>
-                                    <h:message for="semestre" id="messageSemestre" />
-                                </p:panelGrid>
-                            </p:panel>
-                        </p:tab>
-                        <p:tab title="Boletim">
-                            <p:panel header="Dados do Boletim">
-                                <p:panelGrid columns="3">
-                                    <p:outputLabel for="nota" value="Nota:" />
-                                    <p:inputText id="nota" value="#{boletimCurricularBean.entidadeNegocio.nota}">
-                                        <f:validateDoubleRange minimum="0.0" maximum="10.0" />
-                                        <f:ajax event="blur" execute="nota" render="messageNota" />
-                                    </p:inputText>
-                                    <h:message for="nota" id="messageNota" />
+                                                <p:outputLabel for="semestre" value="Semestre:" />                       
+                                                <p:selectOneMenu id="semestre" value="#{boletimCurricularBean.periodo.semestre}" style="width:150px">
+                                                    <f:selectItems value="#{boletimCurricularBean.semestres}" />
+                                                </p:selectOneMenu>
+                                                <h:message for="semestre" id="messageSemestre" />
+                                            </p:panelGrid>
+                                        </p:panel>
+                                    </p:tab>
+                                    <p:tab title="Boletim">
+                                        <p:panel header="Dados do Boletim">
+                                            <p:panelGrid columns="3">
+                                                <p:outputLabel for="nota" value="Nota:" />
+                                                <p:inputText id="nota" value="#{boletimCurricularBean.entidadeNegocio.nota}">
+                                                    <f:validateDoubleRange minimum="0.0" maximum="10.0" />
+                                                    <f:ajax event="blur" execute="nota" render="messageNota" />
+                                                </p:inputText>
+                                                <h:message for="nota" id="messageNota" />
 
-                                    <p:outputLabel for="frequencia" value="Frequencia:" />
-                                    <p:inputText id="frequencia" value="#{boletimCurricularBean.entidadeNegocio.frequencia}">
-                                        <f:validateDoubleRange minimum="0.0" maximum="100.0" />
-                                        <f:ajax event="blur" execute="frequencia" render="messageFrequencia" />
-                                    </p:inputText> 
-                                    <h:message for="frequencia" id="messageFrequencia" />
+                                                <p:outputLabel for="frequencia" value="Frequencia:" />
+                                                <p:inputText id="frequencia" value="#{boletimCurricularBean.entidadeNegocio.frequencia}">
+                                                    <f:validateDoubleRange minimum="0.0" maximum="100.0" />
+                                                    <f:ajax event="blur" execute="frequencia" render="messageFrequencia" />
+                                                </p:inputText> 
+                                                <h:message for="frequencia" id="messageFrequencia" />
 
-                                </p:panelGrid>
-                            </p:panel>
-                        </p:tab>
-                    </p:wizard>
-                    <p:commandButton action="#{boletimCurricularBean.cadastrarBoletim()}" value="Cadastrar" update="@form" process="@form"/>
-                </p:fieldset>
+                                            </p:panelGrid>
+                                        </p:panel>
+                                    </p:tab>
+                                </p:wizard>
+                                <p:commandButton action="#{boletimCurricularBean.cadastrarBoletim()}" value="Cadastrar" update="@form" process="@form"/>
+                            </p:fieldset>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Boletins Cadastrados">
+                        <h:form id="formTableBoletim">
+                            <p:dataTable id="tableBoletim" editable="true"  var="boletim" value="#{boletimCurricularBean.entidades}" emptyMessage="Nenhum boletim cadastrado">
+                                <f:facet name="header">Boletins Curriculares</f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{boletimCurricularBean.alterarEntidadeCadastrada}" />
+
+                                <p:column headerText="Disciplina">
+                                    <h:outputText value="#{boletim.disciplina.componenteCurricular.descricao}" />
+                                </p:column>
+
+                                <p:column headerText="Nota" filterMatchMode="contains" filterBy="#{boletim.nota}" >
+                                    <p:cellEditor>
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{boletim.nota}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="notaBoletim" value="#{boletim.nota}" required="true" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Frequência" filterMatchMode="contains" filterBy="#{boletim.frequencia}" >
+                                    <p:cellEditor>
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{boletim.frequencia}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="frequenciaBoletim" value="#{boletim.frequencia}" required="true" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column>
+                                    <p:rowEditor />
+                                </p:column>
+
+                                <p:column>
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{boletimCurricularBean.remover(boletim)}" process="@this" update="tableBoletim">
+                                        <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                    </p:commandLink>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
             </h:form>
         </ui:define>
 
