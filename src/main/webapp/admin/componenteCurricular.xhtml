@@ -20,7 +20,7 @@ and open the template in the editor.
                                 <p:outputLabel for="descricao">Descrição</p:outputLabel>
                                 <p:inputText id="descricao" value="#{componenteCurricularBean.entidadeNegocio.descricao}"  required="true">
                                     <f:validateLength maximum="150"  />
-                                    <f:validateRegex pattern="^[A-Z]{1}\\D+$" />
+                                    <!--<f:validateRegex pattern="^[A-Z]{1}\\D+$" />-->
                                     <f:ajax event="blur" execute="descricao" render="messageDescricao" />
                                 </p:inputText>
                                 <p:message for="descricao" id="messageDescricao" />
@@ -31,7 +31,7 @@ and open the template in the editor.
                                 <p:message for="codigoComponenteCurricular" id="messageCodigoComponenteCurricular" />
                                 <h:outputLabel for="curso">Curso</h:outputLabel>
                                 <p:selectOneMenu id="curso" value="#{componenteCurricularBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
-                                    <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso.chavePrimaria}" />
+                                    <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}" />
                                 </p:selectOneMenu>
                                 <p:message for="curso" id="messageCurso" />
                             </h:panelGrid>
@@ -44,14 +44,40 @@ and open the template in the editor.
                     <h:form id="formTabelaComponenteCurricular">
                         <p:dataTable id="formTabelaComponenteCurricular" var="componenteCurricular" editable="true" value="#{componenteCurricularBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Componente Curricular registrado">
                             <f:facet name="header">Componentes Curriculares</f:facet>
+                            
+                            <p:ajax event="rowEdit" listener="#{componenteCurricularBean.alterarEntidadeCadastrada}" />
+                            
                             <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{componenteCurricular.descricao}" sortBy="#{componenteCurricular.descricao}">
-                                <h:outputText value="#{componenteCurricular.descricao}" />
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                            <h:outputText value="#{componenteCurricular.descricao}" />
+                                     </f:facet>
+                                     <f:facet name="input">
+                                            <p:inputText id="descricao" value="#{componenteCurricular.descricao}" />
+                                     </f:facet>
+                                </p:cellEditor>   
                             </p:column>
                             <p:column headerText="Código Componente Curricular" filterMatchMode="contains" sortBy="#{componenteCurricular.codigoComponenteCurricular}" filterBy="#{componenteCurricular.codigoComponenteCurricular}" >
-                                <h:outputText value="#{componenteCurricular.codigoComponenteCurricular}" />
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{componenteCurricular.codigoComponenteCurricular}" />
+                                    </f:facet>
+                                     <f:facet name="input">
+                                        <p:inputText id="codigoComponenteCurricular" value="#{componenteCurricular.codigoComponenteCurricular}" />
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
                             <p:column headerText="Curso" filterMatchMode="startsWith" sortBy="#{componenteCurricular.curso.descricao}" filterBy="#{componenteCurricular.curso.descricao}">
-                                <h:outputText value="#{componenteCurricular.curso.descricao}" />
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{componenteCurricular.curso.descricao}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu id="curso" value="#{componenteCurricularBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
+                                            <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>    
                             </p:column>
 
                             <p:column>

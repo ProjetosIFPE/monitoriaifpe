@@ -23,6 +23,7 @@ import javax.persistence.NoResultException;
 @ViewScoped
 public class LoginBean extends GenericBean<Usuario> {
 
+    
     private static final long serialVersionUID = -93031811969557575L;
 
     @EJB

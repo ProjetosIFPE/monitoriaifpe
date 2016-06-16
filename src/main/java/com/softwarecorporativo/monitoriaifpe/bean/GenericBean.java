@@ -74,13 +74,15 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         mensagemAlteracaoSucesso();
     }
 
-    public void cadastrar() {
+    public void cadastrar() throws NegocioException {
         try {
             this.service.salvar(entidadeNegocio);
             mensagemCadastroSucesso();
-        } catch (NegocioException e) {
-
-        } catch (EJBException ejbe) {
+        } 
+//        catch (NegocioException e) {
+//            throw new NegocioException();
+//        } 
+        catch (EJBException ejbe) {
             if (ejbe.getCause() instanceof ConstraintViolationException) {
                 adicionarMensagemView(ejbe.getCause().getMessage(), FacesMessage.SEVERITY_WARN);
             } else {

@@ -34,7 +34,7 @@ public class LoginService extends GenericService<Usuario> {
         return Usuario.class;
     }
 
-    public Usuario buscarUsuarioPorLogin(String login) {
+    public Usuario buscarUsuarioPorLogin(String login) throws NegocioException {
 
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select usuario from ");
