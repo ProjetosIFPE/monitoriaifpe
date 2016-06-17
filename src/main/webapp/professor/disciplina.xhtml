@@ -16,7 +16,7 @@
                             <f:selectItems value="#{disciplinaBean.listarComponentesCurriculares()}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
                         </p:selectOneMenu>
                     </h:panelGrid>
-                    <p:commandButton value="Cadastrar"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria()}" icon="ui-icon-check" />
+                    <p:commandButton value="Cadastrar"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria(componente)}" icon="ui-icon-check" />
                 </p:fieldset>
             </h:form>
         </ui:define>

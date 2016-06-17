@@ -60,7 +60,7 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         try {
             disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
         } catch (NegocioException e) {
-            e.getChave();
+            System.err.println("MESSANGEM: " + e.getMessage());
         }
     }
 

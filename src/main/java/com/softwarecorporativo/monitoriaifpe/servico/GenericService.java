@@ -45,7 +45,7 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         return query.getResultList();
     }
 
-    public void remover(T entidadeNegocio) throws NegocioException{
+    public void remover(T entidadeNegocio){
         entidadeNegocio = this.entityManager.find(this.getClasseEntidade(), entidadeNegocio.getChavePrimaria());
         this.entityManager.remove(entidadeNegocio);
     }

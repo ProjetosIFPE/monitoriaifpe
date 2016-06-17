@@ -37,9 +37,9 @@ public class CursoService extends GenericService<Curso> {
     }
 
     
-    @Override
-    public void remover(Curso entidadeNegocio) throws NegocioException {
-        Long contadorUsoDoCurso = 0l;
+    
+    public void removerCurso(Curso entidadeNegocio) throws NegocioException {
+        Long contadorUsoDoCurso = 0L;
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT COUNT(a,p) FROM ");
         jpql.append("Aluno a, ComponenteCurricular p ");
@@ -48,15 +48,16 @@ public class CursoService extends GenericService<Curso> {
         String q1 = "SELECT COUNT(a) FROM " + "Aluno a WHERE a.curso.chavePrimaria = " + entidadeNegocio.getChavePrimaria();   
         String q2 = "SELECT COUNT(c) FROM " + "ComponenteCurricular c WHERE c.curso.chavePrimaria = " + entidadeNegocio.getChavePrimaria();   
         Query query = entityManager.createQuery(q1);
-        contadorUsoDoCurso += (long) query.getSingleResult();
+        contadorUsoDoCurso += (Long) query.getSingleResult();
         query = entityManager.createQuery(q2);
-        contadorUsoDoCurso += (long) query.getSingleResult();
+        contadorUsoDoCurso += (Long) query.getSingleResult();
         
         
-        if (contadorUsoDoCurso > 0l) {
+        if (contadorUsoDoCurso > 0L) {
             throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
         } else {
-            this.entityManager.remove(entidadeNegocio);
+            //entityManager.remove(entidadeNegocio);
+            super.remover(entidadeNegocio);
         }
     }
 

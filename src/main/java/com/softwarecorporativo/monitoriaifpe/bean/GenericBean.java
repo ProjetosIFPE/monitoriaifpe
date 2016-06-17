@@ -120,11 +120,7 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
     }
 
     public void remover(T entidadeNegocio) throws NegocioException {
-        try{
         this.service.remover(entidadeNegocio);
-        }catch(NegocioException ex){
-            throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
-        }
         popularEntidades();
     }
 

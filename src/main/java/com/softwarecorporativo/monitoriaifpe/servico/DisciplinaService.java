@@ -44,13 +44,13 @@ public class DisciplinaService extends GenericService<Disciplina> {
     }
 
     public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina disciplina) throws NegocioException {
-        Long contadorDisciplinasCadastraNoSemestreAtual = 0l;
+        Long contadorDisciplinasCadastraNoSemestreAtual = 0L;
         Periodo periodo = periodoService.obterPeriodoAtual();
         disciplina.setPeriodo(periodo);
         String consulta = "SELECT COUNT(p) FROM " + "Disciplina d WHERE d.periodo = " + periodo + "AND" + "d.componenteCurricular = " + disciplina.getComponenteCurricular();
         Query query = entityManager.createQuery(consulta);
-        contadorDisciplinasCadastraNoSemestreAtual += (long) query.getSingleResult();
-        if (contadorDisciplinasCadastraNoSemestreAtual > 0l) {
+        contadorDisciplinasCadastraNoSemestreAtual += (Long) query.getSingleResult();
+        if (contadorDisciplinasCadastraNoSemestreAtual > 0L) {
             throw new NegocioException(NegocioException.DISCIPLINA_JA_CADASTRADA);
         } else {
             return super.salvar(disciplina);
