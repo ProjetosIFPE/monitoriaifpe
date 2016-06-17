@@ -13,14 +13,26 @@ import javax.ejb.ApplicationException;
  */
 @ApplicationException(rollback = true)
 public class NegocioException extends Exception {
-    
-    private static final long serialVersionUID = -4032758349094923282L;
 
-    @Override
-    public String getMessage() {
-        return super.getMessage(); 
+    private String chave; 
+    private static final long serialVersionUID = -4032758349094923282L;
+    public static final String CURSO_ASSOCIADO_A_USUARIO = "exception.NegocioException.cursoService.remover";
+    public static final String DISCIPLINA_ASSOCIADA = "exception.NegocioException.disciplinaService.remover";
+    public static final String LOGIN_NAO_ENCONTRADO = "exception.NegocioException.loginService.verificarCadastroDeUsuario";
+        
+    
+    public NegocioException(String chave) {
+        this.chave = chave;
+    }  
+
+    public String getChave() {
+        return chave;
     }
     
-    
-    
+    @Override
+    public String getMessage() {
+        MensagemExcecao mensagemExcecao = new MensagemExcecao(this);
+        return mensagemExcecao.getMensagem();
+    }
+
 }

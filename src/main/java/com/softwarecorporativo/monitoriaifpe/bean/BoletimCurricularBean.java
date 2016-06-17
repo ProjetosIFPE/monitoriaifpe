@@ -94,6 +94,7 @@ public class BoletimCurricularBean extends GenericBean<BoletimCurricular> {
         entidadeNegocio.setDisciplina(disciplina);
         entidadeNegocio.setAluno(aluno);
         super.gravar();
+//        inicializarEntidadeNegocio();
     }
 
     public BoletimCurricularService getBoletimCurricularService() {

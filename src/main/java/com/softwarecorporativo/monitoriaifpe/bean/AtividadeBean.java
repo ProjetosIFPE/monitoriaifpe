@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
@@ -85,7 +86,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
         }
     }
 
-    public void adicionarAtividade() {
+    public void adicionarAtividade() throws NegocioException {
 
         entidadeNegocio.setMonitoria(monitoria);
 
@@ -116,7 +117,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
         calendarioAtividades.updateEvent(eventoAtualizado);
     }
 
-    public void removerAtividade() {
+    public void removerAtividade() throws NegocioException {
         super.remover(entidadeNegocio);
         this.removerEventoCalendario();
         inicializarEntidadeNegocio();

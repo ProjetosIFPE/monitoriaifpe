@@ -38,7 +38,7 @@ public class CursoBean extends GenericBean<Curso> {
         setService(cursoService);
     }
 
-   
+    
 
 
 

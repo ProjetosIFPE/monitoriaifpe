@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="../_template.xhtml" >
+
+        <ui:define name="conteudo">
+            <h:form id="formCadastroDisciplina"> 
+                <p:tabView>
+                    <p:tab title="Cadastrar Disciplina">
+                        <h:form id="cadastroDisciplina">
+                            <p:fieldset legend="Dados do Disciplina">
+                                <p:wizard flowListener="#{boletimCurricularBean.fluxoDeCadastro}">
+                                    <p:tab title="Disciplina">
+                                        <p:panel header="Dados da Disciplina">
+                                            <p:panelGrid columns="3">
+                                                <p:outputLabel for="componenteCurricular" value="Componente Curricular:" />
+                                                <p:selectOneMenu id="componenteCurricular" value="#{boletimCurricularBean.disciplina.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
+                                                    <f:selectItems value="#{boletimCurricularBean.listarTodosComponentesCurriculares()}" var="componenteCurricular" itemLabel="#{componenteCurricular.descricao}" itemValue="#{componenteCurricular}"/>
+                                                </p:selectOneMenu>
+                                                <p:message for="componenteCurricular" id="messageDisciplina" display="icon" />   
+
+                                                <p:outputLabel for="professor" value=" Professor:" />            
+                                                <p:selectOneMenu id="professor" value="#{boletimCurricularBean.disciplina.professor}" style="width:150px" converter="entidadeNegocioConverter">
+                                                    <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems value="#{boletimCurricularBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
+                                                </p:selectOneMenu>
+                                                <p:message for="professor" id="messageProfessor" display="icon"/>
+
+
+                                                <p:outputLabel for="ano" value="Ano:" />                       
+                                                <p:inputMask id="ano" mask="9999" value="#{boletimCurricularBean.periodo.ano}" />
+                                                <h:message for="ano" id="messageAno" />
+
+                                                <p:outputLabel for="semestre" value="Semestre:" />                       
+                                                <p:selectOneMenu id="semestre" value="#{boletimCurricularBean.periodo.semestre}" style="width:150px">
+                                                    <f:selectItems value="#{boletimCurricularBean.semestres}" />
+                                                </p:selectOneMenu>
+                                                <h:message for="semestre" id="messageSemestre" />
+                                            </p:panelGrid>
+                                        </p:panel>
+                                    </p:tab>
+
+
+                                    </ui:define>
+                                    </ui:composition>
+                                    </html>

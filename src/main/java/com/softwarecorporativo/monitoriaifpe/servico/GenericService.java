@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
@@ -44,7 +45,7 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         return query.getResultList();
     }
 
-    public void remover(T entidadeNegocio) {
+    public void remover(T entidadeNegocio) throws NegocioException{
         entidadeNegocio = this.entityManager.find(this.getClasseEntidade(), entidadeNegocio.getChavePrimaria());
         this.entityManager.remove(entidadeNegocio);
     }

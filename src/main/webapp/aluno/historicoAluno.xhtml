@@ -20,15 +20,14 @@
                                                 <p:selectOneMenu id="componenteCurricular" value="#{boletimCurricularBean.disciplina.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
                                                     <f:selectItems value="#{boletimCurricularBean.listarTodosComponentesCurriculares()}" var="componenteCurricular" itemLabel="#{componenteCurricular.descricao}" itemValue="#{componenteCurricular}"/>
                                                 </p:selectOneMenu>
-                                                <h:message for="componenteCurricular" id="messageDisciplina" />   
-
-
+                                                <p:message for="componenteCurricular" id="messageDisciplina" display="icon" />   
+    
                                                 <p:outputLabel for="professor" value=" Professor:" />            
                                                 <p:selectOneMenu id="professor" value="#{boletimCurricularBean.disciplina.professor}" style="width:150px" converter="entidadeNegocioConverter">
                                                     <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems value="#{boletimCurricularBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
                                                 </p:selectOneMenu>
-                                                <h:message for="professor" id="messageProfessor" />
+                                                <p:message for="professor" id="messageProfessor" display="icon"/>
 
 
                                                 <p:outputLabel for="ano" value="Ano:" />                       
@@ -64,7 +63,7 @@
                                         </p:panel>
                                     </p:tab>
                                 </p:wizard>
-                                <p:commandButton action="#{boletimCurricularBean.cadastrarBoletim()}" value="Cadastrar" update="@form" process="@form"/>
+                                <p:commandButton action="#{boletimCurricularBean.cadastrarBoletim()}" value="Cadastrar" update=":formBoletimCurricular" process="@form"/>
                             </p:fieldset>
                         </h:form>
                     </p:tab>

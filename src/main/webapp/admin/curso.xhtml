@@ -16,6 +16,7 @@ and open the template in the editor.
                     <p:tab title="Cadastro de Cursos">
                         <h:panelGrid columns="1" cellpadding="10">
                             <h:form id="formCurso">
+                                <p:messages id="msgs" />
                                 <p:fieldset legend="Dados do Curso">
                                     <h:panelGrid columns="3">
                                         <p:outputLabel for="descricao">Descrição</p:outputLabel>
@@ -24,19 +25,19 @@ and open the template in the editor.
                                             <f:validateLength maximum="100"  />
                                             <f:ajax event="blur" execute="descricao" render="messageDescricao" />
                                         </p:inputText>
-                                        <p:message for="descricao" id="messageDescricao" />
+                                        <p:message for="descricao" id="messageDescricao" display="tooltip"/>
                                         <p:outputLabel for="codigoCampus">Código Campus</p:outputLabel>
                                         <p:inputText id="codigoCampus" value="#{cursoBean.entidadeNegocio.codigoCampus}"  required="true">
                                             <f:validateRegex for="codigoCampus" pattern="^[A-Z]{2}$"  />
                                             <f:ajax event="blur" execute="codigoCampus" render="messageCodigoCampus" />
                                         </p:inputText>                     
-                                        <p:message for="codigoCampus" id="messageCodigoCampus" />
+                                        <p:message for="codigoCampus" id="messageCodigoCampus" display="tooltip"/>
                                         <p:outputLabel for="codigoCurso">Código Curso</p:outputLabel>
                                         <p:inputText id="codigoCurso" value="#{cursoBean.entidadeNegocio.codigoCurso}" required="true">
                                             <f:validateRegex for="codigoCurso" pattern="^[A-Z][0-9]$"  />
                                             <f:ajax event="blur" execute="codigoCurso" render="messageCodigoCurso" />
                                         </p:inputText>
-                                        <p:message for="codigoCurso" id="messageCodigoCurso" />
+                                        <p:message for="codigoCurso" id="messageCodigoCurso" display="tooltip"/>
                                     </h:panelGrid>
                                     <p:commandButton action="#{cursoBean.gravar()}" value="Cadastrar" 
                                                      update=":formularioCurso" process="@form"/>
