@@ -8,15 +8,14 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -25,49 +24,87 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class MonitoriaBean extends GenericBean<Monitoria> {
-    
+
     private static final long serialVersionUID = -4736071102515881964L;
-    
+
+    @ManagedProperty(value = "#{userSettings}")
+    private UserSettings userSettings;
+
+    private Long disciplinaId;
+
     @EJB
     private MonitoriaService monitoriaService;
-    
+
     @EJB
     private DisciplinaService disciplinaService;
-    
+
+    private List<Monitoria> monitoriasDisciplina;
+
     @Override
     void inicializarEntidadeNegocio() {
+
         super.setEntidadeNegocio(monitoriaService.getEntidadeNegocio());
     }
-    
+
+    public void inicializarParametros() {
+        Disciplina disciplina = disciplinaService.buscarEntidade(disciplinaId);
+        popularMonitoriasPorDisciplina(disciplina);
+    }
+
+    @Override
+    protected void inicializar() {
+        super.inicializar();
+    }
+
     public Modalidade[] getModalidades() {
-        
+
         return Modalidade.values();
     }
-    
+
     @Override
     void inicializarServico() {
         setService(monitoriaService);
     }
-    
-    public String visualizarAtividadesDaMonitoria(Monitoria monitoria) {
-        FacesContext.getCurrentInstance().getExternalContext()
-                .getFlash().put("monitoria", monitoria);
-        return "atividade?faces-redirect=true";
-    }
+
     @Override
     public void gravar() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Aluno aluno = (Aluno) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
+        Aluno aluno = (Aluno) userSettings.getUsuario();
         entidadeNegocio.setAluno(aluno);
-        super.gravar();        
+        super.gravar();
     }
-    
+
     public List<Disciplina> getDisciplinasOfertadasParaMonitoria() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Aluno aluno = (Aluno) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
+        Aluno aluno = (Aluno) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasPorCursoDoPeriodoAtual(aluno.getCurso());
     }
-    
-   
-    
+
+    protected void popularMonitoriasPorDisciplina(Disciplina disciplina) {
+        monitoriasDisciplina = monitoriaService.obterMonitoriasPorDisciplina(disciplina);
+
+    }
+
+    public List<Monitoria> getMonitoriasDisciplina() {
+        return monitoriasDisciplina;
+    }
+
+    public void setMonitoriasDisciplina(List<Monitoria> monitoriasDisciplina) {
+        this.monitoriasDisciplina = monitoriasDisciplina;
+    }
+
+    public Long getDisciplinaId() {
+        return disciplinaId;
+    }
+
+    public void setDisciplinaId(Long disciplinaId) {
+        this.disciplinaId = disciplinaId;
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
+    }
+
 }

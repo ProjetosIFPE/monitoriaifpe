@@ -17,6 +17,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -73,6 +74,17 @@ public class DisciplinaService extends GenericService<Disciplina> {
         Periodo periodo = periodoService.criarPeriodoAnterior(ano, semestre);
         entidadeNegocio.setPeriodo(periodo);
         return super.salvar(entidadeNegocio);
+    }
+
+    public List<Disciplina> obterDisciplinasDoProfessor(Professor professor) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("select d from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as d ");
+        jpql.append(" where d.professor = :paramProfessor ");
+        Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter("paramProfessor", professor);
+        return query.getResultList();
     }
 
 }

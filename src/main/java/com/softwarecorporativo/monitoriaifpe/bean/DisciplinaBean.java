@@ -13,8 +13,8 @@ import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -25,6 +25,9 @@ import javax.faces.context.FacesContext;
 public class DisciplinaBean extends GenericBean<Disciplina> {
 
     private static final long serialVersionUID = -4299577354116933320L;
+
+    @ManagedProperty(value = "#{userSettings}")
+    private UserSettings userSettings;
 
     @EJB
     private DisciplinaService disciplinaService;
@@ -53,10 +56,22 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     }
 
     public void ofertarDisciplinaParaMonitoria() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Professor professor = (Professor) context.getExternalContext().getSessionMap().get("usuarioLogado");
+        Professor professor = (Professor) userSettings.getUsuario();
         professor.addDisciplina(entidadeNegocio);
         disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
+    }
+
+    public List<Disciplina> getDisciplinasProfessor() {
+        Professor professor = (Professor) userSettings.getUsuario();
+        return disciplinaService.obterDisciplinasDoProfessor(professor);
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
     }
 
 }

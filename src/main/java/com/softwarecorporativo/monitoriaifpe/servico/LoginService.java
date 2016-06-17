@@ -49,7 +49,7 @@ public class LoginService extends GenericService<Usuario> {
             Usuario usuario = query.getSingleResult();
             return usuario;
         } catch (NoResultException e) {
-            throw new NegocioException(e.getMessage());
+            throw new NegocioException(NegocioException.LOGIN_NAO_ENCONTRADO);
         }
     }
 
