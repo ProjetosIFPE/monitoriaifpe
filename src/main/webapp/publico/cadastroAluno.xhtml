@@ -31,7 +31,7 @@
                         <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{alunoBean.entidadeNegocio.matricula}"></p:inputMask>
                         <p:message for="matricula" id="messageMatricula" />
                         <p:outputLabel for="curso" value="Curso" />
-                        <p:selectOneMenu id="curso"  value="#{alunoBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
+                        <p:selectOneMenu id="curso"  value="#{compo.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
                             <f:selectItems value="#{alunoBean.listarCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
                         </p:selectOneMenu>
                         <p:message for="curso" id="messageCurso" />

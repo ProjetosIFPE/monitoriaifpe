@@ -171,3 +171,4 @@ public class AtividadeBean extends GenericBean<Atividade> {
  
 
 }
+
