@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
@@ -52,11 +53,15 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         return this.componenteCurrService.listarTodos();
     }
 
-    public void ofertarDisciplinaParaMonitoria() {
+    public void ofertarDisciplinaParaMonitoria() throws NegocioException {
         FacesContext context = FacesContext.getCurrentInstance();
         Professor professor = (Professor) context.getExternalContext().getSessionMap().get("usuarioLogado");
         professor.addDisciplina(entidadeNegocio);
-        disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
+        try {
+            disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
+        } catch (NegocioException e) {
+            e.getChave();
+        }
     }
 
 }

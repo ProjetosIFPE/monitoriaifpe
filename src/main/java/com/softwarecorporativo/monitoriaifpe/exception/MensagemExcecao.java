@@ -50,7 +50,6 @@ public class MensagemExcecao {
         } else {
             mensagem.append(leitor.get("java.lang.Exception"));
         }
-
         return mensagem.toString();
     }
 }

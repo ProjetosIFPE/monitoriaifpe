@@ -36,6 +36,7 @@ public class CursoService extends GenericService<Curso> {
         return Curso.class;
     }
 
+    
     @Override
     public void remover(Curso entidadeNegocio) throws NegocioException {
         Long contadorUsoDoCurso = 0l;
@@ -55,7 +56,7 @@ public class CursoService extends GenericService<Curso> {
         if (contadorUsoDoCurso > 0l) {
             throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
         } else {
-            entityManager.remove(entidadeNegocio);
+            this.entityManager.remove(entidadeNegocio);
         }
     }
 
