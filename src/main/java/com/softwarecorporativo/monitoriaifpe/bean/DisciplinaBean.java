@@ -18,8 +18,8 @@ import com.softwarecorporativo.monitoriaifpe.servico.ProfessorService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -30,6 +30,9 @@ import javax.faces.context.FacesContext;
 public class DisciplinaBean extends GenericBean<Disciplina> {
 
     private static final long serialVersionUID = -4299577354116933320L;
+
+    @ManagedProperty(value = "#{userSettings}")
+    private UserSettings userSettings;
 
     @EJB
     private DisciplinaService disciplinaService;
@@ -84,9 +87,8 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         this.periodo = periodo;
     }
 
-    public void ofertarDisciplinaParaMonitoria() throws NegocioException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Professor professor = (Professor) context.getExternalContext().getSessionMap().get("usuarioLogado");
+    public void ofertarDisciplinaParaMonitoria() {
+        Professor professor = (Professor) userSettings.getUsuario();
         professor.addDisciplina(entidadeNegocio);
         try {
             disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
@@ -100,6 +102,18 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         super.gravar();
     }
 
-    
-    
+    public List<Disciplina> getDisciplinasProfessor() {
+        Professor professor = (Professor) userSettings.getUsuario();
+        return disciplinaService.obterDisciplinasDoProfessor(professor);
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
+    }
+
+
 }

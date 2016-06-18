@@ -5,8 +5,11 @@
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <ui:insert name="metadata"/>
+    
     <h:head><title>Sistema Monitoria</title></h:head>
-
+    
     <h:body>
         <div id="cabecalho">
             <p:growl showDetail="true" globalOnly="true" id="messages" autoUpdate="true" />
@@ -17,9 +20,9 @@
                     <p:outputPanel>Sistema de Monitoria IFPE</p:outputPanel>
                 </f:facet>       
                 <h:form>
-                    <p:themeSwitcher id="basic" value="#{temaBean.tema}">
+                    <p:themeSwitcher id="basic" value="#{userSettings.tema}">
                         <f:selectItem itemLabel="Escolha o Tema"/>
-                        <f:selectItems value="${temaBean.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
+                        <f:selectItems value="${userSettings.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
                         <f:ajax />
                     </p:themeSwitcher>
                 </h:form>

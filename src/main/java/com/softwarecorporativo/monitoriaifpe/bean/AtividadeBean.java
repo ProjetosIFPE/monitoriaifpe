@@ -9,6 +9,7 @@ import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
+import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -17,7 +18,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -46,16 +46,26 @@ public class AtividadeBean extends GenericBean<Atividade> {
 
     private StreamedContent relatorio;
 
-    
-    
     @EJB
     private AtividadeService atividadeService;
 
+    @EJB
+    private MonitoriaService monitoriaService;
+
     private Monitoria monitoria;
+
+    private Long monitoriaId;
 
     @Override
     void inicializarEntidadeNegocio() {
         setEntidadeNegocio(atividadeService.getEntidadeNegocio());
+    }
+
+    public void inicializarParametros() {
+        if (monitoriaId != null) {
+            monitoria = monitoriaService.buscarEntidade(monitoriaId);
+        }
+        inicializarCalendarioAtividades();
     }
 
     @Override
@@ -66,10 +76,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
     @Override
     protected void inicializar() {
         super.inicializar();
-        FacesContext context = FacesContext.getCurrentInstance();
-        this.monitoria = (Monitoria) context.getExternalContext()
-                .getFlash().get("monitoria");
-        inicializarCalendarioAtividades();
+        
     }
 
     private void inicializarCalendarioAtividades() {
@@ -167,8 +174,14 @@ public class AtividadeBean extends GenericBean<Atividade> {
         byte[] bytes = atividadeService.obterRelatorioFrequencia(monitoria, Integer.BYTES);
         return new ByteArrayContent(bytes, "application/pdf", "relatorioFrequencia.pdf");
     }
+
+    public Long getMonitoriaId() {
+        return monitoriaId;
+    }
+
+    public void setMonitoriaId(Long monitoriaId) {
+        this.monitoriaId = monitoriaId;
+    }
+
     
- 
-
 }
-

@@ -7,6 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="../_template.xhtml" >        
         <ui:define name="conteudo">
+<<<<<<< HEAD
             <h:form id="cadastroDisciplinas">
                 <p:fieldset legend="Dados da Disciplina">
                     <h:panelGrid columns="2" cellpadding="5">
@@ -19,6 +20,46 @@
                     <p:commandButton value="Cadastrar"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria(componente)}" icon="ui-icon-check" />
                 </p:fieldset>
             </h:form>
+=======
+            <p:tabView id="painelDisciplinas">
+                <p:tab title="Cadastro de Disciplina">
+                    <h:form id="cadastroDisciplinas">
+                        <p:fieldset legend="Dados da Disciplina">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel for="componenteCurricular" value="Componente Curricular: " />
+                                <p:selectOneMenu id="componenteCurricular" value="#{disciplinaBean.entidadeNegocio.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
+                                    <f:selectItem itemLabel="Selecionar Componente Curricular" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{disciplinaBean.listarComponentesCurriculares()}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            <p:commandButton value="Cadastrar" update=":painelDisciplinas"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria()}"  />
+                        </p:fieldset>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Disciplinas Cadastradas">
+                    <h:form>
+                        <p:dataList id="listaDisciplinas" value="#{disciplinaBean.disciplinasProfessor}" var="disciplina" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+                            <f:facet name="header">
+                                Monitorias
+                            </f:facet>
+                            <h:link  outcome="monitores" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+                                <f:param name="disciplinaId" value="#{disciplina.chavePrimaria}"  />
+                            </h:link >
+                            
+                            <h:outputText value="#{disciplina.componenteCurricular.descricao}, #{disciplina.periodo}" style="display:inline-block"/>
+
+                            <p:commandLink style="float:left;margin-right:10px" styleClass="ui-icon ui-icon-trash"  action="#{disciplinaBean.remover(disciplina)}" process="@this" update="listaDisciplinas">
+                                <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                            </p:commandLink>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:dataList>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+>>>>>>> ebe548ca6a8d919a097fefad196ca72f4802b6d3
         </ui:define>
 
     </ui:composition>

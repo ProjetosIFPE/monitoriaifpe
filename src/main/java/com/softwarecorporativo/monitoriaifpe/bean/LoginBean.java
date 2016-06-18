@@ -38,11 +38,11 @@ public class LoginBean extends GenericBean<Usuario> {
                 context.getExternalContext().getSessionMap().put("usuarioLogado", usuario);
             }
         } catch (NegocioException e) {
-            super.adicionarMensagemView("Usuário não encontrado");
+            super.adicionarMensagemView(e.getMessage());
             return "login?faces-redirect=true";
         }
 
-        return "admin/admin?faces-redirect=true";
+        return "admin?faces-redirect=true";
     }
 
     public String efetuarLogout() {

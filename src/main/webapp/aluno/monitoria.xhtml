@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
-            <p:tabView>
+            <p:tabView id="painelMonitoria">
                 <p:tab title="Cadastro de Monitoria">
                     <h:form id="formMonitoria">
                         <p:fieldset legend="Dados da Monitoria">
@@ -25,7 +25,7 @@ and open the template in the editor.
                                     <f:selectItems value="#{monitoriaBean.modalidades}" var="modalidade"  />
                                 </p:selectOneMenu>
                             </h:panelGrid>
-                            <p:commandButton action="#{monitoriaBean.gravar()}" value="Cadastrar Monitoria" process="@form" />
+                            <p:commandButton action="#{monitoriaBean.gravar()}" value="Cadastrar Monitoria" update=":painelMonitoria" process="@form" />
                         </p:fieldset>
                     </h:form>
                 </p:tab>
@@ -35,8 +35,9 @@ and open the template in the editor.
                             <f:facet name="header">
                                 Monitorias
                             </f:facet>
-                            <p:commandLink action="#{monitoriaBean.visualizarAtividadesDaMonitoria(monitoria)}"  title="Visualizar atividades"  styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px" />
-
+                            <h:link  outcome="atividade" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+                                <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
+                            </h:link >
                             <h:outputText value="#{monitoria.disciplina.componenteCurricular.descricao}, #{monitoria.disciplina.periodo}" style="display:inline-block"/>
 
                             <p:commandLink style="float:left;margin-right:10px" styleClass="ui-icon ui-icon-trash"  action="#{monitoriaBean.remover(monitoria)}" process="@this" update="listaMonitorias">

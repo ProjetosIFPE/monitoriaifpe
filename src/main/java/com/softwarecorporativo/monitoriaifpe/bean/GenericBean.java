@@ -6,6 +6,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.MensagemExcecao;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.servico.GenericService;
@@ -80,12 +81,10 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
             this.service.salvar(entidadeNegocio);
             mensagemCadastroSucesso();
         }
-//        catch (NegocioException e) {
-//            throw new NegocioException();
-//        } 
         catch (EJBException ejbe) {
             if (ejbe.getCause() instanceof ConstraintViolationException) {
-                adicionarMensagemView(ejbe.getCause().getMessage(), FacesMessage.SEVERITY_WARN);
+                MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());
+                adicionarMensagemView(mensagemExcecao.getMensagem(), FacesMessage.SEVERITY_WARN);
             } else {
                 throw ejbe;
             }

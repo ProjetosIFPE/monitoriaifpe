@@ -35,7 +35,7 @@ public class Disciplina extends EntidadeNegocio {
     private static final long serialVersionUID = -7788698676039962643L;
 
     @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "COMPONENTE_CURRICULAR_ID", referencedColumnName = "COMPONENTE_CURRICULAR_ID")
     private ComponenteCurricular componenteCurricular;
 

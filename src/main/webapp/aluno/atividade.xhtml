@@ -11,12 +11,23 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml">
 
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="monitoriaId" value="#{atividadeBean.monitoriaId}" required="false" />
+                <f:viewAction action="#{atividadeBean.inicializarParametros}"  />
+            </f:metadata>
+        </ui:define>
+
         <ui:define name="conteudo">
+            <p:dialog modal="true" widgetVar="statusDownload"  draggable="false" closable="false" resizable="false">
+                <p:graphicImage library="img" name="ajax-loader-bar.gif" />
+            </p:dialog>
             <h:form>
                 <p:commandButton style="margin-bottom: 20px"  value="Exportar Relatório Mensal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
                     <p:fileDownload value="#{atividadeBean.relatorio}" />
                 </p:commandButton>
             </h:form>
+            <h:outputScript library="js" name="download.js" />
             <h:form>
                 <p:fieldset legend="Calendário de Atividades"> 
 

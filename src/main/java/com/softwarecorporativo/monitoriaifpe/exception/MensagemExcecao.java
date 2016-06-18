@@ -41,8 +41,8 @@ public class MensagemExcecao {
 
             mensagem
                     = new StringBuilder(String.format(
-                                    leitor.get(excecao.getClass().getName()),
-                                    mensagem.toString()));
+                            leitor.get(excecao.getClass().getName()),
+                            mensagem.toString()));
         } else if (excecao instanceof NegocioException) {
             mensagem.append(leitor.get(((NegocioException) excecao).getChave()));
         } else if (excecao != null && leitor.get(excecao.getClass().getName()) != null) {

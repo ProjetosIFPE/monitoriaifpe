@@ -85,4 +85,15 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return super.salvar(entidadeNegocio);
     }
 
+    public List<Disciplina> obterDisciplinasDoProfessor(Professor professor) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("select d from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as d ");
+        jpql.append(" where d.professor = :paramProfessor ");
+        Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter("paramProfessor", professor);
+        return query.getResultList();
+    }
+
 }
