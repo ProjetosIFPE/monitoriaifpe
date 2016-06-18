@@ -76,12 +76,13 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         mensagemAlteracaoSucesso();
     }
 
-    public void cadastrar() throws NegocioException {
+    public void cadastrar() {
         try {
             this.service.salvar(entidadeNegocio);
             mensagemCadastroSucesso();
-        }
-        catch (EJBException ejbe) {
+            popularEntidades();
+            inicializarEntidadeNegocio();
+        } catch (EJBException ejbe) {
             if (ejbe.getCause() instanceof ConstraintViolationException) {
                 MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());
                 adicionarMensagemView(mensagemExcecao.getMensagem(), FacesMessage.SEVERITY_WARN);
@@ -119,7 +120,9 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
     }
 
     public void remover(T entidadeNegocio) throws NegocioException {
+
         this.service.remover(entidadeNegocio);
+
         popularEntidades();
     }
 
@@ -141,4 +144,3 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
     abstract void inicializarServico();
 
 }
-

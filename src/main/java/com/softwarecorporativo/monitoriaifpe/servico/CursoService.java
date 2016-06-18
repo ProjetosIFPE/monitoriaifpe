@@ -56,9 +56,10 @@ public class CursoService extends GenericService<Curso> {
         if (contadorUsoDoCurso > 0L) {
             throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
         } else {
-            //entityManager.remove(entidadeNegocio);
             super.remover(entidadeNegocio);
         }
     }
+
+    
 
 }

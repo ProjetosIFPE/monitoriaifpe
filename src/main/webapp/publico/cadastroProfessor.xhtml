@@ -35,7 +35,12 @@ and open the template in the editor.
                         <p:outputLabel for="senha" value="Senha" />
                         <p:password feedback="true" value="#{professorBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
-                        <p:commandButton action="#{professorBean.cadastrarProfessor()}" value="Cadastrar" 
+                        <p:outputLabel for="curso" value="Curso" />
+                        <p:selectOneMenu id="curso"  value="#{professorBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
+                            <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
+                        </p:selectOneMenu>
+                        <h:message for="curso" id="messageCurso" />
+                        <p:commandButton action="#{professorBean.cadastrar()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
                 </p:fieldset>

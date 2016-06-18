@@ -37,10 +37,6 @@ public class AlunoBean extends GenericBean<Aluno> {
         setService(alunoService);
     }
     
-    public String cadastrarAluno() {
-        super.gravar();
-        return "/publico/login?faces-redirect=true";
-    }
     
     
 }

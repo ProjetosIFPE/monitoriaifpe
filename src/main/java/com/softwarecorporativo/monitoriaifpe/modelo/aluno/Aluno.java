@@ -41,7 +41,7 @@ public class Aluno extends Usuario {
     @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
     private Curso curso;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<BoletimCurricular> boletins;
 
     public String getMatricula() {
@@ -96,4 +96,11 @@ public class Aluno extends Usuario {
 
         return boletins.size();
     }
+
+    public List<BoletimCurricular> getBoletins() {
+        return boletins;
+    }
+
+    
+    
 }

@@ -28,6 +28,8 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.FIELD)
 public class ComponenteCurricular extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -3079766681161299776L;
+
     @NotBlank
     @Column(name = "CODIGO_COMP_CURRICULAR", nullable = false, unique = true)
     private String codigoComponenteCurricular;

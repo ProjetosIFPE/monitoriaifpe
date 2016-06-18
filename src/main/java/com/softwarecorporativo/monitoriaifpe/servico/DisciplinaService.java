@@ -47,8 +47,15 @@ public class DisciplinaService extends GenericService<Disciplina> {
         Long contadorDisciplinasCadastraNoSemestreAtual = 0L;
         Periodo periodo = periodoService.obterPeriodoAtual();
         disciplina.setPeriodo(periodo);
-        String consulta = "SELECT COUNT(p) FROM " + "Disciplina d WHERE d.periodo = " + periodo + "AND" + "d.componenteCurricular = " + disciplina.getComponenteCurricular();
-        Query query = entityManager.createQuery(consulta);
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("SELECT COUNT(d) FROM ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as d ");
+        jpql.append("WHERE d.periodo = :paramPeriodo ");
+        jpql.append(" AND d.componenteCurricular = :paramComponente ");
+        Query query = entityManager.createQuery(jpql.toString());
+        query.setParameter("paramPeriodo", periodo);
+        query.setParameter("paramComponente", disciplina.getComponenteCurricular());
         contadorDisciplinasCadastraNoSemestreAtual += (Long) query.getSingleResult();
         if (contadorDisciplinasCadastraNoSemestreAtual > 0L) {
             throw new NegocioException(NegocioException.DISCIPLINA_JA_CADASTRADA);
@@ -77,6 +84,23 @@ public class DisciplinaService extends GenericService<Disciplina> {
     public List<Disciplina> obterDisciplinasPorCursoDoPeriodoAtual(Curso curso) {
         Periodo periodo = periodoService.obterPeriodoAtual();
         return this.obterDisciplinasDoCursoPorPeriodo(curso, periodo);
+    }
+
+    public List<Disciplina> obterDisciplinasPorCursoDePeriodoNaoAtual(Curso curso) {
+        Periodo periodo = periodoService.obterPeriodoAtual();
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select disciplina from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as disciplina ");
+        jpql.append(" join disciplina.componenteCurricular as cc ");
+        jpql.append(" where disciplina.periodo != :paramPeriodo ");
+        jpql.append(" and cc.curso = :paramCurso ");
+        TypedQuery<Disciplina> query = super.entityManager
+                .createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter("paramPeriodo", periodo);
+        query.setParameter("paramCurso", curso);
+
+        return query.getResultList();
     }
 
     public Disciplina salvarDisciplinaComPeriodoAntigo(Disciplina entidadeNegocio, String ano, String semestre) {

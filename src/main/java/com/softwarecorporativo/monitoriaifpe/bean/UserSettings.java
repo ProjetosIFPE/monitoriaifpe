@@ -8,6 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -18,7 +19,9 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class UserSettings {
+public class UserSettings implements Serializable{
+
+    private static final long serialVersionUID = 677831240483987806L;
 
     private String tema = "vader";
 

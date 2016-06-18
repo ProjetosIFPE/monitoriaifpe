@@ -8,7 +8,6 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
 import java.util.List;
@@ -63,11 +62,13 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
     }
 
     @Override
-    public void gravar() {
+    public void cadastrar() {
         Aluno aluno = (Aluno) userSettings.getUsuario();
         entidadeNegocio.setAluno(aluno);
-        super.gravar();
+        super.cadastrar(); 
     }
+
+    
 
     public List<Disciplina> getDisciplinasOfertadasParaMonitoria() {
         Aluno aluno = (Aluno) userSettings.getUsuario();

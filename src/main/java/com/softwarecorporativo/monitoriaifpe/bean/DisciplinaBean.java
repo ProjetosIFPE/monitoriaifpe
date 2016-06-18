@@ -5,21 +5,23 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.MensagemExcecao;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
-import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
 import com.softwarecorporativo.monitoriaifpe.servico.PeriodoService;
 import com.softwarecorporativo.monitoriaifpe.servico.ProfessorService;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.validation.ConstraintViolationException;
 
 /**
  *
@@ -38,22 +40,13 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     private DisciplinaService disciplinaService;
 
     @EJB
-    private ComponenteCurricularService componenteCurrService;
-
-    @EJB
     private PeriodoService periodoService;
-
-    @EJB
-    private ProfessorService professorService;
     
     private Periodo periodo;
 
     @Override
     void inicializarEntidadeNegocio() {
-
-        entidadeNegocio = disciplinaService.getEntidadeNegocio();
         periodo = periodoService.getEntidadeNegocio();
-        entidadeNegocio.setPeriodo(periodo);
         super.setEntidadeNegocio(disciplinaService.getEntidadeNegocio());
     }
 
@@ -67,18 +60,6 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         setService(disciplinaService);
     }
 
-    public List<ComponenteCurricular> listarComponentesCurriculares() {
-        return this.componenteCurrService.listarTodos();
-    }
-    
-    public List<Professor> listarTodosProfessores() {
-        return this.professorService.listarTodos();
-    }
-
-    public Semestre[] getSemestres() {
-        return Semestre.values();
-    }
-
     public Periodo getPeriodo() {
         return periodo;
     }
@@ -87,24 +68,38 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         this.periodo = periodo;
     }
 
+    /**  TODO: Utilizar tratamento de exceção da classe generica **/
     public void ofertarDisciplinaParaMonitoria() {
         Professor professor = (Professor) userSettings.getUsuario();
         professor.addDisciplina(entidadeNegocio);
         try {
             disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
+            mensagemCadastroSucesso();
         } catch (NegocioException e) {
-            System.err.println("MESSANGEM: " + e.getMessage());
+            adicionarMensagemView(e.getMessage(), FacesMessage.SEVERITY_WARN);
+        } catch (EJBException ejbe) {
+            if (ejbe.getCause() instanceof ConstraintViolationException) {
+                MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());
+                adicionarMensagemView(mensagemExcecao.getMensagem(), FacesMessage.SEVERITY_WARN);
+            } else {
+                throw ejbe;
+            }
         }
     }
 
     public void cadastrarDisciplina() {
         entidadeNegocio.setPeriodo(periodo);
-        super.gravar();
+        super.cadastrar();
     }
 
     public List<Disciplina> getDisciplinasProfessor() {
         Professor professor = (Professor) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasDoProfessor(professor);
+    }
+    
+    public List<Disciplina> getDisciplinasPorCursoForaPeriodoAtual() {
+        Aluno aluno = (Aluno) userSettings.getUsuario();
+        return disciplinaService.obterDisciplinasPorCursoDePeriodoNaoAtual(aluno.getCurso());
     }
 
     public UserSettings getUserSettings() {

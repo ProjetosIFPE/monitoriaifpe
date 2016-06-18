@@ -34,8 +34,10 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class BoletimCurricular extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -7082690366131481023L;
+
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DISCIPLINA_ID", referencedColumnName = "DISCIPLINA_ID")
     private Disciplina disciplina;
 
@@ -50,7 +52,7 @@ public class BoletimCurricular extends EntidadeNegocio {
     private Double frequencia;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
     private Aluno aluno;
 

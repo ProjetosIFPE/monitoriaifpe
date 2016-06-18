@@ -14,12 +14,12 @@
         <div id="cabecalho">
             <p:growl showDetail="true" globalOnly="true" id="messages" autoUpdate="true" />
 
-            <h:panelGrid>
+            <h:panelGrid columns="2">
                 <f:facet name="header">
-                    <h:graphicImage library="img" name="icon.jpg" />
+                    <h:link outcome="/publico/login.xhtml"><h:graphicImage   library="img" name="icon.jpg" /></h:link>
                     <p:outputPanel>Sistema de Monitoria IFPE</p:outputPanel>
                 </f:facet>  
-                <h:form style="position: absolute; right: 10px;" rendered="#{usuarioLogado != null}" >
+                <h:form rendered="#{usuarioLogado != null}" >
                     <p:themeSwitcher id="basic" value="#{userSettings.tema}">
                         <f:selectItem itemLabel="Escolha o Tema"/>
                         <f:selectItems value="${userSettings.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
@@ -33,6 +33,10 @@
             <h:form rendered="#{usuarioLogado != null}">
                 <p:menubar>
                     <p:submenu label="Navegação">
+                        <p:menuitem value="Alunos" action="/admin/aluno.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Professores" action="/admin/professor.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Cadastro Histórico" action="/admin/cadastroDisciplina.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Histórico Aluno" action="/aluno/historico.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
                         <p:menuitem value="Monitorias" action="/aluno/monitoria?faces-redirect=true" icon="fa fa-fw fa-edit" />
                         <p:menuitem value="Cursos" action="/admin/curso?faces-redirect=true" icon="fa fa-fw fa-edit" />
                         <p:menuitem value="Componente Curricular" action="/admin/componenteCurricular.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />

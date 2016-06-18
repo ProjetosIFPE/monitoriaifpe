@@ -7,7 +7,6 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -41,6 +40,7 @@ public class CursoBean extends GenericBean<Curso> {
     public void removerCurso(Curso entidadeNegocio) throws NegocioException {
         try {
             cursoService.removerCurso(entidadeNegocio);
+            popularEntidades();
         } catch (NegocioException ex) {
             adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
         }

@@ -38,7 +38,7 @@
                         <p:outputLabel for="senha" value="Senha" />
                         <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
-                        <p:commandButton action="#{alunoBean.cadastrarAluno()}" value="Cadastrar" 
+                        <p:commandButton action="#{alunoBean.cadastrar()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
                 </p:fieldset>

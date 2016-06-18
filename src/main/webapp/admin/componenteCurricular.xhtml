@@ -18,24 +18,23 @@ and open the template in the editor.
                         <p:fieldset legend="Dados do Componente Curricular">
                             <h:panelGrid columns="3">
                                 <p:outputLabel for="descricao">Descrição</p:outputLabel>
-                                <p:inputText id="descricao" value="#{componenteCurricularBean.entidadeNegocio.descricao}"  required="true">
+                                <p:inputText id="descricao" value="#{componenteCurricularBean.entidadeNegocio.descricao}" validatorMessage="A descrição da disciplina deve iniciar com uma letra maiúscula, seguida de caracteres que não sejam dígitos" requiredMessage="A descrição é necessária"  required="true">
                                     <f:validateLength maximum="150"  />
-                                    <!--<f:validateRegex pattern="^[A-Z]{1}\\D+$" />-->
                                     <f:ajax event="blur" execute="descricao" render="messageDescricao" />
                                 </p:inputText>
                                 <p:message for="descricao" id="messageDescricao" />
                                 <p:outputLabel for="codigoComponenteCurricular">Código Componente Curricular</p:outputLabel>
-                                <p:inputText id="codigoComponenteCurricular" value="#{componenteCurricularBean.entidadeNegocio.codigoComponenteCurricular}" required="true">
+                                <p:inputText id="codigoComponenteCurricular" requiredMessage="O código do componente curricular é necessário" value="#{componenteCurricularBean.entidadeNegocio.codigoComponenteCurricular}" required="true">
                                     <f:ajax event="blur" execute="codigoComponenteCurricular" render="messageCodigoComponenteCurricular" />
                                 </p:inputText>                     
                                 <p:message for="codigoComponenteCurricular" id="messageCodigoComponenteCurricular" />
                                 <h:outputLabel for="curso">Curso</h:outputLabel>
-                                <p:selectOneMenu id="curso" value="#{componenteCurricularBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
+                                <p:selectOneMenu id="curso" value="#{componenteCurricularBean.entidadeNegocio.curso}" required="true" requiredMessage="O curso do componente curricular é necessário" converter="entidadeNegocioConverter">
                                     <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}" />
                                 </p:selectOneMenu>
                                 <p:message for="curso" id="messageCurso" />
                             </h:panelGrid>
-                            <p:commandButton action="#{componenteCurricularBean.gravar()}" value="Cadastrar" 
+                            <p:commandButton action="#{componenteCurricularBean.cadastrar()}" value="Cadastrar" 
                                              update="@form :painelComponentesCurriculares" process="@form"/>
                         </p:fieldset>
                     </h:form>
@@ -99,8 +98,4 @@ and open the template in the editor.
             </p:tabView>
         </ui:define>
     </ui:composition>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> ebe548ca6a8d919a097fefad196ca72f4802b6d3

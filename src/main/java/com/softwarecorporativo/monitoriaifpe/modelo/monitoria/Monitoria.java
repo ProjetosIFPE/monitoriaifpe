@@ -3,6 +3,7 @@ package com.softwarecorporativo.monitoriaifpe.modelo.monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.validation.ValidaMonitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "MONITORIA_ID"))})
 @Access(AccessType.FIELD)
-//@ValidaMonitoria
+@ValidaMonitoria
 public class Monitoria extends EntidadeNegocio {
 
     private static final long serialVersionUID = -4572493586452867519L;
@@ -48,7 +49,7 @@ public class Monitoria extends EntidadeNegocio {
     @JoinColumn(name = "ALUNO_ID", referencedColumnName = "ALUNO_ID")
     private Aluno aluno;
 
-    @OneToMany(mappedBy = "monitoria", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "monitoria", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> atividades;
 
     public int getAnoMonitoria() {

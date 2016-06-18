@@ -7,16 +7,22 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoAtividade;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoDisciplina;
+import java.io.Serializable;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 @ManagedBean
 @ApplicationScoped
-public class UtilBean {
+public class UtilBean implements Serializable {
+
+    private static final long serialVersionUID = -7393215500241022802L;
     
     public Modalidade[] getModalidades() {
 
@@ -25,5 +31,17 @@ public class UtilBean {
     
     public Grau[] getGraus() {
         return Grau.values();
+    }
+    
+    public Semestre[] getSemestres() {
+        return Semestre.values();
+    }
+    
+    public SituacaoDisciplina[] getSituacaoDisciplinas() {
+        return SituacaoDisciplina.values();
+    }
+    
+    public SituacaoAtividade[] getSituacaoAtividades() {
+        return SituacaoAtividade.values();
     }
 }

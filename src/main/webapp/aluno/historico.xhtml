@@ -18,7 +18,7 @@
                                             <p:panelGrid columns="1">
                                                 <p:outputLabel for="disciplina" value="Disciplina:" />
                                                 <p:selectOneMenu id="disciplina" value="#{boletimCurricularBean.entidadeNegocio.disciplina}" style="width:150px" converter="entidadeNegocioConverter">
-                                                    <f:selectItems value="#{boletimCurricularBean.disciplinas}" var="disciplina" itemLabel="#{disciplina.componenteCurricular.descricao} - #{disciplina.periodo} - #{disciplina.professor.nomeCompleto}" 
+                                                    <f:selectItems value="#{disciplinaBean.disciplinasPorCursoForaPeriodoAtual}" var="disciplina" itemLabel="#{disciplina.componenteCurricular.descricao} - #{disciplina.periodo} - #{disciplina.professor.nomeCompleto}" 
                                                                    itemValue="#{disciplina}"/>
                                                 </p:selectOneMenu>
                                                 <p:message for="disciplina" id="messageDisciplina" display="icon" />   
@@ -52,7 +52,7 @@
                     </p:tab>
                     <p:tab title="Boletins Cadastrados">
                         <h:form id="formTableBoletim">
-                            <p:dataTable id="tableBoletim" editable="true"  var="boletim" value="#{boletimCurricularBean.entidades}" emptyMessage="Nenhum boletim cadastrado">
+                            <p:dataTable id="tableBoletim" editable="true"  var="boletim" value="#{boletimCurricularBean.boletinsAluno}" emptyMessage="Nenhum boletim cadastrado">
                                 <f:facet name="header">Boletins Curriculares</f:facet>
 
                                 <p:ajax event="rowEdit" listener="#{boletimCurricularBean.alterarEntidadeCadastrada}" />

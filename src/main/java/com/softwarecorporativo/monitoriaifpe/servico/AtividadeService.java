@@ -49,7 +49,7 @@ public class AtividadeService extends GenericService<Atividade> {
 
     public byte[] obterRelatorioFrequencia(Monitoria monitoria, Integer mes) {
         List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, 6);
-        List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
+        List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, 6);
         try {
             return RelatorioUtil.gerarRelatorioPDF(dadosRelatorio, null, RELATORIO_JASPER_ATIVIDADE);
         } catch (JRException ex) {

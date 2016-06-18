@@ -17,7 +17,6 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
@@ -61,10 +60,9 @@ public class CalendarListener {
         if (atividadeBean.isAtividadeCadastrada()) {
             atividadeBean.alterar();
             atualizarEventoCalendario();
-
         } else {
-            this.adicionarEventoCalendario();
             atividadeBean.cadastrar();
+            this.adicionarEventoCalendario();
         }
         atividadeBean.inicializarEntidadeNegocio();
         evento = new DefaultScheduleEvent();

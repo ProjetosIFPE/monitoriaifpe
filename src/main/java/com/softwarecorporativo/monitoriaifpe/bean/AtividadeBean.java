@@ -58,18 +58,13 @@ public class AtividadeBean extends GenericBean<Atividade> {
         setService(atividadeService);
     }
 
-    @Override
-    protected void inicializar() {
-        super.inicializar();
-
-    }
 
     public List<Atividade> getAtividadeMonitoria() {
         return atividadeService.consultarAtividadesDaMonitoria(monitoria);
     }
 
     @Override
-    public void cadastrar() throws NegocioException {
+    public void cadastrar(){
         entidadeNegocio.setMonitoria(monitoria);
         super.cadastrar();
     }

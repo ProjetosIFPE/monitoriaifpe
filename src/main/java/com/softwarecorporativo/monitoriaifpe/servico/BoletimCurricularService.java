@@ -34,6 +34,7 @@ public class BoletimCurricularService extends GenericService<BoletimCurricular>{
         return BoletimCurricular.class;
     }
     
+    @Deprecated
     public List<BoletimCurricular> obterBoletinsCurricularesDoAluno(Aluno aluno) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select boletim from ");
