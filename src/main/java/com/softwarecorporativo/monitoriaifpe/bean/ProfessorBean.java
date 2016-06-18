@@ -32,6 +32,6 @@ public class ProfessorBean extends GenericBean<Professor> {
 
     public String cadastrarProfessor() {
         super.gravar();
-        return "login?faces-redirect=true";
+        return "/publico/login?faces-redirect=true";
     }
 }

@@ -31,9 +31,10 @@ and open the template in the editor.
             <h:form>
                 <p:fieldset legend="Calendário de Atividades"> 
 
-                    <p:schedule timeZone="America/Sao_Paulo" draggable="false" resizable="false" id="calendario" value="#{atividadeBean.calendarioAtividades}"  axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
-                        <p:ajax event="dateSelect"  listener="#{atividadeBean.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
-                        <p:ajax event="eventSelect" listener="#{atividadeBean.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+                    <p:schedule timeZone="America/Sao_Paulo"  draggable="false" resizable="false" id="calendario" value="#{calendarListener.calendario}"  axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
+
+                        <p:ajax event="dateSelect"  rendered="#{userSettings.usuarioAluno}" listener="#{calendarListener.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+                        <p:ajax event="eventSelect" rendered="#{userSettings.usuarioAluno}" listener="#{calendarListener.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                     </p:schedule>
                     <p:dialog widgetVar="dialogAtividade" header="Detalhes da Atividade" showEffect="clip" hideEffect="clip">
                         <h:panelGrid id="detalhesAtividade" columns="2">
@@ -50,9 +51,9 @@ and open the template in the editor.
                             <p:outputLabel for="observacoes">Observações</p:outputLabel>
                             <p:inputText id="observacoes" value="#{atividadeBean.entidadeNegocio.observacoes}"/>
 
-                            <p:commandLink styleClass="ui-icon ui-icon-trash" style="float: left;" action="#{atividadeBean.removerAtividade()}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
+                            <p:commandLink styleClass="ui-icon ui-icon-trash" style="float: left;" action="#{calendarListener.removerEventoCalendario()}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
 
-                            <p:commandButton value="Salvar" actionListener="#{atividadeBean.adicionarAtividade}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
+                            <p:commandButton value="Salvar" actionListener="#{calendarListener.adicionarAtividade}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
 
                         </h:panelGrid>
                     </p:dialog>  

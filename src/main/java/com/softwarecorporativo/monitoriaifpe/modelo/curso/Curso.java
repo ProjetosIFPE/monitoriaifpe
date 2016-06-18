@@ -3,6 +3,7 @@ package com.softwarecorporativo.monitoriaifpe.modelo.curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Access;
@@ -12,9 +13,12 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
@@ -31,12 +35,12 @@ public class Curso extends EntidadeNegocio {
     @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.curso.descricao}")
     @Column(name = "CURSO_DS", nullable = false)
     private String descricao;
-/*
+
     @NotNull
     @Column(name = "GRAU", nullable = false)
     @Enumerated(EnumType.STRING)
     private Grau grau;
-*/
+
     @NotBlank
     @Pattern(regexp = "^[A-Z][0-9]$", message = "{com.softwarecorporativo.monitoriaifpe.curso.codigoCurso}")
     @Column(name = "CODIGO_CURSO", nullable = false, unique = true)
@@ -108,7 +112,7 @@ public class Curso extends EntidadeNegocio {
     public void setCodigoCampus(String codigoCampus) {
         this.codigoCampus = codigoCampus;
     }
-/*
+
     public Grau getGrau() {
         return grau;
     }
@@ -116,5 +120,5 @@ public class Curso extends EntidadeNegocio {
     public void setGrau(Grau grau) {
         this.grau = grau;
     }
-    */
+   
 }

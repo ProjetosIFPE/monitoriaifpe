@@ -36,7 +36,11 @@ and open the template in the editor.
                                             <f:validateRegex for="codigoCurso" pattern="^[A-Z][0-9]$"  />
                                             <f:ajax event="blur" execute="codigoCurso" render="messageCodigoCurso" />
                                         </p:inputText>
-                                        <p:message for="codigoCurso" id="messageCodigoCurso" />
+                                        <p:message for="grauCurso" id="messageCodigoCurso" />
+                                        <p:selectOneMenu value="#{monitoriaBean.entidadeNegocio.grau}">
+                                            <f:selectItems value="#{utilBean.graus}" var="modalidade"  />
+                                        </p:selectOneMenu>
+                                        <p:message for="grauCurso" id="messageGrauCurso" />
                                     </h:panelGrid>
                                     <p:commandButton action="#{cursoBean.gravar()}" value="Cadastrar" 
                                                      update=":formularioCurso" process="@form"/>
@@ -48,7 +52,7 @@ and open the template in the editor.
                         <h:form id="formTabelaCurso">
                             <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
                                 <f:facet name="header">Cursos</f:facet>
-                                
+
                                 <p:ajax event="rowEdit" listener="#{cursoBean.alterarEntidadeCadastrada}" />
 
                                 <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{curso.descricao}" sortBy="#{curso.descricao}">
@@ -79,6 +83,17 @@ and open the template in the editor.
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputText id="codigoCampus" value="#{curso.codigoCampus}"  required="true" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                
+                                <p:column headerText="Grau do Curso" >
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{curso.grau}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText  value="#{curso.grau}"  required="true" />
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>

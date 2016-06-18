@@ -5,21 +5,21 @@
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <ui:insert name="metadata"/>
-    
+
     <h:head><title>Sistema Monitoria</title></h:head>
-    
+
     <h:body>
         <div id="cabecalho">
             <p:growl showDetail="true" globalOnly="true" id="messages" autoUpdate="true" />
 
-            <h:panelGrid columns="3">
+            <h:panelGrid>
                 <f:facet name="header">
                     <h:graphicImage library="img" name="icon.jpg" />
                     <p:outputPanel>Sistema de Monitoria IFPE</p:outputPanel>
-                </f:facet>       
-                <h:form>
+                </f:facet>  
+                <h:form style="position: absolute; right: 10px;" rendered="#{usuarioLogado != null}" >
                     <p:themeSwitcher id="basic" value="#{userSettings.tema}">
                         <f:selectItem itemLabel="Escolha o Tema"/>
                         <f:selectItems value="${userSettings.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />

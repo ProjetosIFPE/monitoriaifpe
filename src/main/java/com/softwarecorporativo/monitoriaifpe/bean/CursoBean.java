@@ -29,9 +29,6 @@ public class CursoBean extends GenericBean<Curso> {
         super.setEntidadeNegocio(cursoService.getEntidadeNegocio());
     }
 
-    public Grau[] getModalidades() {
-        return Grau.values();
-    }
 
     @Override
     void inicializarServico() {

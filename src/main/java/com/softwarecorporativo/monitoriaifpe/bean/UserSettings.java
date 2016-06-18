@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import javax.faces.bean.ManagedBean;
@@ -25,7 +26,15 @@ public class UserSettings {
         FacesContext context = FacesContext.getCurrentInstance();
         return (Usuario) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
     }
-    
+
+    public boolean isUsuarioAluno() {
+        Usuario usuario = this.getUsuario();
+        if (usuario instanceof Aluno) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
     public String getTema() {
         return tema;
     }

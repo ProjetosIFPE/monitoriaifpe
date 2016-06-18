@@ -27,10 +27,6 @@ public class AlunoBean extends GenericBean<Aluno> {
     @EJB
     private AlunoService alunoService;
     
-    @EJB
-    private CursoService cursoService;
-
-    
     @Override
     void inicializarEntidadeNegocio() {
         setEntidadeNegocio(alunoService.getEntidadeNegocio());
@@ -41,13 +37,9 @@ public class AlunoBean extends GenericBean<Aluno> {
         setService(alunoService);
     }
     
-    public List<Curso> listarCursos(){
-        return cursoService.listarTodos();
-    } 
-    
     public String cadastrarAluno() {
         super.gravar();
-        return "login?faces-redirect=true";
+        return "/publico/login?faces-redirect=true";
     }
     
     

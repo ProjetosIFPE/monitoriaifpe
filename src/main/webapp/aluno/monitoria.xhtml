@@ -22,7 +22,7 @@ and open the template in the editor.
                                 </p:selectOneMenu>
                                 <p:outputLabel>Modalidades</p:outputLabel>
                                 <p:selectOneMenu value="#{monitoriaBean.entidadeNegocio.modalidade}">
-                                    <f:selectItems value="#{monitoriaBean.modalidades}" var="modalidade"  />
+                                    <f:selectItems value="#{utilBean.modalidades}" var="modalidade"  />
                                 </p:selectOneMenu>
                             </h:panelGrid>
                             <p:commandButton action="#{monitoriaBean.gravar()}" value="Cadastrar Monitoria" update=":painelMonitoria" process="@form" />

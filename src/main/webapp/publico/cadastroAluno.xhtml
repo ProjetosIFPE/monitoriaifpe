@@ -32,7 +32,7 @@
                         <p:message for="matricula" id="messageMatricula" />
                         <p:outputLabel for="curso" value="Curso" />
                         <p:selectOneMenu id="curso"  value="#{alunoBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
-                            <f:selectItems value="#{alunoBean.listarCursos()}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
+                            <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
                         </p:selectOneMenu>
                         <p:message for="curso" id="messageCurso" />
                         <p:outputLabel for="senha" value="Senha" />

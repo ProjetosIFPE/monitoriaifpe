@@ -8,12 +8,10 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.servico.LoginService;
-import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.NoResultException;
 
 /**
  *
@@ -23,7 +21,6 @@ import javax.persistence.NoResultException;
 @ViewScoped
 public class LoginBean extends GenericBean<Usuario> {
 
-    
     private static final long serialVersionUID = -93031811969557575L;
 
     @EJB
@@ -39,16 +36,17 @@ public class LoginBean extends GenericBean<Usuario> {
             }
         } catch (NegocioException e) {
             super.adicionarMensagemView(e.getMessage());
-            return "login?faces-redirect=true";
+            return "/publico/login?faces-redirect=true";
         }
 
-        return "admin?faces-redirect=true";
+        return "/usuario/principal?faces-redirect=true";
     }
 
     public String efetuarLogout() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getSessionMap().remove("usuarioLogado");
-        return "login?faces-redirect=true";
+        context.getExternalContext().invalidateSession();
+        return "/publico/login?faces-redirect=true";
     }
 
     @Override

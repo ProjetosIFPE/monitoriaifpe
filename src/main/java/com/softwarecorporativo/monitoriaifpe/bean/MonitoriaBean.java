@@ -56,10 +56,6 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
         super.inicializar();
     }
 
-    public Modalidade[] getModalidades() {
-
-        return Modalidade.values();
-    }
 
     @Override
     void inicializarServico() {

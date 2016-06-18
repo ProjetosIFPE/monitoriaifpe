@@ -12,20 +12,14 @@ import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
 
 import java.util.Date;
-import java.util.HashMap;
 
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.event.SelectEvent;
-import org.primefaces.model.DefaultScheduleEvent;
-import org.primefaces.model.ScheduleEvent;
 
 import org.primefaces.model.ByteArrayContent;
-import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.StreamedContent;
 
 /**
@@ -37,15 +31,7 @@ import org.primefaces.model.StreamedContent;
 public class AtividadeBean extends GenericBean<Atividade> {
 
     private static final long serialVersionUID = -3272784032346171935L;
-
-    private ScheduleModel calendarioAtividades = new DefaultScheduleModel();
-
-    private ScheduleEvent evento = new DefaultScheduleEvent();
-
-    private HashMap<ScheduleEvent, Atividade> mapaAtividades = new HashMap<>();
-
-    private StreamedContent relatorio;
-
+    
     @EJB
     private AtividadeService atividadeService;
 
@@ -65,7 +51,6 @@ public class AtividadeBean extends GenericBean<Atividade> {
         if (monitoriaId != null) {
             monitoria = monitoriaService.buscarEntidade(monitoriaId);
         }
-        inicializarCalendarioAtividades();
     }
 
     @Override
@@ -76,90 +61,41 @@ public class AtividadeBean extends GenericBean<Atividade> {
     @Override
     protected void inicializar() {
         super.inicializar();
-        
+
     }
 
-    private void inicializarCalendarioAtividades() {
-        List<Atividade> atividades = atividadeService.consultarAtividadesDaMonitoria(monitoria);
-        this.adicionarAtividadesNoCalendario(atividades);
+    public List<Atividade> getAtividadeMonitoria() {
+        return atividadeService.consultarAtividadesDaMonitoria(monitoria);
     }
 
-    private void adicionarAtividadesNoCalendario(List<Atividade> atividades) {
-        for (Atividade atividade : atividades) {
-            ScheduleEvent evento = new DefaultScheduleEvent(
-                    atividade.getDescricao(), atividade.getDataInicio(), atividade.getDataFim());
-            calendarioAtividades.addEvent(evento);
-            mapaAtividades.put(evento, atividade);
-        }
-    }
-
-    public void adicionarAtividade() throws NegocioException {
-
+    @Override
+    public void cadastrar() throws NegocioException {
         entidadeNegocio.setMonitoria(monitoria);
+        super.cadastrar();
+    }
 
-        if (entidadeNegocio.getChavePrimaria() == null) {
-            this.adicionarEventoCalendario();
-            super.cadastrar();
-        } else {
-            super.alterar();
-            atualizarEventoCalendario();
+    public Boolean isAtividadeCadastrada() {
+        Boolean isCadastrada = Boolean.TRUE;
+        if ( entidadeNegocio.getChavePrimaria() == null ) {
+            isCadastrada = Boolean.FALSE;
         }
-        inicializarEntidadeNegocio();
-        evento = new DefaultScheduleEvent();
+        return isCadastrada;
     }
-
-    public void adicionarEventoCalendario() {
-        ScheduleEvent novoEvento = new DefaultScheduleEvent(entidadeNegocio.getDescricao(),
-                entidadeNegocio.getDataInicio(), entidadeNegocio.getDataFim());
-        calendarioAtividades.addEvent(novoEvento);
-        mapaAtividades.put(novoEvento, entidadeNegocio);
-
+    
+    public void alterarDataInicioFimAtividade(Date data) {
+        entidadeNegocio.setDataInicio(data);
+        entidadeNegocio.setDataFim(data);
     }
-
-    public void atualizarEventoCalendario() {
-        DefaultScheduleEvent eventoAtualizado = (DefaultScheduleEvent) evento;
-        eventoAtualizado.setTitle(entidadeNegocio.getDescricao());
-        eventoAtualizado.setStartDate(entidadeNegocio.getDataInicio());
-        eventoAtualizado.setEndDate(entidadeNegocio.getDataFim());
-        calendarioAtividades.updateEvent(eventoAtualizado);
+    
+    @Override
+    public void alterar() {
+        entidadeNegocio.setMonitoria(monitoria);
+        super.alterar();
     }
 
     public void removerAtividade() throws NegocioException {
         super.remover(entidadeNegocio);
-        this.removerEventoCalendario();
         inicializarEntidadeNegocio();
-    }
-
-    public void removerEventoCalendario() {
-        calendarioAtividades.deleteEvent(evento);
-    }
-
-    public void selecionarData(SelectEvent selectEvent) {
-        inicializarEntidadeNegocio();
-        Date dataSelecionada = (Date) selectEvent.getObject();
-        entidadeNegocio.setDataInicio(dataSelecionada);
-        entidadeNegocio.setDataFim(dataSelecionada);
-    }
-
-    public void selecionarEvento(SelectEvent selectEvent) {
-        evento = (ScheduleEvent) selectEvent.getObject();
-        entidadeNegocio = mapaAtividades.get(evento);
-    }
-
-    public ScheduleModel getCalendarioAtividades() {
-        return calendarioAtividades;
-    }
-
-    public void setCalendarioAtividades(ScheduleModel calendarioAtividades) {
-        this.calendarioAtividades = calendarioAtividades;
-    }
-
-    public ScheduleEvent getAtividade() {
-        return evento;
-    }
-
-    public void setAtividade(ScheduleEvent atividade) {
-        this.evento = atividade;
     }
 
     public Monitoria getMonitoria() {
@@ -183,5 +119,4 @@ public class AtividadeBean extends GenericBean<Atividade> {
         this.monitoriaId = monitoriaId;
     }
 
-    
 }

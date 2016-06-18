@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
-         
+            <p:outputPanel>Bem-vindo #{userSettings.usuario.nomeCompleto}</p:outputPanel>
         </ui:define>
     </ui:composition>
 </html>
