@@ -7,6 +7,20 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="../_template.xhtml" >        
         <ui:define name="conteudo">
+<<<<<<< HEAD
+            <h:form id="cadastroDisciplinas">
+                <p:fieldset legend="Dados da Disciplina">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="componenteCurricular" value="Componente Curricular: " />
+                        <p:selectOneMenu id="componenteCurricular" value="#{disciplinaBean.entidadeNegocio.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
+                            <f:selectItem itemLabel="Selecionar Componente Curricular" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{disciplinaBean.listarComponentesCurriculares()}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:commandButton value="Cadastrar"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria(componente)}" icon="ui-icon-check" />
+                </p:fieldset>
+            </h:form>
+=======
             <p:tabView id="painelDisciplinas">
                 <p:tab title="Cadastro de Disciplina">
                     <h:form id="cadastroDisciplinas">
@@ -45,6 +59,7 @@
                     </h:form>
                 </p:tab>
             </p:tabView>
+>>>>>>> ebe548ca6a8d919a097fefad196ca72f4802b6d3
         </ui:define>
 
     </ui:composition>

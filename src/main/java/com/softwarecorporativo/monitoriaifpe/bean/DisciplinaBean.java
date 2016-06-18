@@ -5,11 +5,16 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
+import com.softwarecorporativo.monitoriaifpe.servico.PeriodoService;
+import com.softwarecorporativo.monitoriaifpe.servico.ProfessorService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -35,9 +40,20 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     @EJB
     private ComponenteCurricularService componenteCurrService;
 
+    @EJB
+    private PeriodoService periodoService;
+
+    @EJB
+    private ProfessorService professorService;
+    
+    private Periodo periodo;
+
     @Override
     void inicializarEntidadeNegocio() {
 
+        entidadeNegocio = disciplinaService.getEntidadeNegocio();
+        periodo = periodoService.getEntidadeNegocio();
+        entidadeNegocio.setPeriodo(periodo);
         super.setEntidadeNegocio(disciplinaService.getEntidadeNegocio());
     }
 
@@ -54,11 +70,36 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     public List<ComponenteCurricular> listarComponentesCurriculares() {
         return this.componenteCurrService.listarTodos();
     }
+    
+    public List<Professor> listarTodosProfessores() {
+        return this.professorService.listarTodos();
+    }
+
+    public Semestre[] getSemestres() {
+        return Semestre.values();
+    }
+
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
 
     public void ofertarDisciplinaParaMonitoria() {
         Professor professor = (Professor) userSettings.getUsuario();
         professor.addDisciplina(entidadeNegocio);
-        disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
+        try {
+            disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
+        } catch (NegocioException e) {
+            System.err.println("MESSANGEM: " + e.getMessage());
+        }
+    }
+
+    public void cadastrarDisciplina() {
+        entidadeNegocio.setPeriodo(periodo);
+        super.gravar();
     }
 
     public List<Disciplina> getDisciplinasProfessor() {
@@ -73,5 +114,6 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     public void setUserSettings(UserSettings userSettings) {
         this.userSettings = userSettings;
     }
+
 
 }

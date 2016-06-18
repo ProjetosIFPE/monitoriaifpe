@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
@@ -42,10 +43,18 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return Disciplina.class;
     }
 
-    public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina disciplina) {
+    public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina disciplina) throws NegocioException {
+        Long contadorDisciplinasCadastraNoSemestreAtual = 0L;
         Periodo periodo = periodoService.obterPeriodoAtual();
         disciplina.setPeriodo(periodo);
-        return super.salvar(disciplina);
+        String consulta = "SELECT COUNT(p) FROM " + "Disciplina d WHERE d.periodo = " + periodo + "AND" + "d.componenteCurricular = " + disciplina.getComponenteCurricular();
+        Query query = entityManager.createQuery(consulta);
+        contadorDisciplinasCadastraNoSemestreAtual += (Long) query.getSingleResult();
+        if (contadorDisciplinasCadastraNoSemestreAtual > 0L) {
+            throw new NegocioException(NegocioException.DISCIPLINA_JA_CADASTRADA);
+        } else {
+            return super.salvar(disciplina);
+        }
     }
 
     public List<Disciplina> obterDisciplinasDoCursoPorPeriodo(Curso curso, Periodo periodo) {

@@ -5,12 +5,15 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 /**
  *
  * @author Edmilson Santana
@@ -35,8 +38,13 @@ public class CursoBean extends GenericBean<Curso> {
         setService(cursoService);
     }
 
-    
+    public void removerCurso(Curso entidadeNegocio) throws NegocioException {
+        try {
+            cursoService.removerCurso(entidadeNegocio);
+        } catch (NegocioException ex) {
+            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+        }
 
-
+    }
 
 }
