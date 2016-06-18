@@ -12,38 +12,64 @@
                     <p:tab title="Cadastrar Disciplina">
                         <h:form id="cadastroDisciplina">
                             <p:fieldset legend="Dados do Disciplina">
-                                <p:wizard flowListener="#{boletimCurricularBean.fluxoDeCadastro}">
-                                    <p:tab title="Disciplina">
-                                        <p:panel header="Dados da Disciplina">
-                                            <p:panelGrid columns="3">
-                                                <p:outputLabel for="componenteCurricular" value="Componente Curricular:" />
-                                                <p:selectOneMenu id="componenteCurricular" value="#{boletimCurricularBean.disciplina.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
-                                                    <f:selectItems value="#{boletimCurricularBean.listarTodosComponentesCurriculares()}" var="componenteCurricular" itemLabel="#{componenteCurricular.descricao}" itemValue="#{componenteCurricular}"/>
-                                                </p:selectOneMenu>
-                                                <p:message for="componenteCurricular" id="messageDisciplina" display="icon" />   
+                                <p:tab title="Disciplina">
+                                    <p:panel header="Dados da Disciplina">
+                                        <p:panelGrid columns="3">
+                                            <p:outputLabel for="componenteCurricular" value="Componente Curricular:" />
+                                            <p:selectOneMenu id="componenteCurricular" value="#{disciplinaBean.entidadeNegocio.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
+                                                <f:selectItems value="#{disciplinaBean.listarComponentesCurriculares()}" var="componenteCurricular" itemLabel="#{componenteCurricular.descricao}" itemValue="#{componenteCurricular}"/>
+                                            </p:selectOneMenu>
+                                            <p:message for="componenteCurricular" id="messageComponenteCurricular" display="icon" />   
 
-                                                <p:outputLabel for="professor" value=" Professor:" />            
-                                                <p:selectOneMenu id="professor" value="#{boletimCurricularBean.disciplina.professor}" style="width:150px" converter="entidadeNegocioConverter">
-                                                    <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
-                                                    <f:selectItems value="#{boletimCurricularBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
-                                                </p:selectOneMenu>
-                                                <p:message for="professor" id="messageProfessor" display="icon"/>
-
-
-                                                <p:outputLabel for="ano" value="Ano:" />                       
-                                                <p:inputMask id="ano" mask="9999" value="#{boletimCurricularBean.periodo.ano}" />
-                                                <h:message for="ano" id="messageAno" />
-
-                                                <p:outputLabel for="semestre" value="Semestre:" />                       
-                                                <p:selectOneMenu id="semestre" value="#{boletimCurricularBean.periodo.semestre}" style="width:150px">
-                                                    <f:selectItems value="#{boletimCurricularBean.semestres}" />
-                                                </p:selectOneMenu>
-                                                <h:message for="semestre" id="messageSemestre" />
-                                            </p:panelGrid>
-                                        </p:panel>
-                                    </p:tab>
+                                            <p:outputLabel for="professor" value=" Professor:" />            
+                                            <p:selectOneMenu id="professor" value="#{disciplinaBean.entidadeNegocio.professor}" style="width:150px" converter="entidadeNegocioConverter">
+                                                <f:selectItem itemLabel="Select Professor" itemValue="" noSelectionOption="true" />
+                                                <f:selectItems value="#{disciplinaBean.listarTodosProfessores()}" var="professor" itemLabel="#{professor.nome}" itemValue="#{professor}"/>
+                                            </p:selectOneMenu>
+                                            <p:message for="professor" id="messageProfessor" display="icon"/>
 
 
-                                    </ui:define>
-                                    </ui:composition>
-                                    </html>
+                                            <p:outputLabel for="ano" value="Ano:" />                       
+                                            <p:inputMask id="ano" mask="9999" value="#{disciplinaBean.periodo.ano}" />
+                                            <h:message for="ano" id="messageAno" />
+
+                                            <p:outputLabel for="semestre" value="Semestre:" />                       
+                                            <p:selectOneMenu id="semestre" value="#{disciplinaBean.periodo.semestre}" style="width:150px">
+                                                <f:selectItems value="#{disciplinaBean.semestres}" />
+                                            </p:selectOneMenu>
+                                            <h:message for="semestre" id="messageSemestre" />
+                                        </p:panelGrid>
+                                    </p:panel>
+                                </p:tab>
+                                <p:commandButton action="#{disciplinaBean.cadastrarDisciplina()}" value="Cadastrar" update=":formCadastroDisciplina" process="@form"/>
+                            </p:fieldset>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Disciplinas Cadastradas">
+                        <h:form id="formTableDisciplina">
+                            <p:dataTable id="tableDisciplina" editable="true"  var="disciplina" value="#{disciplinaBean.entidades}" emptyMessage="Nenhuma disciplina cadastrada">
+                                <f:facet name="header">Disciplinas</f:facet>
+
+                                <!--<p:ajax event="rowEdit" listener="#{boletimCurricularBean.alterarEntidadeCadastrada}" />-->
+
+                                <p:column headerText="Componente Curricular">
+                                    <h:outputText value="#{disciplina.componenteCurricular.descricao}" />
+                                </p:column>
+                                <p:column headerText="Professor">
+                                    <h:outputText value="#{disciplina.professor.nome}" />
+                                </p:column>
+                                <p:column headerText="Ano">
+                                    <h:outputText value="#{disciplina.periodo.ano}" />
+                                </p:column>
+                                <p:column headerText="Semestre">
+                                    <h:outputText value="#{disciplina.periodo.semestre}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>

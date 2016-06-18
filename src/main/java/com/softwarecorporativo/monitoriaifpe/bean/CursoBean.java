@@ -10,6 +10,7 @@ import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -44,7 +45,7 @@ public class CursoBean extends GenericBean<Curso> {
         try {
             cursoService.removerCurso(entidadeNegocio);
         } catch (NegocioException ex) {
-            ex.getMessage();
+            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
         }
 
     }

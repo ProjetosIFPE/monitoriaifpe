@@ -47,21 +47,27 @@ public class BoletimCurricularBean extends GenericBean<BoletimCurricular> {
 
     @EJB
     private PeriodoService periodoService;
-
-    private Periodo periodo;
+    
 
     private Disciplina disciplina;
-
+    private Periodo periodo;
+    private Professor professor;
+    private ComponenteCurricular componenteCurri;
+    
     @Override
     void inicializarEntidadeNegocio() {
-      
+
         entidadeNegocio = boletimCurricularService.getEntidadeNegocio();
-        disciplina = disciplinaService.getEntidadeNegocio();
-        periodo = periodoService.getEntidadeNegocio();
-       
-        disciplina.setPeriodo(periodo);
-        entidadeNegocio.setDisciplina(disciplina);
-      
+//        disciplina = disciplinaService.getEntidadeNegocio();
+//        periodo = periodoService.getEntidadeNegocio();
+//        professor = professorService.getEntidadeNegocio();
+//        componenteCurri = componenteCurriculoService.getEntidadeNegocio();
+//        
+//        disciplina.setPeriodo(periodo);
+//        disciplina.setProfessor(professor);
+//        disciplina.setComponenteCurricular(componenteCurri);
+//        entidadeNegocio.setDisciplina(disciplina);
+
         setEntidadeNegocio(boletimCurricularService.getEntidadeNegocio());
     }
 
@@ -81,7 +87,7 @@ public class BoletimCurricularBean extends GenericBean<BoletimCurricular> {
     public List<Disciplina> getDisciplinas() {
         return disciplinaService.listarTodos();
     }
-    
+
     public Semestre[] getSemestres() {
         return Semestre.values();
     }
@@ -90,11 +96,10 @@ public class BoletimCurricularBean extends GenericBean<BoletimCurricular> {
 
         FacesContext context = FacesContext.getCurrentInstance();
         Aluno aluno = (Aluno) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
-        disciplina.setPeriodo(periodo);
-        entidadeNegocio.setDisciplina(disciplina);
+        
         entidadeNegocio.setAluno(aluno);
         super.gravar();
-//        inicializarEntidadeNegocio();
+        
     }
 
     public BoletimCurricularService getBoletimCurricularService() {
@@ -117,14 +122,6 @@ public class BoletimCurricularBean extends GenericBean<BoletimCurricular> {
         return event.getNewStep();
     }
 
-    public Periodo getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Periodo periodo) {
-        this.periodo = periodo;
-    }
-
     public Disciplina getDisciplina() {
         return disciplina;
     }
@@ -133,7 +130,4 @@ public class BoletimCurricularBean extends GenericBean<BoletimCurricular> {
         this.disciplina = disciplina;
     }
 
-    public void testar() {
-        System.out.println("Testando");
-    }
 }
