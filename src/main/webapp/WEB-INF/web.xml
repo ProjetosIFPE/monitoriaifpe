@@ -1,18 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>accessRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/publico/login.xhtml</form-login-page>
+            <form-error-page>/publico/login.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-constraint>
+        <display-name>Pg Administrativas</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Admin Area</web-resource-name>
+            <description>Protected Admin Area</description>
+            <url-pattern>/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>            
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>administrador</role-name>
+        </auth-constraint>     
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>   
+    </security-constraint>
+    <security-constraint>
+        <display-name>Pg Usuarios</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Usuario Area</web-resource-name>
+            <description>Protected Usuario Area</description>
+            <url-pattern>/usuario/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>            
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>usuario</role-name>
+        </auth-constraint>  
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>              
+    </security-constraint>  
+     
+    <security-constraint>
+        <display-name>Pg Publicas</display-name>
+        <web-resource-collection>
+            <web-resource-name>Public Area</web-resource-name>
+            <description>Public Area</description>
+            <url-pattern>/publico/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>            
+        </web-resource-collection> 
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>   
+    </security-constraint>
+    
+    <security-constraint>
+        <display-name>Pg Professores</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Professor Area</web-resource-name>
+            <description>Protected Professor Area</description>
+            <url-pattern>/professor/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+    </security-constraint>
+    
+    <security-constraint>
+        <display-name>Pg Alunos</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Aluno Area</web-resource-name>
+            <description>Protected Aluno Area</description>
+            <url-pattern>/aluno/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+    </security-constraint>
+    
     <session-config>
         <session-timeout>
-            30
+            20
         </session-timeout>
     </session-config>
     
-    <welcome-file-list>
-        <welcome-file>publico/login.xhtml</welcome-file>
-    </welcome-file-list>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/publico/erro.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/publico/nao_autorizado.xhtml</location>
+    </error-page>    
+    <error-page>
+        <error-code>404</error-code>
+        <location>/publico/pagina_inexistente.xhtml</location>
+    </error-page>      
+    <error-page>
+        <exception-type>javax.ejb.EJBAccessException</exception-type>
+        <location>/publico/erro.xhtml</location>
+    </error-page> 
     
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -23,6 +141,7 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+      
     
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>
@@ -35,11 +154,19 @@
     </context-param>
     
     <context-param>
-    <param-name>
-        javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE
-    </param-name>
-    <param-value>
-        true
-    </param-value>
-</context-param>
+        <param-name>
+            javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE
+        </param-name>
+        <param-value>
+            true
+        </param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LcAeyMTAAAAAKaUf3yV10Ey8P6mhimX4oBA-o2q</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LcAeyMTAAAAAP-hKVWAyV2JochXfp2qaVctbvoP</param-value>
+    </context-param>
 </web-app>

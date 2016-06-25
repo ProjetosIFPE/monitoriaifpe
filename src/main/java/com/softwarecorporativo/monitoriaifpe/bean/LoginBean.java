@@ -8,10 +8,16 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.servico.LoginService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,25 +34,34 @@ public class LoginBean extends GenericBean<Usuario> {
 
     public String efetuarLogin() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(Boolean.TRUE);
+        HttpServletRequest request = (HttpServletRequest) context
+                .getExternalContext().getRequest();
+
         try {
-            Usuario usuario = loginService.buscarUsuarioPorLogin(entidadeNegocio.getLogin());
-            if (usuario.getSenha().equals(entidadeNegocio.getSenha())) {
-                context.getExternalContext().getSessionMap().put("usuarioLogado", usuario);
-            }
-        } catch (NegocioException e) {
-            super.adicionarMensagemView(e.getMessage());
-            return "/publico/login?faces-redirect=true";
+            request.login(entidadeNegocio.getLogin(), entidadeNegocio.getSenha());
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+            session.setAttribute("usuarioLogado", entidadeNegocio);
+            inicializarEntidadeNegocio();
+        } catch (ServletException ex) {
+            ex.printStackTrace();
+            inicializarEntidadeNegocio();
+            super.adicionarMensagemView("Senha ou usuário inválidos!",
+                    FacesMessage.SEVERITY_WARN);
+            return "falha";
         }
 
-        return "/usuario/principal?faces-redirect=true";
+        return "sucesso";
     }
 
-    public String efetuarLogout() {
+    public String efetuarLogout() throws ServletException {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getSessionMap().remove("usuarioLogado");
-        context.getExternalContext().invalidateSession();
-        return "/publico/login?faces-redirect=true";
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        request.logout();
+        return "sair";
     }
 
     @Override

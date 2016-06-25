@@ -9,9 +9,6 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition template="../_template.xhtml" >
-        <ui:define name="titulo">
-            <p:outputPanel>Login</p:outputPanel>
-        </ui:define>
         <ui:define name="conteudo">
             <h:form id="login">
                 <p:fieldset legend="Login">
@@ -23,6 +20,9 @@ and open the template in the editor.
                         <p:password feedback="true" id="senha" value="#{loginBean.entidadeNegocio.senha}" weakLabel="Fraca"
                                     goodLabel="Bom" strongLabel="Forte" promptLabel="Digite a sua senha" required="true"/>
                         <p:message for="senha" id="messageSenha" />
+                        <p:outputLabel for="senha">Captcha</p:outputLabel>
+                        <p:captcha label="Captcha" id="captcha" />
+                        <p:message for="captcha" id="messageCaptcha" />
                         <p:commandButton action="#{loginBean.efetuarLogin()}" value="Login" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
