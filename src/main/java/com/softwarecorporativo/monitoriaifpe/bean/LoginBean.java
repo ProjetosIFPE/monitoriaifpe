@@ -5,11 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
-import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
-import com.softwarecorporativo.monitoriaifpe.servico.LoginService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -25,12 +21,11 @@ import javax.servlet.http.HttpSession;
  */
 @ManagedBean
 @ViewScoped
-public class LoginBean extends GenericBean<Usuario> {
+public class LoginBean {
 
     private static final long serialVersionUID = -93031811969557575L;
 
-    @EJB
-    private LoginService loginService;
+    private Usuario usuario = new Usuario();
 
     public String efetuarLogin() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -38,18 +33,16 @@ public class LoginBean extends GenericBean<Usuario> {
                 .getExternalContext().getRequest();
 
         try {
-            request.login(entidadeNegocio.getLogin(), entidadeNegocio.getSenha());
+            request.login(usuario.getLogin(), usuario.getSenha());
             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-            session.setAttribute("usuarioLogado", entidadeNegocio);
-            inicializarEntidadeNegocio();
+            session.setAttribute("usuarioLogado", usuario);
+
         } catch (ServletException ex) {
             ex.printStackTrace();
-            inicializarEntidadeNegocio();
-            super.adicionarMensagemView("Senha ou usuário inválidos!",
-                    FacesMessage.SEVERITY_WARN);
+
             return "falha";
         }
-
+        usuario = new Usuario();
         return "sucesso";
     }
 
@@ -64,14 +57,12 @@ public class LoginBean extends GenericBean<Usuario> {
         return "sair";
     }
 
-    @Override
-    void inicializarEntidadeNegocio() {
-        setEntidadeNegocio(loginService.getEntidadeNegocio());
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    @Override
-    void inicializarServico() {
-        setService(loginService);
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }

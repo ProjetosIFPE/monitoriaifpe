@@ -6,6 +6,7 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
+import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -30,8 +32,8 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         return entityManager.find(getClasseEntidade(), chavePrimaria);
     }
 
-    public T salvar(T entidadeNegocio){
-      
+    public T salvar(T entidadeNegocio) {
+
         this.entityManager.persist(entidadeNegocio);
         return entidadeNegocio;
     }
@@ -46,8 +48,8 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         return query.getResultList();
     }
 
-    public void remover(T entidadeNegocio){
-       
+    public void remover(T entidadeNegocio) {
+
         entidadeNegocio = this.entityManager.find(this.getClasseEntidade(), entidadeNegocio.getChavePrimaria());
         this.entityManager.remove(entidadeNegocio);
     }
@@ -56,9 +58,9 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         this.entityManager.merge(entidadeNegocio);
     }
 
+
     public abstract T getEntidadeNegocio();
 
     public abstract Class<T> getClasseEntidade();
-    
-    
+
 }

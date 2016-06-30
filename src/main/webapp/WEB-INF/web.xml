@@ -13,6 +13,11 @@
             <form-error-page>/publico/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
+    
+    <welcome-file-list>
+        <welcome-file>publico/login.xhtml</welcome-file>
+    </welcome-file-list>
+    
     <security-constraint>
         <display-name>Pg Administrativas</display-name>
         <web-resource-collection>
@@ -91,6 +96,13 @@
             <http-method>TRACE</http-method>
             <http-method>DELETE</http-method>
         </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>professor</role-name>
+        </auth-constraint>  
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint> 
     </security-constraint>
     
     <security-constraint>
@@ -107,6 +119,13 @@
             <http-method>TRACE</http-method>
             <http-method>DELETE</http-method>
         </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>aluno</role-name>
+        </auth-constraint>  
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint> 
     </security-constraint>
     
     <session-config>
@@ -141,18 +160,18 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
-      
-    
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>
         <param-value>true</param-value>
     </context-param>
-    
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>#{userSettings.tema}</param-value>
     </context-param>
-    
     <context-param>
         <param-name>
             javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE

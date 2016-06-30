@@ -1,6 +1,9 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.usuario;
 
+import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
@@ -9,8 +12,12 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -25,6 +32,8 @@ import org.hibernate.validator.constraints.NotBlank;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))})
 @Access(AccessType.FIELD)
 public class Usuario extends EntidadeNegocio {
+
+    private static final long serialVersionUID = -2083194086477441520L;
 
     @NotBlank
     @Size(min = 1, max = 30)
@@ -56,6 +65,10 @@ public class Usuario extends EntidadeNegocio {
     @Email
     @Column(name = "USUARIO_EMAIL", length = 30, nullable = false)
     private String email;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "TB_USUARIO_GRUPO", joinColumns = @JoinColumn(name = "USUARIO_ID"), inverseJoinColumns = @JoinColumn(name = "GRUPO_ID"))
+    private List<Grupo> grupos;
 
     public String getLogin() {
 
@@ -107,5 +120,12 @@ public class Usuario extends EntidadeNegocio {
 
     public String getNomeCompleto() {
         return String.format("%s %s", nome, sobrenome);
+    }
+
+    public void adicionarGrupo(Grupo grupo) {
+        if (grupos == null) {
+            this.grupos = new ArrayList<>();
+        }
+        grupos.add(grupo);
     }
 }

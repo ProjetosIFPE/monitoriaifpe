@@ -5,7 +5,7 @@
         <description/>
         <property name="mail.smtp.auth" value="true"/>
         <property name="mail.smtp.password" value="sistemamonitoria@@"/>
-    </mail-resource>
+    </mail-resource>    
     <jdbc-resource enabled="true" jndi-name="jdbc/Monitoria" object-type="user" pool-name="monitoriaPool">
         <description/>
     </jdbc-resource>

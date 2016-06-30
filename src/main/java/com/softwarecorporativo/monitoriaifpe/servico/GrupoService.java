@@ -6,41 +6,36 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.ejb.EJB;
+import javax.persistence.TypedQuery;
 
 /**
  *
- * @author Douglas Albuqerque
+ * @author Edmilson Santana
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AlunoService extends GenericService<Aluno> {
-
-    @EJB
-    private GrupoService grupoService;
+public class GrupoService extends GenericService<Grupo> {
 
     @Override
-    public Aluno salvar(Aluno entidadeNegocio) {
-        entidadeNegocio.adicionarGrupo(grupoService.obterGrupo(Grupo.USUARIO));
-        entidadeNegocio.adicionarGrupo(grupoService.obterGrupo(Grupo.ALUNO));
-        return super.salvar(entidadeNegocio);
+    public Grupo getEntidadeNegocio() {
+        return new Grupo();
     }
 
     @Override
-    public Class<Aluno> getClasseEntidade() {
-        return Aluno.class;
+    public Class<Grupo> getClasseEntidade() {
+        return Grupo.class;
     }
 
-    @Override
-    public Aluno getEntidadeNegocio() {
-        return new Aluno();
+    public Grupo obterGrupo(String nomeGrupo) {
+        TypedQuery<Grupo> query = super.entityManager.createNamedQuery(Grupo.GRUPO_POR_NOME, getClasseEntidade());
+        query.setParameter(1, nomeGrupo);
+        return query.getSingleResult();
     }
 
 }

@@ -5,7 +5,10 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
+import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -17,6 +20,16 @@ import javax.ejb.TransactionManagementType;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ProfessorService extends GenericService<Professor>
 {
+    @EJB
+    private GrupoService grupoService;
+    
+    @Override
+    public Professor salvar(Professor entidadeNegocio) {
+        entidadeNegocio.adicionarGrupo(grupoService.obterGrupo(Grupo.USUARIO));
+        entidadeNegocio.adicionarGrupo(grupoService.obterGrupo(Grupo.PROFESSOR));
+        return super.salvar(entidadeNegocio);
+    }
+
 
     @Override
     public Professor getEntidadeNegocio() {
