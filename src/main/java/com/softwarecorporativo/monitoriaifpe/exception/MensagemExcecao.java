@@ -8,7 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.exception;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.LeitorPropriedades;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.PropriedadesUtil;
 
 /**
  *
@@ -17,7 +17,7 @@ import com.softwarecorporativo.monitoriaifpe.modelo.util.LeitorPropriedades;
 public class MensagemExcecao {
 
     protected Throwable excecao;
-    protected static LeitorPropriedades leitor = new LeitorPropriedades(new String[]{"ExceptionsMessage.properties"});
+    protected static PropriedadesUtil leitor = new PropriedadesUtil(new String[]{"ExceptionsMessage.properties"});
 
     public MensagemExcecao(Throwable excecao) {
         this.excecao = excecao;

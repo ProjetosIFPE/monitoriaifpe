@@ -5,8 +5,6 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
-import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
@@ -15,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 /**
  *

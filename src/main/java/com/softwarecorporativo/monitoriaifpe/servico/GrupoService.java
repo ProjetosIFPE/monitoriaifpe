@@ -33,7 +33,8 @@ public class GrupoService extends GenericService<Grupo> {
     }
 
     public Grupo obterGrupo(String nomeGrupo) {
-        TypedQuery<Grupo> query = super.entityManager.createNamedQuery(Grupo.GRUPO_POR_NOME, getClasseEntidade());
+        TypedQuery<Grupo> query = super.entityManager
+                .createNamedQuery(Grupo.GRUPO_POR_NOME, getClasseEntidade());
         query.setParameter(1, nomeGrupo);
         return query.getSingleResult();
     }

@@ -6,26 +6,37 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import com.softwarecorporativo.monitoriaifpe.servico.UsuarioService;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
  * @author Edmilson Santana
  */
 @ManagedBean
-@ViewScoped
-public class LoginBean {
+@RequestScoped
+public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = -93031811969557575L;
 
-    private Usuario usuario = new Usuario();
+    @EJB(lookup = "java:global/monitoriaifpe/AlunoService")
+    private UsuarioService usuarioService;
+
+    @NotBlank
+    private String login;
+    @NotBlank
+    private String senha;
 
     public String efetuarLogin() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -33,16 +44,15 @@ public class LoginBean {
                 .getExternalContext().getRequest();
 
         try {
-            request.login(usuario.getLogin(), usuario.getSenha());
+            request.login(login, senha);
             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+            Usuario usuario = usuarioService.getUsuarioPorLogin(login);
             session.setAttribute("usuarioLogado", usuario);
-
         } catch (ServletException ex) {
-            ex.printStackTrace();
-
+            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            context.addMessage(null, new FacesMessage("Usuário não encontrado!"));
             return "falha";
         }
-        usuario = new Usuario();
         return "sucesso";
     }
 
@@ -57,12 +67,22 @@ public class LoginBean {
         return "sair";
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setLogin(String login) {
+        this.login = login;
     }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    
+    
 
 }

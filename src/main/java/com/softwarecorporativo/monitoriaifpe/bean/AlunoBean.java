@@ -6,12 +6,7 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.servico.AlunoService;
-import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
-import java.util.List;
-import javafx.beans.property.Property;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;

@@ -15,7 +15,7 @@
     </login-config>
     
     <welcome-file-list>
-        <welcome-file>publico/login.xhtml</welcome-file>
+        <welcome-file>usuario/principal.xhtml</welcome-file>
     </welcome-file-list>
     
     <security-constraint>

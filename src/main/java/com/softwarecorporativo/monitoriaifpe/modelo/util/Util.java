@@ -1,12 +1,10 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.util;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class Util {
@@ -46,13 +44,14 @@ public class Util {
         periodo.setAno(anoAtual);
 
         return periodo;
+    }
 
-    }
-    
     public static String obterNomeMes(int mes) {
-    	String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    	                  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-    	return meses[mes - 1];
+        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+        return meses[mes - 1];
     }
+
+ 
 
 }

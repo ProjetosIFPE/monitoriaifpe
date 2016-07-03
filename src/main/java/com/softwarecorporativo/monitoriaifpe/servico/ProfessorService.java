@@ -8,6 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
+import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -18,27 +19,36 @@ import javax.ejb.TransactionManagementType;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class ProfessorService extends GenericService<Professor>
-{
+public class ProfessorService extends UsuarioService<Professor> {
+
     @EJB
     private GrupoService grupoService;
-    
+
+    @EJB
+    private SecurityAccessService securityAccessService;
+
     @Override
     public Professor salvar(Professor entidadeNegocio) {
-        entidadeNegocio.adicionarGrupo(grupoService.obterGrupo(Grupo.USUARIO));
-        entidadeNegocio.adicionarGrupo(grupoService.obterGrupo(Grupo.PROFESSOR));
+        adicionarGruposUsuario(entidadeNegocio);
+        String sal = entidadeNegocio.gerarSal();
+        String usuario = entidadeNegocio.getLogin();
+        securityAccessService.salvarPropriedadesAcesso(sal, usuario);
         return super.salvar(entidadeNegocio);
     }
 
+    public void adicionarGruposUsuario(Usuario usuario) {
+        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.USUARIO));
+        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.PROFESSOR));
+    }
 
     @Override
     public Professor getEntidadeNegocio() {
-       return new Professor();
+        return new Professor();
     }
 
     @Override
     public Class<Professor> getClasseEntidade() {
-       return Professor.class;
+        return Professor.class;
     }
-    
+
 }

@@ -2,7 +2,12 @@ package com.softwarecorporativo.monitoriaifpe.modelo.usuario;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -18,7 +23,10 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -31,9 +39,11 @@ import org.hibernate.validator.constraints.NotBlank;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))})
 @Access(AccessType.FIELD)
+@NamedQuery(name = Usuario.USUARIO_POR_LOGIN, query = "select u from Usuario as u where u.login = ?1")
 public class Usuario extends EntidadeNegocio {
 
     private static final long serialVersionUID = -2083194086477441520L;
+    public static final String USUARIO_POR_LOGIN = "usuarioPorLogin";
 
     @NotBlank
     @Size(min = 1, max = 30)
@@ -53,10 +63,9 @@ public class Usuario extends EntidadeNegocio {
     @Column(name = "USUARIO_LOGIN", nullable = false)
     private String login;
 
-    /* Adicionar caracteres especiais */
+    /* Validar com pattern */
     @NotBlank
-    @Size(min = 6, max = 18)
-    @Pattern(regexp = "^[A-Za-z0-9_-]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.senha}")
+    @Size(max = 45)
     @Column(name = "USUARIO_SENHA", nullable = false)
     private String senha;
 
@@ -69,6 +78,34 @@ public class Usuario extends EntidadeNegocio {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_USUARIO_GRUPO", joinColumns = @JoinColumn(name = "USUARIO_ID"), inverseJoinColumns = @JoinColumn(name = "GRUPO_ID"))
     private List<Grupo> grupos;
+
+    @Transient
+    private String sal;
+
+    @PrePersist
+    public void gerarHash() {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            setSenha(sal + senha);
+            digest.update(senha.getBytes(Charset.forName("UTF-8")));
+            setSenha(Base64.getEncoder().encodeToString(digest.digest()));
+        } catch (NoSuchAlgorithmException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public String gerarSal() {
+        SecureRandom secureRandom;
+        try {
+            secureRandom = SecureRandom.getInstance("SHA1PRNG");
+            byte[] randomBytes = new byte[32];
+            secureRandom.nextBytes(randomBytes);
+            setSal(Base64.getEncoder().encodeToString(randomBytes));
+            return this.sal;
+        } catch (NoSuchAlgorithmException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
     public String getLogin() {
 
@@ -127,5 +164,9 @@ public class Usuario extends EntidadeNegocio {
             this.grupos = new ArrayList<>();
         }
         grupos.add(grupo);
+    }
+
+    private void setSal(String sal) {
+        this.sal = sal;
     }
 }

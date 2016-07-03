@@ -31,7 +31,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "TB_GRUPO")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "GRUPO_ID"))})
 @Access(AccessType.FIELD)
 @NamedQuery(name = Grupo.GRUPO_POR_NOME, query = "select g from Grupo as g where g.nome = ?1")
 public class Grupo extends EntidadeNegocio {
@@ -49,7 +49,6 @@ public class Grupo extends EntidadeNegocio {
     private String nome;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_USUARIO_GRUPO", joinColumns = @JoinColumn(name = "GRUPO_ID"), inverseJoinColumns = @JoinColumn(name = "USUARIO_ID"))
     private List<Usuario> usuarios;
 
     public void adicionaUsuario(Usuario usuario) {
