@@ -40,7 +40,7 @@ public class CursoService extends GenericService<Curso> {
     
     public void removerCurso(Curso entidadeNegocio) throws NegocioException {
       
-        if (entidadeNegocio.isInativo() == Boolean.FALSE) {
+        if (!entidadeNegocio.isInativo()) {
             throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
         } else {
             super.remover(entidadeNegocio);

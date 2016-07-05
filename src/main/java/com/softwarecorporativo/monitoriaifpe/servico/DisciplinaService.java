@@ -108,7 +108,7 @@ public class DisciplinaService extends GenericService<Disciplina> {
         entidadeNegocio.setPeriodo(periodo);
         return super.salvar(entidadeNegocio);
     }
-
+    /*TODO: Refatorar para a entidade de Professor*/
     public List<Disciplina> obterDisciplinasDoProfessor(Professor professor) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select d from ");
