@@ -5,7 +5,6 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import javax.persistence.TypedQuery;
 
@@ -18,11 +17,21 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
 
     public Usuario getUsuarioPorLogin(String login) {
         TypedQuery<T> query = super.entityManager
-                .createNamedQuery(T.USUARIO_POR_LOGIN, getClasseEntidade());
+                .createNamedQuery(T.USUARIO_POR_LOGIN, this.getClasseEntidade());
         query.setParameter(1, login);
         return query.getSingleResult();
     }
 
+    @Override
+    public Class<T> getClasseEntidade() {
+        return (Class<T>) Usuario.class;
+    }
+    
+    
+
+    
+
+    
     
     
     

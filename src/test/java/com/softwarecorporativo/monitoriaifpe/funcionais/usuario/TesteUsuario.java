@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.usuario;
+package com.softwarecorporativo.monitoriaifpe.funcionais.usuario;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
-import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
+import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
