@@ -16,6 +16,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
@@ -36,6 +37,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(name = "TB_USUARIO")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "PAPEL_USUARIO", discriminatorType = DiscriminatorType.STRING, length = 1)
+@DiscriminatorValue(value = "U")
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))})
 @Access(AccessType.FIELD)

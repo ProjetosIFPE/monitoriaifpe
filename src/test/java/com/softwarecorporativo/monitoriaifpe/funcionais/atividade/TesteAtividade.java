@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.atividade;
+package com.softwarecorporativo.monitoriaifpe.funcionais.atividade;
 
-import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
+import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;

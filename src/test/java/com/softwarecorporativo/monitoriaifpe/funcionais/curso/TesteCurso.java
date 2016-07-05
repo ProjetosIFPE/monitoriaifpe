@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.curso;
+package com.softwarecorporativo.monitoriaifpe.funcionais.curso;
 
-import com.softwarecorporativo.monitoriaifpe.MonitoriaTestCase;
+import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import java.util.Set;
