@@ -121,4 +121,12 @@ public class Curso extends EntidadeNegocio {
         this.grau = grau;
     }
    
+    @Override
+    public boolean isInativo(){
+        if(this.alunos.isEmpty() && 
+                this.componentesCurriculares.isEmpty() == false){
+            return Boolean.TRUE;
+        }
+       return Boolean.FALSE;
+    }
 }

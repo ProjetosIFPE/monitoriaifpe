@@ -71,5 +71,9 @@ public abstract class EntidadeNegocio implements Serializable {
         }
         return true;
     }
+    
+    public boolean isInativo() {
+        return false;
+    }
 
 }
