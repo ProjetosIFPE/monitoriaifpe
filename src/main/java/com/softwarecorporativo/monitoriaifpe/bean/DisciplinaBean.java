@@ -41,7 +41,7 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
 
     @EJB
     private PeriodoService periodoService;
-    
+
     private Periodo periodo;
 
     @Override
@@ -68,7 +68,9 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         this.periodo = periodo;
     }
 
-    /**  TODO: Utilizar tratamento de exceção da classe generica **/
+    /**
+     * TODO: Utilizar tratamento de exceção da classe generica *
+     */
     public void ofertarDisciplinaParaMonitoria() {
         Professor professor = (Professor) userSettings.getUsuario();
         professor.addDisciplina(entidadeNegocio);
@@ -89,14 +91,20 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
 
     public void cadastrarDisciplina() {
         entidadeNegocio.setPeriodo(periodo);
-        super.cadastrar();
+
+        if (!disciplinaService.vericarSeDisciplinaJaExiste(entidadeNegocio)) {
+            adicionarMensagemView("Disciplina já cadastrada para este periodo",
+                    FacesMessage.SEVERITY_WARN);
+        } else {
+            super.cadastrar();
+        }
     }
 
     public List<Disciplina> getDisciplinasProfessor() {
         Professor professor = (Professor) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasDoProfessor(professor);
     }
-    
+
     public List<Disciplina> getDisciplinasPorCursoForaPeriodoAtual() {
         Aluno aluno = (Aluno) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasPorCursoDePeriodoNaoAtual(aluno.getCurso());
@@ -109,6 +117,5 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
     public void setUserSettings(UserSettings userSettings) {
         this.userSettings = userSettings;
     }
-
 
 }

@@ -31,6 +31,7 @@ and open the template in the editor.
                 </p:tab>
                 <p:tab title="Monitorias Cadastradas">
                     <p:fieldset legend="Monitorias">
+                        <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                         <p:dataList id="listaMonitorias" value="#{monitoriaBean.entidades}" var="monitoria" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
                             <f:facet name="header">
                                 Monitorias

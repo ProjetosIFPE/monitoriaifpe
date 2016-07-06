@@ -48,13 +48,13 @@ and open the template in the editor.
                         </h:form>
                     </p:tab>
                     <p:tab title="Cursos Cadastrados" id="painelCursosCadastrados">
-                      
                         <h:form id="formTabelaCurso">
+                            <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                             <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
                                 <f:facet name="header">Cursos</f:facet>
 
                                 <p:ajax event="rowEdit" listener="#{cursoBean.alterarEntidadeCadastrada}" update="messageEdicao" />
-                                 <p:messages id="messageEdicao" />
+                                <p:messages id="messageEdicao" />
                                 <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{curso.descricao}" sortBy="#{curso.descricao}">
                                     <p:cellEditor>
                                         <f:facet name="output">

@@ -14,7 +14,7 @@
   </security-role-mapping>
   <security-role-mapping>
     <role-name>aluno</role-name>
-    <group-name>professor</group-name>
+    <group-name>aluno</group-name>
   </security-role-mapping>
   <security-role-mapping>
     <role-name>professor</role-name>

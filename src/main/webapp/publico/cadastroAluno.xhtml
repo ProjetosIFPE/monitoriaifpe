@@ -8,6 +8,7 @@
     <ui:composition template="../_template.xhtml" >        
         <ui:define name="conteudo">
             <h:form id="cadastroAluno">
+                <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                 <p:fieldset legend="Dados do Aluno">
                     <h:panelGrid columns="3">
                         <p:outputLabel for="nome" value="Nome"></p:outputLabel>

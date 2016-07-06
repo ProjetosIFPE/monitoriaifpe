@@ -108,6 +108,7 @@ public class DisciplinaService extends GenericService<Disciplina> {
         entidadeNegocio.setPeriodo(periodo);
         return super.salvar(entidadeNegocio);
     }
+
     /*TODO: Refatorar para a entidade de Professor*/
     public List<Disciplina> obterDisciplinasDoProfessor(Professor professor) {
         StringBuilder jpql = new StringBuilder();
@@ -120,4 +121,25 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return query.getResultList();
     }
 
+    /*TODO: Pensar em um nome melhor*/
+    public boolean vericarSeDisciplinaJaExiste(Disciplina disciplina) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("SELECT d FROM ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" AS d ");
+        jpql.append(" WHERE d.periodo.ano = :paramAno ");
+        jpql.append(" AND d.periodo.semestre = :paramSemestre ");
+        Query query = super.entityManager.createQuery(jpql.toString(),
+                getClasseEntidade());
+        query.setParameter("paramAno", disciplina.getPeriodo().getAno());
+        query.setParameter("paramSemestre", 
+                disciplina.getPeriodo().getSemestre());
+
+        if (query.getMaxResults() > 0) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+
+    }
 }
