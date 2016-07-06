@@ -5,15 +5,17 @@
  */
 package com.softwarecorporativo.monitoriaifpe.selenium;
 
+import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -33,10 +35,9 @@ public class TesteCurso {
 
     @Before
     public void inicializar() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\EdmilsonS\\Desktop\\chromedriver.exe");
-        driver = new ChromeDriver();
-        //driver = new FirefoxDriver();
-
+        //System.setProperty("webdriver.chrome.driver", "C:\\Users\\EdmilsonS\\Desktop\\chromedriver.exe");
+        //driver = new ChromeDriver();
+        driver = new FirefoxDriver();
     }
 
     @Ignore
@@ -149,7 +150,7 @@ public class TesteCurso {
                 By.xpath("(//button[@id='formularioCurso:j_idt38:formTabelaCurso:tabelaCurso:0:j_idt71'])[2]"));
 
         confirmarRemover.click();
-        
+
         abaCursosCadastrados = driver.findElement(
                 By.linkText("Cursos Cadastrados"));
         abaCursosCadastrados.click();
@@ -159,4 +160,33 @@ public class TesteCurso {
         assertFalse(cursoCadastrado);
     }
 
+    @Test
+    public void testeMensagemDeErroCodCampus() {
+
+        driver.get(urlBase + urlCurso);
+
+        String descricaoCurso = "TADS";
+        String codigoCampus = "Rc";
+        String codigoCurso = "Y6";
+        String grauCurso = "TECNICO";
+
+        WebElement txtDescricao = driver.findElement(
+                By.id("formularioCurso:j_idt38:formCadastroCurso:descricao"));
+        WebElement txtCodigoCampus = driver.findElement(
+                By.id("formularioCurso:j_idt38:formCadastroCurso:codigoCampus"));
+        WebElement txtCodigoCurso = driver.findElement(
+                By.id("formularioCurso:j_idt38:formCadastroCurso:codigoCurso"));
+
+        txtDescricao.sendKeys(descricaoCurso);
+        txtCodigoCampus.sendKeys(codigoCampus);
+        txtCodigoCampus.sendKeys(Keys.TAB);
+//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        boolean achouNome = driver.getPageSource()
+                .contains("O código do campus deve possuir "
+                        + "apenas duas letras maiúsculas");
+
+        assertTrue(achouNome);
+
+        driver.close();
+    }
 }
