@@ -49,11 +49,11 @@ public class Disciplina extends EntidadeNegocio {
     @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
     private Periodo periodo;
 
-    
     public int obterAnoDaDisciplina() {
-        
+
         return getPeriodo().getAno();
     }
+
     public Professor getProfessor() {
 
         return this.professor;
@@ -64,7 +64,7 @@ public class Disciplina extends EntidadeNegocio {
         this.professor = professor;
 
     }
-    
+
     public Periodo getPeriodo() {
         return periodo;
     }
@@ -81,11 +81,15 @@ public class Disciplina extends EntidadeNegocio {
     public void setComponenteCurricular(ComponenteCurricular componenteCurricular) {
         this.componenteCurricular = componenteCurricular;
     }
-    
-   /** Recebe um Componente Curricular para verificar se a disciplina possui o mesmo
+
+    /**
+     * Recebe um Componente Curricular para verificar se a disciplina possui o
+     * mesmo
+     *
      * @param disciplina
      * @return 
-     **/
+     *
+     */
     public Boolean verificarIgualdadeComponenteCurricular(Disciplina disciplina) {
         return this.getComponenteCurricular().equals(disciplina.getComponenteCurricular());
     }

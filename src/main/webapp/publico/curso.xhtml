@@ -9,115 +9,108 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <ui:composition template="../_template.xhtml" >
-        <ui:define name="conteudo">
-            <h:form id="formularioCurso">
-                <p:tabView>
-                    <p:tab title="Cadastro de Cursos">
-                        <h:form id="formCadastroCurso">
-                            <p:fieldset legend="Dados do Curso">
-                                <h:panelGrid columns="3">
-                                    <p:outputLabel for="descricao">Descrição</p:outputLabel>
-                                    <p:inputText id="descricao" value="#{cursoBean.entidadeNegocio.descricao}" 
-                                                 validatorMessage="A descrição do curso deve iniciar com uma letra maiúscula seguido de caracteres que não sejam dígitos" requiredMessage="A descrição é obrigatória." required="true">
-                                        <f:validateLength maximum="100"  />
-                                        <f:ajax event="blur" execute="descricao" render="messageDescricao" />
-                                    </p:inputText>
-                                    <p:message for="descricao" id="messageDescricao" />
-                                    <p:outputLabel for="codigoCampus">Código Campus</p:outputLabel>
-                                    <p:inputText id="codigoCampus" value="#{cursoBean.entidadeNegocio.codigoCampus}" requiredMessage="O codigo do campus é obrigatório." validatorMessage="O código do campus deve possuir apenas duas letras maiúsculas"  required="true">
-                                        <f:validateRegex for="codigoCampus" pattern="^[A-Z]{2}$"  />
-                                        <f:ajax event="blur" execute="codigoCampus" render="messageCodigoCampus" />
-                                    </p:inputText>                     
-                                    <p:message for="codigoCampus" id="messageCodigoCampus" />
-                                    <p:outputLabel for="codigoCurso">Código Curso</p:outputLabel>
-                                    <p:inputText id="codigoCurso" requiredMessage="O código do curso é obrigatório." validatorMessage="O código do curso deve começar com uma letra maiúscula, seguida de um inteiro entre 0 e 9" value="#{cursoBean.entidadeNegocio.codigoCurso}" required="true">
-                                        <f:validateRegex for="codigoCurso" pattern="^[A-Z][0-9]$"  />
-                                        <f:ajax event="blur" execute="codigoCurso" render="messageCodigoCurso" />
-                                    </p:inputText>
-                                    <p:message for="codigoCurso" id="messageCodigoCurso" />
-                                    <p:outputLabel for="grauCurso">Grau do Curso</p:outputLabel>
-                                    <p:selectOneMenu required="true" requiredMessage="O grau do curso é obrigatório." id="grauCurso" value="#{cursoBean.entidadeNegocio.grau}">
+    <h:head><title>Sistema Monitoria</title></h:head>
+    <p:growl globalOnly="true"  id="messages" autoUpdate="true"  />
+    <h:form id="formularioCurso">
+        <p:tabView>
+            <p:tab title="Cadastro de Cursos">
+                <h:form id="formCadastroCurso">
+                    <p:fieldset legend="Dados do Curso">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel for="descricao">Descrição</p:outputLabel>
+                            <p:inputText id="descricao" value="#{cursoBean.entidadeNegocio.descricao}" 
+                                         validatorMessage="A descrição do curso deve iniciar com uma letra maiúscula seguido de caracteres que não sejam dígitos" requiredMessage="A descrição é obrigatória." required="true">
+                                <f:validateLength maximum="100"  />
+                                <f:ajax event="blur" execute="descricao" render="messageDescricao" />
+                            </p:inputText>
+                            <p:message for="descricao" id="messageDescricao" />
+                            <p:outputLabel for="codigoCampus">Código Campus</p:outputLabel>
+                            <p:inputText id="codigoCampus" value="#{cursoBean.entidadeNegocio.codigoCampus}" requiredMessage="O codigo do campus é obrigatório." validatorMessage="O código do campus deve possuir apenas duas letras maiúsculas"  required="true">
+                                <f:validateRegex for="codigoCampus" pattern="^[A-Z]{2}$"  />
+                                <f:ajax event="blur" execute="codigoCampus" render="messageCodigoCampus" />
+                            </p:inputText>                     
+                            <p:message for="codigoCampus" id="messageCodigoCampus" />
+                            <p:outputLabel for="codigoCurso">Código Curso</p:outputLabel>
+                            <p:inputText id="codigoCurso" requiredMessage="O código do curso é obrigatório." validatorMessage="O código do curso deve começar com uma letra maiúscula, seguida de um inteiro entre 0 e 9" value="#{cursoBean.entidadeNegocio.codigoCurso}" required="true">
+                                <f:validateRegex for="codigoCurso" pattern="^[A-Z][0-9]$"  />
+                                <f:ajax event="blur" execute="codigoCurso" render="messageCodigoCurso" />
+                            </p:inputText>
+                            <p:message for="codigoCurso" id="messageCodigoCurso" />
+                            <p:outputLabel for="grauCurso">Grau do Curso</p:outputLabel>
+                            <p:selectOneMenu required="true" requiredMessage="O grau do curso é obrigatório." id="grauCurso" value="#{cursoBean.entidadeNegocio.grau}">
+                                <f:selectItems value="#{utilBean.graus}" var="modalidade"  />
+                            </p:selectOneMenu>
+                            <p:message for="grauCurso" id="messageGrauCurso" />
+                        </h:panelGrid>
+                        <p:commandButton action="#{cursoBean.cadastrar()}" value="Cadastrar" 
+                                         update=":formularioCurso" process="@form"/>
+                    </p:fieldset>
+                </h:form>
+            </p:tab>
+            <p:tab title="Cursos Cadastrados" id="painelCursosCadastrados">
+
+                <h:form id="formTabelaCurso">
+                    <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
+                        <f:facet name="header">Cursos</f:facet>
+
+                        <p:ajax event="rowEdit"  listener="#{cursoBean.alterarEntidadeCadastrada}" update="@form:tabelaCurso :messages" />
+                        <p:messages id="messageEdicao" />
+                        <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{curso.descricao}" sortBy="#{curso.descricao}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{curso.descricao}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="descricao" value="#{curso.descricao}" 
+                                                 validatorMessage="Descrição é obrigatória e deve ter no máximo 100 caracteres."  required="true" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Código Curso" filterMatchMode="contains" sortBy="#{curso.codigoCurso}" filterBy="#{curso.codigoCurso}" >
+                            <p:cellEditor>
+                                <f:facet name="output">  
+                                    <h:outputText value="#{curso.codigoCurso}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="codigoCurso" value="#{curso.codigoCurso}" required="true" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Código Campus" filterMatchMode="contains" sortBy="#{curso.codigoCampus}" filterBy="#{curso.codigoCampus}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{curso.codigoCampus}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="codigoCampus" value="#{curso.codigoCampus}"  required="true" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Grau do Curso" >
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{curso.grau}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu required="true" requiredMessage="O grau do curso é obrigatório." id="grauCurso" value="#{curso.grau}">
                                         <f:selectItems value="#{utilBean.graus}" var="modalidade"  />
                                     </p:selectOneMenu>
-                                    <p:message for="grauCurso" id="messageGrauCurso" />
-                                </h:panelGrid>
-                                <p:commandButton action="#{cursoBean.cadastrar()}" value="Cadastrar" 
-                                                 update=":formularioCurso" process="@form"/>
-                            </p:fieldset>
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="Cursos Cadastrados" id="painelCursosCadastrados">
-                      
-                        <h:form id="formTabelaCurso">
-                            <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
-                                <f:facet name="header">Cursos</f:facet>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
 
-                                <p:ajax event="rowEdit" listener="#{cursoBean.alterarEntidadeCadastrada}" update="messageEdicao" />
-                                 <p:messages id="messageEdicao" />
-                                <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{curso.descricao}" sortBy="#{curso.descricao}">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{curso.descricao}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputText id="descricao" value="#{curso.descricao}" 
-                                                         validatorMessage="Descrição é obrigatória e deve ter no máximo 100 caracteres."  required="true" />
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Código Curso" filterMatchMode="contains" sortBy="#{curso.codigoCurso}" filterBy="#{curso.codigoCurso}" >
-                                    <p:cellEditor>
-                                        <f:facet name="output">  
-                                            <h:outputText value="#{curso.codigoCurso}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputText id="codigoCurso" value="#{curso.codigoCurso}" required="true" />
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Código Campus" filterMatchMode="contains" sortBy="#{curso.codigoCampus}" filterBy="#{curso.codigoCampus}">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{curso.codigoCampus}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputText id="codigoCampus" value="#{curso.codigoCampus}"  required="true" />
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
+                        <p:column>
+                            <p:rowEditor />
+                        </p:column>
 
-                                <p:column headerText="Grau do Curso" >
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{curso.grau}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:selectOneMenu required="true" requiredMessage="O grau do curso é obrigatório." id="grauCurso" value="#{curso.grau}">
-                                                <f:selectItems value="#{utilBean.graus}" var="modalidade"  />
-                                            </p:selectOneMenu>
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
+                        <p:column>
+                            <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{cursoBean.remover(curso)}" process="@this" update="formularioCurso" />
+                        </p:column> 
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </h:form>
 
-                                <p:column>
-                                    <p:rowEditor />
-                                </p:column>
-
-                                <p:column>
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{cursoBean.removerCurso(curso)}" process="@this" update="formularioCurso">
-                                        <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
-                                    </p:commandLink>
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                    </p:confirmDialog>
-                                </p:column> 
-                            </p:dataTable>
-                        </h:form>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
-        </ui:define>
-    </ui:composition>
 </html>

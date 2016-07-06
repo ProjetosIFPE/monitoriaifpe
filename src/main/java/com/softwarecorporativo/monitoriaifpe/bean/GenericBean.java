@@ -50,6 +50,10 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         this.adicionarMensagemView("Cadastro realizado com sucesso!", FacesMessage.SEVERITY_INFO);
     }
 
+    public void mensagemRemoverSucesso() {
+        this.adicionarMensagemView("Cadastro removido com sucesso!", FacesMessage.SEVERITY_INFO);
+    }
+
     public void adicionarMensagemView(String mensagem) {
         this.adicionarMensagemComponente(null, mensagem, null);
     }
@@ -72,8 +76,19 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
     }
 
     public void alterar() {
-        this.service.atualizar(entidadeNegocio);
-        mensagemAlteracaoSucesso();
+        try {
+            this.service.atualizar(entidadeNegocio);
+            mensagemAlteracaoSucesso();
+        } catch (NegocioException ex) {
+            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+        } catch (EJBException ejbe) {
+            if (ejbe.getCause() instanceof ConstraintViolationException) {
+                MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());
+                adicionarMensagemView(mensagemExcecao.getMensagem(), FacesMessage.SEVERITY_WARN);
+            } else {
+                throw ejbe;
+            }
+        }
     }
 
     public void cadastrar() {
@@ -82,6 +97,8 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
             mensagemCadastroSucesso();
             popularEntidades();
             inicializarEntidadeNegocio();
+        } catch (NegocioException ex) {
+            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
         } catch (EJBException ejbe) {
             if (ejbe.getCause() instanceof ConstraintViolationException) {
                 MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());
@@ -91,20 +108,6 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
             }
         }
 
-    }
-
-    public void gravar() {
-        if (this.entidadeNegocio.getChavePrimaria() != null) {
-            this.service.atualizar(entidadeNegocio);
-        } else {
-            this.service.salvar(entidadeNegocio);
-        }
-
-        mensagemCadastroSucesso();
-
-        popularEntidades();
-
-        inicializarEntidadeNegocio();
     }
 
     protected void popularEntidades() {
@@ -119,11 +122,15 @@ public abstract class GenericBean<T extends EntidadeNegocio> implements Serializ
         return entidades;
     }
 
-    public void remover(T entidadeNegocio) throws NegocioException {
+    public void remover(T entidadeNegocio) {
+        try {
+            this.service.remover(entidadeNegocio);
+            popularEntidades();
+            mensagemRemoverSucesso();
+        } catch (NegocioException ex) {
+            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+        }
 
-        this.service.remover(entidadeNegocio);
-
-        popularEntidades();
     }
 
     public GenericService<T> getService() {

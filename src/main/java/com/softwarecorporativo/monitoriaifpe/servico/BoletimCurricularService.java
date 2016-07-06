@@ -5,15 +5,13 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.boletim.BoletimCurricular;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -22,7 +20,7 @@ import javax.persistence.Query;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class BoletimCurricularService extends GenericService<BoletimCurricular>{
+public class BoletimCurricularService extends GenericService<BoletimCurricular> {
 
     @Override
     public BoletimCurricular getEntidadeNegocio() {
@@ -33,16 +31,20 @@ public class BoletimCurricularService extends GenericService<BoletimCurricular>{
     public Class<BoletimCurricular> getClasseEntidade() {
         return BoletimCurricular.class;
     }
-    
-    @Deprecated
-    public List<BoletimCurricular> obterBoletinsCurricularesDoAluno(Aluno aluno) {
+
+    @Override
+    public BoletimCurricular verificarExistencia(BoletimCurricular entidadeNegocio) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select boletim from ");
         jpql.append(getClasseEntidade().getSimpleName());
         jpql.append(" as boletim ");
-        jpql.append(" where aluno = :paramAluno ");
-        Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
-        return query.getResultList();
+        jpql.append(" where boletim.disciplina = ?1 ");
+        jpql.append(" and boletim.aluno = ?2 ");
+        TypedQuery<BoletimCurricular> query = super.entityManager
+                .createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter(1, entidadeNegocio.getDisciplina());
+        query.setParameter(2, entidadeNegocio.getAluno());
+        return query.getSingleResult();
     }
-    
+
 }

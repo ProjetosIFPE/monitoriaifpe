@@ -5,8 +5,8 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import javax.ejb.EJB;
@@ -28,12 +28,13 @@ public class ProfessorService extends UsuarioService<Professor> {
     private SecurityAccessService securityAccessService;
 
     @Override
-    public Professor salvar(Professor entidadeNegocio) {
+    public Professor salvar(Professor entidadeNegocio) throws NegocioException {
         adicionarGruposUsuario(entidadeNegocio);
         String sal = entidadeNegocio.gerarSal();
+        entidadeNegocio = super.salvar(entidadeNegocio);
         String usuario = entidadeNegocio.getLogin();
         securityAccessService.salvarPropriedadesAcesso(sal, usuario);
-        return super.salvar(entidadeNegocio);
+        return entidadeNegocio;
     }
 
     public void adicionarGruposUsuario(Usuario usuario) {

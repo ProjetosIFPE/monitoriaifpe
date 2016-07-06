@@ -50,7 +50,7 @@ and open the template in the editor.
                     <p:tab title="Cursos Cadastrados" id="painelCursosCadastrados">
                       
                         <h:form id="formTabelaCurso">
-                            <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Curso registrado">
+                            <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Não existem cursos cadastrados.">
                                 <f:facet name="header">Cursos</f:facet>
 
                                 <p:ajax event="rowEdit" listener="#{cursoBean.alterarEntidadeCadastrada}" update="messageEdicao" />
@@ -105,7 +105,7 @@ and open the template in the editor.
                                 </p:column>
 
                                 <p:column>
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{cursoBean.removerCurso(curso)}" process="@this" update="formularioCurso">
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{cursoBean.remover(curso)}" process="@this" update="formularioCurso">
                                         <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                     </p:commandLink>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

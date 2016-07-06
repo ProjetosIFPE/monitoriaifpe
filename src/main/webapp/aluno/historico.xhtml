@@ -52,7 +52,7 @@
                     </p:tab>
                     <p:tab title="Boletins Cadastrados">
                         <h:form id="formTableBoletim">
-                            <p:dataTable id="tableBoletim" editable="true"  var="boletim" value="#{boletimCurricularBean.boletinsAluno}" emptyMessage="Nenhum boletim cadastrado">
+                            <p:dataTable id="tableBoletim" editable="true"  var="boletim" value="#{boletimCurricularBean.boletinsAluno}" emptyMessage="Não existem boletins cadastrados.">
                                 <f:facet name="header">Boletins Curriculares</f:facet>
 
                                 <p:ajax event="rowEdit" listener="#{boletimCurricularBean.alterarEntidadeCadastrada}" />

@@ -12,7 +12,7 @@
 
     <h:body>
         <div id="cabecalho">
-            <p:growl showDetail="true" globalOnly="true" id="messages" autoUpdate="true" />
+            <p:growl showDetail="true"  globalOnly="true" id="messages" autoUpdate="true" />
 
             <h:panelGrid columns="2">
                 <f:facet name="header">
@@ -33,15 +33,15 @@
             <h:form rendered="#{usuarioLogado != null}">
                 <p:menubar>
                     <p:submenu label="Navegação">
-                        <p:menuitem value="Alunos" rendered="#{facesContext.externalContext.isUserInRole('administrador')}" action="/admin/aluno.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
-                        <p:menuitem value="Professores"  action="/admin/professor.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
-                        <p:menuitem value="Cadastro Histórico"  action="/admin/cadastroDisciplina.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
-                        <p:menuitem value="Histórico Aluno"  action="/aluno/historico.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />   
-                        <p:menuitem value="Monitorias"  action="/aluno/monitoria?faces-redirect=true" icon="fa fa-fw fa-edit" />
-                        <p:menuitem value="Cursos"  action="/admin/curso?faces-redirect=true" icon="fa fa-fw fa-edit" />
-                        <p:menuitem value="Componente Curricular"  action="/admin/componenteCurricular.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
-                        <p:menuitem value="Atividades"  action="/aluno/atividade.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
-                        <p:menuitem value="Disciplinas"  action="/professor/disciplina.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />           
+                        <p:menuitem value="Alunos" rendered="#{facesContext.externalContext.isUserInRole('administrador')}" action="/admin/aluno.xhtml" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Professores" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/professor.xhtml" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Cadastro Histórico" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/cadastroDisciplina.xhtml" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Histórico Aluno" rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  action="/aluno/historico.xhtml" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Monitorias" rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  action="/aluno/monitoria.xhtml" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Cursos" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/curso.xhtml" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Componente Curricular" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/componenteCurricular.xhtml" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Atividades" rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  action="/aluno/atividade.xhtml" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Disciplinas" rendered="#{facesContext.externalContext.isUserInRole('professor')}"   action="/professor/disciplina.xhtml" icon="fa fa-fw fa-edit" />           
                     </p:submenu>
                     <p:menuitem value="Logout" ajax="false" action="#{loginBean.efetuarLogout()}" icon="fa fa-fw fa-sign-out" />
                 </p:menubar>
@@ -51,8 +51,8 @@
             <h:form rendered="#{usuarioLogado == null}">
                 <p:menubar>
                     <p:submenu label="Cadastro">
-                        <p:menuitem value="Cadastro do Professor" action="/publico/cadastroProfessor.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
-                        <p:menuitem value="Cadastro do Aluno" action="/publico/cadastroAluno.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Cadastro do Professor" action="/publico/cadastroProfessor.xhtml" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Cadastro do Aluno" action="/publico/cadastroAluno.xhtml" icon="fa fa-fw fa-edit" />
                     </p:submenu>
                 </p:menubar>
             </h:form>

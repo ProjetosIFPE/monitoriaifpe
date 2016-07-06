@@ -23,6 +23,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import net.sf.jasperreports.engine.JRException;
 import org.apache.commons.lang.StringUtils;
 
@@ -80,7 +82,7 @@ public class AtividadeService extends GenericService<Atividade> {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
         SemanaDTO semana = new SemanaDTO();
-        
+
         int quantidadeAtividades = 0;
         for (Atividade atividade : atividades) {
 
@@ -118,10 +120,10 @@ public class AtividadeService extends GenericService<Atividade> {
         }
 
         relatorio.setSemanas(semanas);
-        
+
         List<RelatorioDTO> relatorios = new ArrayList<>();
         relatorios.add(relatorio);
-        
+
         return relatorios;
     }
 
@@ -146,6 +148,19 @@ public class AtividadeService extends GenericService<Atividade> {
         query.setParameter("paramMonitoria", monitoria);
         query.setParameter("paramMes", mes);
         return query.getResultList();
+    }
+
+    @Override
+    public Atividade verificarExistencia(Atividade entidadeNegocio) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("select a from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as a where a.monitoria = ?1 ");
+        jpql.append(" and a.dataInicio = ?2 ");
+        TypedQuery<Atividade> query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter(1, entidadeNegocio.getMonitoria());
+        query.setParameter(2, entidadeNegocio.getDataInicio(), TemporalType.DATE);
+        return query.getSingleResult();
     }
 
 }

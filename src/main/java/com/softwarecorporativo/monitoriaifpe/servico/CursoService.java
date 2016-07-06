@@ -12,12 +12,11 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -36,17 +35,29 @@ public class CursoService extends GenericService<Curso> {
         return Curso.class;
     }
 
-    
-    
-    public void removerCurso(Curso entidadeNegocio) throws NegocioException {
-      
-        if (entidadeNegocio.isInativo() == Boolean.FALSE) {
+    @Override
+    public void remover(Curso entidadeNegocio) throws NegocioException{
+        if (!entidadeNegocio.isInativo()) {
             throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
         } else {
             super.remover(entidadeNegocio);
         }
     }
 
-    
+    @Override
+    public Curso verificarExistencia(Curso entidadeNegocio) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select curso ");
+        jpql.append(" from ");
+        jpql.append(this.getClasseEntidade().getSimpleName());
+        jpql.append(" as curso ");
+        jpql.append(" where curso.descricao = ?1 or curso.codigoCurso = ?2  ");
+
+        TypedQuery<Curso> query = entityManager.createQuery(jpql.toString(),
+                getClasseEntidade());
+        query.setParameter(1, entidadeNegocio.getDescricao());
+        query.setParameter(2, entidadeNegocio.getCodigoCurso());
+        return query.getSingleResult();
+    }
 
 }

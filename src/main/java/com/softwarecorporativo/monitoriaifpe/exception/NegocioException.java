@@ -16,6 +16,7 @@ public class NegocioException extends Exception {
 
     private String chave; 
     private static final long serialVersionUID = -4032758349094923282L;
+    public static final String OBJETO_EXISTENTE = "excecao.NegocioException.objetoExistente";  
     public static final String CURSO_ASSOCIADO_A_USUARIO = "exception.NegocioException.cursoService.remover";
     public static final String DISCIPLINA_ASSOCIADA = "exception.NegocioException.disciplinaService.remover";
     public static final String LOGIN_NAO_ENCONTRADO = "exception.NegocioException.loginService.verificarCadastroDeUsuario";

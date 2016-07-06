@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
@@ -70,7 +71,7 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
 
     
 
-    public List<Disciplina> getDisciplinasOfertadasParaMonitoria() {
+    public List<Disciplina> getDisciplinasOfertadasParaMonitoria() throws NegocioException {
         Aluno aluno = (Aluno) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasPorCursoDoPeriodoAtual(aluno.getCurso());
     }

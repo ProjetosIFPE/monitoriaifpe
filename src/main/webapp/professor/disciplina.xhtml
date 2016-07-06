@@ -24,7 +24,7 @@
                 </p:tab>
                 <p:tab title="Disciplinas Cadastradas">
                     <h:form id="formTabelaDisciplina">
-                        <p:dataList id="listaDisciplinas" value="#{disciplinaBean.disciplinasProfessor}" var="disciplina" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+                        <p:dataList id="listaDisciplinas" value="#{disciplinaBean.disciplinasProfessor}" var="disciplina" type="unordered" itemType="none" paginator="true" rows="10" emptyMessage="Não existem disciplinas cadastradas." styleClass="paginated">
                             <f:facet name="header">
                                 Monitorias
                             </f:facet>

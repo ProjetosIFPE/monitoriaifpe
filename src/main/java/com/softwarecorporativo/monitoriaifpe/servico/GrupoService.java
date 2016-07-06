@@ -39,4 +39,19 @@ public class GrupoService extends GenericService<Grupo> {
         return query.getSingleResult();
     }
 
+    @Override
+    public Grupo verificarExistencia(Grupo entidadeNegocio) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select grupo ");
+        jpql.append(" from ");
+        jpql.append(this.getClasseEntidade().getSimpleName());
+        jpql.append(" as grupo ");
+        jpql.append(" where grupo.nome = ?1 ");
+
+        TypedQuery<Grupo> query = entityManager.createQuery(jpql.toString(),
+                getClasseEntidade());
+        query.setParameter(1, entidadeNegocio.getNome());
+        return query.getSingleResult();
+    }
+
 }

@@ -5,17 +5,16 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
 import java.util.Calendar;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -61,9 +60,9 @@ public class PeriodoService extends GenericService<Periodo> {
     /**
      * Obtém um Periodo gerado a partir da data atual.
      *
-     * @return  *
+     * @return *
      */
-    public Periodo obterPeriodoAtual() {
+    public Periodo obterPeriodoAtual() throws NegocioException {
         Periodo periodo = this.criarPeriodoAtual();
         try {
             periodo = this.obterPeriodoCadastradoPorAnoEsemestre(periodo);
@@ -81,21 +80,27 @@ public class PeriodoService extends GenericService<Periodo> {
         jpql.append(" as p ");
         jpql.append(" where p.ano = :paramAno ");
         jpql.append(" and p.semestre = :paramSemestre ");
-        TypedQuery<Periodo> query = entityManager.createQuery(jpql.toString(), getClasseEntidade());
+        TypedQuery<Periodo> query = entityManager.createQuery(jpql.toString(),
+                getClasseEntidade());
         query.setParameter("paramAno", periodo.getAno());
         query.setParameter("paramSemestre", periodo.getSemestre());
         return query.getSingleResult();
     }
-    
-    public Periodo criarPeriodoAnterior(String ano, String semestre){
+
+    public Periodo criarPeriodoAnterior(String ano, String semestre) {
         Periodo periodo = getEntidadeNegocio();
         periodo.setAno(Integer.parseInt(ano));
-        if(semestre.equals("1")){
+        if (semestre.equals("1")) {
             periodo.setSemestre(Semestre.PRIMEIRO);
-        }else{
+        } else {
             periodo.setSemestre(Semestre.SEGUNDO);
         }
-         return periodo;
+        return periodo;
+    }
+
+    @Override
+    public Periodo verificarExistencia(Periodo entidadeNegocio) {
+        return obterPeriodoCadastradoPorAnoEsemestre(entidadeNegocio);
     }
 
 }

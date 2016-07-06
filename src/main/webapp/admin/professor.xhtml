@@ -12,7 +12,7 @@ and open the template in the editor.
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
             <h:form>
-                <p:dataTable  var="professor" value="#{professorBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Professor registrado">
+                <p:dataTable  var="professor" value="#{professorBean.entidades}" paginator="true" rows="5" emptyMessage="Não existem professores cadastrados.">
                     <f:facet name="header">Professores Cadastrados</f:facet>
 
                     <p:column headerText="Nome Completo" filterMatchMode="startsWith" filterBy="#{professor.nomeCompleto}" sortBy="#{professor.nomeCompleto}">

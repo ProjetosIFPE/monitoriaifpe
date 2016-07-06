@@ -5,11 +5,14 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -29,8 +32,8 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         return entityManager.find(getClasseEntidade(), chavePrimaria);
     }
 
-    public T salvar(T entidadeNegocio) {
-
+    public T salvar(T entidadeNegocio) throws NegocioException {
+        this.validarCadastro(entidadeNegocio);
         this.entityManager.persist(entidadeNegocio);
         return entidadeNegocio;
     }
@@ -45,16 +48,31 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         return query.getResultList();
     }
 
-    public void remover(T entidadeNegocio) {
+    public void remover(T entidadeNegocio) throws NegocioException {
 
         entidadeNegocio = this.entityManager.find(this.getClasseEntidade(), entidadeNegocio.getChavePrimaria());
         this.entityManager.remove(entidadeNegocio);
     }
 
-    public void atualizar(T entidadeNegocio) {
+    public void atualizar(T entidadeNegocio) throws NegocioException {
         this.entityManager.merge(entidadeNegocio);
     }
 
+    public void validarCadastro(T entidadeNegocio) throws NegocioException {
+        T entidade;
+        try {
+            entidade = verificarExistencia(entidadeNegocio);
+            if (entidade != null) {
+                throw new NegocioException(NegocioException.OBJETO_EXISTENTE);
+            }
+        } catch (NonUniqueResultException e) {
+            throw new NegocioException(NegocioException.OBJETO_EXISTENTE);
+        } catch (NoResultException e) {
+        
+        }
+    }
+
+    public abstract T verificarExistencia(T entidadeNegocio);
 
     public abstract T getEntidadeNegocio();
 

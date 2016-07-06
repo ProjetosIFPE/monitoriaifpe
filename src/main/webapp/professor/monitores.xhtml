@@ -14,7 +14,7 @@
         </ui:define>
         <ui:define name="conteudo">        
             <h:form>
-                <p:dataList id="listaDisciplinas" value="#{monitoriaBean.monitoriasDisciplina}" var="monitoria" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+                <p:dataList id="listaDisciplinas" value="#{monitoriaBean.monitoriasDisciplina}" var="monitoria" type="unordered" itemType="none" emptyMessage="Não existem monitores para esta disciplina." paginator="true" rows="10" styleClass="paginated">
                     <f:facet name="header">
                         Alunos Monitores
                     </f:facet>

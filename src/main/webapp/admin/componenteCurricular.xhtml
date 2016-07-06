@@ -41,7 +41,7 @@ and open the template in the editor.
                 </p:tab>
                 <p:tab title="Componentes Curriculares Cadastrados">
                     <h:form id="formTabelaComponenteCurricular">
-                        <p:dataTable id="formTabelaComponenteCurricular" var="componenteCurricular" editable="true" value="#{componenteCurricularBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Componente Curricular registrado">
+                        <p:dataTable id="formTabelaComponenteCurricular" var="componenteCurricular" editable="true" value="#{componenteCurricularBean.entidades}" paginator="true" rows="5" emptyMessage="Não existem componentes curriculares cadastrados.">
                             <f:facet name="header">Componentes Curriculares</f:facet>
 
                             <p:ajax event="rowEdit" listener="#{componenteCurricularBean.alterarEntidadeCadastrada}" />

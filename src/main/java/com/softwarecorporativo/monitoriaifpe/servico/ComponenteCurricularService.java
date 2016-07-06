@@ -14,6 +14,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -30,13 +31,12 @@ public class ComponenteCurricularService extends GenericService<ComponenteCurric
         return new ComponenteCurricular();
     }
 
-    
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Class<ComponenteCurricular> getClasseEntidade() {
         return ComponenteCurricular.class;
     }
-    
+
     public List<ComponenteCurricular> obterComponentesPorCurso(Curso curso) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select componente from ");
@@ -46,6 +46,23 @@ public class ComponenteCurricularService extends GenericService<ComponenteCurric
         Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
         query.setParameter("paramCurso", curso);
         return query.getResultList();
+    }
+
+    @Override
+    public ComponenteCurricular verificarExistencia(ComponenteCurricular entidadeNegocio) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select componente from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as componente ");
+        jpql.append(" where componente.curso = ?1 and ");
+        jpql.append(" ( componente.descricao = ?2 ");
+        jpql.append(" or componente.codigoComponenteCurricular = ?3 ) ");
+        TypedQuery<ComponenteCurricular> query = super.entityManager
+                .createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter(1, entidadeNegocio.getCurso());
+        query.setParameter(2, entidadeNegocio.getDescricao());
+        query.setParameter(3, entidadeNegocio.getCodigoComponenteCurricular());
+        return query.getSingleResult();
     }
 
 }

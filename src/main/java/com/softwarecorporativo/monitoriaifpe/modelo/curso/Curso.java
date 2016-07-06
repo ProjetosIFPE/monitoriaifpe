@@ -124,7 +124,7 @@ public class Curso extends EntidadeNegocio {
     @Override
     public boolean isInativo(){
         if(this.alunos.isEmpty() && 
-                this.componentesCurriculares.isEmpty() == false){
+                this.componentesCurriculares.isEmpty()){
             return Boolean.TRUE;
         }
        return Boolean.FALSE;

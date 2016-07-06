@@ -5,6 +5,8 @@
  */
 package com.softwarecorporativo.monitoriaifpe.selenium;
 
+import com.softwarecorporativo.monitoriaifpe.selenium.pages.CursoPage;
+import com.softwarecorporativo.monitoriaifpe.selenium.sauce.SauceLabsTest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -28,18 +30,15 @@ public class TesteCurso {
     final String urlBase = "https://localhost:8181/monitoriaifpe";
 
     final String urlCurso = "/publico/curso.xhtml";
-
     private WebDriver driver;
 
     @Before
     public void inicializar() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\EdmilsonS\\Desktop\\chromedriver.exe");
         driver = new ChromeDriver();
-        //driver = new FirefoxDriver();
 
     }
 
-    @Ignore
     @Test
     public void testeEfetuarLogin() throws Exception {
 
@@ -149,7 +148,7 @@ public class TesteCurso {
                 By.xpath("(//button[@id='formularioCurso:j_idt38:formTabelaCurso:tabelaCurso:0:j_idt71'])[2]"));
 
         confirmarRemover.click();
-        
+
         abaCursosCadastrados = driver.findElement(
                 By.linkText("Cursos Cadastrados"));
         abaCursosCadastrados.click();

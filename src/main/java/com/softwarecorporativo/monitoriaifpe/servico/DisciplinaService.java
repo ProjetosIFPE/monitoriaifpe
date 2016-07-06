@@ -8,7 +8,6 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
-import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.List;
@@ -44,24 +43,10 @@ public class DisciplinaService extends GenericService<Disciplina> {
     }
 
     public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina disciplina) throws NegocioException {
-        Long contadorDisciplinasCadastraNoSemestreAtual = 0L;
         Periodo periodo = periodoService.obterPeriodoAtual();
         disciplina.setPeriodo(periodo);
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("SELECT COUNT(d) FROM ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as d ");
-        jpql.append("WHERE d.periodo = :paramPeriodo ");
-        jpql.append(" AND d.componenteCurricular = :paramComponente ");
-        Query query = entityManager.createQuery(jpql.toString());
-        query.setParameter("paramPeriodo", periodo);
-        query.setParameter("paramComponente", disciplina.getComponenteCurricular());
-        contadorDisciplinasCadastraNoSemestreAtual += (Long) query.getSingleResult();
-        if (contadorDisciplinasCadastraNoSemestreAtual > 0L) {
-            throw new NegocioException(NegocioException.DISCIPLINA_JA_CADASTRADA);
-        } else {
-            return super.salvar(disciplina);
-        }
+        return super.salvar(disciplina);
+
     }
 
     public List<Disciplina> obterDisciplinasDoCursoPorPeriodo(Curso curso, Periodo periodo) {
@@ -81,12 +66,12 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return query.getResultList();
     }
 
-    public List<Disciplina> obterDisciplinasPorCursoDoPeriodoAtual(Curso curso) {
+    public List<Disciplina> obterDisciplinasPorCursoDoPeriodoAtual(Curso curso) throws NegocioException {
         Periodo periodo = periodoService.obterPeriodoAtual();
         return this.obterDisciplinasDoCursoPorPeriodo(curso, periodo);
     }
 
-    public List<Disciplina> obterDisciplinasPorCursoDePeriodoNaoAtual(Curso curso) {
+    public List<Disciplina> obterDisciplinasPorCursoDePeriodoNaoAtual(Curso curso) throws NegocioException {
         Periodo periodo = periodoService.obterPeriodoAtual();
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select disciplina from ");
@@ -103,7 +88,7 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return query.getResultList();
     }
 
-    public Disciplina salvarDisciplinaComPeriodoAntigo(Disciplina entidadeNegocio, String ano, String semestre) {
+    public Disciplina salvarDisciplinaComPeriodoAntigo(Disciplina entidadeNegocio, String ano, String semestre) throws NegocioException {
         Periodo periodo = periodoService.criarPeriodoAnterior(ano, semestre);
         entidadeNegocio.setPeriodo(periodo);
         return super.salvar(entidadeNegocio);
@@ -118,6 +103,21 @@ public class DisciplinaService extends GenericService<Disciplina> {
         Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
         query.setParameter("paramProfessor", professor);
         return query.getResultList();
+    }
+
+    @Override
+    public Disciplina verificarExistencia(Disciplina entidadeNegocio) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select disciplina from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as disciplina ");
+        jpql.append(" where disciplina.componenteCurricular = ?1 ");
+        jpql.append(" and disciplina.periodo = ?2 ");
+        TypedQuery<Disciplina> query = super.entityManager
+                .createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter(1, entidadeNegocio.getComponenteCurricular());
+        query.setParameter(2, entidadeNegocio.getPeriodo());
+        return query.getSingleResult();
     }
 
 }

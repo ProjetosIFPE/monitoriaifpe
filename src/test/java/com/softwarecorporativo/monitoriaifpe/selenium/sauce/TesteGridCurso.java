@@ -3,32 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.selenium.pages;
+package com.softwarecorporativo.monitoriaifpe.selenium.sauce;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
-import org.junit.After;
+import com.softwarecorporativo.monitoriaifpe.selenium.pages.CursoPage;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
  *
  * @author Edmilson Santana
  */
-public class TestePageCurso {
+public class TesteGridCurso extends SauceLabsTest {
 
-    private WebDriver driver;
     private CursoPage cursoPage;
 
-    @Before
-    public void inicializar() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\EdmilsonS\\Desktop\\chromedriver.exe");
-        driver = new ChromeDriver();
+    public TesteGridCurso(String os, String version, String browser, String deviceName, String deviceOrientation) {
+        super(os, version, browser, deviceName, deviceOrientation);
+    }
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
         cursoPage = new CursoPage(driver);
     }
 
@@ -67,11 +65,6 @@ public class TestePageCurso {
         assertTrue(cursoCadastrado);
 
         assertEquals("Informação já cadastrada no sistema", cursoPage.cadastrarCurso(curso));
-    }
-
-    @After
-    public void finalizar() {
-        driver.close();
     }
 
     public Curso montarObjetoCurso() {

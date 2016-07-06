@@ -5,6 +5,7 @@ import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.validation.ValidaMonitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,13 +106,17 @@ public class Monitoria extends EntidadeNegocio {
 
         return aluno;
     }
-    
+
     public String getNomeMonitor() {
         return aluno.getNomeCompleto();
     }
-    
+
     public String getNomeOrientador() {
         return disciplina.getProfessor().getNomeCompleto();
+    }
+
+    public Periodo getPeriodoMonitoria() {
+        return disciplina.getPeriodo();
     }
 
 }

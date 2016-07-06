@@ -133,6 +133,19 @@
             20
         </session-timeout>
     </session-config>
+        
+    <security-role>
+        <role-name>administrador</role-name>
+    </security-role>
+    <security-role>
+        <role-name>aluno</role-name>
+    </security-role>
+    <security-role>
+        <role-name>professor</role-name>
+    </security-role>
+    <security-role>
+        <role-name>usuario</role-name>
+    </security-role>
     
     <error-page>
         <error-code>500</error-code>

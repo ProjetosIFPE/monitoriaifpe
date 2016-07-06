@@ -6,13 +6,14 @@
 package com.softwarecorporativo.monitoriaifpe.selenium.pages;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
+import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
@@ -21,19 +22,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class CursoPage {
 
-    @FindBy(id = "formularioCurso:j_idt38:formCadastroCurso:descricao")
+    @FindBy(id = "formularioCurso:j_idt5:formCadastroCurso:descricao")
     private WebElement formDescricaoCurso;
 
-    @FindBy(id = "formularioCurso:j_idt38:formTabelaCurso:tabelaCurso:0:descricao")
+    @FindBy(id = "formularioCurso:j_idt5:formTabelaCurso:tabelaCurso:0:descricao")
     private WebElement tabelaDescricaoCurso;
 
-    @FindBy(id = "formularioCurso:j_idt38:formCadastroCurso:codigoCampus")
+    @FindBy(id = "formularioCurso:j_idt5:formCadastroCurso:codigoCampus")
     private WebElement formCodigoCampus;
 
-    @FindBy(id = "formularioCurso:j_idt38:formCadastroCurso:codigoCurso")
+    @FindBy(id = "formularioCurso:j_idt5:formCadastroCurso:codigoCurso")
     private WebElement formCodigoCurso;
 
-    @FindBy(xpath = "//div[@id='formularioCurso:j_idt38:formCadastroCurso:grauCurso']/div[3]/span")
+    @FindBy(id = "formularioCurso:j_idt5:formCadastroCurso:codigoCurso")
     private WebElement formGrauCurso;
 
     @FindBy(css = "button[type='submit']")
@@ -48,12 +49,6 @@ public class CursoPage {
     @FindBy(css = ".ui-icon-trash")
     private WebElement botaoRemover;
 
-    @FindBy(xpath = "(//button[@id='formularioCurso:j_idt38:formTabelaCurso:tabelaCurso:0:j_idt71'])[2]")
-    private WebElement botaoConfirmaRemover;
-
-    @FindBy(linkText = "Cursos Cadastrados")
-    private WebElement abaCursosCadastrados;
-
     private final WebDriver driver;
 
     private final String urlBase = "https://localhost:8181/monitoriaifpe/publico/curso.xhtml";
@@ -61,7 +56,6 @@ public class CursoPage {
     public CursoPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-
     }
 
     public void visitar() {
@@ -73,30 +67,29 @@ public class CursoPage {
         setFormDescricaoCurso(curso.getDescricao());
         setFormCodigoCampus(curso.getCodigoCampus());
         setFormCodigoCurso(curso.getCodigoCurso());
-        /* */
-       // setFormGrauCurso(curso.getGrau().name());
 
         botaoCadastro.click();
-
         return obterTextoMensagemTela();
     }
 
     public boolean isCursoCadastrado(Curso curso) {
-        abaCursosCadastrados.click();
+
         return driver.getPageSource().contains(curso.getDescricao());
     }
 
     public String alterarCurso(Curso curso) {
+        By seletorAba = By.linkText("Cursos Cadastrados");
+        WebElement abaCursosCadastrados = aguardarElemento(seletorAba);
+        abaCursosCadastrados.click();
         botaoEditar.click();
         setTabelaDescricaoCurso(curso.getDescricao());
         botaoAlterar.click();
         return obterTextoMensagemTela();
     }
 
-    public void removerCurso() {
+    public String removerCurso() {
         botaoRemover.click();
-        botaoConfirmaRemover.click();
-
+        return obterTextoMensagemTela();
     }
 
     public void setFormDescricaoCurso(String descricaoCurso) {
@@ -119,15 +112,10 @@ public class CursoPage {
         this.formCodigoCurso.sendKeys(codigoCurso);
     }
 
-    public void setFormGrauCurso(String grauCurso) {
-        formGrauCurso.click();
-        formGrauCurso.findElement(By.linkText(grauCurso)).click();
-    }
-
     public String obterTextoMensagemTela() {
-
-        WebElement mensagemTela = this.aguardarElemento(By.cssSelector("p"));
-        return mensagemTela.getText();
+        WebElement mensagem = this.aguardarElemento(By.cssSelector(".ui-growl-title"));
+        System.out.println(mensagem.getText());
+        return mensagem.getText();
     }
 
     public WebElement aguardarElemento(By by) {

@@ -37,14 +37,6 @@ public class CursoBean extends GenericBean<Curso> {
         setService(cursoService);
     }
 
-    public void removerCurso(Curso entidadeNegocio) throws NegocioException {
-        try {
-            cursoService.removerCurso(entidadeNegocio);
-            popularEntidades();
-        } catch (NegocioException ex) {
-            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
-        }
-
-    }
+   
 
 }

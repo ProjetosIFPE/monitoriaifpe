@@ -47,7 +47,7 @@
                     </p:tab>
                     <p:tab title="Disciplinas Cadastradas">
                         <h:form id="formTableDisciplina">
-                            <p:dataTable id="tableDisciplina" editable="true"  var="disciplina" value="#{disciplinaBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhuma disciplina cadastrada">
+                            <p:dataTable id="tableDisciplina" editable="true"  var="disciplina" value="#{disciplinaBean.entidades}" paginator="true" rows="5" emptyMessage="Não existem disciplinas cadastradas.">
                                 <f:facet name="header">Disciplinas</f:facet>
                                 <p:column headerText="Componente Curricular">
                                     <h:outputText value="#{disciplina.componenteCurricular.descricao}" />

@@ -5,16 +5,12 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.context.FacesContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -22,6 +18,33 @@ import javax.persistence.Query;
  */
 @Stateless
 public class MonitoriaService extends GenericService<Monitoria> {
+
+    public List<Monitoria> obterMonitoriasPorDisciplina(Disciplina disciplina) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select monitoria from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as monitoria ");
+        jpql.append(" where monitoria.disciplina = :paramDisciplina");
+        Query query = super.entityManager
+                .createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter("paramDisciplina", disciplina);
+        return query.getResultList();
+    }
+
+    @Override
+    public Monitoria verificarExistencia(Monitoria entidadeNegocio) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select monitoria from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as monitoria ");
+        jpql.append(" where monitoria.disciplina = ?1 ");
+        jpql.append(" and monitoria.aluno = ?2 ");
+        TypedQuery<Monitoria> query = super.entityManager
+                .createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter(1, entidadeNegocio.getDisciplina());
+        query.setParameter(2, entidadeNegocio.getAluno());
+        return query.getSingleResult();
+    }
 
     @Override
     public Monitoria getEntidadeNegocio() {
@@ -31,17 +54,6 @@ public class MonitoriaService extends GenericService<Monitoria> {
     @Override
     public Class<Monitoria> getClasseEntidade() {
         return Monitoria.class;
-    }
-
-    public List<Monitoria> obterMonitoriasPorDisciplina(Disciplina disciplina) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select monitoria from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as monitoria ");
-        jpql.append(" where monitoria.disciplina = :paramDisciplina");
-        Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
-        query.setParameter("paramDisciplina", disciplina);
-        return query.getResultList();
     }
 
 }

@@ -97,7 +97,7 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         return disciplinaService.obterDisciplinasDoProfessor(professor);
     }
     
-    public List<Disciplina> getDisciplinasPorCursoForaPeriodoAtual() {
+    public List<Disciplina> getDisciplinasPorCursoForaPeriodoAtual() throws NegocioException {
         Aluno aluno = (Aluno) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasPorCursoDePeriodoNaoAtual(aluno.getCurso());
     }
