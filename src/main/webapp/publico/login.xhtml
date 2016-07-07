@@ -20,9 +20,9 @@ and open the template in the editor.
                         <p:password feedback="true" id="senha" value="#{loginBean.senha}" weakLabel="Fraca"
                                     goodLabel="Bom" strongLabel="Forte" promptLabel="Digite a sua senha" required="true"/>
                         <p:message for="senha" id="messageSenha" />
-                        <p:outputLabel for="senha">Captcha</p:outputLabel>
+                       <!-- <p:outputLabel for="senha">Captcha</p:outputLabel>
                         <p:captcha label="Captcha" id="captcha" />
-                        <p:message for="captcha" id="messageCaptcha" />
+                        <p:message for="captcha" id="messageCaptcha" />-->
                         <p:commandButton ajax="false" action="#{loginBean.efetuarLogin()}" value="Login" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>

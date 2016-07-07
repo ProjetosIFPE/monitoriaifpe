@@ -12,6 +12,7 @@ and open the template in the editor.
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
             <h:form>
+                <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                 <p:dataTable  var="professor" value="#{professorBean.entidades}" paginator="true" rows="5" emptyMessage="Não existem professores cadastrados.">
                     <f:facet name="header">Professores Cadastrados</f:facet>
 

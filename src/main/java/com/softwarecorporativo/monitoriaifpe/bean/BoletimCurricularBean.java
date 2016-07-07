@@ -50,9 +50,10 @@ public class BoletimCurricularBean extends GenericBean<BoletimCurricular> {
     public void cadastrarBoletim() {
 
         Aluno aluno = (Aluno) userSettings.getUsuario();
+        BoletimCurricular variavelAuxiliar = entidadeNegocio;
         entidadeNegocio.setAluno(aluno);
         super.cadastrar();
-        aluno.addBoletimCurricular(entidadeNegocio);
+        aluno.addBoletimCurricular(variavelAuxiliar);
         
 
     }

@@ -8,8 +8,6 @@ package com.softwarecorporativo.monitoriaifpe.selenium.pages;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,20 +53,6 @@ public class TestePageCurso {
 
     }
 
-    @Test
-    public void testeCadastroCustoExistente() {
-        cursoPage.visitar();
-
-        Curso curso = montarObjetoCurso();
-
-        cursoPage.cadastrarCurso(curso);
-
-        boolean cursoCadastrado = cursoPage.isCursoCadastrado(curso);
-        assertTrue(cursoCadastrado);
-
-        assertEquals("Informação já cadastrada no sistema", cursoPage.cadastrarCurso(curso));
-    }
-
     @After
     public void finalizar() {
         driver.close();
@@ -82,4 +66,19 @@ public class TestePageCurso {
         curso.setGrau(Grau.TECNICO);
         return curso;
     }
+
+    /* 
+    @Test
+    public void testeCadastroCursoExistente() {
+        cursoPage.visitar();
+
+        Curso curso = montarObjetoCurso();
+
+        cursoPage.cadastrarCurso(curso);
+
+        boolean cursoCadastrado = cursoPage.isCursoCadastrado(curso);
+        assertTrue(cursoCadastrado);
+
+        assertEquals("Informação já cadastrada no sistema", cursoPage.cadastrarCurso(curso));
+    } */
 }

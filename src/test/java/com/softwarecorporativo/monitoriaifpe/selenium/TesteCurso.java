@@ -5,20 +5,16 @@
  */
 package com.softwarecorporativo.monitoriaifpe.selenium;
 
-import com.softwarecorporativo.monitoriaifpe.selenium.pages.CursoPage;
-import com.softwarecorporativo.monitoriaifpe.selenium.sauce.SauceLabsTest;
+import org.junit.After;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
@@ -30,13 +26,19 @@ public class TesteCurso {
     final String urlBase = "https://localhost:8181/monitoriaifpe";
 
     final String urlCurso = "/publico/curso.xhtml";
+
     private WebDriver driver;
 
     @Before
     public void inicializar() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\EdmilsonS\\Desktop\\chromedriver.exe");
         driver = new ChromeDriver();
+        //driver = new FirefoxDriver();
+    }
 
+    @After
+    public void finalizar() {
+        driver.close();
     }
 
     @Test
@@ -46,7 +48,7 @@ public class TesteCurso {
 
         String login = "admin";
         String nomeUsuario = "Administrador";
-        String senha = "admin";
+        String senha = "fulu123";
 
         WebElement txtLogin = driver.findElement(By.id("login:login"));
         WebElement txtSenha = driver.findElement(By.name("login:senha"));
@@ -58,13 +60,10 @@ public class TesteCurso {
                 By.cssSelector("button[type='submit']"));
 
         botao.click();
+        
+        aguardarElemento(By.id("conteudo"));
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        ExpectedCondition condicaoEsperada = ExpectedConditions
-                .visibilityOfElementLocated(By.id("conteudo"));
-        wait.until(condicaoEsperada);
-
-        boolean usuarioNaTela = driver.getPageSource().contains(nomeUsuario);
+        boolean usuarioNaTela = this.telaContemTexto(nomeUsuario);
 
         assertTrue(usuarioNaTela);
     }
@@ -77,40 +76,30 @@ public class TesteCurso {
         String descricaoCurso = "Análise de Sistemas";
         String codigoCampus = "RC";
         String codigoCurso = "Y6";
-        String grauCurso = "SUPERIOR";
 
         WebElement txtDescricao = driver.findElement(
-                By.id("formularioCurso:j_idt38:formCadastroCurso:descricao"));
+                By.id("formularioCurso:j_idt5:formCadastroCurso:descricao"));
         WebElement txtCodigoCampus = driver.findElement(
-                By.id("formularioCurso:j_idt38:formCadastroCurso:codigoCampus"));
+                By.id("formularioCurso:j_idt5:formCadastroCurso:codigoCampus"));
         WebElement txtCodigoCurso = driver.findElement(
-                By.id("formularioCurso:j_idt38:formCadastroCurso:codigoCurso"));
+                By.id("formularioCurso:j_idt5:formCadastroCurso:codigoCurso"));
 
         txtDescricao.sendKeys(descricaoCurso);
         txtCodigoCampus.sendKeys(codigoCampus);
         txtCodigoCurso.sendKeys(codigoCurso);
-
-        WebElement listaGrausCursos = driver.findElement(
-                By.id("formularioCurso:j_idt38:formCadastroCurso:grauCurso_input"));
-        Select grausCurso = new Select(listaGrausCursos);
-        grausCurso.selectByVisibleText(grauCurso);
 
         WebElement botaoCadastro = driver.findElement(
                 By.cssSelector("button[type='submit']"));
 
         botaoCadastro.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        ExpectedCondition condicaoEsperada
-                = ExpectedConditions.presenceOfElementLocated(By.cssSelector("p"));
-        wait.until(condicaoEsperada);
+        aguardarElemento(By.cssSelector("p"));
 
         WebElement abaCursosCadastrados = driver.findElement(
                 By.linkText("Cursos Cadastrados"));
         abaCursosCadastrados.click();
 
-        boolean cursoCadastrado = driver.getPageSource()
-                .contains(descricaoCurso);
+        boolean cursoCadastrado = telaContemTexto(descricaoCurso);
 
         assertTrue(cursoCadastrado);
 
@@ -120,7 +109,7 @@ public class TesteCurso {
         botaoEditar.click();
 
         txtDescricao = driver.findElement(
-                By.id("formularioCurso:j_idt38:formTabelaCurso:tabelaCurso:0:descricao"));
+                By.id("formularioCurso:j_idt5:formTabelaCurso:tabelaCurso:0:descricao"));
         txtDescricao.clear();
         txtDescricao.sendKeys("Análise");
 
@@ -128,34 +117,63 @@ public class TesteCurso {
                 By.cssSelector("span.ui-icon.ui-icon-check"));
         botaoSalvar.click();
 
-        wait = new WebDriverWait(driver, 10);
-        condicaoEsperada
-                = ExpectedConditions.presenceOfElementLocated(By.cssSelector("p"));
-        wait.until(condicaoEsperada);
+        aguardarElemento(By.cssSelector("p"));
 
         WebElement botaoRemover = driver.findElement(
                 By.cssSelector(".ui-icon-trash"));
 
+        aguardarElemento(By.cssSelector("p"));
+
         botaoRemover.click();
-
-        wait = new WebDriverWait(driver, 10);
-        condicaoEsperada
-                = ExpectedConditions.presenceOfElementLocated(
-                        By.xpath("(//button[@id='formularioCurso:j_idt38:formTabelaCurso:tabelaCurso:0:j_idt71'])[2]"));
-        wait.until(condicaoEsperada);
-
-        WebElement confirmarRemover = driver.findElement(
-                By.xpath("(//button[@id='formularioCurso:j_idt38:formTabelaCurso:tabelaCurso:0:j_idt71'])[2]"));
-
-        confirmarRemover.click();
 
         abaCursosCadastrados = driver.findElement(
                 By.linkText("Cursos Cadastrados"));
         abaCursosCadastrados.click();
 
-        cursoCadastrado = driver.getPageSource()
-                .contains(descricaoCurso);
+        cursoCadastrado = telaContemTexto(descricaoCurso);
         assertFalse(cursoCadastrado);
     }
+   
+
+    public Boolean telaContemTexto(String texto) {
+        return driver.getPageSource().contains(texto);
+    }
+
+    public WebElement aguardarElemento(By by) {
+        return (new WebDriverWait(driver, 10))
+                .until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    public boolean elementoContemTexto(By by, String texto) {
+
+        Boolean contemTexto = (new WebDriverWait(driver, 10))
+                .until(ExpectedConditions.textToBe(by, texto));
+
+        return contemTexto;
+    }
+    
+     /*
+    @Test
+    public void testeMensagemDeErroCodCampus() {
+
+        driver.get(urlBase + urlCurso);
+
+        String descricaoCurso = "TADS";
+        String codigoCampus = "Rc";
+
+        WebElement txtDescricao = driver.findElement(
+                By.id("formularioCurso:j_idt5:formCadastroCurso:descricao"));
+        WebElement txtCodigoCampus = driver.findElement(
+                By.id("formularioCurso:j_idt5:formCadastroCurso:codigoCampus"));
+
+        txtDescricao.sendKeys(descricaoCurso);
+        txtCodigoCampus.sendKeys(codigoCampus);
+        txtCodigoCampus.sendKeys(Keys.TAB);
+
+        By mensagemValidacao = By.id("formularioCurso:j_idt5:formCadastroCurso:messageCodigoCampus");
+
+        assertTrue(this.elementoContemTexto(mensagemValidacao, "O código do campus deve possuir apenas duas letras maiúsculas"));
+    }
+*/
 
 }

@@ -35,8 +35,10 @@ public class CursoService extends GenericService<Curso> {
         return Curso.class;
     }
 
+
     @Override
     public void remover(Curso entidadeNegocio) throws NegocioException{
+
         if (!entidadeNegocio.isInativo()) {
             throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
         } else {

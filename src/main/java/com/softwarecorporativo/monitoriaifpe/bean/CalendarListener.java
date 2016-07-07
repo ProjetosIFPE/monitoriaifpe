@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -24,6 +27,7 @@ import org.primefaces.model.ScheduleModel;
  *
  * @author Edmilson Santana
  */
+@DeclareRoles({"aluno","professor"})
 @ManagedBean
 @ViewScoped
 public class CalendarListener {
@@ -45,7 +49,7 @@ public class CalendarListener {
         List<Atividade> atividades = atividadeBean.getAtividadeMonitoria();
         popularCalendarioComAtividades(atividades);
     }
-
+    @PermitAll
     private void popularCalendarioComAtividades(List<Atividade> atividades) {
         for (Atividade atividade : atividades) {
             ScheduleEvent novoEvento = new DefaultScheduleEvent(
@@ -54,7 +58,7 @@ public class CalendarListener {
             mapaEventoAtividade.put(novoEvento, atividade);
         }
     }
-
+    @RolesAllowed({"aluno"})
     public void adicionarAtividade() throws NegocioException {
 
         if (atividadeBean.isAtividadeCadastrada()) {
@@ -67,7 +71,7 @@ public class CalendarListener {
         atividadeBean.inicializarEntidadeNegocio();
         evento = new DefaultScheduleEvent();
     }
-
+    @RolesAllowed({"aluno"})
     public void adicionarEventoCalendario() {
         Atividade atividade = atividadeBean.getEntidadeNegocio();
         ScheduleEvent novoEvento = new DefaultScheduleEvent(atividade.getDescricao(),
@@ -76,7 +80,7 @@ public class CalendarListener {
         mapaEventoAtividade.put(novoEvento, atividade);
 
     }
-
+    @RolesAllowed({"aluno"})
     public void atualizarEventoCalendario() {
         DefaultScheduleEvent eventoAtualizado = (DefaultScheduleEvent) evento;
 
@@ -88,7 +92,7 @@ public class CalendarListener {
 
         calendario.updateEvent(eventoAtualizado);
     }
-
+    @RolesAllowed({"aluno"})
     public void removerEventoCalendario() throws NegocioException {
         calendario.deleteEvent(evento);
         atividadeBean.removerAtividade();

@@ -52,6 +52,7 @@
                     </p:tab>
                     <p:tab title="Boletins Cadastrados">
                         <h:form id="formTableBoletim">
+                            <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                             <p:dataTable id="tableBoletim" editable="true"  var="boletim" value="#{boletimCurricularBean.boletinsAluno}" emptyMessage="Não existem boletins cadastrados.">
                                 <f:facet name="header">Boletins Curriculares</f:facet>
 

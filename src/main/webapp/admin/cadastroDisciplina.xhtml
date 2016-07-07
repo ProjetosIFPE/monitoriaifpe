@@ -47,7 +47,8 @@
                     </p:tab>
                     <p:tab title="Disciplinas Cadastradas">
                         <h:form id="formTableDisciplina">
-                            <p:dataTable id="tableDisciplina" editable="true"  var="disciplina" value="#{disciplinaBean.entidades}" paginator="true" rows="5" emptyMessage="Não existem disciplinas cadastradas.">
+                            <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
+                            <p:dataTable id="tableDisciplina" editable="true"  var="disciplina" value="#{disciplinaBean.entidades}" paginator="true" rows="5"  emptyMessage="Nenhuma disciplina cadastrada">
                                 <f:facet name="header">Disciplinas</f:facet>
                                 <p:column headerText="Componente Curricular">
                                     <h:outputText value="#{disciplina.componenteCurricular.descricao}" />
@@ -61,8 +62,8 @@
                                 <p:column headerText="Semestre">
                                     <h:outputText value="#{disciplina.periodo.semestre}" />
                                 </p:column>
-                                  <p:column>
-                                      <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{disciplinaBean.remover(disciplina)}" process="@this" update="@form">
+                                <p:column>
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{disciplinaBean.remover(disciplina)}" process="@this" update="@form">
                                         <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                     </p:commandLink>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

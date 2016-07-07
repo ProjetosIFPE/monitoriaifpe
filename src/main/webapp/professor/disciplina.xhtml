@@ -24,6 +24,8 @@
                 </p:tab>
                 <p:tab title="Disciplinas Cadastradas">
                     <h:form id="formTabelaDisciplina">
+
+                        <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                         <p:dataList id="listaDisciplinas" value="#{disciplinaBean.disciplinasProfessor}" var="disciplina" type="unordered" itemType="none" paginator="true" rows="10" emptyMessage="Não existem disciplinas cadastradas." styleClass="paginated">
                             <f:facet name="header">
                                 Monitorias
@@ -31,7 +33,7 @@
                             <h:link  outcome="monitores" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
                                 <f:param name="disciplinaId" value="#{disciplina.chavePrimaria}"  />
                             </h:link >
-                            
+
                             <h:outputText value="#{disciplina.componenteCurricular.descricao}, #{disciplina.periodo}" style="display:inline-block"/>
 
                             <p:commandLink style="float:left;margin-right:10px" styleClass="ui-icon ui-icon-trash"  action="#{disciplinaBean.remover(disciplina)}" process="@this" update="listaDisciplinas">

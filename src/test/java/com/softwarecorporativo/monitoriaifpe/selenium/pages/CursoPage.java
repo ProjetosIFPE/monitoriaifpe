@@ -117,6 +117,7 @@ public class CursoPage {
         System.out.println(mensagem.getText());
         return mensagem.getText();
     }
+    
 
     public WebElement aguardarElemento(By by) {
         return (new WebDriverWait(driver, 10))
