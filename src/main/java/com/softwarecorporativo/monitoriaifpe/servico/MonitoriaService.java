@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import java.util.List;
@@ -28,6 +29,18 @@ public class MonitoriaService extends GenericService<Monitoria> {
         Query query = super.entityManager
                 .createQuery(jpql.toString(), getClasseEntidade());
         query.setParameter("paramDisciplina", disciplina);
+        return query.getResultList();
+    }
+    
+     public List<Monitoria> obterMonitoriasPorAluno(Aluno aluno) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select monitoria from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as monitoria ");
+        jpql.append(" where monitoria.aluno = ?1");
+        Query query = super.entityManager
+                .createQuery(jpql.toString(), getClasseEntidade());
+        query.setParameter(1, aluno);
         return query.getResultList();
     }
 

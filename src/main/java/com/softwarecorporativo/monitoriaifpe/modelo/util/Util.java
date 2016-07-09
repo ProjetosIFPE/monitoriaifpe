@@ -2,9 +2,11 @@ package com.softwarecorporativo.monitoriaifpe.modelo.util;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class Util {
@@ -22,6 +24,22 @@ public class Util {
         return c.getTime();
     }
 
+    public static Integer getMonthOfDate(Date dataInicio, Date dataFim) {
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(dataInicio);
+        int mesDataInicio = cal.get(Calendar.MONTH);
+        cal.setTime(dataFim);
+        int mesDataFim = cal.get(Calendar.MONTH);
+        int mes = mesDataFim - mesDataInicio;
+        if (mes == 0) {
+            mes = mesDataInicio;
+        } else {
+             mes += mesDataInicio;
+        }
+        return mes;
+    }
+
     public static Date getTime(Integer horas, Integer minutos, Integer segundos) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, horas);
@@ -30,28 +48,10 @@ public class Util {
         return c.getTime();
     }
 
-    public static Periodo getSemestreAtual() {
-        Periodo periodo = new Periodo();
-        Calendar dataAtual = Calendar.getInstance();
-        int anoAtual = dataAtual.get(Calendar.YEAR);
-        Calendar inicioSegundoSemestre = Calendar.getInstance();
-        inicioSegundoSemestre.set(anoAtual, 7, 1);
-        if (dataAtual.after(inicioSegundoSemestre)) {
-            periodo.setSemestre(Semestre.SEGUNDO);
-        } else {
-            periodo.setSemestre(Semestre.PRIMEIRO);
-        }
-        periodo.setAno(anoAtual);
-
-        return periodo;
-    }
-
     public static String obterNomeMes(int mes) {
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         return meses[mes - 1];
     }
-
- 
 
 }

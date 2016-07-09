@@ -5,7 +5,6 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
@@ -27,20 +26,8 @@ public class ProfessorService extends UsuarioService<Professor> {
     @EJB
     private SecurityAccessService securityAccessService;
 
-    @Override
-    public Professor salvar(Professor entidadeNegocio) throws NegocioException {
-        adicionarGruposUsuario(entidadeNegocio);
-        String sal = entidadeNegocio.gerarSal();
-        entidadeNegocio = super.salvar(entidadeNegocio);
-        String usuario = entidadeNegocio.getLogin();
-        securityAccessService.salvarPropriedadesAcesso(sal, usuario);
-        return entidadeNegocio;
-    }
-
-    public void adicionarGruposUsuario(Usuario usuario) {
-        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.USUARIO));
-        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.PROFESSOR));
-    }
+    @EJB
+    private EmailService emailService;
 
     @Override
     public Professor getEntidadeNegocio() {
@@ -52,4 +39,23 @@ public class ProfessorService extends UsuarioService<Professor> {
         return Professor.class;
     }
 
+    @Override
+    void adicionarGrupos(Usuario usuario) {
+        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.PROFESSOR));
+    }
+
+    @Override
+    GrupoService inicializarServicoGrupo() {
+        return grupoService;
+    }
+
+    @Override
+    SecurityAccessService inicializarServicoSeguranca() {
+        return securityAccessService;
+    }
+
+    @Override
+    EmailService inicializarServicoEmail() {
+        return emailService;
+    }
 }

@@ -39,10 +39,10 @@
                         <p:outputLabel for="senha" value="Senha" />
                         <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
-                       <!-- <p:outputLabel for="senha">Captcha</p:outputLabel>
-                        <p:captcha label="Captcha" id="captcha" />
-                        <p:message for="captcha" id="messageCaptcha" /> -->
-                        <p:commandButton action="#{alunoBean.cadastrar()}" value="Cadastrar" 
+                        <p:outputLabel for="senha">Captcha</p:outputLabel>
+                        <p:captcha label="Captcha" language="pt" id="captcha" />
+                        <p:message for="captcha" id="messageCaptcha" /> 
+                        <p:commandButton ajax="false" action="#{alunoBean.cadastrar()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
                 </p:fieldset>

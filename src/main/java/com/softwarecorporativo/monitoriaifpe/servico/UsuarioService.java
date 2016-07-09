@@ -5,7 +5,10 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
+import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import javax.annotation.PostConstruct;
 import javax.persistence.TypedQuery;
 
 /**
@@ -14,6 +17,35 @@ import javax.persistence.TypedQuery;
  * @param <T>
  */
 public abstract class UsuarioService<T extends Usuario> extends GenericService<T> {
+
+    private GrupoService servicoGrupo;
+
+    private SecurityAccessService securityAccessService;
+
+    private EmailService emailService;
+
+    @PostConstruct
+    public void inicializarServicos() {
+        servicoGrupo = inicializarServicoGrupo();
+        securityAccessService = inicializarServicoSeguranca();
+        emailService = inicializarServicoEmail();
+    }
+
+    @Override
+    public T salvar(T usuario) throws NegocioException {
+        adicionarGrupoUsuario(usuario);
+        String sal = usuario.gerarSal();
+        securityAccessService.salvarPropriedadesAcesso(sal, usuario.getLogin());
+        usuario = super.salvar(usuario);
+        emailService.enviarMensagem(usuario.getEmail());
+        return usuario;
+
+    }
+
+    protected void adicionarGrupoUsuario(Usuario usuario) {
+        usuario.adicionarGrupo(servicoGrupo.obterGrupo(Grupo.USUARIO));
+        this.adicionarGrupos(usuario);
+    }
 
     public Usuario getUsuarioPorLogin(String login) {
         TypedQuery<T> query = super.entityManager
@@ -42,5 +74,13 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
     public Class<T> getClasseEntidade() {
         return (Class<T>) Usuario.class;
     }
+
+    abstract void adicionarGrupos(Usuario usuario);
+
+    abstract GrupoService inicializarServicoGrupo();
+
+    abstract SecurityAccessService inicializarServicoSeguranca();
+
+    abstract EmailService inicializarServicoEmail();
 
 }

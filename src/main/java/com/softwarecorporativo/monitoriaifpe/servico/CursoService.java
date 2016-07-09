@@ -7,6 +7,9 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
+import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -18,24 +21,15 @@ import javax.persistence.TypedQuery;
  *
  * @author Edmilson Santana
  */
+
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class CursoService extends GenericService<Curso> {
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Curso getEntidadeNegocio() {
-        return new Curso();
-    }
+    
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Class<Curso> getClasseEntidade() {
-        return Curso.class;
-    }
-
-
+   
     @Override
     public void remover(Curso entidadeNegocio) throws NegocioException{
 
@@ -60,6 +54,18 @@ public class CursoService extends GenericService<Curso> {
         query.setParameter(1, entidadeNegocio.getDescricao());
         query.setParameter(2, entidadeNegocio.getCodigoCurso());
         return query.getSingleResult();
+    }
+    
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public Curso getEntidadeNegocio() {
+        return new Curso();
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public Class<Curso> getClasseEntidade() {
+        return Curso.class;
     }
 
 }

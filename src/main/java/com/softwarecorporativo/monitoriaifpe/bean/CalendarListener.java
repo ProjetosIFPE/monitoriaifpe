@@ -11,46 +11,67 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
-import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
  * @author Edmilson Santana
  */
-@DeclareRoles({"aluno","professor"})
 @ManagedBean
 @ViewScoped
 public class CalendarListener {
 
     @ManagedProperty(value = "#{atividadeBean}")
     private AtividadeBean atividadeBean;
-
+    
     private ScheduleModel calendario;
 
     private ScheduleEvent evento;
 
+    private Date dataInicialMes;
+
+    private Date dataFinalMes;
+
     private HashMap<ScheduleEvent, Atividade> mapaEventoAtividade;
+    
 
     @PostConstruct
     public void inicializarCalendario() {
         evento = new DefaultScheduleEvent();
         mapaEventoAtividade = new HashMap<>();
-        calendario = new DefaultScheduleModel();
-        List<Atividade> atividades = atividadeBean.getAtividadeMonitoria();
-        popularCalendarioComAtividades(atividades);
+        calendario = criarCalendario();
+
     }
-    @PermitAll
-    private void popularCalendarioComAtividades(List<Atividade> atividades) {
+
+    public LazyScheduleModel criarCalendario() {
+        return new LazyScheduleModel() {
+            private static final long serialVersionUID = 1297279688835547588L;
+
+            @Override
+            public void loadEvents(Date start, Date end) {
+
+                dataInicialMes = start;
+                dataFinalMes = end;
+                List<Atividade> atividades = atividadeBean
+                        .getAtividadesMensaisMonitoria(dataInicialMes, dataFinalMes);
+
+                popularCalendarioComAtividades(this, atividades);
+            }
+
+        };
+    }
+
+    private void popularCalendarioComAtividades(ScheduleModel calendario, List<Atividade> atividades) {
         for (Atividade atividade : atividades) {
             ScheduleEvent novoEvento = new DefaultScheduleEvent(
                     atividade.getDescricao(), atividade.getDataInicio(), atividade.getDataFim());
@@ -58,7 +79,8 @@ public class CalendarListener {
             mapaEventoAtividade.put(novoEvento, atividade);
         }
     }
-    @RolesAllowed({"aluno"})
+
+   
     public void adicionarAtividade() throws NegocioException {
 
         if (atividadeBean.isAtividadeCadastrada()) {
@@ -71,7 +93,7 @@ public class CalendarListener {
         atividadeBean.inicializarEntidadeNegocio();
         evento = new DefaultScheduleEvent();
     }
-    @RolesAllowed({"aluno"})
+
     public void adicionarEventoCalendario() {
         Atividade atividade = atividadeBean.getEntidadeNegocio();
         ScheduleEvent novoEvento = new DefaultScheduleEvent(atividade.getDescricao(),
@@ -80,7 +102,7 @@ public class CalendarListener {
         mapaEventoAtividade.put(novoEvento, atividade);
 
     }
-    @RolesAllowed({"aluno"})
+
     public void atualizarEventoCalendario() {
         DefaultScheduleEvent eventoAtualizado = (DefaultScheduleEvent) evento;
 
@@ -92,7 +114,7 @@ public class CalendarListener {
 
         calendario.updateEvent(eventoAtualizado);
     }
-    @RolesAllowed({"aluno"})
+
     public void removerEventoCalendario() throws NegocioException {
         calendario.deleteEvent(evento);
         atividadeBean.removerAtividade();
@@ -110,7 +132,10 @@ public class CalendarListener {
         evento = (ScheduleEvent) selectEvent.getObject();
         Atividade atividade = mapaEventoAtividade.get(evento);
         atividadeBean.setEntidadeNegocio(atividade);
+    }
 
+    public StreamedContent gerarRelatorio() {
+        return atividadeBean.getRelatorio(dataInicialMes, dataFinalMes);
     }
 
     public AtividadeBean getAtividadeBean() {

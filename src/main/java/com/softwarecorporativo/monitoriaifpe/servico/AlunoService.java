@@ -5,10 +5,11 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
-import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -32,20 +33,8 @@ public class AlunoService extends UsuarioService<Aluno> {
     @EJB
     private SecurityAccessService securityAccessService;
 
-    @Override
-    public Aluno salvar(Aluno entidadeNegocio) throws NegocioException {
-        adicionarGruposUsuario(entidadeNegocio);
-        String sal = entidadeNegocio.gerarSal();
-        entidadeNegocio = super.salvar(entidadeNegocio);
-        String usuario = entidadeNegocio.getLogin();
-        securityAccessService.salvarPropriedadesAcesso(sal, usuario);
-        return entidadeNegocio;
-    }
-
-    public void adicionarGruposUsuario(Usuario usuario) {
-        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.USUARIO));
-        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.ALUNO));
-    }
+    @EJB
+    private EmailService emailService;
 
     @Override
     public Aluno getEntidadeNegocio() {
@@ -76,6 +65,26 @@ public class AlunoService extends UsuarioService<Aluno> {
                 getClasseEntidade());
         query.setParameter(1, matricula);
         return query.getSingleResult();
+    }
+
+    @Override
+    void adicionarGrupos(Usuario usuario) {
+        usuario.adicionarGrupo(grupoService.obterGrupo(Grupo.ALUNO));
+    }
+
+    @Override
+    GrupoService inicializarServicoGrupo() {
+        return grupoService;
+    }
+
+    @Override
+    SecurityAccessService inicializarServicoSeguranca() {
+        return securityAccessService;
+    }
+
+    @Override
+    EmailService inicializarServicoEmail() {
+        return emailService;
     }
 
 }

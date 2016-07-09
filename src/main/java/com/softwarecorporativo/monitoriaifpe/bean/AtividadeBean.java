@@ -18,7 +18,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-
 import org.primefaces.model.ByteArrayContent;
 import org.primefaces.model.StreamedContent;
 
@@ -31,7 +30,7 @@ import org.primefaces.model.StreamedContent;
 public class AtividadeBean extends GenericBean<Atividade> {
 
     private static final long serialVersionUID = -3272784032346171935L;
-    
+
     @EJB
     private AtividadeService atividadeService;
 
@@ -41,6 +40,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
     private Monitoria monitoria;
 
     private Long monitoriaId;
+  
 
     @Override
     void inicializarEntidadeNegocio() {
@@ -58,30 +58,34 @@ public class AtividadeBean extends GenericBean<Atividade> {
         setService(atividadeService);
     }
 
-
     public List<Atividade> getAtividadeMonitoria() {
         return atividadeService.consultarAtividadesDaMonitoria(monitoria);
     }
 
+    public List<Atividade> getAtividadesMensaisMonitoria(Date dataInicialMes, Date dataFinalMes) {
+        return atividadeService.consultarAtividadesMensaisDaMonitoria(monitoria,
+                dataInicialMes, dataFinalMes);
+    }
+
     @Override
-    public void cadastrar(){
+    public void cadastrar() {
         entidadeNegocio.setMonitoria(monitoria);
         super.cadastrar();
     }
 
     public Boolean isAtividadeCadastrada() {
         Boolean isCadastrada = Boolean.TRUE;
-        if ( entidadeNegocio.getChavePrimaria() == null ) {
+        if (entidadeNegocio.getChavePrimaria() == null) {
             isCadastrada = Boolean.FALSE;
         }
         return isCadastrada;
     }
-    
+
     public void alterarDataInicioFimAtividade(Date data) {
         entidadeNegocio.setDataInicio(data);
         entidadeNegocio.setDataFim(data);
     }
-    
+
     @Override
     public void alterar() {
         entidadeNegocio.setMonitoria(monitoria);
@@ -101,8 +105,8 @@ public class AtividadeBean extends GenericBean<Atividade> {
         this.monitoria = monitoria;
     }
 
-    public StreamedContent getRelatorio() {
-        byte[] bytes = atividadeService.obterRelatorioFrequencia(monitoria, Integer.BYTES);
+    public StreamedContent getRelatorio(Date dataInicialMes, Date dataFinalMes) {
+        byte[] bytes = atividadeService.obterRelatorioFrequencia(monitoria, dataInicialMes, dataFinalMes);
         return new ByteArrayContent(bytes, "application/pdf", "relatorioFrequencia.pdf");
     }
 

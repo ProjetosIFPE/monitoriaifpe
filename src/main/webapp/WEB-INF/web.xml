@@ -15,6 +15,7 @@
     </login-config>
     
     <welcome-file-list>
+        <welcome-file></welcome-file>
         <welcome-file>usuario/principal.xhtml</welcome-file>
     </welcome-file-list>
     
@@ -88,6 +89,7 @@
             <web-resource-name>Protected Professor Area</web-resource-name>
             <description>Protected Professor Area</description>
             <url-pattern>/professor/*</url-pattern>
+            <url-pattern>/aluno/atividade.xhtml</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -111,6 +113,7 @@
             <web-resource-name>Protected Aluno Area</web-resource-name>
             <description>Protected Aluno Area</description>
             <url-pattern>/aluno/*</url-pattern>
+            <url-pattern>/aluno/atividade.xhtml</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>

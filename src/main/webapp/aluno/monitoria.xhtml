@@ -30,27 +30,28 @@ and open the template in the editor.
                     </h:form>
                 </p:tab>
                 <p:tab title="Monitorias Cadastradas">
-                    <p:fieldset legend="Monitorias">
+                    <h:form>
+                        <p:fieldset legend="Monitorias">
+                            <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
+                            <p:dataList id="listaMonitorias" value="#{monitoriaBean.monitoriasPorAluno}" var="monitoria" type="unordered" itemType="none" paginator="true" rows="10" emptyMessage="Não existem monitorias cadastradas." styleClass="paginated">
+                                <f:facet name="header">
+                                    Monitorias
+                                </f:facet>
+                                <h:link  outcome="atividade" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+                                    <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
+                                </h:link >
+                                <h:outputText value="#{monitoria.disciplina.componenteCurricular.descricao}, #{monitoria.disciplina.periodo}" style="display:inline-block"/>
 
-                        <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
-                        <p:dataList id="listaMonitorias" value="#{monitoriaBean.entidades}" var="monitoria" type="unordered" itemType="none" paginator="true" rows="10" emptyMessage="Não existem monitorias cadastradas." styleClass="paginated">
-                            <f:facet name="header">
-                                Monitorias
-                            </f:facet>
-                            <h:link  outcome="atividade" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
-                                <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
-                            </h:link >
-                            <h:outputText value="#{monitoria.disciplina.componenteCurricular.descricao}, #{monitoria.disciplina.periodo}" style="display:inline-block"/>
-
-                            <p:commandLink style="float:left;margin-right:10px" styleClass="ui-icon ui-icon-trash"  action="#{monitoriaBean.remover(monitoria)}" process="@this" update="listaMonitorias">
-                                <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
-                            </p:commandLink>
-                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                            </p:confirmDialog>
-                        </p:dataList>
-                    </p:fieldset>
+                                <p:commandLink style="float:left;margin-right:10px" styleClass="ui-icon ui-icon-trash"  action="#{monitoriaBean.remover(monitoria)}" process="@this" update="listaMonitorias">
+                                    <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                </p:commandLink>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:dataList>
+                        </p:fieldset>
+                    </h:form>
                 </p:tab>
             </p:tabView>
         </ui:define>

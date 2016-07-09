@@ -40,10 +40,10 @@ and open the template in the editor.
                             <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
                         </p:selectOneMenu>
                         <h:message for="curso" id="messageCurso" />
-                      <!--   <p:outputLabel for="senha">Captcha</p:outputLabel>
-                       <p:captcha label="Captcha" id="captcha" />
-                        <p:message for="captcha" id="messageCaptcha" /> -->
-                        <p:commandButton action="#{professorBean.cadastrar()}" value="Cadastrar" 
+                        <p:outputLabel for="senha">Captcha</p:outputLabel>
+                        <p:captcha label="Captcha" language="pt" id="captcha" />
+                        <p:message for="captcha" id="messageCaptcha" /> 
+                        <p:commandButton ajax="false" action="#{professorBean.cadastrar()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
                 </p:fieldset>

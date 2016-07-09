@@ -5,7 +5,11 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
+import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
+import static com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo.ALUNO;
+import static com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo.PROFESSOR;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.DiaDTO;
 import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.RelatorioDTO;
@@ -14,9 +18,15 @@ import com.softwarecorporativo.monitoriaifpe.modelo.util.RelatorioUtil;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.Util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -32,6 +42,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Edmilson Santana
  */
+@DeclareRoles({PROFESSOR, ALUNO})
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -39,27 +50,42 @@ public class AtividadeService extends GenericService<Atividade> {
 
     private static final String RELATORIO_JASPER_ATIVIDADE = "relatorioFrequencia.jasper";
 
+    @RolesAllowed({ALUNO})
     @Override
-    public Atividade getEntidadeNegocio() {
-        return new Atividade();
+    public Atividade salvar(Atividade entidadeNegocio) throws NegocioException {
+
+        return super.salvar(entidadeNegocio);
     }
 
+    @RolesAllowed({ALUNO})
     @Override
-    public Class<Atividade> getClasseEntidade() {
-        return Atividade.class;
+    public void atualizar(Atividade entidadeNegocio) throws NegocioException {
+
+        super.atualizar(entidadeNegocio);
+
     }
 
-    public byte[] obterRelatorioFrequencia(Monitoria monitoria, Integer mes) {
-        List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, 6);
-        List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, 6);
+    @RolesAllowed({ALUNO})
+    @Override
+    public void remover(Atividade entidadeNegocio) throws NegocioException {
+        super.remover(entidadeNegocio);
+    }
+
+    @RolesAllowed({ALUNO, PROFESSOR})
+    public byte[] obterRelatorioFrequencia(Monitoria monitoria, Date dataInicialMes, Date dataFinalMes) {
+        Integer mes = Util.getMonthOfDate(dataInicialMes, dataFinalMes);
+        List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
+        List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
         try {
             return RelatorioUtil.gerarRelatorioPDF(dadosRelatorio, null, RELATORIO_JASPER_ATIVIDADE);
         } catch (JRException ex) {
             Logger.getLogger(AtividadeService.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return null;
     }
 
+    @RolesAllowed({ALUNO, PROFESSOR})
     public List<RelatorioDTO> converterAtividadesEmRelatorio(Monitoria monitoria, List<Atividade> atividades, Integer mes) {
 
         RelatorioDTO relatorio = new RelatorioDTO();
@@ -127,6 +153,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return relatorios;
     }
 
+    @RolesAllowed({ALUNO, PROFESSOR})
     public List<Atividade> consultarAtividadesDaMonitoria(Monitoria monitoria) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select a from ");
@@ -137,6 +164,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return query.getResultList();
     }
 
+    @RolesAllowed({ALUNO, PROFESSOR})
     public List<Atividade> consultarAtividadesMensaisDaMonitoria(Monitoria monitoria, Integer mes) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select a from ");
@@ -150,6 +178,16 @@ public class AtividadeService extends GenericService<Atividade> {
         return query.getResultList();
     }
 
+    @RolesAllowed({ALUNO, PROFESSOR})
+    public List<Atividade> consultarAtividadesMensaisDaMonitoria(Monitoria monitoria,
+            Date dataInicialMes, Date dataFinalMes) {
+
+        Integer mes = Util.getMonthOfDate(dataInicialMes, dataFinalMes);
+        System.out.println("Mes: " + mes);
+        return this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
+    }
+
+    @PermitAll
     @Override
     public Atividade verificarExistencia(Atividade entidadeNegocio) {
         StringBuilder jpql = new StringBuilder();
@@ -161,6 +199,18 @@ public class AtividadeService extends GenericService<Atividade> {
         query.setParameter(1, entidadeNegocio.getMonitoria());
         query.setParameter(2, entidadeNegocio.getDataInicio(), TemporalType.DATE);
         return query.getSingleResult();
+    }
+
+    @PermitAll
+    @Override
+    public Atividade getEntidadeNegocio() {
+        return new Atividade();
+    }
+
+    @PermitAll
+    @Override
+    public Class<Atividade> getClasseEntidade() {
+        return Atividade.class;
     }
 
 }

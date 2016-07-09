@@ -23,20 +23,21 @@ and open the template in the editor.
                 <p:graphicImage library="img" name="ajax-loader-bar.gif" />
             </p:dialog>
             <h:form>
-                <p:commandButton style="margin-bottom: 20px"  value="Exportar Relatório Mensal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                    <p:fileDownload value="#{atividadeBean.relatorio}" />
-                </p:commandButton>
+
+                <p:commandLink style="margin: 20px;" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" >
+                    <h:graphicImage   library="img" name="pdf.png" />
+                    <p:fileDownload value="#{calendarListener.gerarRelatorio()}" />
+                </p:commandLink>
             </h:form>
             <h:outputScript library="js" name="download.js" />
             <h:form>
                 <p:fieldset legend="Calendário de Atividades"> 
 
-                    <p:schedule timeZone="America/Sao_Paulo"  draggable="false" resizable="false" id="calendario" value="#{calendarListener.calendario}"  axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
-
-                        <p:ajax event="dateSelect"  rendered="#{userSettings.usuarioAluno}" listener="#{calendarListener.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
-                        <p:ajax event="eventSelect" rendered="#{userSettings.usuarioAluno}" listener="#{calendarListener.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+                    <p:schedule   timeZone="America/Sao_Paulo"   draggable="false" resizable="false" id="calendario" value="#{calendarListener.calendario}"   axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
+                        <p:ajax event="dateSelect"   listener="#{calendarListener.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+                        <p:ajax event="eventSelect"  listener="#{calendarListener.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                     </p:schedule>
-                    <p:dialog widgetVar="dialogAtividade" header="Detalhes da Atividade" showEffect="clip" hideEffect="clip">
+                    <p:dialog rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  widgetVar="dialogAtividade" header="Detalhes da Atividade" showEffect="clip" hideEffect="clip">
                         <h:panelGrid id="detalhesAtividade" columns="2">
 
                             <p:outputLabel for="descricao" value="Descrição:" />

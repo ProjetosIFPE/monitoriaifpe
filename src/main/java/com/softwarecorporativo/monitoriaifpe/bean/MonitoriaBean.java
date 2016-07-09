@@ -56,7 +56,6 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
         super.inicializar();
     }
 
-
     @Override
     void inicializarServico() {
         setService(monitoriaService);
@@ -66,10 +65,13 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
     public void cadastrar() {
         Aluno aluno = (Aluno) userSettings.getUsuario();
         entidadeNegocio.setAluno(aluno);
-        super.cadastrar(); 
+        super.cadastrar();
     }
-
     
+    public List<Monitoria> getMonitoriasPorAluno() {
+        Aluno aluno = (Aluno) userSettings.getUsuario();
+        return monitoriaService.obterMonitoriasPorAluno(aluno);
+    }
 
     public List<Disciplina> getDisciplinasOfertadasParaMonitoria() throws NegocioException {
         Aluno aluno = (Aluno) userSettings.getUsuario();

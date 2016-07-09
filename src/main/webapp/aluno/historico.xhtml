@@ -46,17 +46,17 @@
                                         </p:panel>
                                     </p:tab>
                                 </p:wizard>
+                                <p:separator />
                                 <p:commandButton action="#{boletimCurricularBean.cadastrarBoletim()}" value="Cadastrar" update=":formBoletimCurricular" process="@form"/>
                             </p:fieldset>
                         </h:form>
                     </p:tab>
                     <p:tab title="Boletins Cadastrados">
                         <h:form id="formTableBoletim">
-                            <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                             <p:dataTable id="tableBoletim" editable="true"  var="boletim" value="#{boletimCurricularBean.boletinsAluno}" emptyMessage="Não existem boletins cadastrados.">
                                 <f:facet name="header">Boletins Curriculares</f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{boletimCurricularBean.alterarEntidadeCadastrada}" />
+                                <p:ajax event="rowEdit" listener="#{boletimCurricularBean.alterarEntidadeCadastrada}" update="@form:tableBoletim" />
 
                                 <p:column headerText="Disciplina">
                                     <h:outputText value="#{boletim.disciplina.componenteCurricular.descricao}" />

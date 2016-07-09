@@ -8,24 +8,20 @@
 
     <ui:insert name="metadata"/>
 
-    <h:head><title>Sistema Monitoria</title></h:head>
+    <h:head>
+        <title>Sistema de Monitoria IFPE</title>
+    </h:head>
 
     <h:body>
+
         <div id="cabecalho">
             <p:growl showDetail="true"  globalOnly="true" id="messages" autoUpdate="true" />
 
             <h:panelGrid columns="2">
                 <f:facet name="header">
                     <h:link outcome="/publico/login.xhtml"><h:graphicImage   library="img" name="icon.jpg" /></h:link>
-                    <p:outputPanel>Sistema de Monitoria IFPE</p:outputPanel>
                 </f:facet>  
-                <h:form rendered="#{usuarioLogado != null}" >
-                    <p:themeSwitcher id="basic" value="#{userSettings.tema}">
-                        <f:selectItem itemLabel="Escolha o Tema"/>
-                        <f:selectItems value="${userSettings.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
-                        <f:ajax />
-                    </p:themeSwitcher>
-                </h:form>
+
             </h:panelGrid>
 
             <p:separator />
@@ -36,13 +32,13 @@
                         <p:menuitem value="Alunos" rendered="#{facesContext.externalContext.isUserInRole('administrador')}" action="/admin/aluno.xhtml" icon="fa fa-fw fa-edit" />   
                         <p:menuitem value="Professores" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/professor.xhtml" icon="fa fa-fw fa-edit" />   
                         <p:menuitem value="Cadastro Histórico" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/cadastroDisciplina.xhtml" icon="fa fa-fw fa-edit" />   
-                        <p:menuitem value="Histórico Aluno" rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  action="/aluno/historico.xhtml" icon="fa fa-fw fa-edit" />   
+                        <p:menuitem value="Histórico Escolar" rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  action="/aluno/historico.xhtml" icon="fa fa-fw fa-edit" />   
                         <p:menuitem value="Monitorias" rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  action="/aluno/monitoria.xhtml" icon="fa fa-fw fa-edit" />
                         <p:menuitem value="Cursos" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/curso.xhtml" icon="fa fa-fw fa-edit" />
                         <p:menuitem value="Componente Curricular" rendered="#{facesContext.externalContext.isUserInRole('administrador')}"  action="/admin/componenteCurricular.xhtml" icon="fa fa-fw fa-edit" />
-                        <p:menuitem value="Atividades" rendered="#{facesContext.externalContext.isUserInRole('aluno')}"  action="/aluno/atividade.xhtml" icon="fa fa-fw fa-edit" />
                         <p:menuitem value="Disciplinas" rendered="#{facesContext.externalContext.isUserInRole('professor')}"   action="/professor/disciplina.xhtml" icon="fa fa-fw fa-edit" />           
                     </p:submenu>
+                   
                     <p:menuitem value="Logout" ajax="false" action="#{loginBean.efetuarLogout()}" icon="fa fa-fw fa-sign-out" />
                 </p:menubar>
 
@@ -51,8 +47,8 @@
             <h:form rendered="#{usuarioLogado == null}">
                 <p:menubar>
                     <p:submenu label="Cadastro">
-                        <p:menuitem value="Cadastro do Professor" action="/publico/cadastroProfessor.xhtml" icon="fa fa-fw fa-edit" />
-                        <p:menuitem value="Cadastro do Aluno" action="/publico/cadastroAluno.xhtml" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Cadastro do Professor" action="/publico/cadastroProfessor.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
+                        <p:menuitem value="Cadastro do Aluno" action="/publico/cadastroAluno.xhtml?faces-redirect=true" icon="fa fa-fw fa-edit" />
                     </p:submenu>
                 </p:menubar>
             </h:form>
@@ -61,6 +57,8 @@
         <div id="conteudo">
             <ui:insert name="conteudo"></ui:insert> 
         </div>
+
+
     </h:body>
 </html>
 
