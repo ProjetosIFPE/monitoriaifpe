@@ -10,6 +10,8 @@ import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -31,16 +33,17 @@ public class MonitoriaService extends GenericService<Monitoria> {
         query.setParameter("paramDisciplina", disciplina);
         return query.getResultList();
     }
-    
-     public List<Monitoria> obterMonitoriasPorAluno(Aluno aluno) {
+
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<Monitoria> obterMonitoriasPorAluno(Aluno aluno) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select monitoria from ");
         jpql.append(getClasseEntidade().getSimpleName());
         jpql.append(" as monitoria ");
-        jpql.append(" where monitoria.aluno = ?1");
+        jpql.append(" where monitoria.aluno.chavePrimaria = ?1");
         Query query = super.entityManager
                 .createQuery(jpql.toString(), getClasseEntidade());
-        query.setParameter(1, aluno);
+        query.setParameter(1, aluno.getChavePrimaria());
         return query.getResultList();
     }
 

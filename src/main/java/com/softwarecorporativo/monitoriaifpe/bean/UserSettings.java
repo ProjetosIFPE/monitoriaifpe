@@ -25,18 +25,16 @@ public class UserSettings implements Serializable{
 
     private String tema = "vader";
 
+    private Usuario usuario;
+    
     public Usuario getUsuario() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        return (Usuario) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
+        if(usuario == null){
+            FacesContext context = FacesContext.getCurrentInstance();
+            usuario = (Usuario) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
+       }
+        return this.usuario;
     }
 
-    public boolean isUsuarioAluno() {
-        Usuario usuario = this.getUsuario();
-        if (usuario instanceof Aluno) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
-    }
 
     public String getTema() {
         return tema;
