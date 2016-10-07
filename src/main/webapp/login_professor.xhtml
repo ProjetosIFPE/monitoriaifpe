@@ -8,12 +8,12 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    <ui:composition template="../_template.xhtml" >
+    <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form id="login">
-                <p:fieldset legend="Login">
+            <h:form id="login" styleClass="formLogin">
+                <p:fieldset>
                     <h:panelGrid columns="3">
-                        <p:outputLabel for="login">Login</p:outputLabel>
+                        <p:outputLabel for="login">Siape</p:outputLabel>
                         <p:inputText id="login" value="#{loginBean.login}" required="true" />
                         <p:message for="login" id="messageLogin" />
                         <p:outputLabel for="senha">Senha</p:outputLabel>
@@ -23,8 +23,10 @@ and open the template in the editor.
                         <p:outputLabel for="senha">Captcha</p:outputLabel>
                         <p:captcha language="pt"  label="Captcha" id="captcha" />
                         <p:message for="captcha" id="messageCaptcha" /> 
-                        <p:commandButton ajax="false" action="#{loginBean.efetuarLogin()}" value="Login" 
+                        <p:commandButton ajax="false" action="#{loginBean.efetuarLogin()}" value="Entrar" 
                                          update="@form" process="@form"/>
+                        <p:commandButton ajax="false" value="Cadastro" immediate="true"
+                                         action="cadastro_professor"  />
                     </h:panelGrid>
                 </p:fieldset>
             </h:form>

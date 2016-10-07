@@ -14,7 +14,7 @@
     </h:head>
 
     <h:body>
-        <p:layout>
+        <p:layout  styleClass="layoutConteudo">
             <h:form>
                 <p:growl showDetail="true"  globalOnly="true" id="messages" autoUpdate="true" />
                 <p:layoutUnit position="north">
@@ -26,13 +26,13 @@
                 </p:layoutUnit>
                 <p:layoutUnit position="west" styleClass="menu">
                     <p:menu>
-                        <p:menuitem  value="Aluno" outcome="/login_aluno.xhtml" immediate="true"/>
-                        <p:menuitem  value="Professor" outcome="/login_professor.xhtml" immediate="true"/>       
-                        <p:menuitem  value="Validar Documentos" immediate="true"/>
+                        <p:menuitem value="Cursos" outcome="/curso.xhtml" immediate="true"/>
+                        <p:menuitem value="Componentes Curriculares" outcome="/componentes.xhtml" immediate="true"/>                           
+                        <p:menuitem  value="Encerrar Sessão" outcome="/home.xhtml" immediate="true"/> 
                     </p:menu>
                 </p:layoutUnit> 
             </h:form>
-            <p:layoutUnit  position="center" styleClass="layoutConteudo">
+            <p:layoutUnit  position="center">
                 <ui:insert name="conteudo"></ui:insert>
             </p:layoutUnit>
         </p:layout>

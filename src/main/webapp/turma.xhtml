@@ -5,30 +5,29 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    <ui:composition template="../_template.xhtml" >        
+    <ui:composition template="_template_professor.xhtml" >        
         <ui:define name="conteudo">
             <p:tabView id="painelDisciplinas">
-                <p:tab title="Cadastro de Disciplina">
+                <p:tab title="Oferta de Turmas">
                     <h:form id="formCadastroDisciplina">
-                        <p:fieldset legend="Dados da Disciplina">
+                        <p:fieldset>
                             <h:panelGrid columns="2" cellpadding="5">
                                 <p:outputLabel for="componenteCurricular" value="Componente Curricular: " />
                                 <p:selectOneMenu id="componenteCurricular" value="#{disciplinaBean.entidadeNegocio.componenteCurricular}" style="width:150px" converter="entidadeNegocioConverter">
-                                    <f:selectItem itemLabel="Selecionar Componente Curricular" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{componenteCurricularBean.componentesPorCursoDoProfessor}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
                                 </p:selectOneMenu>
                             </h:panelGrid>
-                            <p:commandButton value="Cadastrar" update=":painelDisciplinas"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria()}"  />
+                            <p:commandButton value="Ofertar" update=":painelDisciplinas"  actionListener="#{disciplinaBean.ofertarDisciplinaParaMonitoria()}"  />
                         </p:fieldset>
                     </h:form>
                 </p:tab>
-                <p:tab title="Disciplinas Cadastradas">
+                <p:tab title="Turmas Ofertadas">
                     <h:form id="formTabelaDisciplina">
 
                         <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
                         <p:dataList id="listaDisciplinas" value="#{disciplinaBean.disciplinasProfessor}" var="disciplina" type="unordered" itemType="none" paginator="true" rows="10" emptyMessage="Não existem disciplinas cadastradas." styleClass="paginated">
                             <f:facet name="header">
-                                Monitorias
+                                Turmas Ofertadas
                             </f:facet>
                             <h:link  outcome="monitores" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
                                 <f:param name="disciplinaId" value="#{disciplina.chavePrimaria}"  />
@@ -46,6 +45,7 @@
                         </p:dataList>
                     </h:form>
                 </p:tab>
+            
             </p:tabView>
         </ui:define>
 

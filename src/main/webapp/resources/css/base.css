@@ -1,0 +1,29 @@
+.logo {
+    width: 20%;
+    height: 20%;
+    float: left;
+}
+
+.ui-layout-unit .ui-layout-unit-content {
+    padding: 2em 0em;
+    border: 0px none;
+    overflow: hidden !important;
+}
+.layoutConteudo {
+    height: 100em !important;
+}
+
+.menu {
+    width: 13.5em !important;
+}
+icone_aluno {
+    background: url(../img/icone_aluno.gif) !important;
+    height:16px;
+    width:16px;
+}
+
+icone_professor {
+    background: url(../img/icone_professor.gif) !important;
+    height:16px;
+    width:16px;
+}

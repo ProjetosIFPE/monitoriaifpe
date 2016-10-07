@@ -23,7 +23,7 @@ public class UserSettings implements Serializable{
 
     private static final long serialVersionUID = 677831240483987806L;
 
-    private String tema = "vader";
+    private String tema = "south-street";
 
     private Usuario usuario;
     

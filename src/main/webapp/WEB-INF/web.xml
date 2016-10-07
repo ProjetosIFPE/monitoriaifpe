@@ -5,6 +5,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     
+    <!--
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>accessRealm</realm-name>
@@ -13,12 +14,12 @@
             <form-error-page>/publico/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    
+    -->
     <welcome-file-list>
         <welcome-file></welcome-file>
-        <welcome-file>usuario/principal.xhtml</welcome-file>
+        <welcome-file>home.xhtml</welcome-file>
     </welcome-file-list>
-    
+    <!--
     <security-constraint>
         <display-name>Pg Administrativas</display-name>
         <web-resource-collection>
@@ -130,13 +131,13 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint> 
     </security-constraint>
-    
+    -->
     <session-config>
         <session-timeout>
             20
         </session-timeout>
     </session-config>
-        
+        <!--
     <security-role>
         <role-name>administrador</role-name>
     </security-role>
@@ -149,22 +150,22 @@
     <security-role>
         <role-name>usuario</role-name>
     </security-role>
-    
-    <error-page>
+    -->
+   <error-page>
         <error-code>500</error-code>
-        <location>/publico/erro.xhtml</location>
+        <location>/erro.xhtml</location>
     </error-page>
     <error-page>
         <error-code>403</error-code>
-        <location>/publico/nao_autorizado.xhtml</location>
+        <location>/nao_autorizado.xhtml</location>
     </error-page>    
     <error-page>
         <error-code>404</error-code>
-        <location>/publico/pagina_inexistente.xhtml</location>
+        <location>/pagina_inexistente.xhtml</location>
     </error-page>      
     <error-page>
         <exception-type>javax.ejb.EJBAccessException</exception-type>
-        <location>/publico/erro.xhtml</location>
+        <location>/erro.xhtml</location>
     </error-page> 
     
     <servlet>

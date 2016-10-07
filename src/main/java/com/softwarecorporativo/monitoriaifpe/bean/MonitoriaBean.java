@@ -7,10 +7,15 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
+import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
+import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -69,13 +74,41 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
     }
     
     public List<Monitoria> getMonitoriasPorAluno() {
-        Aluno aluno = (Aluno) userSettings.getUsuario();
-        return monitoriaService.obterMonitoriasPorAluno(aluno);
+        //Aluno aluno = (Aluno) userSettings.getUsuario();
+        //return monitoriaService.obterMonitoriasPorAluno(aluno);
+        return Collections.EMPTY_LIST;
+    }
+    
+    public List<Monitoria> getMonitorias() {
+        //Aluno aluno = (Aluno) userSettings.getUsuario();
+        //return monitoriaService.obterMonitoriasPorAluno(aluno);
+        List<Monitoria> monitorias = new ArrayList<>();
+        Monitoria monitoria = new Monitoria();
+        monitoria.setChavePrimaria(1l);
+        
+        Disciplina disciplina = new Disciplina();
+        disciplina.setChavePrimaria(1l);
+        Periodo periodo = new Periodo();
+        periodo.setChavePrimaria(1l);
+        periodo.setAno(2015);
+        periodo.setSemestre(Semestre.PRIMEIRO);
+        disciplina.setPeriodo(periodo);
+       
+        ComponenteCurricular componente = new ComponenteCurricular();
+        componente.setDescricao("Software Corporativo");
+        componente.setChavePrimaria(1l);
+        disciplina.setComponenteCurricular(componente);
+        
+        monitoria.setDisciplina(disciplina);
+        
+        monitorias.add(monitoria);
+        
+        return monitorias;
     }
 
     public List<Disciplina> getDisciplinasOfertadasParaMonitoria() throws NegocioException {
-        Aluno aluno = (Aluno) userSettings.getUsuario();
-        return disciplinaService.obterDisciplinasPorCursoDoPeriodoAtual(aluno.getCurso());
+       // Aluno aluno = (Aluno) userSettings.getUsuario();
+        return Collections.EMPTY_LIST;
     }
 
     protected void popularMonitoriasPorDisciplina(Disciplina disciplina) {

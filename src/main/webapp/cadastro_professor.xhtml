@@ -10,20 +10,20 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <ui:composition template="../_template.xhtml">
+    <ui:composition template="_template.xhtml">
         <ui:define name="conteudo">
             <h:form id="cadastroProfessor">
-                <p:fieldset legend="Dados do Professor">
+                <p:fieldset>
                     <h:panelGrid columns="3">
-                        <p:outputLabel for="nome" value="Nome" />
+                        <p:outputLabel for="nome" value="Nome Completo" />
                         <p:inputText id="nome" value="#{professorBean.entidadeNegocio.nome}" required="true" />
                         <p:message for="nome" id="messageNome" />
-                        <p:outputLabel for="sobrenome" value="Sobrenome"></p:outputLabel>
-                        <p:inputText id="sobrenome" value="#{professorBean.entidadeNegocio.sobrenome}" required="true"></p:inputText>
-                        <p:message for="sobrenome" id="messageSobrenome" />
-                        <p:outputLabel for="login" value="Login"></p:outputLabel>
-                        <p:inputText id="login" value="#{professorBean.entidadeNegocio.login}" required="true"></p:inputText>
-                        <p:message for="login" id="messageLogin" />
+                        <p:outputLabel for="siape" value="Siape"></p:outputLabel>
+                        <p:inputMask mask="999999999" id="siape"  required="true"></p:inputMask>
+                        <p:message for="siape" id="messageSiape" />
+                        <p:outputLabel for="cpf" value="CPF"></p:outputLabel>
+                        <p:inputMask  mask="999.999.999-99" id="cpf" requiredMessage="CPF é obrigatório" required="true"></p:inputMask>
+                        <p:message for="cpf" id="messageCpf" />
                         <p:outputLabel for="email">Email</p:outputLabel>
                         <p:inputText id="email" value="#{professorBean.entidadeNegocio.email}" required="true" validatorMessage="Email inválido">
                             <f:attribute name="type" value="email" />
@@ -32,15 +32,18 @@ and open the template in the editor.
                             <f:ajax event="blur" execute="email" render="messageEmail" />
                         </p:inputText>
                         <p:message for="email" id="messageEmail" />
-                        <p:outputLabel for="senha" value="Senha" />
-                        <p:password feedback="true" value="#{professorBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
-                        <h:message for="senha" id="messageSenha" />
                         <p:outputLabel for="curso" value="Curso" />
                         <p:selectOneMenu id="curso"  value="#{professorBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
                             <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
                         </p:selectOneMenu>
                         <h:message for="curso" id="messageCurso" />
-                        <p:outputLabel for="senha">Captcha</p:outputLabel>
+                        <p:outputLabel for="senha" value="Senha" />
+                        <p:password feedback="true" value="#{professorBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
+                        <h:message for="senha" id="messageSenha" />
+                        <p:outputLabel for="confirmaSenha" value="Confirmar senha" />
+                        <p:password id="confirmaSenha" inline="true" required="true" />
+                        <h:message for="confirmaSenha" id="messageConfirmaSenha" />
+                        <p:outputLabel for="captcha">Captcha</p:outputLabel>
                         <p:captcha label="Captcha" language="pt" id="captcha" />
                         <p:message for="captcha" id="messageCaptcha" /> 
                         <p:commandButton ajax="false" action="#{professorBean.cadastrar()}" value="Cadastrar" 

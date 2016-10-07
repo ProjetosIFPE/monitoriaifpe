@@ -5,21 +5,18 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <ui:composition template="../_template.xhtml" >        
+    <ui:composition template="_template.xhtml" >        
         <ui:define name="conteudo">
             <h:form id="cadastroAluno">
                 <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
-                <p:fieldset legend="Dados do Aluno">
+                <p:fieldset>
                     <h:panelGrid columns="3">
-                        <p:outputLabel for="nome" value="Nome"></p:outputLabel>
+                        <p:outputLabel for="nome" value="Nome Completo"></p:outputLabel>
                         <p:inputText id="nome" value="#{alunoBean.entidadeNegocio.nome}" required="true"></p:inputText>
                         <p:message for="nome" id="messageNome" />
-                        <p:outputLabel for="sobrenome" value="Sobrenome"></p:outputLabel>
-                        <p:inputText id="sobrenome" value="#{alunoBean.entidadeNegocio.sobrenome}" required="true"></p:inputText>
-                        <p:message for="sobrenome" id="messageSobrenome" />
-                        <p:outputLabel for="login" value="Login"></p:outputLabel>
-                        <p:inputText id="login" value="#{alunoBean.entidadeNegocio.login}" required="true"></p:inputText>
-                        <p:message for="login" id="messageLogin" />
+                        <p:outputLabel for="cpf" value="CPF"></p:outputLabel>
+                        <p:inputMask  mask="999.999.999-99" id="cpf" requiredMessage="CPF é obrigatório" required="true"></p:inputMask>
+                        <p:message for="cpf" id="messageCpf" />
                         <p:outputLabel for="email">Email</p:outputLabel>
                         <p:inputText id="email" value="#{alunoBean.entidadeNegocio.email}" required="true" validatorMessage="Email inválido">
                             <f:attribute name="type" value="email" />
@@ -39,6 +36,9 @@
                         <p:outputLabel for="senha" value="Senha" />
                         <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
+                        <p:outputLabel for="confirmaSenha" value="Confirmar senha" />
+                        <p:password value="#{alunoBean.entidadeNegocio.senha}" id="confirmaSenha" inline="true" required="true" />
+                        <h:message for="confirmaSenha" id="messageConfirmaSenha" />
                         <p:outputLabel for="senha">Captcha</p:outputLabel>
                         <p:captcha label="Captcha" language="pt" id="captcha" />
                         <p:message for="captcha" id="messageCaptcha" /> 

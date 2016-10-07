@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+    <!--
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="monitoriaId" value="" required="false" />
+                <f:viewAction action=""  />
+            </f:metadata>
+        </ui:define>
+    -->
+    <p:dialog modal="true" widgetVar="statusDownload"  draggable="false" closable="false" resizable="false">
+        <p:graphicImage library="img" name="ajax-loader-bar.gif" />
+    </p:dialog>
+    <h:form>
+        <p:menubar>
+            <p:menuitem>
+                <p:commandLink style="margin: 20px;" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" >
+                    <h:graphicImage   library="img" name="pdf.png" />
+                    <p:fileDownload value="#{calendarListener.gerarRelatorio()}" />
+                </p:commandLink>
+            </p:menuitem>
+        </p:menubar>
+    </h:form>
+    <h:outputScript library="js" name="download.js" />
+    <p:separator />
+    <h:form>
+        <p:fieldset legend="Calendário de Atividades"> 
+
+            <p:schedule   timeZone="America/Sao_Paulo"   draggable="false" resizable="false" id="calendario" value="#{calendarListener.calendario}"   axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
+                <p:ajax event="dateSelect"   listener="#{calendarListener.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+                <p:ajax event="eventSelect"  listener="#{calendarListener.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
+            </p:schedule>
+            <p:dialog rendered="true"  widgetVar="dialogAtividade" header="Detalhes da Atividade" showEffect="clip" hideEffect="clip">
+                <h:panelGrid id="detalhesAtividade" columns="2">
+
+                    <p:outputLabel for="descricao" value="Descrição:" />
+                    <p:inputText id="descricao" value="#{atividadeBean.entidadeNegocio.descricao}" required="true" />
+
+                    <p:outputLabel for="dataInicio">Início da Atividade:</p:outputLabel>
+                    <p:calendar  pattern="dd/MM/yyyy HH:mm" id="dataInicio" value="#{atividadeBean.entidadeNegocio.dataInicio}" required="true" />
+
+                    <p:outputLabel for="dataFim">Fim da Atividade:</p:outputLabel>
+                    <p:calendar pattern="dd/MM/yyyy HH:mm"  id="dataFim" value="#{atividadeBean.entidadeNegocio.dataFim}" required="true" />
+
+                    <p:outputLabel for="observacoes">Observações</p:outputLabel>
+                    <p:inputText id="observacoes" value="#{atividadeBean.entidadeNegocio.observacoes}"/>
+
+                    <p:commandLink styleClass="ui-icon ui-icon-trash" style="float: left;" action="#{calendarListener.removerEventoCalendario()}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
+
+                    <p:commandButton value="Salvar" actionListener="#{calendarListener.adicionarAtividade}" oncomplete="PF('calendarioAtividades').update();PF('dialogAtividade').hide();" />
+
+                </h:panelGrid>
+            </p:dialog>  
+        </p:fieldset> 
+    </h:form>
+    <h:outputScript library="js" name="locale_pt-br.js" />
+</html>

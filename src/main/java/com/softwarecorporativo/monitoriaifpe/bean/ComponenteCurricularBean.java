@@ -8,6 +8,8 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -42,8 +44,14 @@ public class ComponenteCurricularBean extends GenericBean<ComponenteCurricular> 
     }
 
     public List<ComponenteCurricular> getComponentesPorCursoDoProfessor() {
-        Professor professor = (Professor) userSettings.getUsuario();
-        return componenteCurricularService.obterComponentesPorCurso(professor.getCurso());
+       // Professor professor = (Professor) userSettings.getUsuario();
+       /* ComponenteCurricular componenteCurricular = new ComponenteCurricular();
+        componenteCurricular.setCodigoComponenteCurricular("A2");
+        componenteCurricular.setDescricao("Software Corporativo");
+        componenteCurricular.setChavePrimaria(1l);
+        List<ComponenteCurricular> componentes = new ArrayList<>();
+        componentes.add(componenteCurricular);*/
+        return Collections.EMPTY_LIST;
     }
 
     public UserSettings getUserSettings() {
