@@ -7,8 +7,8 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
@@ -52,7 +52,7 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
     }
 
     public void inicializarParametros() {
-        Disciplina disciplina = disciplinaService.buscarEntidade(disciplinaId);
+        Turma disciplina = disciplinaService.buscarEntidade(disciplinaId);
         popularMonitoriasPorDisciplina(disciplina);
     }
 
@@ -86,7 +86,7 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
         Monitoria monitoria = new Monitoria();
         monitoria.setChavePrimaria(1l);
         
-        Disciplina disciplina = new Disciplina();
+        Turma disciplina = new Turma();
         disciplina.setChavePrimaria(1l);
         Periodo periodo = new Periodo();
         periodo.setChavePrimaria(1l);
@@ -99,19 +99,19 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
         componente.setChavePrimaria(1l);
         disciplina.setComponenteCurricular(componente);
         
-        monitoria.setDisciplina(disciplina);
+        monitoria.setTurma(disciplina);
         
         monitorias.add(monitoria);
         
         return monitorias;
     }
 
-    public List<Disciplina> getDisciplinasOfertadasParaMonitoria() throws NegocioException {
+    public List<Turma> getDisciplinasOfertadasParaMonitoria() throws NegocioException {
        // Aluno aluno = (Aluno) userSettings.getUsuario();
         return Collections.EMPTY_LIST;
     }
 
-    protected void popularMonitoriasPorDisciplina(Disciplina disciplina) {
+    protected void popularMonitoriasPorDisciplina(Turma disciplina) {
         monitoriasDisciplina = monitoriaService.obterMonitoriasPorDisciplina(disciplina);
 
     }

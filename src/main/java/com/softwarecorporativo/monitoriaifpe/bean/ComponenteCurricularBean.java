@@ -5,7 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import java.util.ArrayList;

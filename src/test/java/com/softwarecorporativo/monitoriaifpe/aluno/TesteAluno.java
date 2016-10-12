@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.funcionais.aluno;
+package com.softwarecorporativo.monitoriaifpe.aluno;
 
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.modelo.boletim.BoletimCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
 import java.util.Set;
 import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
@@ -106,19 +104,12 @@ public class TesteAluno extends MonitoriaTestCase {
 
     private Aluno montarObjetoAluno() {
         Aluno alunoCriado = new Aluno();
-        alunoCriado.setNome("Fulano");
-        alunoCriado.setSobrenome("Silva");
-        alunoCriado.setEmail("fulano@gmail.com");
-        alunoCriado.setLogin("fulano21");
+        alunoCriado.setNome("Teste");
+        alunoCriado.setEmail("teste@gmail.com");
         alunoCriado.setMatricula("20141Y6-RC2222");
-        alunoCriado.setSenha("fulano123");
+        alunoCriado.setSenha("t123");
         Curso curso = super.entityManager.find(Curso.class, 1L);
         alunoCriado.setCurso(curso);
-        BoletimCurricular boletim = new BoletimCurricular();
-        boletim.setDisciplina(super.entityManager.find(Disciplina.class, 1L));
-        boletim.setFrequencia(100.0);
-        boletim.setNota(7.0);
-        alunoCriado.addBoletimCurricular(boletim);
 
         return alunoCriado;
     }

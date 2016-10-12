@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.funcionais.professor;
+package com.softwarecorporativo.monitoriaifpe.professor;
 
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.List;
 import javax.persistence.TypedQuery;
@@ -36,12 +36,12 @@ public class TesteProfessor extends MonitoriaTestCase {
     @Test
     public void testeUpdateProfessor() {
         Professor professorBuscado = super.entityManager.find(Professor.class, 8L);
-        professorBuscado.setSobrenome("Araujo");
+        professorBuscado.setNome("Araujo");
         super.entityManager.merge(professorBuscado);
         super.entityManager.flush();
         super.entityManager.clear();
         professorBuscado = super.entityManager.find(Professor.class, 8L);
-        assertEquals("Araujo", professorBuscado.getSobrenome());
+        assertEquals("Araujo", professorBuscado.getNome());
     }
 
     @Test
@@ -96,16 +96,14 @@ public class TesteProfessor extends MonitoriaTestCase {
         Professor professor_criado = new Professor();
 
         professor_criado.setNome("Paulo");
-        professor_criado.setSobrenome("Abadie");
         professor_criado.setEmail("PauloAbadie@gmail.com");
-        professor_criado.setLogin("pauloabadie");
         professor_criado.setSenha("paulo123");
-        professor_criado.addDisciplina(montarObjetoDisciplina());
+        professor_criado.addTurma(montarObjetoDisciplina());
         return professor_criado;
     }
 
-    private Disciplina montarObjetoDisciplina() {
-        Disciplina disciplina = new Disciplina();
+    private Turma montarObjetoDisciplina() {
+        Turma disciplina = new Turma();
         Curso curso = super.entityManager.find(Curso.class, 1L);
         ComponenteCurricular componenteCurricular = new ComponenteCurricular();
         componenteCurricular.setCurso(curso);

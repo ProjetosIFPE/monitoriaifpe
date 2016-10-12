@@ -14,9 +14,4 @@
         <property name="User" value="root"/>
         <property name="Password" value="root"/>
     </jdbc-connection-pool>
-    <custom-resource res-type="java.util.Properties" jndi-name="custom/authentication-data" factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
-        <!--<property name="org.glassfish.resources.custom.factory.PropertiesFactory.fileName" value="/home/douglas/NetBeansProjects/projeto_periodo/target/monitoriaifpe-1.0-SNAPSHOT/WEB-INF/classes/properties/authentication-data.properties" /> -->        
-        <property name="org.glassfish.resources.custom.factory.PropertiesFactory.fileName" value="C:/Users/EdmilsonS/GIT/projeto_periodo/target/monitoriaifpe-1.0-SNAPSHOT/WEB-INF/classes/properties/authentication-data.properties" />
-    </custom-resource>
-   
 </resources>

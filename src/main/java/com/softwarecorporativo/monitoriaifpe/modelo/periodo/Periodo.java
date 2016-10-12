@@ -15,9 +15,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "TB_PERIODO")
+@Table(name = "tb_periodo")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "PERIODO_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_periodo"))})
 @Access(AccessType.FIELD)
 public class Periodo extends EntidadeNegocio {
 
@@ -27,9 +27,9 @@ public class Periodo extends EntidadeNegocio {
     @Column(name = "PERIODO_ANO", nullable = false)
     private Integer ano;
 
-    @NotNull 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('PRIMEIRO', 'SEGUNDO')", name="SEMESTRE", nullable = false)
+    @Column(columnDefinition = "ENUM('PRIMEIRO', 'SEGUNDO')", name = "semestre", nullable = false)
     private Semestre semestre;
 
     public Integer getAno() {

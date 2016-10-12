@@ -1,16 +1,19 @@
+package com.softwarecorporativo.monitoriaifpe.usuario;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.funcionais.usuario;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
+import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -31,6 +34,14 @@ public class TesteUsuario extends MonitoriaTestCase {
     }
     
     @Test
+    public void testeCriarUsuarioComNomeValido() {
+        Usuario usuario = this.montarObjetoUsuario();
+        usuario.setNome("Usuario Valido Teste");
+        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
+        assertTrue(constraintViolations.isEmpty());
+    }
+
+    @Test
     public void testeCriarUsuarioComNomeTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
         String mensagemEsperada = "tamanho deve estar entre 1 e 30";
@@ -42,63 +53,6 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(mensagemEsperada, mensagemObtida);
     }
 
-    @Test
-    public void testeCriarUsuarioComSobrenomeInvalido() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "Deve possuir uma única letra maiúscula, seguida por letras minúsculas";
-        usuario.setNome("sobre nome");
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-    
-    @Test
-    public void testeCriarUsuarioComSobrenomeTamanhoMaxInvalido() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "tamanho deve estar entre 1 e 30";
-        String sobrenome = "Edmilsonmanoelguilhermedesantana";
-        usuario.setNome(sobrenome);
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-
-    @Test
-    public void testeCriarUsuarioComLoginInvalido() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "O login permite apenas letras, números, caracteres sublinhado e hífen com tamanho mínimo 3 e máximo 16";
-        usuario.setLogin("lo gin");
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-    
-    @Test
-    public void testeCriarUsuarioComLoginTamanhoMaxInvalido() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "tamanho deve estar entre 3 e 16";
-        String login = "kfjgurtdhwis9857-";
-        usuario.setLogin(login);
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-    
-     @Test
-    public void testeCriarUsuarioComLoginTamanhoMinInvalido() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "tamanho deve estar entre 3 e 16";
-        String login = "e1";
-        usuario.setLogin(login);
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
 
     @Test
     public void testeCriarUsuarioComSenhaInvalida() {
@@ -110,7 +64,7 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(1, constraintViolations.size());
         assertEquals(mensagemEsperada, mensagemObtida);
     }
-    
+
     @Test
     public void testeCriarUsuarioComSenhaTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
@@ -122,7 +76,7 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(1, constraintViolations.size());
         assertEquals(mensagemEsperada, mensagemObtida);
     }
-    
+
     @Test
     public void testeCriarUsuarioComSenhaTamanhoMinInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
@@ -145,7 +99,7 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(1, constraintViolations.size());
         assertEquals(mensagemEsperada, mensagemObtida);
     }
-    
+
     @Test
     public void testeCriarUsuarioComEmailTamanhoMaxInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
@@ -157,14 +111,14 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(mensagemEsperada, mensagemObtida);
     }
 
-
     public Usuario montarObjetoUsuario() {
         Professor professor = new Professor();
         professor.setNome("Usuario");
-        professor.setSobrenome("Teste");
-        professor.setLogin("usuarioTeste");
         professor.setSenha("usuario123");
         professor.setEmail("usuario@hotmail.com");
+        professor.setCpf("137.229.621-29");
+        professor.setSiape("1234567");
+        professor.setCurso(entityManager.find(Curso.class, 1l));
         return professor;
     }
 }

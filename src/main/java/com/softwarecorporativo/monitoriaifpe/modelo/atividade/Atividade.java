@@ -7,7 +7,6 @@ package com.softwarecorporativo.monitoriaifpe.modelo.atividade;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoAtividade;
 import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -15,8 +14,6 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,49 +24,43 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.validation.ValidaAtividade;
-import java.io.Serializable;
 
 /**
  *
  * @author Edmilson
  */
 @Entity
-@Table(name = "TB_ATIVIDADE")
+@Table(name = "tb_atividade")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "ATIVIDADE_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_atividade"))})
 @Access(AccessType.FIELD)
 @ValidaAtividade
-public class Atividade extends EntidadeNegocio  {
+public class Atividade extends EntidadeNegocio {
 
     private static final long serialVersionUID = 5800521845344151539L;
-    
+
     @NotBlank
     @Size(max = 140)
-    @Column(name = "ATIVIDADE_DESCRICAO", nullable = false)
+    @Column(name = "txt_descricao", nullable = false)
     private String descricao;
 
     @Size(max = 140)
-    @Column(name = "ATIVIDADE_OBSERVACAO", nullable = true)
+    @Column(name = "txt_observacao", nullable = true)
     private String observacoes;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "SITUACAO_ATIVIDADE", nullable = false)
-    private SituacaoAtividade situacao = SituacaoAtividade.AGUARDANDO_APROVACAO;
-    
-    @NotNull
-    @Column(name = "DATA_INICIO", nullable = false)
+    @Column(name = "dt_inicio_atividade", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataInicio;
 
     @NotNull
-    @Column(name = "DATA_FIM", nullable = false)
+    @Column(name = "dt_fim_atividade", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFim;
-    
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "MONITORIA_ID", referencedColumnName = "MONITORIA_ID")
+    @JoinColumn(name = "id_monitoria", referencedColumnName = "id_monitoria")
     private Monitoria monitoria;
 
     public String getDescricao() {
@@ -86,14 +77,6 @@ public class Atividade extends EntidadeNegocio  {
 
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
-    }
-
-    public SituacaoAtividade getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(SituacaoAtividade situacao) {
-        this.situacao = situacao;
     }
 
     public Monitoria getMonitoria() {

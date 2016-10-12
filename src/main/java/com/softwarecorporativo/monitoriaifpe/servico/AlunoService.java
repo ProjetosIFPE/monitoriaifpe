@@ -8,8 +8,6 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -31,9 +29,6 @@ public class AlunoService extends UsuarioService<Aluno> {
     private GrupoService grupoService;
 
     @EJB
-    private SecurityAccessService securityAccessService;
-
-    @EJB
     private EmailService emailService;
 
     @Override
@@ -47,13 +42,14 @@ public class AlunoService extends UsuarioService<Aluno> {
     }
 
     @Override
-    public Aluno verificarExistencia(Aluno entidadeNegocio) {
+    public Boolean verificarExistencia(Aluno entidadeNegocio) {
+        
         super.verificarExistencia(entidadeNegocio);
-        return this.getAlunoPorMatricula(entidadeNegocio.getMatricula());
+        return this.existeAlunoPorMatricula(entidadeNegocio.getMatricula());
 
     }
 
-    public Aluno getAlunoPorMatricula(String matricula) {
+    public Boolean existeAlunoPorMatricula(String matricula) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select aluno ");
         jpql.append(" from ");
@@ -61,10 +57,11 @@ public class AlunoService extends UsuarioService<Aluno> {
         jpql.append(" as aluno ");
         jpql.append(" where aluno.matricula = ?1 ");
 
-        TypedQuery<Aluno> query = entityManager.createQuery(jpql.toString(),
-                getClasseEntidade());
+        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
+                Long.class);
         query.setParameter(1, matricula);
-        return query.getSingleResult();
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
     @Override
@@ -75,11 +72,6 @@ public class AlunoService extends UsuarioService<Aluno> {
     @Override
     GrupoService inicializarServicoGrupo() {
         return grupoService;
-    }
-
-    @Override
-    SecurityAccessService inicializarServicoSeguranca() {
-        return securityAccessService;
     }
 
     @Override

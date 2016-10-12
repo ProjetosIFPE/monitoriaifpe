@@ -7,7 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.List;
@@ -27,29 +27,29 @@ import javax.persistence.TypedQuery;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class DisciplinaService extends GenericService<Disciplina> {
+public class DisciplinaService extends GenericService<Turma> {
 
     @EJB
     private PeriodoService periodoService;
 
     @Override
-    public Disciplina getEntidadeNegocio() {
-        return new Disciplina();
+    public Turma getEntidadeNegocio() {
+        return new Turma();
     }
 
     @Override
-    public Class<Disciplina> getClasseEntidade() {
-        return Disciplina.class;
+    public Class<Turma> getClasseEntidade() {
+        return Turma.class;
     }
 
-    public Disciplina salvarDisciplinaComPeriodoAtual(Disciplina disciplina) throws NegocioException {
+    public Turma salvarDisciplinaComPeriodoAtual(Turma disciplina) throws NegocioException {
         Periodo periodo = periodoService.obterPeriodoAtual();
         disciplina.setPeriodo(periodo);
         return super.salvar(disciplina);
 
     }
 
-    public List<Disciplina> obterDisciplinasDoCursoPorPeriodo(Curso curso, Periodo periodo) {
+    public List<Turma> obterDisciplinasDoCursoPorPeriodo(Curso curso, Periodo periodo) {
 
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select disciplina from ");
@@ -58,7 +58,7 @@ public class DisciplinaService extends GenericService<Disciplina> {
         jpql.append(" join disciplina.componenteCurricular as cc ");
         jpql.append(" where disciplina.periodo = :paramPeriodo ");
         jpql.append(" and cc.curso = :paramCurso ");
-        TypedQuery<Disciplina> query = super.entityManager
+        TypedQuery<Turma> query = super.entityManager
                 .createQuery(jpql.toString(), getClasseEntidade());
         query.setParameter("paramPeriodo", periodo);
         query.setParameter("paramCurso", curso);
@@ -66,12 +66,12 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return query.getResultList();
     }
 
-    public List<Disciplina> obterDisciplinasPorCursoDoPeriodoAtual(Curso curso) throws NegocioException {
+    public List<Turma> obterDisciplinasPorCursoDoPeriodoAtual(Curso curso) throws NegocioException {
         Periodo periodo = periodoService.obterPeriodoAtual();
         return this.obterDisciplinasDoCursoPorPeriodo(curso, periodo);
     }
 
-    public List<Disciplina> obterDisciplinasPorCursoDePeriodoNaoAtual(Curso curso) throws NegocioException {
+    public List<Turma> obterDisciplinasPorCursoDePeriodoNaoAtual(Curso curso) throws NegocioException {
         Periodo periodo = periodoService.obterPeriodoAtual();
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select disciplina from ");
@@ -80,7 +80,7 @@ public class DisciplinaService extends GenericService<Disciplina> {
         jpql.append(" join disciplina.componenteCurricular as cc ");
         jpql.append(" where disciplina.periodo != :paramPeriodo ");
         jpql.append(" and cc.curso = :paramCurso ");
-        TypedQuery<Disciplina> query = super.entityManager
+        TypedQuery<Turma> query = super.entityManager
                 .createQuery(jpql.toString(), getClasseEntidade());
         query.setParameter("paramPeriodo", periodo);
         query.setParameter("paramCurso", curso);
@@ -88,14 +88,14 @@ public class DisciplinaService extends GenericService<Disciplina> {
         return query.getResultList();
     }
 
-    public Disciplina salvarDisciplinaComPeriodoAntigo(Disciplina entidadeNegocio, String ano, String semestre) throws NegocioException {
+    public Turma salvarDisciplinaComPeriodoAntigo(Turma entidadeNegocio, String ano, String semestre) throws NegocioException {
         Periodo periodo = periodoService.criarPeriodoAnterior(ano, semestre);
         entidadeNegocio.setPeriodo(periodo);
         return super.salvar(entidadeNegocio);
     }
 
     /*TODO: Refatorar para a entidade de Professor*/
-    public List<Disciplina> obterDisciplinasDoProfessor(Professor professor) {
+    public List<Turma> obterDisciplinasDoProfessor(Professor professor) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select d from ");
         jpql.append(getClasseEntidade().getSimpleName());
@@ -107,18 +107,19 @@ public class DisciplinaService extends GenericService<Disciplina> {
     }
 
     @Override
-    public Disciplina verificarExistencia(Disciplina entidadeNegocio) {
+    public Boolean verificarExistencia(Turma entidadeNegocio) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select disciplina from ");
         jpql.append(getClasseEntidade().getSimpleName());
         jpql.append(" as disciplina ");
         jpql.append(" where disciplina.componenteCurricular = ?1 ");
         jpql.append(" and disciplina.periodo = ?2 ");
-        TypedQuery<Disciplina> query = super.entityManager
-                .createQuery(jpql.toString(), getClasseEntidade());
+        TypedQuery<Long> query = super.entityManager
+                .createQuery(jpql.toString(), Long.class);
         query.setParameter(1, entidadeNegocio.getComponenteCurricular());
         query.setParameter(2, entidadeNegocio.getPeriodo());
-        return query.getSingleResult();
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
 }

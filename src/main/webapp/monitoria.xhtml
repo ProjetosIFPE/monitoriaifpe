@@ -36,7 +36,7 @@ and open the template in the editor.
                                 <h:link  outcome="atividade" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
                                     <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
                                 </h:link >
-                                <h:outputText value="#{monitoria.disciplina.componenteCurricular.descricao}, #{monitoria.disciplina.periodo}" style="display:inline-block"/>
+                                <h:outputText value="#{monitoria.turma.componenteCurricular.descricao}, #{monitoria.disciturmaodo}" style="display:inline-block"/>
 
                                 <p:commandLink style="float:left;margin-right:10px" styleClass="ui-icon ui-icon-trash"  action="#{monitoriaBean.remover(monitoria)}" process="@this" update="listaMonitorias">
                                     <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
@@ -66,13 +66,12 @@ and open the template in the editor.
                                     </h:link >                              
                                 </p:column>
 
-                                <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.disciplina.componenteCurricular.descricao}" sortBy="#{monitoria.disciplina.componenteCurricular.descricao}">             
-                                    <h:outputText value="#{monitoria.disciplina.componenteCurricular.descricao}"/>
+                                <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.disciturmaonenteCurricular.descricao}" sortBy="#{monitoria.disciplinaturmaeCurricular.descricao}">             
+                                    <h:outputText value="#{monitoria.disciplina.compturmaicular.descricao}"/>
                                 </p:column>
                                 
-                                <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.disciplina.periodo}" sortBy="#{monitoria.disciplina.periodo}">             
-                                    <h:outputText value="#{monitoria.disciplina.periodo}"/>
-                                </p:column>
+                                <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.disciplina.periodo}" sortturmatoria.disciplina.periodo}">         turma                               <h:outputText value="#{monitoria.disciplina.periodo}"/>
+            turma          </p:column>
                             
                                  <p:column>
                                     <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{monitoriaBean.remover(monitoria)}" >

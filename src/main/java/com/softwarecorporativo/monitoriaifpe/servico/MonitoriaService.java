@@ -6,7 +6,7 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -22,7 +22,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class MonitoriaService extends GenericService<Monitoria> {
 
-    public List<Monitoria> obterMonitoriasPorDisciplina(Disciplina disciplina) {
+    public List<Monitoria> obterMonitoriasPorDisciplina(Turma disciplina) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select monitoria from ");
         jpql.append(getClasseEntidade().getSimpleName());
@@ -48,18 +48,19 @@ public class MonitoriaService extends GenericService<Monitoria> {
     }
 
     @Override
-    public Monitoria verificarExistencia(Monitoria entidadeNegocio) {
+    public Boolean verificarExistencia(Monitoria entidadeNegocio) {
         StringBuilder jpql = new StringBuilder();
-        jpql.append(" select monitoria from ");
+        jpql.append(" select count(*) from ");
         jpql.append(getClasseEntidade().getSimpleName());
         jpql.append(" as monitoria ");
         jpql.append(" where monitoria.disciplina = ?1 ");
         jpql.append(" and monitoria.aluno = ?2 ");
-        TypedQuery<Monitoria> query = super.entityManager
-                .createQuery(jpql.toString(), getClasseEntidade());
-        query.setParameter(1, entidadeNegocio.getDisciplina());
+        TypedQuery<Long> query = super.entityManager
+                .createQuery(jpql.toString(), Long.class);
+        query.setParameter(1, entidadeNegocio.getTurma());
         query.setParameter(2, entidadeNegocio.getAluno());
-        return query.getSingleResult();
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
     @Override

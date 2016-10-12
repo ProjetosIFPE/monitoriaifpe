@@ -1,7 +1,7 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.curso;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import java.util.ArrayList;
@@ -23,32 +23,38 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ *
+ * @author Edmilson Santana
+ */
 @Entity
-@Table(name = "TB_CURSO")
+@Table(name = "tb_curso")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "CURSO_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_curso"))})
 @Access(AccessType.FIELD)
 public class Curso extends EntidadeNegocio {
+
+    private static final long serialVersionUID = -7352251272569804380L;
 
     @NotBlank
     @Size(min = 1, max = 100)
     @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.curso.descricao}")
-    @Column(name = "CURSO_DS", nullable = false)
+    @Column(name = "txt_descricao", nullable = false)
     private String descricao;
 
     @NotNull
-    @Column(name = "GRAU", nullable = false)
+    @Column(name = "txt_grau", nullable = false)
     @Enumerated(EnumType.STRING)
     private Grau grau;
 
     @NotBlank
     @Pattern(regexp = "^[A-Z][0-9]$", message = "{com.softwarecorporativo.monitoriaifpe.curso.codigoCurso}")
-    @Column(name = "CODIGO_CURSO", nullable = false, unique = true)
+    @Column(name = "txt_codigo", nullable = false, unique = true)
     private String codigoCurso;
 
     @NotBlank
     @Pattern(regexp = "^[A-Z]{2}$", message = "{com.softwarecorporativo.monitoriaifpe.curso.codigoCampus}")
-    @Column(name = "CODIGO_CAMPUS", nullable = false)
+    @Column(name = "txt_codigo_campus", nullable = false)
     private String codigoCampus;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

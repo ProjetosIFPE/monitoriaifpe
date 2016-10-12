@@ -32,65 +32,61 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-@Table(name = "TB_USUARIO")
+@Table(name = "tb_usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "PAPEL_USUARIO", discriminatorType = DiscriminatorType.STRING, length = 1)
+@DiscriminatorColumn(name = "papel_usuario", discriminatorType = DiscriminatorType.STRING, length = 1)
 @DiscriminatorValue(value = "U")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_usuario"))})
 @Access(AccessType.FIELD)
-@NamedQuery(name = Usuario.USUARIO_POR_LOGIN, query = "select u from Usuario as u where u.login = ?1")
+@NamedQuery(name = Usuario.USUARIO_POR_EMAIL, query = "select u from Usuario as u where u.email = ?1")
 public class Usuario extends EntidadeNegocio {
 
     private static final long serialVersionUID = -2083194086477441520L;
-    public static final String USUARIO_POR_LOGIN = "usuarioPorLogin";
+    public static final String USUARIO_POR_EMAIL = "usuarioPorEmail";
 
     @NotBlank
     @Size(min = 1, max = 30)
-    @Pattern(regexp = "^[A-Z]{1}[A-Za-z]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.nome}")
-    @Column(name = "USUARIO_NOME", nullable = false)
+    @Pattern(regexp = "^[A-Z]{1}[A-Za-z\\s]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.nome}")
+    @Column(name = "txt_nome", nullable = false)
     private String nome;
 
     @NotBlank
     @Size(min = 1, max = 30)
-    @Pattern(regexp = "^[A-Z]{1}[A-Za-z]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.sobrenome}")
-    @Column(name = "USUARIO_SOBRENOME", nullable = false)
-    private String sobrenome;
-
-    @NotBlank
-    @Size(min = 3, max = 16)
-    @Pattern(regexp = "^[A-Za-z0-9_-]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.login}")
-    @Column(name = "USUARIO_LOGIN", nullable = false)
-    private String login;
-
-    /* Validar com pattern */
-    @NotBlank
-    @Size(max = 45)
-    @Column(name = "USUARIO_SENHA", nullable = false)
-    private String senha;
-
-    @NotBlank
-    @Size(min = 1, max = 30)
     @Email
-    @Column(name = "USUARIO_EMAIL", length = 30, nullable = false)
+    @Column(name = "txt_email", length = 30, nullable = false)
     private String email;
 
+    @CPF
+    @Column(name = "txt_cpf", nullable = false)
+    private String cpf;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_USUARIO_GRUPO", joinColumns = @JoinColumn(name = "USUARIO_ID"), inverseJoinColumns = @JoinColumn(name = "GRUPO_ID"))
+    @JoinTable(name = "tb_usuario_grupo", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_grupo"))
     private List<Grupo> grupos;
 
+    @NotBlank
+    @Size(min = 6, max = 18)
+    @Pattern(regexp = "^[A-Za-z0-9_-]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.senha}")
     @Transient
+    private String senha;
+    
+    @Column(name = "txt_senha", nullable = false)
+    private String senhaHash;
+
+    @Column(name = "txt_sal", nullable = false)
     private String sal;
 
     @PrePersist
     public void gerarHash() {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            setSenha(sal + senha);
+            setSenha(gerarSal().concat(senha));
             digest.update(senha.getBytes(Charset.forName("UTF-8")));
-            setSenha(Base64.getEncoder().encodeToString(digest.digest()));
+            setSenhaHash(Base64.getEncoder().encodeToString(digest.digest()));
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
@@ -109,19 +105,9 @@ public class Usuario extends EntidadeNegocio {
         }
     }
 
-    public String getLogin() {
-
-        return login;
-    }
-
     public String getSenha() {
 
         return senha;
-    }
-
-    public void setLogin(String login) {
-
-        this.login = login;
     }
 
     public void setSenha(String senha) {
@@ -149,16 +135,8 @@ public class Usuario extends EntidadeNegocio {
         return nome;
     }
 
-    public String getSobrenome() {
-        return this.sobrenome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
-    }
-
     public String getNomeCompleto() {
-        return String.format("%s %s", nome, sobrenome);
+        return String.format("%s", nome);
     }
 
     public void adicionarGrupo(Grupo grupo) {
@@ -168,7 +146,26 @@ public class Usuario extends EntidadeNegocio {
         grupos.add(grupo);
     }
 
-    private void setSal(String sal) {
+    protected void setSal(String sal) {
         this.sal = sal;
     }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    private String getSenhaHash() {
+        return senhaHash;
+    }
+
+    protected void setSenhaHash(String senhaHash) {
+        this.senhaHash = senhaHash;
+    }
+    
+    
+
 }

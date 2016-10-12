@@ -1,46 +1,19 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.negocio;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class EntidadeNegocio implements Serializable {
 
     private static final long serialVersionUID = 268142493479959195L;
 
-    
-    @Column(name = "ULTIMA_ALTERACAO", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ultimaAlteracao;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long chavePrimaria;
-
-    @PrePersist
-    @PreUpdate
-    public void setUltimaAlteracao() {
-        this.setUltimaAlteracao(Calendar.getInstance().getTime());
-
-    }
-
-    public Date getUltimaAlteracao() {
-        return ultimaAlteracao;
-    }
-
-    public void setUltimaAlteracao(Date ultimaAlteracao) {
-        this.ultimaAlteracao = ultimaAlteracao;
-    }
 
     public Long getChavePrimaria() {
         return chavePrimaria;
@@ -71,10 +44,9 @@ public abstract class EntidadeNegocio implements Serializable {
         }
         return true;
     }
-    
+
     public boolean isInativo() {
         return false;
     }
 
-    
 }

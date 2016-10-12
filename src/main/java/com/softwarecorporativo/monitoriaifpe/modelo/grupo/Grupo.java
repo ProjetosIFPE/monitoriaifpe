@@ -16,8 +16,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,9 +27,9 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Edmilson Santana
  */
 @Entity
-@Table(name = "TB_GRUPO")
+@Table(name = "tb_grupo")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "GRUPO_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_grupo"))})
 @Access(AccessType.FIELD)
 @NamedQuery(name = Grupo.GRUPO_POR_NOME, query = "select g from Grupo as g where g.nome = ?1")
 public class Grupo extends EntidadeNegocio {
@@ -45,7 +43,7 @@ public class Grupo extends EntidadeNegocio {
 
     @NotBlank
     @Size(max = 45)
-    @Column(name = "GRUPO_NOME", nullable = false)
+    @Column(name = "txt_nome", nullable = false)
     private String nome;
 
     @ManyToMany(fetch = FetchType.LAZY)

@@ -87,6 +87,22 @@ public class PeriodoService extends GenericService<Periodo> {
         return query.getSingleResult();
     }
 
+    public Boolean existePeriodoCadastradoPorAnoEsemestre(Periodo periodo) {
+
+        StringBuilder jpql = new StringBuilder();
+        jpql.append(" select p from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as p ");
+        jpql.append(" where p.ano = :paramAno ");
+        jpql.append(" and p.semestre = :paramSemestre ");
+        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
+                Long.class);
+        query.setParameter("paramAno", periodo.getAno());
+        query.setParameter("paramSemestre", periodo.getSemestre());
+        Long count = query.getSingleResult();
+        return count > 0;
+    }
+
     public Periodo criarPeriodoAnterior(String ano, String semestre) {
         Periodo periodo = getEntidadeNegocio();
         periodo.setAno(Integer.parseInt(ano));
@@ -99,8 +115,8 @@ public class PeriodoService extends GenericService<Periodo> {
     }
 
     @Override
-    public Periodo verificarExistencia(Periodo entidadeNegocio) {
-        return obterPeriodoCadastradoPorAnoEsemestre(entidadeNegocio);
+    public Boolean verificarExistencia(Periodo entidadeNegocio) {
+        return existePeriodoCadastradoPorAnoEsemestre(entidadeNegocio);
     }
 
 }

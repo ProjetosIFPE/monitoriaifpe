@@ -20,22 +20,17 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
 
     private GrupoService servicoGrupo;
 
-    private SecurityAccessService securityAccessService;
-
     private EmailService emailService;
 
     @PostConstruct
     public void inicializarServicos() {
         servicoGrupo = inicializarServicoGrupo();
-        securityAccessService = inicializarServicoSeguranca();
         emailService = inicializarServicoEmail();
     }
 
     @Override
     public T salvar(T usuario) throws NegocioException {
         adicionarGrupoUsuario(usuario);
-        String sal = usuario.gerarSal();
-        securityAccessService.salvarPropriedadesAcesso(sal, usuario.getLogin());
         usuario = super.salvar(usuario);
         emailService.enviarMensagem(usuario.getEmail());
         return usuario;
@@ -49,25 +44,26 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
 
     public Usuario getUsuarioPorLogin(String login) {
         TypedQuery<T> query = super.entityManager
-                .createNamedQuery(T.USUARIO_POR_LOGIN, this.getClasseEntidade());
+                .createNamedQuery(T.USUARIO_POR_EMAIL, this.getClasseEntidade());
         query.setParameter(1, login);
         return query.getSingleResult();
     }
 
     @Override
-    public T verificarExistencia(T entidadeNegocio) {
+    public Boolean verificarExistencia(T entidadeNegocio) {
+        // TODO: Colocar exceção para existencia de Email cadastrado
         StringBuilder jpql = new StringBuilder();
-        jpql.append(" select usuario ");
+        jpql.append(" select count(*) ");
         jpql.append(" from ");
         jpql.append(this.getClasseEntidade().getSimpleName());
         jpql.append(" as usuario ");
-        jpql.append(" where usuario.login = ?1 or usuario.email = ?2 ");
+        jpql.append(" where usuario.email = ?1 ");
 
-        TypedQuery<T> query = entityManager.createQuery(jpql.toString(),
-                getClasseEntidade());
-        query.setParameter(1, entidadeNegocio.getLogin());
-        query.setParameter(2, entidadeNegocio.getEmail());
-        return query.getSingleResult();
+        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
+                Long.class);
+        query.setParameter(1, entidadeNegocio.getEmail());
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
     @Override
@@ -78,8 +74,6 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
     abstract void adicionarGrupos(Usuario usuario);
 
     abstract GrupoService inicializarServicoGrupo();
-
-    abstract SecurityAccessService inicializarServicoSeguranca();
 
     abstract EmailService inicializarServicoEmail();
 

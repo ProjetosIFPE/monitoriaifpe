@@ -1,4 +1,4 @@
-package com.softwarecorporativo.monitoriaifpe.modelo.disciplina;
+package com.softwarecorporativo.monitoriaifpe.modelo.turma;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
@@ -22,42 +22,40 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "TB_COMPONENTE_CURRICULAR")
+@Table(name = "tb_componente_curricular")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "COMPONENTE_CURRICULAR_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_componente_curricular"))})
 @Access(AccessType.FIELD)
 public class ComponenteCurricular extends EntidadeNegocio {
 
     private static final long serialVersionUID = -3079766681161299776L;
 
     @NotBlank
-    @Column(name = "CODIGO_COMP_CURRICULAR", nullable = false, unique = true)
+    @Column(name = "txt_codigo_componente", nullable = false, unique = true)
     private String codigoComponenteCurricular;
 
     @NotBlank
     @Size(min = 1, max = 150)
     @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.componenteCurricular.descricao}")
-    @Column(name = "COMP_CURRICULAR_DS", nullable = false)
+    @Column(name = "txt_descricao", nullable = false)
     private String descricao;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
+    @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     private Curso curso;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "componenteCurricular", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Disciplina> disciplinas;
-    
-    /* TODO: Construtor criado para facilitar a criação de objetos */ 
-    public ComponenteCurricular(String codigoComponenteCurricular, String descricao){
+    private List<Turma> turmas;
+
+    public ComponenteCurricular(String codigoComponenteCurricular, String descricao) {
         this.codigoComponenteCurricular = codigoComponenteCurricular;
         this.descricao = descricao;
     }
-    
-    public ComponenteCurricular(){
+
+    public ComponenteCurricular() {
     }
-    
-    
+
     public String getDescricao() {
 
         return descricao;
@@ -85,12 +83,12 @@ public class ComponenteCurricular extends EntidadeNegocio {
     public void setCodigoComponenteCurricular(String codigoComponenteCurricular) {
         this.codigoComponenteCurricular = codigoComponenteCurricular;
     }
-    
-    public void addDisciplina(Disciplina disciplina) {
-        if (this.disciplinas == null) {
-            this.disciplinas = new ArrayList<>();
+
+    public void addTurma(Turma turma) {
+        if (this.turmas == null) {
+            this.turmas = new ArrayList<>();
         }
-        disciplina.setComponenteCurricular(this);
-        this.disciplinas.add(disciplina);
+        turma.setComponenteCurricular(this);
+        this.turmas.add(turma);
     }
 }

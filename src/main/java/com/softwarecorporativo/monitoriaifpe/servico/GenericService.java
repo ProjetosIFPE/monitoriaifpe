@@ -59,10 +59,10 @@ public abstract class GenericService<T extends EntidadeNegocio> {
     }
 
     public void validarCadastro(T entidadeNegocio) throws NegocioException {
-        T entidade;
+        Boolean existe;
         try {
-            entidade = verificarExistencia(entidadeNegocio);
-            if (entidade != null) {
+            existe = verificarExistencia(entidadeNegocio);
+            if (existe) {
                 throw new NegocioException(NegocioException.OBJETO_EXISTENTE);
             }
         } catch (NonUniqueResultException e) {
@@ -72,7 +72,7 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         }
     }
 
-    public abstract T verificarExistencia(T entidadeNegocio);
+    public abstract Boolean verificarExistencia(T entidadeNegocio);
 
     public abstract T getEntidadeNegocio();
 

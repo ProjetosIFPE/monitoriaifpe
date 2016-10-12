@@ -1,12 +1,13 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.professor;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,10 +17,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "TB_PROFESSOR")
-@PrimaryKeyJoinColumn(name = "PROFESSOR_ID")
+@Table(name = "tb_professor")
+@PrimaryKeyJoinColumn(name = "id_professor")
 @DiscriminatorValue(value = "P")
 @Access(AccessType.FIELD)
 public class Professor extends Usuario {
@@ -27,30 +29,34 @@ public class Professor extends Usuario {
     private static final long serialVersionUID = -8880339274163624313L;
 
     @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY)
-    private List<Disciplina> disciplinas;
+    private List<Turma> turmas;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "CURSO_ID", referencedColumnName = "CURSO_ID")
+    @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     private Curso curso;
 
-    public Disciplina getDisciplina(int index) {
-        if (this.disciplinas == null) {
-            this.disciplinas = new ArrayList<>();
+    @NotBlank
+    @Column(name = "txt_siape")
+    private String siape;
+
+    public Turma getTurma(int index) {
+        if (this.turmas == null) {
+            this.turmas = new ArrayList<>();
         }
-        return disciplinas.get(index);
+        return turmas.get(index);
     }
 
-    public void addDisciplina(Disciplina disciplina) {
-        if (this.disciplinas == null) {
-            this.disciplinas = new ArrayList<>();
+    public void addTurma(Turma turma) {
+        if (this.turmas == null) {
+            this.turmas = new ArrayList<>();
         }
-        disciplina.setProfessor(this);
-        this.disciplinas.add(disciplina);
+        turma.setProfessor(this);
+        this.turmas.add(turma);
     }
 
-    public int getQuantidadeDisciplinasDoProfessor() {
-        return disciplinas.size();
+    public int getQuantidadeTurmasDoProfessor() {
+        return turmas.size();
     }
 
     public Curso getCurso() {
@@ -61,5 +67,12 @@ public class Professor extends Usuario {
         this.curso = curso;
     }
 
-    
+    public String getSiape() {
+        return siape;
+    }
+
+    public void setSiape(String siape) {
+        this.siape = siape;
+    }
+
 }

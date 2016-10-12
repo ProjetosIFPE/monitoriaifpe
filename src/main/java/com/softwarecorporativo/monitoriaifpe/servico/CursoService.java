@@ -41,7 +41,7 @@ public class CursoService extends GenericService<Curso> {
     }
 
     @Override
-    public Curso verificarExistencia(Curso entidadeNegocio) {
+    public Boolean verificarExistencia(Curso entidadeNegocio) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select curso ");
         jpql.append(" from ");
@@ -49,11 +49,12 @@ public class CursoService extends GenericService<Curso> {
         jpql.append(" as curso ");
         jpql.append(" where curso.descricao = ?1 or curso.codigoCurso = ?2  ");
 
-        TypedQuery<Curso> query = entityManager.createQuery(jpql.toString(),
-                getClasseEntidade());
+        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
+                Long.class);
         query.setParameter(1, entidadeNegocio.getDescricao());
         query.setParameter(2, entidadeNegocio.getCodigoCurso());
-        return query.getSingleResult();
+        Long count = query.getSingleResult();
+        return count > 0;
     }
     
     @Override

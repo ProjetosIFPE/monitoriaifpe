@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.modelo.disciplina;
+package com.softwarecorporativo.monitoriaifpe.modelo.turma;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
@@ -26,30 +26,34 @@ import javax.validation.constraints.NotNull;
  * @author Edmilson
  */
 @Entity
-@Table(name = "TB_DISCIPLINA")
+@Table(name = "tb_turma")
 @AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "DISCIPLINA_ID"))})
+    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_turma"))})
 @Access(AccessType.FIELD)
-public class Disciplina extends EntidadeNegocio {
+public class Turma extends EntidadeNegocio {
 
     private static final long serialVersionUID = -7788698676039962643L;
 
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "COMPONENTE_CURRICULAR_ID", referencedColumnName = "COMPONENTE_CURRICULAR_ID")
+    @JoinColumn(name = "id_componente_curricular", referencedColumnName = "id_componente_curricular")
     private ComponenteCurricular componenteCurricular;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PROFESSOR_ID", referencedColumnName = "PROFESSOR_ID")
+    @JoinColumn(name = "id_professor", referencedColumnName = "id_professor")
     private Professor professor;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "PERIODO_ID", referencedColumnName = "PERIODO_ID")
+    @JoinColumn(name = "id_periodo", referencedColumnName = "id_periodo")
     private Periodo periodo;
 
-    public int obterAnoDaDisciplina() {
+    @NotNull
+    @Column(name = "turma_ofertada" , nullable = false)
+    private Boolean ofertada;
+    
+    public int obterAnoTurma() {
 
         return getPeriodo().getAno();
     }
@@ -90,8 +94,18 @@ public class Disciplina extends EntidadeNegocio {
      * @return 
      *
      */
-    public Boolean verificarIgualdadeComponenteCurricular(Disciplina disciplina) {
+    public Boolean verificarIgualdadeComponenteCurricular(Turma disciplina) {
         return this.getComponenteCurricular().equals(disciplina.getComponenteCurricular());
     }
+
+    public Boolean isOfertada() {
+        return ofertada;
+    }
+
+    public void setOfertada(Boolean ofertada) {
+        this.ofertada = ofertada;
+    }
+    
+    
 
 }

@@ -22,10 +22,7 @@ public class ProfessorService extends UsuarioService<Professor> {
 
     @EJB
     private GrupoService grupoService;
-
-    @EJB
-    private SecurityAccessService securityAccessService;
-
+    
     @EJB
     private EmailService emailService;
 
@@ -47,11 +44,6 @@ public class ProfessorService extends UsuarioService<Professor> {
     @Override
     GrupoService inicializarServicoGrupo() {
         return grupoService;
-    }
-
-    @Override
-    SecurityAccessService inicializarServicoSeguranca() {
-        return securityAccessService;
     }
 
     @Override

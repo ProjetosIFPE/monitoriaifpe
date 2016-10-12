@@ -8,7 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 import com.softwarecorporativo.monitoriaifpe.exception.MensagemExcecao;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.Disciplina;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.servico.DisciplinaService;
@@ -29,7 +29,7 @@ import javax.validation.ConstraintViolationException;
  */
 @ManagedBean
 @ViewScoped
-public class DisciplinaBean extends GenericBean<Disciplina> {
+public class DisciplinaBean extends GenericBean<Turma> {
 
     private static final long serialVersionUID = -4299577354116933320L;
 
@@ -73,7 +73,7 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
      */
     public void ofertarDisciplinaParaMonitoria() {
         Professor professor = (Professor) userSettings.getUsuario();
-        professor.addDisciplina(entidadeNegocio);
+        professor.addTurma(entidadeNegocio);
         try {
             disciplinaService.salvarDisciplinaComPeriodoAtual(entidadeNegocio);
             mensagemCadastroSucesso();
@@ -94,12 +94,12 @@ public class DisciplinaBean extends GenericBean<Disciplina> {
         super.cadastrar();
     }
 
-    public List<Disciplina> getDisciplinasProfessor() {
+    public List<Turma> getDisciplinasProfessor() {
         Professor professor = (Professor) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasDoProfessor(professor);
     }
 
-    public List<Disciplina> getDisciplinasPorCursoForaPeriodoAtual() throws NegocioException {
+    public List<Turma> getDisciplinasPorCursoForaPeriodoAtual() throws NegocioException {
 
         Aluno aluno = (Aluno) userSettings.getUsuario();
         return disciplinaService.obterDisciplinasPorCursoDePeriodoNaoAtual(aluno.getCurso());

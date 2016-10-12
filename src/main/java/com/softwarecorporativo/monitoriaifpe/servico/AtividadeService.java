@@ -98,7 +98,7 @@ public class AtividadeService extends GenericService<Atividade> {
 
         relatorio.setAno(monitoria.getAnoMonitoria());
         relatorio.setEdital(monitoria.getEditalMonitoria());
-        relatorio.setDisciplina(monitoria.getDisciplina().getComponenteCurricular().getDescricao());
+        relatorio.setDisciplina(monitoria.getTurma().getComponenteCurricular().getDescricao());
         relatorio.setMatricula(monitoria.getAluno().getMatricula());
         relatorio.setCurso(monitoria.getAluno().getCurso().getDescricao());
         relatorio.setNome(monitoria.getNomeMonitor());
@@ -198,16 +198,18 @@ public class AtividadeService extends GenericService<Atividade> {
 
     @PermitAll
     @Override
-    public Atividade verificarExistencia(Atividade entidadeNegocio) {
+    public Boolean verificarExistencia(Atividade entidadeNegocio) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select a from ");
         jpql.append(getClasseEntidade().getSimpleName());
         jpql.append(" as a where a.monitoria = ?1 ");
         jpql.append(" and a.dataInicio = ?2 ");
-        TypedQuery<Atividade> query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
+        TypedQuery<Long> query = super.entityManager.createQuery(
+                jpql.toString(), Long.class);
         query.setParameter(1, entidadeNegocio.getMonitoria());
         query.setParameter(2, entidadeNegocio.getDataInicio(), TemporalType.DATE);
-        return query.getSingleResult();
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
     @PermitAll

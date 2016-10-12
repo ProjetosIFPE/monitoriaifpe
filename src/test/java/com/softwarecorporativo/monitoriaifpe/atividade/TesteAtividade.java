@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.funcionais.atividade;
+package com.softwarecorporativo.monitoriaifpe.atividade;
 
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.Util;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoAtividade;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,46 +47,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         assertNull(super.entityManager.find(Atividade.class, 1L));
     }
 
-    @Test
-    public void testeAlterarAtividade() {
-        Atividade atividade = super.entityManager.find(Atividade.class, 1L);
-        atividade.setSituacao(SituacaoAtividade.AGUARDANDO_APROVACAO);
-        atividade.setDescricao("Descrição Alterada");
-        super.entityManager.merge(atividade);
-        super.entityManager.flush();
-        super.entityManager.clear();
-        atividade = super.entityManager.find(Atividade.class, 1L);
-        assertEquals(SituacaoAtividade.AGUARDANDO_APROVACAO, atividade.getSituacao());
-    }
-
-    @Test
-    public void testeConsultarAtividadesAprovadas() {
-        TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a WHERE a.situacao = :situacao ORDER BY a.descricao",
-                Atividade.class);
-        query.setParameter("situacao", SituacaoAtividade.APROVADA);
-
-        List<Atividade> atividadesAprovadas = query.getResultList();
-        assertEquals(20, atividadesAprovadas.size());
-        for (Atividade atividade : atividadesAprovadas) {
-            atividade.getSituacao().equals(SituacaoAtividade.APROVADA);
-        }
-    }
-
-    @Test
-    public void testeConsultarAtividadesEmEspera() {
-        TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a WHERE a.situacao = :situacao ORDER BY a.descricao ASC",
-                Atividade.class);
-        query.setParameter("situacao", SituacaoAtividade.AGUARDANDO_APROVACAO);
-
-        List<Atividade> atividadesEmEspera = query.getResultList();
-        assertEquals(26, atividadesEmEspera.size());
-        for (Atividade atividade : atividadesEmEspera) {
-            atividade.getSituacao().equals(SituacaoAtividade.AGUARDANDO_APROVACAO);
-        }
-    }
-
+ 
     @Test
     public void testeConsultarAtividadesPorDescricao() {
         TypedQuery<Atividade> query = super.entityManager.createQuery(
@@ -168,19 +127,7 @@ public class TesteAtividade extends MonitoriaTestCase {
 
     } */
 
-    @Test
-    public void testeConsultarAtividadePorMonitoriaBolsista() {
-        TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a WHERE a.monitoria IN ( SELECT m FROM Monitoria m WHERE m.modalidade = 'BOLSISTA')",
-                Atividade.class);
-
-        List<Atividade> atividades = query.getResultList();
-        assertEquals(23, atividades.size());
-        for (Atividade atividade : atividades) {
-            assertEquals(Modalidade.BOLSISTA, atividade.getMonitoria().getModalidade());
-        }
-    }
-
+ 
     @Test
     public void testeVerificarQuantidadeAtividades() {
         Long quantidadeEsperada = 46L;
@@ -200,34 +147,6 @@ public class TesteAtividade extends MonitoriaTestCase {
 
         Atividade atividade = query.getSingleResult();
         assertEquals(atividadeEsperada, atividade);
-    }
-
-    @Test
-    public void testeConsultarAtividadesPorAluno() {
-        Aluno alunoEsperado = super.entityManager.find(Aluno.class, 1L);
-        TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FETCH a.monitoria m INNER JOIN FETCH m.aluno al where CONCAT(al.nome, al.sobrenome) = :nomeAluno",
-                Atividade.class);
-        String nomeAluno = alunoEsperado.getNome().concat(alunoEsperado.getSobrenome());
-        query.setParameter("nomeAluno", nomeAluno);
-        List<Atividade> atividades = query.getResultList();
-        assertEquals(23, atividades.size());
-        for (Atividade atividade : atividades) {
-            assertEquals(alunoEsperado, atividade.getMonitoria().getAluno());
-        }
-    }
-
-    @Test
-    public void testeAprovarAtividadesDeMonitoria() {
-        Query query = super.entityManager.createQuery("UPDATE Atividade AS a SET a.situacao = ?1 WHERE a.situacao = ?2");
-        query.setParameter(1, SituacaoAtividade.APROVADA);
-        query.setParameter(2, SituacaoAtividade.AGUARDANDO_APROVACAO);
-        query.executeUpdate();
-        TypedQuery<Long> typedQuery = super.entityManager.createQuery("SELECT COUNT(a) FROM Atividade a where a.situacao = :situacao", Long.class);
-        typedQuery.setParameter("situacao", SituacaoAtividade.AGUARDANDO_APROVACAO);
-        Long quantidadeEsperada = 0L;
-        Long quantidade = typedQuery.getSingleResult();
-        assertEquals(quantidadeEsperada, quantidade);
     }
 
     @Test
@@ -337,7 +256,6 @@ public class TesteAtividade extends MonitoriaTestCase {
         atividade.setHorarioEntrada(Util.getTime(14, 0, 0));
         atividade.setHorarioSaida(Util.getTime(15, 0, 0));*/
         atividade.setObservacoes("Observação da Atividade");
-        atividade.setSituacao(SituacaoAtividade.APROVADA);
         atividade.setMonitoria(super.entityManager.find(Monitoria.class, 1L));
         return atividade;
     }

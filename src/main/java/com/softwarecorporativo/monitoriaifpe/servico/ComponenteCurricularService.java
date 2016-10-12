@@ -6,7 +6,7 @@
 package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
-import com.softwarecorporativo.monitoriaifpe.modelo.disciplina.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -49,7 +49,7 @@ public class ComponenteCurricularService extends GenericService<ComponenteCurric
     }
 
     @Override
-    public ComponenteCurricular verificarExistencia(ComponenteCurricular entidadeNegocio) {
+    public Boolean verificarExistencia(ComponenteCurricular entidadeNegocio) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select componente from ");
         jpql.append(getClasseEntidade().getSimpleName());
@@ -57,12 +57,13 @@ public class ComponenteCurricularService extends GenericService<ComponenteCurric
         jpql.append(" where componente.curso = ?1 and ");
         jpql.append(" ( componente.descricao = ?2 ");
         jpql.append(" or componente.codigoComponenteCurricular = ?3 ) ");
-        TypedQuery<ComponenteCurricular> query = super.entityManager
-                .createQuery(jpql.toString(), getClasseEntidade());
+        TypedQuery<Long> query = super.entityManager
+                .createQuery(jpql.toString(), Long.class);
         query.setParameter(1, entidadeNegocio.getCurso());
         query.setParameter(2, entidadeNegocio.getDescricao());
         query.setParameter(3, entidadeNegocio.getCodigoComponenteCurricular());
-        return query.getSingleResult();
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
 }
