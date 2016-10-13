@@ -11,7 +11,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -33,26 +32,18 @@ public class GrupoService extends GenericService<Grupo> {
     }
 
     public Grupo obterGrupo(String nomeGrupo) {
-        TypedQuery<Grupo> query = super.entityManager
-                .createNamedQuery(Grupo.GRUPO_POR_NOME, getClasseEntidade());
-        query.setParameter(1, nomeGrupo);
-        return query.getSingleResult();
+        String[] atributos = new String[]{nomeGrupo};
+        return get(Grupo.GRUPO_POR_NOME, atributos);
+    }
+
+    public Long contarGrupoPorNome(String nomeGrupo) {
+        String[] atributos = new String[]{nomeGrupo};
+        return count(Grupo.COUNT_GRUPO_POR_NOME, atributos);
     }
 
     @Override
     public Boolean verificarExistencia(Grupo entidadeNegocio) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select count(*) ");
-        jpql.append(" from ");
-        jpql.append(this.getClasseEntidade().getSimpleName());
-        jpql.append(" as grupo ");
-        jpql.append(" where grupo.nome = ?1 ");
-
-        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
-                Long.class);
-        query.setParameter(1, entidadeNegocio.getNome());
-        Long count = query.getSingleResult();
-        return count > 0;
+        return contarGrupoPorNome(entidadeNegocio.getNome()) > 0;
     }
 
 }

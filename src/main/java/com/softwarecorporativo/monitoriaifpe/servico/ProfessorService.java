@@ -22,7 +22,7 @@ public class ProfessorService extends UsuarioService<Professor> {
 
     @EJB
     private GrupoService grupoService;
-    
+
     @EJB
     private EmailService emailService;
 
@@ -50,4 +50,17 @@ public class ProfessorService extends UsuarioService<Professor> {
     EmailService inicializarServicoEmail() {
         return emailService;
     }
+
+    public Long contarProfessorPorSiape(String siape) {
+        String[] atributos = new String[]{siape};
+        return count(Professor.COUNT_PROFESSOR_POR_SIAPE, atributos);
+    }
+
+    @Override
+    public Boolean verificarExistencia(Professor entidadeNegocio) {
+         Boolean existe = super.verificarExistencia(entidadeNegocio);
+         existe = existe && (contarProfessorPorSiape(entidadeNegocio.getSiape()) > 0);
+         return existe;
+    }
+
 }

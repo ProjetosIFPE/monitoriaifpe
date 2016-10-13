@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `monitoriaifpe`.`tb_usuario` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
   `txt_nome` VARCHAR(60) NOT NULL,
   `txt_email` VARCHAR(60) NOT NULL,
-  `txt_cpf` VARCHAR(12) NOT NULL,
+  `txt_cpf` VARCHAR(15) NOT NULL,
   `txt_senha` VARCHAR(200) NOT NULL,
   `txt_sal` VARCHAR(200) NOT NULL,
   `papel_usuario` VARCHAR(1) NULL,

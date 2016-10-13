@@ -19,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class CursoBean extends GenericBean<Curso> {
+public class CursoBean extends ViewScopedBean<Curso> {
 
     private static final long serialVersionUID = -1771136068297478129L;
 
@@ -27,7 +27,7 @@ public class CursoBean extends GenericBean<Curso> {
     private CursoService cursoService;
 
     @Override
-    void inicializarEntidadeNegocio() {
+    void inicializarEntidades() {
         super.setEntidadeNegocio(cursoService.getEntidadeNegocio());
     }
 

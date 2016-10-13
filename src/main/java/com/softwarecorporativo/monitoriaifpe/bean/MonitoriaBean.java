@@ -28,7 +28,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class MonitoriaBean extends GenericBean<Monitoria> {
+public class MonitoriaBean extends ViewScopedBean<Monitoria> {
 
     private static final long serialVersionUID = -4736071102515881964L;
 
@@ -46,7 +46,7 @@ public class MonitoriaBean extends GenericBean<Monitoria> {
     private List<Monitoria> monitoriasDisciplina;
 
     @Override
-    void inicializarEntidadeNegocio() {
+    void inicializarEntidades() {
 
         super.setEntidadeNegocio(monitoriaService.getEntidadeNegocio());
     }

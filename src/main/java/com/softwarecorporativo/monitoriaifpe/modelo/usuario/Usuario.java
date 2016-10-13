@@ -1,5 +1,6 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.usuario;
 
+import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import java.nio.charset.Charset;
@@ -24,6 +25,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -42,11 +44,14 @@ import org.hibernate.validator.constraints.br.CPF;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_usuario"))})
 @Access(AccessType.FIELD)
-@NamedQuery(name = Usuario.USUARIO_POR_EMAIL, query = "select u from Usuario as u where u.email = ?1")
+@NamedQueries(value = {
+    @NamedQuery(name = Usuario.USUARIO_CADASTRADO, query = "select u from Usuario as u where u.email = ?1 or u.cpf = ?2"),
+    @NamedQuery(name = Usuario.COUNT_USUARIO_CADASTRADO, query = "select count(u) from Usuario as u where u.email = ?1 or u.cpf = ?2")})
 public class Usuario extends EntidadeNegocio {
 
     private static final long serialVersionUID = -2083194086477441520L;
-    public static final String USUARIO_POR_EMAIL = "usuarioPorEmail";
+    public static final String USUARIO_CADASTRADO = "usuarioCadastrado";
+    public static final String COUNT_USUARIO_CADASTRADO = "countUsuarioCadastrado";
 
     @NotBlank
     @Size(min = 1, max = 30)
@@ -68,14 +73,10 @@ public class Usuario extends EntidadeNegocio {
     @JoinTable(name = "tb_usuario_grupo", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_grupo"))
     private List<Grupo> grupos;
 
+    // validar fora do bean validation
     @NotBlank
-    @Size(min = 6, max = 18)
-    @Pattern(regexp = "^[A-Za-z0-9_-]+$", message = "{com.softwarecorporativo.monitoriaifpe.usuario.senha}")
-    @Transient
-    private String senha;
-    
     @Column(name = "txt_senha", nullable = false)
-    private String senhaHash;
+    private String senha = "senha";
 
     @Column(name = "txt_sal", nullable = false)
     private String sal;
@@ -86,7 +87,7 @@ public class Usuario extends EntidadeNegocio {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             setSenha(gerarSal().concat(senha));
             digest.update(senha.getBytes(Charset.forName("UTF-8")));
-            setSenhaHash(Base64.getEncoder().encodeToString(digest.digest()));
+            setSenha(Base64.getEncoder().encodeToString(digest.digest()));
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
@@ -157,15 +158,5 @@ public class Usuario extends EntidadeNegocio {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-
-    private String getSenhaHash() {
-        return senhaHash;
-    }
-
-    protected void setSenhaHash(String senhaHash) {
-        this.senhaHash = senhaHash;
-    }
-    
-    
 
 }

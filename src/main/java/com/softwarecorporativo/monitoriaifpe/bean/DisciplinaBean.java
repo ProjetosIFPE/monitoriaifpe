@@ -29,7 +29,7 @@ import javax.validation.ConstraintViolationException;
  */
 @ManagedBean
 @ViewScoped
-public class DisciplinaBean extends GenericBean<Turma> {
+public class DisciplinaBean extends ViewScopedBean<Turma> {
 
     private static final long serialVersionUID = -4299577354116933320L;
 
@@ -45,7 +45,7 @@ public class DisciplinaBean extends GenericBean<Turma> {
     private Periodo periodo;
 
     @Override
-    void inicializarEntidadeNegocio() {
+    void inicializarEntidades() {
         periodo = periodoService.getEntidadeNegocio();
         super.setEntidadeNegocio(disciplinaService.getEntidadeNegocio());
     }

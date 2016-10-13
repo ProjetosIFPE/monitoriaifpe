@@ -7,18 +7,17 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="_template.xhtml" >        
         <ui:define name="conteudo">
-            <h:form id="cadastroAluno">
-                <p:messages id="messages" severity="warn" autoUpdate="true" closable="true" />
+            <h:form>
                 <p:fieldset>
                     <h:panelGrid columns="3">
                         <p:outputLabel for="nome" value="Nome Completo"></p:outputLabel>
-                        <p:inputText id="nome" value="#{alunoBean.entidadeNegocio.nome}" required="true"></p:inputText>
+                        <p:inputText id="nome" value="#{cadastroUsuarioBean.aluno.nome}" required="true"></p:inputText>
                         <p:message for="nome" id="messageNome" />
                         <p:outputLabel for="cpf" value="CPF"></p:outputLabel>
-                        <p:inputMask  mask="999.999.999-99" id="cpf" requiredMessage="CPF é obrigatório" required="true"></p:inputMask>
+                        <p:inputMask  mask="999.999.999-99" id="cpf" value="#{cadastroUsuarioBean.aluno.cpf}" requiredMessage="CPF é obrigatório" required="true"></p:inputMask>
                         <p:message for="cpf" id="messageCpf" />
                         <p:outputLabel for="email">Email</p:outputLabel>
-                        <p:inputText id="email" value="#{alunoBean.entidadeNegocio.email}" required="true" validatorMessage="Email inválido">
+                        <p:inputText id="email" value="#{cadastroUsuarioBean.aluno.email}" required="true" validatorMessage="Email inválido">
                             <f:attribute name="type" value="email" />
                             <f:passThroughAttribute name="placeholder" value="Email do Aluno" />
                             <f:validateRegex pattern=".+@.+" />
@@ -26,23 +25,17 @@
                         </p:inputText>
                         <p:message for="email" id="messageEmail" />
                         <p:outputLabel for="matricula" value="Matricula" ></p:outputLabel>
-                        <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{alunoBean.entidadeNegocio.matricula}"></p:inputMask>
+                        <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{cadastroUsuarioBean.aluno.matricula}"></p:inputMask>
                         <p:message for="matricula" id="messageMatricula" />
                         <p:outputLabel for="curso" value="Curso" />
-                        <p:selectOneMenu id="curso"  value="#{alunoBean.entidadeNegocio.curso}" required="true" converter="entidadeNegocioConverter">
+                        <p:selectOneMenu id="curso"  value="#{cadastroUsuarioBean.aluno.curso}" required="true" converter="entidadeNegocioConverter">
                             <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
                         </p:selectOneMenu>
                         <p:message for="curso" id="messageCurso" />
                         <p:outputLabel for="senha" value="Senha" />
-                        <p:password feedback="true" value="#{alunoBean.entidadeNegocio.senha}" id="senha" inline="true" required="true" />
+                        <p:password feedback="true" value="#{cadastroUsuarioBean.aluno.senha}" id="senha" inline="true" required="true" />
                         <h:message for="senha" id="messageSenha" />
-                        <p:outputLabel for="confirmaSenha" value="Confirmar senha" />
-                        <p:password value="#{alunoBean.entidadeNegocio.senha}" id="confirmaSenha" inline="true" required="true" />
-                        <h:message for="confirmaSenha" id="messageConfirmaSenha" />
-                        <p:outputLabel for="senha">Captcha</p:outputLabel>
-                        <p:captcha label="Captcha" language="pt" id="captcha" />
-                        <p:message for="captcha" id="messageCaptcha" /> 
-                        <p:commandButton ajax="false" action="#{alunoBean.cadastrar()}" value="Cadastrar" 
+                        <p:commandButton ajax="false" action="#{cadastroUsuarioBean.cadastrarAluno()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
                 </p:fieldset>

@@ -90,7 +90,7 @@ public class CalendarListener {
             atividadeBean.cadastrar();
             this.adicionarEventoCalendario();
         }
-        atividadeBean.inicializarEntidadeNegocio();
+        atividadeBean.inicializarEntidades();
         evento = new DefaultScheduleEvent();
     }
 
@@ -122,7 +122,7 @@ public class CalendarListener {
 
     public void selecionarData(SelectEvent selectEvent) {
 
-        atividadeBean.inicializarEntidadeNegocio();
+        atividadeBean.inicializarEntidades();
 
         Date dataSelecionada = (Date) selectEvent.getObject();
         atividadeBean.alterarDataInicioFimAtividade(dataSelecionada);

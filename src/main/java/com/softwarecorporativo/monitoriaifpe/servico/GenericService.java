@@ -7,6 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -16,6 +17,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -68,7 +70,34 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         } catch (NonUniqueResultException e) {
             throw new NegocioException(NegocioException.OBJETO_EXISTENTE);
         } catch (NoResultException e) {
-        
+
+        }
+    }
+
+    public List<T> getResultList(String namedQuery, String[] atributos) {
+        TypedQuery<T> query = entityManager
+                .createNamedQuery(namedQuery, this.getClasseEntidade());
+        putParameters(query, atributos);
+        return query.getResultList();
+    }
+    
+    public T get(String namedQuery, String[] atributos) {
+        TypedQuery<T> query = entityManager
+                .createNamedQuery(namedQuery, this.getClasseEntidade());
+        putParameters(query, atributos);
+        return query.getSingleResult();
+    }
+
+    public Long count(String namedQuery, String[] atributos) {
+        TypedQuery<Long> query = entityManager
+                .createNamedQuery(namedQuery, Long.class);
+        putParameters(query, atributos);
+        return query.getSingleResult();
+    }
+
+    public void putParameters(TypedQuery typedQuery, String[] atributos) {
+        for (int i = 0; i < atributos.length; i++) {
+            typedQuery.setParameter(i + 1, atributos[i]);
         }
     }
 

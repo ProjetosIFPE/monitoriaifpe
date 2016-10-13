@@ -27,7 +27,7 @@ import org.primefaces.model.StreamedContent;
  */
 @ManagedBean
 @ViewScoped
-public class AtividadeBean extends GenericBean<Atividade> {
+public class AtividadeBean extends ViewScopedBean<Atividade> {
 
     private static final long serialVersionUID = -3272784032346171935L;
 
@@ -43,7 +43,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
   
 
     @Override
-    void inicializarEntidadeNegocio() {
+    void inicializarEntidades() {
         setEntidadeNegocio(atividadeService.getEntidadeNegocio());
     }
 
@@ -94,7 +94,7 @@ public class AtividadeBean extends GenericBean<Atividade> {
 
     public void removerAtividade() throws NegocioException {
         super.remover(entidadeNegocio);
-        inicializarEntidadeNegocio();
+        inicializarEntidades();
     }
 
     public Monitoria getMonitoria() {

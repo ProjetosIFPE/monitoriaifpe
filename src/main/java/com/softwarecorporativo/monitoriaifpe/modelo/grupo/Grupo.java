@@ -7,6 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.modelo.grupo;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Access;
@@ -17,6 +18,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -31,7 +33,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_grupo"))})
 @Access(AccessType.FIELD)
-@NamedQuery(name = Grupo.GRUPO_POR_NOME, query = "select g from Grupo as g where g.nome = ?1")
+@NamedQueries(value = {
+    @NamedQuery(name = Grupo.GRUPO_POR_NOME, query = "select g from Grupo as g where g.nome = ?1"),
+    @NamedQuery(name = Grupo.COUNT_GRUPO_POR_NOME, query = "select count(g) from Grupo as g where g.nome = ?1")})
 public class Grupo extends EntidadeNegocio {
 
     public static final String USUARIO = "usuario";
@@ -39,6 +43,8 @@ public class Grupo extends EntidadeNegocio {
     public static final String PROFESSOR = "professor";
     public static final String ALUNO = "aluno";
     public static final String GRUPO_POR_NOME = "grupoPorNome";
+    public static final String COUNT_GRUPO_POR_NOME = "countGrupoPorNome";
+
     private static final long serialVersionUID = -9166253705253329278L;
 
     @NotBlank

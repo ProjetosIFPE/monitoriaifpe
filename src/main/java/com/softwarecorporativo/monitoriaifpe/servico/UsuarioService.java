@@ -8,8 +8,12 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -32,7 +36,7 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
     public T salvar(T usuario) throws NegocioException {
         adicionarGrupoUsuario(usuario);
         usuario = super.salvar(usuario);
-        emailService.enviarMensagem(usuario.getEmail());
+       // emailService.enviarMensagem(usuario.getEmail());
         return usuario;
 
     }
@@ -42,28 +46,20 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
         this.adicionarGrupos(usuario);
     }
 
+    @Deprecated
     public Usuario getUsuarioPorLogin(String login) {
         TypedQuery<T> query = super.entityManager
-                .createNamedQuery(T.USUARIO_POR_EMAIL, this.getClasseEntidade());
+                .createNamedQuery(T.USUARIO_CADASTRADO, this.getClasseEntidade());
         query.setParameter(1, login);
         return query.getSingleResult();
     }
 
     @Override
     public Boolean verificarExistencia(T entidadeNegocio) {
-        // TODO: Colocar exceção para existencia de Email cadastrado
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select count(*) ");
-        jpql.append(" from ");
-        jpql.append(this.getClasseEntidade().getSimpleName());
-        jpql.append(" as usuario ");
-        jpql.append(" where usuario.email = ?1 ");
-
-        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
-                Long.class);
-        query.setParameter(1, entidadeNegocio.getEmail());
-        Long count = query.getSingleResult();
-        return count > 0;
+        String[] atributos = new String[2];
+        atributos[0] = entidadeNegocio.getEmail();
+        atributos[1] = entidadeNegocio.getCpf();
+        return count(Usuario.COUNT_USUARIO_CADASTRADO, atributos) > 0;
     }
 
     @Override

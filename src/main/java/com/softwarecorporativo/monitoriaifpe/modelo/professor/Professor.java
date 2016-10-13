@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -24,9 +26,15 @@ import org.hibernate.validator.constraints.NotBlank;
 @PrimaryKeyJoinColumn(name = "id_professor")
 @DiscriminatorValue(value = "P")
 @Access(AccessType.FIELD)
+@NamedQueries(value = {
+    @NamedQuery(name = Professor.PROFESSOR_POR_SIAPE, query = "select p from Professor as p where p.siape = ?1"),
+    @NamedQuery(name = Professor.COUNT_PROFESSOR_POR_SIAPE, query = "select count(p) from Professor as p where p.siape = ?1")})
 public class Professor extends Usuario {
 
     private static final long serialVersionUID = -8880339274163624313L;
+
+    public static final String PROFESSOR_POR_SIAPE = "professorPorSiape";
+    public static final String COUNT_PROFESSOR_POR_SIAPE = "countProfessorPorSiape";
 
     @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY)
     private List<Turma> turmas;
