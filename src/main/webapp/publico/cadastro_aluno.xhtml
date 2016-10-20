@@ -5,11 +5,11 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <ui:composition template="_template.xhtml" >        
+    <ui:composition template="../_template.xhtml" >        
         <ui:define name="conteudo">
             <h:form>
                 <p:fieldset>
-                    <h:panelGrid columns="3">
+                    <h:panelGrid columns="3" rendered="#{cadastroUsuarioBean.possuiCursos()}">
                         <p:outputLabel for="nome" value="Nome Completo"></p:outputLabel>
                         <p:inputText id="nome" value="#{cadastroUsuarioBean.aluno.nome}" required="true"></p:inputText>
                         <p:message for="nome" id="messageNome" />
@@ -29,7 +29,7 @@
                         <p:message for="matricula" id="messageMatricula" />
                         <p:outputLabel for="curso" value="Curso" />
                         <p:selectOneMenu id="curso"  value="#{cadastroUsuarioBean.aluno.curso}" required="true" converter="entidadeNegocioConverter">
-                            <f:selectItems value="#{cursoBean.entidades}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
+                            <f:selectItems value="#{cadastroUsuarioBean.cursos}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   
                         </p:selectOneMenu>
                         <p:message for="curso" id="messageCurso" />
                         <p:outputLabel for="senha" value="Senha" />
@@ -38,6 +38,7 @@
                         <p:commandButton ajax="false" action="#{cadastroUsuarioBean.cadastrarAluno()}" value="Cadastrar" 
                                          update="@form" process="@form"/>
                     </h:panelGrid>
+                    <h:outputText value="#{msg.cursosNaoCadastrados}" rendered="#{not cadastroUsuarioBean.possuiCursos()}"  />
                 </p:fieldset>
             </h:form>
         </ui:define>

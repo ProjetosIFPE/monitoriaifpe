@@ -20,19 +20,36 @@
                 <p:layoutUnit position="north">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:link outcome="home.xhtml"><h:graphicImage styleClass="logo" library="img" name="logo_ifpe.png" /></h:link>
+                            <h:link outcome="/publico/login.xhtml"><h:graphicImage styleClass="logo" library="img" name="logo_ifpe.png" /></h:link>
                         </f:facet>  
                     </h:panelGrid>
                 </p:layoutUnit>
                 <p:layoutUnit position="west" styleClass="menu">
-                    <p:menu>
-                        <p:menuitem  value="Aluno" outcome="/login_aluno.xhtml" immediate="true"/>
-                        <p:menuitem  value="Professor" outcome="/login_professor.xhtml" immediate="true"/>       
-                        <p:menuitem  value="Validar Documentos" immediate="true"/>
+                    <p:panelMenu rendered="#{usuarioLogado == null}">
+                        <p:submenu label="Cadastro">
+                            <p:menuitem  value="Aluno" action="/publico/cadastro_aluno.xhtml?faces-redirect=true" immediate="true"/>
+                            <p:menuitem  value="Professor" action="/publico/cadastro_professor.xhtml?faces-redirect=true"  immediate="true"/>
+                        </p:submenu>
+                        <p:separator />
+                        <p:submenu label="Validar Documentos">
+                            <p:menuitem  value="Validar Relatórios" immediate="true"/>
+                        </p:submenu>  
+                    </p:panelMenu>
+                    <p:menu rendered="#{usuarioLogado != null}">
+                        <p:submenu label="Navegação">
+                            <p:menuitem value="Turmas" rendered="#{facesContext.externalContext.isUserInRole('professor')}"  outcome="/professor/turma.xhtml?faces-redirect=true" immediate="true"/>    
+                            <p:menuitem value="Monitorias" rendered="#{facesContext.externalContext.isUserInRole('professor')}" outcome="/professor/professor_monitoria.xhtml?faces-redirect=true" immediate="true"/>  
+                            <p:menuitem value="Monitorias" rendered="#{facesContext.externalContext.isUserInRole('aluno')}" outcome="/aluno/aluno_monitoria.xhtml?faces-redirect=true" immediate="true"/>   
+                            <p:menuitem value="Cursos" rendered="#{facesContext.externalContext.isUserInRole('administrador')}" outcome="/admin/curso.xhtml?faces-redirect=true" immediate="true"/>
+                            <p:menuitem value="Componentes Curriculares" rendered="#{facesContext.externalContext.isUserInRole('administrador')}" outcome="/admin/componentes.xhtml?faces-redirect=true" immediate="true"/>   
+                            <p:menuitem value="Configurações" rendered="#{facesContext.externalContext.isUserInRole('usuario')}"  immediate="true"/>
+                        </p:submenu>
+                        <p:separator />
+                        <p:menuitem  value="Sair" outcome="#{loginBean.efetuarLogout()}" immediate="true"/> 
                     </p:menu>
                 </p:layoutUnit> 
             </h:form>
-            <p:layoutUnit  position="center">
+            <p:layoutUnit   position="center">
                 <ui:insert name="conteudo"></ui:insert>
             </p:layoutUnit>
         </p:layout>

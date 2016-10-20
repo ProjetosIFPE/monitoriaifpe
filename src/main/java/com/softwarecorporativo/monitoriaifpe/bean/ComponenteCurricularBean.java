@@ -27,7 +27,7 @@ public class ComponenteCurricularBean extends ViewScopedBean<ComponenteCurricula
     private static final long serialVersionUID = -3700833037294884488L;
 
     @ManagedProperty(value = "#{userSettings}")
-    private UserSettings userSettings;
+    private UsuarioBean userSettings;
 
     @EJB
     private ComponenteCurricularService componenteCurricularService;
@@ -54,11 +54,11 @@ public class ComponenteCurricularBean extends ViewScopedBean<ComponenteCurricula
         return Collections.EMPTY_LIST;
     }
 
-    public UserSettings getUserSettings() {
+    public UsuarioBean getUserSettings() {
         return userSettings;
     }
 
-    public void setUserSettings(UserSettings userSettings) {
+    public void setUserSettings(UsuarioBean userSettings) {
         this.userSettings = userSettings;
     }
 

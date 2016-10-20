@@ -8,25 +8,23 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    <ui:composition template="_template.xhtml" >
+    <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form id="login" styleClass="formLogin">
+            <h:form>
                 <p:fieldset>
                     <h:panelGrid columns="3">
-                        <p:outputLabel for="login">Siape</p:outputLabel>
-                        <p:inputText id="login" value="#{loginBean.login}" required="true" />
-                        <p:message for="login" id="messageLogin" />
+                        <p:outputLabel for="email">Email</p:outputLabel>
+                        <p:inputText id="email" value="#{loginBean.usuario.email}" required="true" />
+                        <p:message for="email" id="messageEmail" />
                         <p:outputLabel for="senha">Senha</p:outputLabel>
-                        <p:password feedback="true" id="senha" value="#{loginBean.senha}" weakLabel="Fraca"
+                        <p:password feedback="true" id="senha" value="#{loginBean.usuario.senha}" weakLabel="Fraca"
                                     goodLabel="Bom" strongLabel="Forte" promptLabel="Digite a sua senha" required="true"/>
                         <p:message for="senha" id="messageSenha" />
-                        <p:outputLabel for="senha">Captcha</p:outputLabel>
+                       <!-- <p:outputLabel for="senha">Captcha</p:outputLabel>
                         <p:captcha language="pt"  label="Captcha" id="captcha" />
-                        <p:message for="captcha" id="messageCaptcha" /> 
+                        <p:message for="captcha" id="messageCaptcha" /> -->
                         <p:commandButton ajax="false" action="#{loginBean.efetuarLogin()}" value="Entrar" 
                                          update="@form" process="@form"/>
-                        <p:commandButton ajax="false" value="Cadastro" immediate="true"
-                                         action="cadastro_professor"  />
                     </h:panelGrid>
                 </p:fieldset>
             </h:form>

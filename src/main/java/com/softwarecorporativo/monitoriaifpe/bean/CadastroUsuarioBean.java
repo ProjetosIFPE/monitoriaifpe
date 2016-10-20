@@ -6,13 +6,15 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
+import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.servico.AlunoService;
+import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
 import com.softwarecorporativo.monitoriaifpe.servico.ProfessorService;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-
+import java.util.List;
 /**
  *
  * @author Edmilson Santana
@@ -26,6 +28,9 @@ public class CadastroUsuarioBean extends Bean {
 
     @EJB
     private ProfessorService professorService;
+    
+    @EJB
+    private CursoService cursoService;
 
     private Aluno aluno = new Aluno();
 
@@ -60,6 +65,14 @@ public class CadastroUsuarioBean extends Bean {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+    
+    public List<Curso> getCursos() {
+        return cursoService.listarTodos();
+    }
+    
+    public Boolean possuiCursos() {
+        return cursoService.possuiCursos();
     }
     
     

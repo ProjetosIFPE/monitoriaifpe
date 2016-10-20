@@ -9,6 +9,7 @@ import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.Parameter;
 
 /**
  *
@@ -74,30 +76,32 @@ public abstract class GenericService<T extends EntidadeNegocio> {
         }
     }
 
-    public List<T> getResultList(String namedQuery, String[] atributos) {
+    public List<T> getResultList(String namedQuery, Object[] parametros) {
         TypedQuery<T> query = entityManager
                 .createNamedQuery(namedQuery, this.getClasseEntidade());
-        putParameters(query, atributos);
+        construirParametrosNamedQuery(query, parametros);
         return query.getResultList();
     }
-    
-    public T get(String namedQuery, String[] atributos) {
+
+    public T get(String namedQuery, Object[] parametros) {
         TypedQuery<T> query = entityManager
                 .createNamedQuery(namedQuery, this.getClasseEntidade());
-        putParameters(query, atributos);
+        construirParametrosNamedQuery(query, parametros);
         return query.getSingleResult();
     }
 
-    public Long count(String namedQuery, String[] atributos) {
+    public Long count(String namedQuery, Object[] parametros) {
         TypedQuery<Long> query = entityManager
                 .createNamedQuery(namedQuery, Long.class);
-        putParameters(query, atributos);
+        construirParametrosNamedQuery(query, parametros);
         return query.getSingleResult();
     }
 
-    public void putParameters(TypedQuery typedQuery, String[] atributos) {
-        for (int i = 0; i < atributos.length; i++) {
-            typedQuery.setParameter(i + 1, atributos[i]);
+    public void construirParametrosNamedQuery(TypedQuery typedQuery, Object[] parametros) {
+        if (parametros != null) {
+            for (int i = 0; i < parametros.length; i++) {
+                typedQuery.setParameter(i + 1, parametros[i]);
+            }
         }
     }
 

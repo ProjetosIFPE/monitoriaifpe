@@ -5,15 +5,13 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
-import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
+import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoMonitoria;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -21,47 +19,6 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 public class MonitoriaService extends GenericService<Monitoria> {
-
-    public List<Monitoria> obterMonitoriasPorDisciplina(Turma disciplina) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select monitoria from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as monitoria ");
-        jpql.append(" where monitoria.disciplina = :paramDisciplina");
-        Query query = super.entityManager
-                .createQuery(jpql.toString(), getClasseEntidade());
-        query.setParameter("paramDisciplina", disciplina);
-        return query.getResultList();
-    }
-
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<Monitoria> obterMonitoriasPorAluno(Aluno aluno) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select monitoria from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as monitoria ");
-        jpql.append(" where monitoria.aluno.chavePrimaria = ?1");
-        Query query = super.entityManager
-                .createQuery(jpql.toString(), getClasseEntidade());
-        query.setParameter(1, aluno.getChavePrimaria());
-        return query.getResultList();
-    }
-
-    @Override
-    public Boolean verificarExistencia(Monitoria entidadeNegocio) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select count(*) from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as monitoria ");
-        jpql.append(" where monitoria.disciplina = ?1 ");
-        jpql.append(" and monitoria.aluno = ?2 ");
-        TypedQuery<Long> query = super.entityManager
-                .createQuery(jpql.toString(), Long.class);
-        query.setParameter(1, entidadeNegocio.getTurma());
-        query.setParameter(2, entidadeNegocio.getAluno());
-        Long count = query.getSingleResult();
-        return count > 0;
-    }
 
     @Override
     public Monitoria getEntidadeNegocio() {
@@ -71,6 +28,64 @@ public class MonitoriaService extends GenericService<Monitoria> {
     @Override
     public Class<Monitoria> getClasseEntidade() {
         return Monitoria.class;
+    }
+
+    @Override
+    public Monitoria salvar(Monitoria monitoria) throws NegocioException {
+        monitoria.aguardarAprovacao();
+        return super.salvar(monitoria);
+    }
+
+    public void aprovar(Monitoria monitoria) throws NegocioException {
+        monitoria.aprovar();
+        atualizar(monitoria);
+    }
+
+    public void reprovar(Monitoria monitoria) throws NegocioException {
+        monitoria.reprovar();
+        atualizar(monitoria);
+    }
+
+    public List<Monitoria> consultarMonitoriasAprovadas(Professor professor) {
+        return this.consultarMonitorias(SituacaoMonitoria.APROVADA, professor);
+    }
+
+    public List<Monitoria> consultarMonitoriasAguardandoAprovacao(Professor professor) {
+        return this.consultarMonitorias(SituacaoMonitoria.AGUARDANDO_APROVACAO, professor);
+    }
+
+    public List<Monitoria> consultarMonitoriasAprovadas(Aluno aluno) {
+        return this.consultarMonitorias(SituacaoMonitoria.APROVADA, aluno);
+    }
+
+    public List<Monitoria> consultarMonitorias(SituacaoMonitoria situacao, Aluno aluno) {
+        Object[] parametros = new Object[2];
+        parametros[0] = situacao;
+        parametros[1] = aluno;
+        return getResultList(Monitoria.MONITORIA_POR_ALUNO, parametros);
+    }
+
+    public List<Monitoria> consultarMonitorias(SituacaoMonitoria situacao, Professor professor) {
+        Object[] parametros = new Object[2];
+        parametros[0] = situacao;
+        parametros[1] = professor;
+        return getResultList(Monitoria.MONITORIA_POR_PROFESSOR, parametros);
+    }
+
+    public List<Monitoria> consultarMonitoriasSolicitadas(Aluno aluno) {
+        Object[] parametros = new Object[2];
+        parametros[0] = SituacaoMonitoria.AGUARDANDO_APROVACAO;
+        parametros[1] = SituacaoMonitoria.REPROVADA;
+        parametros[2] = aluno;
+        return getResultList(Monitoria.MONITORIA_SOLICITADA, parametros);
+    }
+
+    @Override
+    public Boolean verificarExistencia(Monitoria monitoria) {
+        Object[] parametros = new Object[2];
+        parametros[0] = monitoria.getAluno();
+        parametros[1] = monitoria.getTurma();
+        return super.count(Monitoria.COUNT_MONITORIA_CADASTRADA, parametros) > 0;
     }
 
 }

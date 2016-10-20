@@ -18,17 +18,13 @@ import javax.persistence.TypedQuery;
  *
  * @author Edmilson Santana
  */
-
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class CursoService extends GenericService<Curso> {
 
-    
-
-   
     @Override
-    public void remover(Curso entidadeNegocio) throws NegocioException{
+    public void remover(Curso entidadeNegocio) throws NegocioException {
 
         if (!entidadeNegocio.isInativo()) {
             throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
@@ -53,7 +49,7 @@ public class CursoService extends GenericService<Curso> {
         Long count = query.getSingleResult();
         return count > 0;
     }
-    
+
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Curso getEntidadeNegocio() {
@@ -64,6 +60,10 @@ public class CursoService extends GenericService<Curso> {
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Class<Curso> getClasseEntidade() {
         return Curso.class;
+    }
+
+    public Boolean possuiCursos() {
+        return super.count(Curso.COUNT_CURSO, null) > 0;
     }
 
 }

@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,9 +28,14 @@ import org.hibernate.validator.constraints.NotBlank;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_componente_curricular"))})
 @Access(AccessType.FIELD)
+@NamedQueries(value = {
+    @NamedQuery(name = ComponenteCurricular.COMPONENTE_POR_CURSO, query = "select c from ComponenteCurricular as c where c.curso = ?1")
+})
 public class ComponenteCurricular extends EntidadeNegocio {
 
     private static final long serialVersionUID = -3079766681161299776L;
+
+        public static final String COMPONENTE_POR_CURSO = "componentePorCurso";
 
     @NotBlank
     @Column(name = "txt_codigo_componente", nullable = false, unique = true)

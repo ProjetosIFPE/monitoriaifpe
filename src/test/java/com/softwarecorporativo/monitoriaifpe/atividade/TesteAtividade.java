@@ -6,10 +6,8 @@
 package com.softwarecorporativo.monitoriaifpe.atividade;
 
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +45,6 @@ public class TesteAtividade extends MonitoriaTestCase {
         assertNull(super.entityManager.find(Atividade.class, 1L));
     }
 
- 
     @Test
     public void testeConsultarAtividadesPorDescricao() {
         TypedQuery<Atividade> query = super.entityManager.createQuery(
@@ -61,7 +58,8 @@ public class TesteAtividade extends MonitoriaTestCase {
             assertTrue(atividade.getDescricao().startsWith("Correção"));
         }
     }
-/*
+
+    /*
     @Test
     public void testeConsultarAtividadesDoMes() {
         TypedQuery<Atividade> query = super.entityManager.createQuery(
@@ -79,7 +77,7 @@ public class TesteAtividade extends MonitoriaTestCase {
             assertEquals(Calendar.JANUARY, calendar.get(Calendar.MONTH));
         }
     }
-*/
+     */
     @Test
     public void testeConsultarAtividadesSemObservacoes() {
 
@@ -111,7 +109,8 @@ public class TesteAtividade extends MonitoriaTestCase {
         Monitoria monitoria = queryMonitoria.getSingleResult();
         assertEquals(atividade.getMonitoria(), monitoria);
     }
-/*
+
+    /*
     @Test
     public void testeConsultarAtividadesPassadas() {
         TypedQuery<Atividade> query = super.entityManager.createQuery(
@@ -127,7 +126,6 @@ public class TesteAtividade extends MonitoriaTestCase {
 
     } */
 
- 
     @Test
     public void testeVerificarQuantidadeAtividades() {
         Long quantidadeEsperada = 46L;
@@ -161,6 +159,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         Long quantidade = typedQuery.getSingleResult();
         assertEquals(quantidadeEsperada, quantidade);
     }
+
     /*
     @Test
     public void testeCriarAtividadeComHorarioEntradaAposSaida() {
@@ -220,6 +219,7 @@ public class TesteAtividade extends MonitoriaTestCase {
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
         assertEquals(mensagemEsperada, mensagemObtida);
     }
+
     /*
     @Test
     public void testeCriarAtividadeComAtributosInvalidos() {

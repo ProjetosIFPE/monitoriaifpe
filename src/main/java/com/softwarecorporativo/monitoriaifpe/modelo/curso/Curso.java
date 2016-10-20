@@ -3,6 +3,7 @@ package com.softwarecorporativo.monitoriaifpe.modelo.curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
+import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -32,10 +35,13 @@ import org.hibernate.validator.constraints.NotBlank;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_curso"))})
 @Access(AccessType.FIELD)
+@NamedQueries(value = {
+    @NamedQuery(name = Curso.COUNT_CURSO, query = "select count(c) from Curso as c")})
 public class Curso extends EntidadeNegocio {
 
     private static final long serialVersionUID = -7352251272569804380L;
 
+    public static final String COUNT_CURSO = "countCurso";
     @NotBlank
     @Size(min = 1, max = 100)
     @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.curso.descricao}")
@@ -126,13 +132,13 @@ public class Curso extends EntidadeNegocio {
     public void setGrau(Grau grau) {
         this.grau = grau;
     }
-   
+
     @Override
-    public boolean isInativo(){
-        if(this.alunos.isEmpty() && 
-                this.componentesCurriculares.isEmpty()){
+    public boolean isInativo() {
+        if (this.alunos.isEmpty()
+                && this.componentesCurriculares.isEmpty()) {
             return Boolean.TRUE;
         }
-       return Boolean.FALSE;
+        return Boolean.FALSE;
     }
 }

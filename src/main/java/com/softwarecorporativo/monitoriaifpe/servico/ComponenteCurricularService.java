@@ -37,15 +37,9 @@ public class ComponenteCurricularService extends GenericService<ComponenteCurric
         return ComponenteCurricular.class;
     }
 
-    public List<ComponenteCurricular> obterComponentesPorCurso(Curso curso) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select componente from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as componente ");
-        jpql.append(" where componente.curso = :paramCurso ");
-        Query query = super.entityManager.createQuery(jpql.toString(), getClasseEntidade());
-        query.setParameter("paramCurso", curso);
-        return query.getResultList();
+    public List<ComponenteCurricular> consultarComponentes(Curso curso) {
+        Object[] parametros = {curso};
+        return super.getResultList(ComponenteCurricular.COMPONENTE_POR_CURSO, parametros);
     }
 
     @Override

@@ -9,8 +9,6 @@ import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import static org.junit.Assert.*;
@@ -38,7 +36,7 @@ public class TesteMonitoria extends MonitoriaTestCase {
         super.entityManager.flush();
         super.entityManager.clear();
         Monitoria monitoriaAlterada = super.entityManager.find(Monitoria.class, 1L);
-     //   assertEquals(monitoria.getModalidade(), monitoriaAlterada.getModalidade());
+        //   assertEquals(monitoria.getModalidade(), monitoriaAlterada.getModalidade());
 
     }
 
@@ -87,8 +85,6 @@ public class TesteMonitoria extends MonitoriaTestCase {
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
         assertEquals(1, constraintViolations.size());
     }
-
-    
 
     @Test
     public void testeCriarMonitoriaComDisciplinaInvalida() {

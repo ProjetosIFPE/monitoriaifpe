@@ -16,6 +16,11 @@
 .menu {
     width: 13.5em !important;
 }
+.icone_pesquisa {
+    float:left;
+    margin-right:10px;
+}
+
 icone_aluno {
     background: url(../img/icone_aluno.gif) !important;
     height:16px;

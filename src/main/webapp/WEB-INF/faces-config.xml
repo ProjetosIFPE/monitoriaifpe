@@ -8,6 +8,11 @@
         <el-resolver>
             org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
         </el-resolver>
+        application>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
     </application>
     <factory>
         <exception-handler-factory>
@@ -18,7 +23,7 @@
         <from-view-id>/publico/login.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>sucesso</from-outcome>
-            <to-view-id>/usuario/principal.xhtml</to-view-id>
+            <to-view-id>/usuario/home.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>falha</from-outcome>

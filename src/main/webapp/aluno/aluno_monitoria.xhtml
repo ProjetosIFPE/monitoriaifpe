@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="../_template.xhtml" >
+        <ui:define name="conteudo">
+            <p:tabView>
+                <p:tab title="Solicitação de Monitoria">
+                    <h:outputText value="#{msg.cursosNaoCadastrados}" rendered="#{not alunoMonitoriaBean.possuiTurmasOfertadas()}" />
+                    <h:form id="formMonitoria" rendered="#{alunoMonitoriaBean.possuiTurmasOfertadas()}">
+                        <p:fieldset>
+                            <h:panelGrid columns="2">    
+                                <p:outputLabel>Turmas</p:outputLabel>
+                                <p:selectOneMenu value="#{alunoMonitoriaBean.entidadeNegocio.turma}" converter="entidadeNegocioConverter" filter="true" effect="fade" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{alunoMonitoriaBean.turmas}" var="turma" itemLabel="#{turma.componenteCurricular.descricao}" itemValue="#{turma}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText #{turma.periodo} />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{turma.componenteCurricular.descricao}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            <p:commandButton action="#{alunoMonitoriaBean.cadastrar()}" value="Solicitar Monitoria" update=":painelMonitoria" process="@form" />
+                        </p:fieldset>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Monitorias Solicitadas">
+                    <h:form>
+                        <p:fieldset>
+                            <p:dataTable  var="monitoria" value="#{alunoMonitoriaBean.monitoriasSolicitadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias solicitadas.">
+
+                                <f:facet name="header">
+                                    Monitorias Solicitadas
+                                </f:facet>
+
+                                <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.turma.componenteCurricular.descricao}" sortBy="#{monitoria.turma.componenteCurricular.descricao}">             
+                                    <h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/>
+                                </p:column>
+
+                                <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.turma.periodo}" sortBy="#{monitoria.turma.periodo}" >      
+                                    <h:outputText value="#{monitoria.disciplina.periodo}"/>
+                                </p:column>
+
+                                <p:column headerText="Situação" filterMatchMode="startsWith" filterBy="#{monitoria.situacaoMonitoria.label}}" sortBy="#{monitoria.situacaoMonitoria.label}}" >      
+                                    <h:outputText value="#{monitoria.situacaoMonitoria.label}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{alunoMonitoriaBean.remover(monitoria)}" >
+                                        <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta solicitação ?" icon="ui-icon-alert" />
+                                    </p:commandLink>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column> 
+                            </p:dataTable>
+                        </p:fieldset>
+                        <p:poll interval="10" listener="#{alunoMonitoriaBean.inicializarMonitoriasSolicitadas()}" update="@form" />
+                    </h:form>
+                </p:tab>
+                <p:tab title="Monitorias Aprovadas">
+                    <h:form>
+                        <p:fieldset>
+                            <p:dataTable var="monitoria" value="#{alunoMonitoriaBean.monitoriasAprovadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias aprovadas.">
+
+                                <f:facet name="header">
+                                    Monitorias Aprovadas
+                                </f:facet>
+
+                                <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.turma.componenteCurricular.descricao}" sortBy="#{monitoria.turma.componenteCurricular.descricao}">             
+                                    <h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/>
+                                </p:column>
+
+                                <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.turma.periodo}" >        
+                                    <h:outputText value="#{monitoria.turma.periodo}"/>
+                                </p:column>
+
+                                <p:column>             
+                                    <h:link  outcome="home_aluno" styleClass="ui-icon ui-icon-search">
+                                        <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
+                                    </h:link >                              
+                                </p:column>
+                            </p:dataTable>
+                        </p:fieldset>
+                        <p:poll interval="10" listener="#{alunoMonitoriaBean.inicializarMonitoriasAprovadas()}" update="@form" />
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+        </ui:define>
+
+    </ui:composition>
+</html>

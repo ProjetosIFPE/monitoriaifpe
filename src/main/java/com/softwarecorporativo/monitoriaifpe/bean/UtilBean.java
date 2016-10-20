@@ -6,7 +6,6 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
 import java.io.Serializable;
 import javax.faces.bean.ApplicationScoped;
@@ -21,11 +20,6 @@ import javax.faces.bean.ManagedBean;
 public class UtilBean implements Serializable {
 
     private static final long serialVersionUID = -7393215500241022802L;
-
-    public Modalidade[] getModalidades() {
-
-        return Modalidade.values();
-    }
 
     public Grau[] getGraus() {
         return Grau.values();

@@ -8,12 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
-import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.persistence.TypedQuery;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -36,7 +31,6 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
     public T salvar(T usuario) throws NegocioException {
         adicionarGrupoUsuario(usuario);
         usuario = super.salvar(usuario);
-       // emailService.enviarMensagem(usuario.getEmail());
         return usuario;
 
     }
@@ -46,12 +40,9 @@ public abstract class UsuarioService<T extends Usuario> extends GenericService<T
         this.adicionarGrupos(usuario);
     }
 
-    @Deprecated
-    public Usuario getUsuarioPorLogin(String login) {
-        TypedQuery<T> query = super.entityManager
-                .createNamedQuery(T.USUARIO_CADASTRADO, this.getClasseEntidade());
-        query.setParameter(1, login);
-        return query.getSingleResult();
+    public Usuario getUsuario(String email) {
+        Object[] parametros = {email};
+        return super.get(Usuario.USUARIO_POR_EMAIL, parametros);
     }
 
     @Override

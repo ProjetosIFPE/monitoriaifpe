@@ -5,7 +5,8 @@ import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Modalidade;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoMonitoria;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Access;
@@ -20,6 +21,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -29,13 +32,31 @@ import javax.validation.constraints.NotNull;
 @AttributeOverrides({
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_monitoria"))})
 @Access(AccessType.FIELD)
+@NamedQueries(value = {
+    @NamedQuery(name = Monitoria.MONITORIA_SOLICITADA,
+            query = "select m from Monitoria as m where ( m.situacaoMonitoria = ?1 or m.situacaoMonitoria = ?2 ) and m.aluno = ?3"),
+    @NamedQuery(name = Monitoria.MONITORIA_POR_ALUNO,
+            query = "select m from Monitoria as m where m.situacaoMonitoria = ?1 and m.aluno = ?2"),
+    @NamedQuery(name = Monitoria.COUNT_MONITORIA_CADASTRADA,
+            query = "select count(m) from Monitoria as m where m.aluno = ?1 and m.turma = ?2"),
+    @NamedQuery(name = Monitoria.MONITORIA_POR_PROFESSOR,
+            query = "select m from Monitoria as m join m.turma as t where m.situacaoMonitoria = ?1 and t.professor = ?1")})
 public class Monitoria extends EntidadeNegocio {
 
     private static final long serialVersionUID = -4572493586452867519L;
 
+    public static final String MONITORIA_POR_ALUNO = "monitoriaPorSituacao";
+
+    public static final String MONITORIA_SOLICITADA = "monitoriaSolicitada";
+    
+    public static final String COUNT_MONITORIA_CADASTRADA = "countMonitoriaCadastrada";
+
+    public static final String MONITORIA_POR_PROFESSOR = "monitoriaPorProfessor";
+
     @NotNull
-    @Column(name = "monitoria_aprovada", nullable = false)
-    private Boolean aprovada;
+    @Column(name = "situacaoMonitoria", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SituacaoMonitoria situacaoMonitoria;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -57,7 +78,6 @@ public class Monitoria extends EntidadeNegocio {
     public String getEditalMonitoria() {
         return turma.getPeriodo().toString();
     }
-
 
     public Turma getTurma() {
 
@@ -108,11 +128,19 @@ public class Monitoria extends EntidadeNegocio {
     }
 
     public Boolean isAprovada() {
-        return aprovada;
+        return situacaoMonitoria.equals(SituacaoMonitoria.APROVADA);
     }
 
-    public void setAprovada(Boolean aprovada) {
-        this.aprovada = aprovada;
+    public void aprovar() {
+        this.situacaoMonitoria = SituacaoMonitoria.APROVADA;
+    }
+
+    public void reprovar() {
+        this.situacaoMonitoria = SituacaoMonitoria.REPROVADA;
+    }
+
+    public void aguardarAprovacao() {
+        this.situacaoMonitoria = SituacaoMonitoria.AGUARDANDO_APROVACAO;
     }
 
 }

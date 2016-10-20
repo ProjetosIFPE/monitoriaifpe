@@ -6,6 +6,7 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import com.softwarecorporativo.monitoriaifpe.servico.UsuarioService;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -18,7 +19,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -33,10 +33,7 @@ public class LoginBean implements Serializable {
     @EJB(lookup = "java:global/monitoriaifpe/AlunoService")
     private UsuarioService usuarioService;
 
-    @NotBlank
-    private String login;
-    @NotBlank
-    private String senha;
+    private final Usuario usuario = new Usuario();
 
     public String efetuarLogin() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -44,10 +41,10 @@ public class LoginBean implements Serializable {
                 .getExternalContext().getRequest();
 
         try {
-            request.login(login, senha);
+            request.login(usuario.getEmail(), usuario.getSenha());
             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-            Usuario usuario = usuarioService.getUsuarioPorLogin(login);
-            session.setAttribute("usuarioLogado", usuario);
+            Usuario usuarioLogado = usuarioService.getUsuario(usuario.getEmail());
+            session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioLogado);
         } catch (ServletException ex) {
             Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             context.addMessage(null, new FacesMessage("Usuário não encontrado!"));
@@ -67,22 +64,8 @@ public class LoginBean implements Serializable {
         return "sair";
     }
 
-    public String getLogin() {
-        return login;
+    public Usuario getUsuario() {
+        return usuario;
     }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-    
-    
 
 }

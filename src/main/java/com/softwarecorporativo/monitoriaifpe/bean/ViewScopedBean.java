@@ -30,11 +30,11 @@ public abstract class ViewScopedBean<T extends EntidadeNegocio> extends Bean imp
 
     @Override
     protected void inicializar() {
-        super.inicializar(); 
         inicializarServico();
+        inicializarListaEntidades();
+        super.inicializar();
     }
 
-    
     public T getEntidadeNegocio() {
         return entidadeNegocio;
     }
@@ -48,27 +48,33 @@ public abstract class ViewScopedBean<T extends EntidadeNegocio> extends Bean imp
     }
 
     public void cadastrar() {
-
         super.cadastrar(service, entidadeNegocio);
-        popularEntidades();
         inicializarEntidades();
+        popularListaEntidades();
+
     }
 
-    protected void popularEntidades() {
+    /** Inicializa listas com entidades de negocio, uma única vez, durante 
+        a construção do Bean 
+     **/
+    protected void inicializarListaEntidades() {
+        this.popularListaEntidades();
+    }
+
+    protected void popularListaEntidades() {
         entidades = this.service.listarTodos();
     }
 
     public List<T> getEntidades() {
-
         if (entidades.isEmpty()) {
-            popularEntidades();
+            inicializarListaEntidades();
         }
         return entidades;
     }
 
     public void remover(T entidadeNegocio) {
         super.remover(service, entidadeNegocio);
-        popularEntidades();
+        popularListaEntidades();
     }
 
     public GenericService<T> getService() {

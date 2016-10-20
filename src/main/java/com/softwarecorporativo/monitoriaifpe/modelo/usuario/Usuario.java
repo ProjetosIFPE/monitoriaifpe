@@ -1,6 +1,5 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.usuario;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import java.nio.charset.Charset;
@@ -29,7 +28,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -45,12 +43,14 @@ import org.hibernate.validator.constraints.br.CPF;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_usuario"))})
 @Access(AccessType.FIELD)
 @NamedQueries(value = {
+    @NamedQuery(name = Usuario.USUARIO_POR_EMAIL, query = "select u from Usuario as u where u.email = ?1"),
     @NamedQuery(name = Usuario.USUARIO_CADASTRADO, query = "select u from Usuario as u where u.email = ?1 or u.cpf = ?2"),
     @NamedQuery(name = Usuario.COUNT_USUARIO_CADASTRADO, query = "select count(u) from Usuario as u where u.email = ?1 or u.cpf = ?2")})
 public class Usuario extends EntidadeNegocio {
 
     private static final long serialVersionUID = -2083194086477441520L;
     public static final String USUARIO_CADASTRADO = "usuarioCadastrado";
+    public static final String USUARIO_POR_EMAIL = "usuarioPorEmail";
     public static final String COUNT_USUARIO_CADASTRADO = "countUsuarioCadastrado";
 
     @NotBlank
@@ -73,7 +73,6 @@ public class Usuario extends EntidadeNegocio {
     @JoinTable(name = "tb_usuario_grupo", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_grupo"))
     private List<Grupo> grupos;
 
-    // validar fora do bean validation
     @NotBlank
     @Column(name = "txt_senha", nullable = false)
     private String senha = "senha";
@@ -85,7 +84,7 @@ public class Usuario extends EntidadeNegocio {
     public void gerarHash() {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            setSenha(gerarSal().concat(senha));
+            this.senha = gerarSal().concat(senha);
             digest.update(senha.getBytes(Charset.forName("UTF-8")));
             setSenha(Base64.getEncoder().encodeToString(digest.digest()));
         } catch (NoSuchAlgorithmException ex) {

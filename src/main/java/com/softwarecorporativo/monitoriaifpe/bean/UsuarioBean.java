@@ -19,7 +19,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class UserSettings implements Serializable{
+public class UsuarioBean implements Serializable{
 
     private static final long serialVersionUID = 677831240483987806L;
 

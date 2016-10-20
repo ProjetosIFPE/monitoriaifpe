@@ -198,7 +198,7 @@ DROP TABLE IF EXISTS `monitoriaifpe`.`tb_monitoria` ;
 
 CREATE TABLE IF NOT EXISTS `monitoriaifpe`.`tb_monitoria` (
   `id_monitoria` INT NOT NULL AUTO_INCREMENT,
-  `monitoria_aprovada` TINYINT(1) NOT NULL,
+  `situacao_monitoria` ENUM('APROVADA', 'AGUARDANDO_APROVACAO', 'REPROVADA') NOT NULL,
   `id_turma` INT NOT NULL,
   `id_aluno` INT NOT NULL,
   PRIMARY KEY (`id_monitoria`),
