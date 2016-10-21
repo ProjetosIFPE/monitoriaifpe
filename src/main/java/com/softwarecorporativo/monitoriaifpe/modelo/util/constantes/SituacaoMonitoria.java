@@ -11,7 +11,7 @@ package com.softwarecorporativo.monitoriaifpe.modelo.util.constantes;
  */
 public enum SituacaoMonitoria {
     APROVADA("Aprovada"), 
-    AGUARDANDO_APROVACAO("Aguardando"), 
+    AGUARDANDO_APROVACAO("Aguardando Aprovação"), 
     REPROVADA("Reprovada");
 
     private final String label;

@@ -5,7 +5,6 @@ import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.SituacaoMonitoria;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = Monitoria.COUNT_MONITORIA_CADASTRADA,
             query = "select count(m) from Monitoria as m where m.aluno = ?1 and m.turma = ?2"),
     @NamedQuery(name = Monitoria.MONITORIA_POR_PROFESSOR,
-            query = "select m from Monitoria as m join m.turma as t where m.situacaoMonitoria = ?1 and t.professor = ?1")})
+            query = "select m from Monitoria as m join m.turma as t where m.situacaoMonitoria = ?1 and t.professor = ?2")})
 public class Monitoria extends EntidadeNegocio {
 
     private static final long serialVersionUID = -4572493586452867519L;
@@ -48,13 +47,13 @@ public class Monitoria extends EntidadeNegocio {
     public static final String MONITORIA_POR_ALUNO = "monitoriaPorSituacao";
 
     public static final String MONITORIA_SOLICITADA = "monitoriaSolicitada";
-    
+
     public static final String COUNT_MONITORIA_CADASTRADA = "countMonitoriaCadastrada";
 
     public static final String MONITORIA_POR_PROFESSOR = "monitoriaPorProfessor";
-
+    
     @NotNull
-    @Column(name = "situacaoMonitoria", nullable = false)
+    @Column(name = "situacao_monitoria", nullable = false)
     @Enumerated(EnumType.STRING)
     private SituacaoMonitoria situacaoMonitoria;
 
@@ -125,6 +124,10 @@ public class Monitoria extends EntidadeNegocio {
 
     public Periodo getPeriodoMonitoria() {
         return turma.getPeriodo();
+    }
+
+    public SituacaoMonitoria getSituacaoMonitoria() {
+        return situacaoMonitoria;
     }
 
     public Boolean isAprovada() {

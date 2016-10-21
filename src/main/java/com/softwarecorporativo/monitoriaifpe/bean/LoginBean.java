@@ -45,6 +45,8 @@ public class LoginBean implements Serializable {
             HttpSession session = (HttpSession) context.getExternalContext().getSession(Boolean.TRUE);
             Usuario usuarioLogado = usuarioService.getUsuario(usuario.getEmail());
             session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioLogado);
+            usuarioLogado = (Usuario) session.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+            System.out.println(usuarioLogado.getEmail());
         } catch (ServletException ex) {
             Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             context.addMessage(null, new FacesMessage("Usuário não encontrado!"));

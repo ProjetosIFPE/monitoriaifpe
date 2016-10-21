@@ -16,20 +16,22 @@ and open the template in the editor.
                     <h:outputText value="#{msg.cursosNaoCadastrados}" rendered="#{not alunoMonitoriaBean.possuiTurmasOfertadas()}" />
                     <h:form id="formMonitoria" rendered="#{alunoMonitoriaBean.possuiTurmasOfertadas()}">
                         <p:fieldset>
-                            <h:panelGrid columns="2">    
+                            <h:panelGrid columns="2" cellspacing="10">    
                                 <p:outputLabel>Turmas</p:outputLabel>
                                 <p:selectOneMenu value="#{alunoMonitoriaBean.entidadeNegocio.turma}" converter="entidadeNegocioConverter" filter="true" effect="fade" filterMatchMode="startsWith">
                                     <f:selectItems value="#{alunoMonitoriaBean.turmas}" var="turma" itemLabel="#{turma.componenteCurricular.descricao}" itemValue="#{turma}" />
                                     <p:column style="width:10%">
-                                        <h:outputText #{turma.periodo} />
+                                        <h:outputText value="#{turma.periodo.ano}" />
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="#{turma.componenteCurricular.descricao}" />
                                     </p:column>
                                 </p:selectOneMenu>
                             </h:panelGrid>
-                            <p:commandButton action="#{alunoMonitoriaBean.cadastrar()}" value="Solicitar Monitoria" update=":painelMonitoria" process="@form" />
+                            <p:separator />
+                            <p:commandButton action="#{alunoMonitoriaBean.cadastrar()}" value="Solicitar Monitoria"  process="@form" />
                         </p:fieldset>
+                        
                     </h:form>
                 </p:tab>
                 <p:tab title="Monitorias Solicitadas">
@@ -42,24 +44,28 @@ and open the template in the editor.
                                 </f:facet>
 
                                 <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.turma.componenteCurricular.descricao}" sortBy="#{monitoria.turma.componenteCurricular.descricao}">             
-                                    <h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/>
+                                    <div align="center"><h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/></div>
                                 </p:column>
 
                                 <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.turma.periodo}" sortBy="#{monitoria.turma.periodo}" >      
-                                    <h:outputText value="#{monitoria.disciplina.periodo}"/>
+                                    <div align="center"><h:outputText value="#{monitoria.turma.periodo}"/></div>
                                 </p:column>
 
                                 <p:column headerText="Situação" filterMatchMode="startsWith" filterBy="#{monitoria.situacaoMonitoria.label}}" sortBy="#{monitoria.situacaoMonitoria.label}}" >      
-                                    <h:outputText value="#{monitoria.situacaoMonitoria.label}"/>
+                                    <div align="center"> <h:outputText value="#{monitoria.situacaoMonitoria.label}"/></div>
                                 </p:column>
 
                                 <p:column>
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{alunoMonitoriaBean.remover(monitoria)}" >
-                                        <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta solicitação ?" icon="ui-icon-alert" />
-                                    </p:commandLink>
+                                    <div align="center">
+                                        <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{alunoMonitoriaBean.remover(monitoria)}" >
+                                            <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta solicitação ?" icon="ui-icon-alert" />
+                                        </p:commandLink>
+                                    </div> 
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        <div align="center"> 
+                                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div> 
                                     </p:confirmDialog>
                                 </p:column> 
                             </p:dataTable>
@@ -76,19 +82,21 @@ and open the template in the editor.
                                     Monitorias Aprovadas
                                 </f:facet>
 
+                                <p:column styleClass="icone-botao">             
+                                    <div align="center">  
+                                        <h:link  outcome="/aluno/atividade" styleClass="ui-icon ui-icon-search">
+                                            <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
+                                        </h:link>   
+                                    </div>                         
+                                </p:column>
                                 <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.turma.componenteCurricular.descricao}" sortBy="#{monitoria.turma.componenteCurricular.descricao}">             
-                                    <h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/>
+                                    <div align="center"><h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/></div>
                                 </p:column>
 
-                                <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.turma.periodo}" >        
-                                    <h:outputText value="#{monitoria.turma.periodo}"/>
+                                <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.turma.periodo}">        
+                                    <div align="center"><h:outputText value="#{monitoria.turma.periodo}"/></div>
                                 </p:column>
 
-                                <p:column>             
-                                    <h:link  outcome="home_aluno" styleClass="ui-icon ui-icon-search">
-                                        <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
-                                    </h:link >                              
-                                </p:column>
                             </p:dataTable>
                         </p:fieldset>
                         <p:poll interval="10" listener="#{alunoMonitoriaBean.inicializarMonitoriasAprovadas()}" update="@form" />

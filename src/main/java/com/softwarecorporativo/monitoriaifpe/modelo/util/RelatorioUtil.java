@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -33,5 +34,10 @@ public class RelatorioUtil {
         byte[] bytes = JasperRunManager.runReportToPdf(jasperReport, parametros, new JRBeanCollectionDataSource(dados));
         return bytes;
     }
+
+    public static void compilarRelatorio(String src, String dest) throws JRException {
+        JasperCompileManager.compileReportToFile(src, dest);
+    }
+
 
 }

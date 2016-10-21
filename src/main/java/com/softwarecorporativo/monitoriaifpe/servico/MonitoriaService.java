@@ -73,7 +73,7 @@ public class MonitoriaService extends GenericService<Monitoria> {
     }
 
     public List<Monitoria> consultarMonitoriasSolicitadas(Aluno aluno) {
-        Object[] parametros = new Object[2];
+        Object[] parametros = new Object[3];
         parametros[0] = SituacaoMonitoria.AGUARDANDO_APROVACAO;
         parametros[1] = SituacaoMonitoria.REPROVADA;
         parametros[2] = aluno;

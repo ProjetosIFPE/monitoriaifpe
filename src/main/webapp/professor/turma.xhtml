@@ -7,39 +7,45 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <ui:composition template="../_template.xhtml" >        
         <ui:define name="conteudo">
-            <p:tabView>
+            <p:tabView id="turmaAbas">
                 <p:tab title="Oferta de Turmas">
                     <h:form>
-                        <p:fieldset>
-                            <h:panelGrid columns="2" cellpadding="5">
+                        <p:fieldset rendered="#{turmaBean.possuiComponentesCurriculares()}">
+                            <h:panelGrid columns="2" cellpadding="10" >
                                 <p:outputLabel for="componenteCurricular" value="Componente Curricular: " />                               
-                                <p:selectOneMenu rendered="#{turmaBean.possuiComponentesCurriculares}" id="componenteCurricular" value="#{turmaBean.entidadeNegocio.componenteCurricular}" converter="entidadeNegocioConverter">
+                                <p:selectOneMenu  id="componenteCurricular" value="#{turmaBean.entidadeNegocio.componenteCurricular}" converter="entidadeNegocioConverter">
                                     <f:selectItems value="#{turmaBean.componentesCurriculares}" var="componente" itemLabel="#{componente.descricao}" itemValue="#{componente}"/>
                                 </p:selectOneMenu>
-                                <h:outputText rendered="#{not turmaBean.possuiComponentesCurriculares}}" value="#{msg.componentesNaoCadastrados}" />
                             </h:panelGrid>
-                            <p:commandButton value="Ofertar turma"  />
+                            <h:outputText rendered="#{not turmaBean.possuiComponentesCurriculares()}}"   value="#{msg.componentesNaoCadastrados}" />
+                            <p:separator />
+                            <p:commandButton value="Ofertar turma" action="#{turmaBean.cadastrar()}" process="@form" update=":turmaAbas:formTabelaTurmasOfertadas:tabelaTurmasOfertadas" />
                         </p:fieldset>
+                         
                     </h:form>
                 </p:tab>
                 <p:tab title="Turmas Ofertadas">
-                    <h:form>
-                        <p:dataTable var="turma" value="#{turmaBean.turmasOfertadas}" paginator="true" rows="5"  emptyMessage="Nenhuma turma ofertada.">
+                    <h:form id="formTabelaTurmasOfertadas">
+                        <p:dataTable id="tabelaTurmasOfertadas" var="turma" value="#{turmaBean.turmasOfertadas}" paginator="true" rows="5"  emptyMessage="Nenhuma turma ofertada.">
                             <f:facet name="header">Turmas Ofertadas</f:facet>
-                            <p:column headerText="Turma">
-                                <h:outputText value="#{turma.componenteCurricular.descricao}" />
+                            <p:column headerText="Turma" filterBy="#{turma.componenteCurricular.descricao}" sortBy="#{turma.componenteCurricular.descricao}">
+                                <div align="center"> <h:outputText value="#{turma.componenteCurricular.descricao}" /></div>
                             </p:column>                         
-                            <p:column headerText="Período">
-                                <h:outputText value="#{turma.periodo}" />
+                            <p:column headerText="Período" filterBy="#{turma.periodo}" sortBy="#{turma.periodo}">
+                                <div align="center"> <h:outputText value="#{turma.periodo}" /></div>
                             </p:column>
-                            <p:column>
-                                <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{turmaBean.remover(monitoria)}" >
-                                    <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta oferta ?" icon="ui-icon-alert" />
-                                </p:commandLink>
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                </p:confirmDialog>
+                            <p:column styleClass="icone-botao">
+                                <div align="center">
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{turmaBean.remover(monitoria)}" >
+                                        <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta oferta ?" icon="ui-icon-alert" />
+                                    </p:commandLink>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <div align="center">
+                                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div>
+                                    </p:confirmDialog> 
+                                </div> 
                             </p:column> 
                         </p:dataTable>
                     </h:form>

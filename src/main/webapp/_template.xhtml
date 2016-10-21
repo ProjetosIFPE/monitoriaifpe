@@ -20,7 +20,7 @@
                 <p:layoutUnit position="north">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:link outcome="/publico/login.xhtml"><h:graphicImage styleClass="logo" library="img" name="logo_ifpe.png" /></h:link>
+                            <h:link outcome="/usuario/home.xhtml"><h:graphicImage styleClass="logo" library="img" name="logo_ifpe.png" /></h:link>
                         </f:facet>  
                     </h:panelGrid>
                 </p:layoutUnit>
@@ -45,14 +45,16 @@
                             <p:menuitem value="Configurações" rendered="#{facesContext.externalContext.isUserInRole('usuario')}"  immediate="true"/>
                         </p:submenu>
                         <p:separator />
-                        <p:menuitem  value="Sair" outcome="#{loginBean.efetuarLogout()}" immediate="true"/> 
+                        <p:menuitem  value="Sair" action="#{loginBean.efetuarLogout()}" immediate="true"/> 
                     </p:menu>
                 </p:layoutUnit> 
             </h:form>
             <p:layoutUnit   position="center">
                 <ui:insert name="conteudo"></ui:insert>
             </p:layoutUnit>
+            
         </p:layout>
+        
     </h:body>
 </html>
 

@@ -24,7 +24,7 @@ public class Periodo extends EntidadeNegocio {
     private static final long serialVersionUID = 21290824252510458L;
 
     @Min(value = 1970, message = "{com.softwarecorporativo.monitoriaifpe.periodo.ano}")
-    @Column(name = "PERIODO_ANO", nullable = false)
+    @Column(name = "ano", nullable = false)
     private Integer ano;
 
     @NotNull

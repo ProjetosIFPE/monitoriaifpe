@@ -6,11 +6,10 @@
 package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
@@ -21,7 +20,7 @@ import javax.faces.bean.ManagedProperty;
  * @author Douglas Albuquerque
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ProfessorMonitoriaBean extends ViewScopedBean<Monitoria> {
 
     private static final long serialVersionUID = 2777583349263188203L;
@@ -40,6 +39,16 @@ public class ProfessorMonitoriaBean extends ViewScopedBean<Monitoria> {
     protected void inicializarListaEntidades() {
         inicializarMonitoriasSolicitadas();
         inicializarMonitoriasAprovadas();
+    }
+
+    @Override
+    void inicializarServico() {
+        setService(monitoriaService);
+    }
+
+    @Override
+    void inicializarEntidades() {
+        setEntidadeNegocio(monitoriaService.getEntidadeNegocio());
     }
 
     public void inicializarMonitoriasAprovadas() {
@@ -72,14 +81,8 @@ public class ProfessorMonitoriaBean extends ViewScopedBean<Monitoria> {
         return usuarioBean;
     }
 
-    @Override
-    void inicializarServico() {
-        setService(monitoriaService);
-    }
-
-    @Override
-    void inicializarEntidades() {
-        setEntidadeNegocio(monitoriaService.getEntidadeNegocio());
+    public void setUsuarioBean(UsuarioBean usuarioBean) {
+        this.usuarioBean = usuarioBean;
     }
 
 }

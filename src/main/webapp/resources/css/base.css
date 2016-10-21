@@ -16,9 +16,9 @@
 .menu {
     width: 13.5em !important;
 }
-.icone_pesquisa {
-    float:left;
-    margin-right:10px;
+.icone-botao {
+    width: 1em;
+    
 }
 
 icone_aluno {

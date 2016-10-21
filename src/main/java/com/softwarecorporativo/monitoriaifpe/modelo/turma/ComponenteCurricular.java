@@ -29,7 +29,8 @@ import org.hibernate.validator.constraints.NotBlank;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_componente_curricular"))})
 @Access(AccessType.FIELD)
 @NamedQueries(value = {
-    @NamedQuery(name = ComponenteCurricular.COMPONENTE_POR_CURSO, query = "select c from ComponenteCurricular as c where c.curso = ?1")
+    @NamedQuery(name = ComponenteCurricular.COMPONENTE_POR_CURSO, 
+            query = "select c from ComponenteCurricular as c where c.curso = ?1")
 })
 public class ComponenteCurricular extends EntidadeNegocio {
 

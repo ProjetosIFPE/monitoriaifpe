@@ -35,6 +35,8 @@ public class PeriodoService extends GenericService<Periodo> {
     public Class<Periodo> getClasseEntidade() {
         return Periodo.class;
     }
+    
+    
 
     private Periodo criarPeriodoAtual() {
 

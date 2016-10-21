@@ -27,7 +27,7 @@ public class AlunoMonitoriaBean extends ViewScopedBean<Monitoria> {
 
     private static final long serialVersionUID = -4736071102515881964L;
 
-    @ManagedProperty(value = "#{usuarioBean}")
+    @ManagedProperty("#{usuarioBean}")
     private UsuarioBean usuarioBean;
 
     @EJB
@@ -108,9 +108,12 @@ public class AlunoMonitoriaBean extends ViewScopedBean<Monitoria> {
         super.cadastrar();
     }
 
-    public UsuarioBean getUserSettings() {
+    public UsuarioBean getUsuarioBean() {
         return usuarioBean;
     }
 
+    public void setUsuarioBean(UsuarioBean usuarioBean) {
+        this.usuarioBean = usuarioBean;
+    }
 
 }

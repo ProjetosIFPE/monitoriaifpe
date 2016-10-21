@@ -11,11 +11,15 @@ import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.TurmaService;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
+import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,7 +31,7 @@ public class TurmaBean extends ViewScopedBean<Turma> {
 
     private static final long serialVersionUID = -3627257725939951177L;
 
-    @ManagedProperty(value = "#{usuarioBean}")
+    @ManagedProperty("#{usuarioBean}")
     private UsuarioBean usuarioBean;
 
     @Inject
@@ -35,6 +39,7 @@ public class TurmaBean extends ViewScopedBean<Turma> {
 
     private List<Turma> turmasOfertadas;
 
+    @Inject
     private ComponenteCurricularService componenteCurricularService;
 
     private List<ComponenteCurricular> componentesCurriculares;
@@ -42,6 +47,13 @@ public class TurmaBean extends ViewScopedBean<Turma> {
     @Override
     void inicializarServico() {
         super.setService(turmaService);
+    }
+
+    @Override
+    public void cadastrar() {
+        Professor professor = (Professor) usuarioBean.getUsuario();
+        entidadeNegocio.setProfessor(professor);
+        super.cadastrar();
     }
 
     @Override

@@ -15,69 +15,75 @@
                             <f:facet name="header">
                                 Monitorias Solicitadas
                             </f:facet>
-                            <p:column>             
-                                <p:commandLink action="#{professorMonitoriaBean.aprovar()}" styleClass="ui-icon ui-icon-check" >
-                                    <f:setPropertyActionListener target="#{professorMonitoriaBean.entidadeNegocio}" value="#{monitoria}" />
-                                </p:commandLink>                              
+                            <p:column styleClass="icone-botao">             
+                                <div align="center">  
+                                    <h:link  outcome="/aluno/atividade" styleClass="ui-icon ui-icon-search">
+                                        <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
+                                    </h:link>   
+                                </div>                         
                             </p:column>
 
-                            <p:column>             
-                                <p:commandLink action="#{professorMonitoriaBean.reprovar()}" styleClass="ui-icon ui-icon-cancel" >
-                                    <f:setPropertyActionListener target="#{professorMonitoriaBean.entidadeNegocio}" value="#{monitoria}" />
-                                </p:commandLink>                                
+                            <p:column styleClass="icone-botao">   
+                                <div align="center">
+                                    <p:commandLink action="#{professorMonitoriaBean.reprovar()}" styleClass="ui-icon ui-icon-cancel" >
+                                        <f:setPropertyActionListener target="#{professorMonitoriaBean.entidadeNegocio}" value="#{monitoria}" />
+                                    </p:commandLink> 
+                                </div>
                             </p:column>
 
                             <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{monitoria.aluno.nome}" sortBy="#{monitoria.aluno.nome}">             
-                                <h:outputText value="#{monitoria.aluno.nome}"/>
+                                <div align="center"><h:outputText value="#{monitoria.aluno.nome}"/></div>
                             </p:column>
 
                             <p:column headerText="Matrícula" filterMatchMode="startsWith" filterBy="#{monitoria.aluno.matricula}" sortBy="#{monitoria.aluno.matricula}">             
-                                <h:outputText value="#{monitoria.aluno.matricula}"/>
+                                <div align="center"><h:outputText value="#{monitoria.aluno.matricula}"/></div>
                             </p:column>
 
                             <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.turma.componenteCurricular.descricao}" sortBy="#{monitoria.turma.componenteCurricular.descricao}">             
-                                <h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/>
+                                <div align="center"><h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/></div>
                             </p:column>
 
                             <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.turma.periodo}" sortBy="#{monitoria.turma.periodo}">             
-                                <h:outputText value="#{monitoria.turma.periodo}"/>
+                                <div align="center"><h:outputText value="#{monitoria.turma.periodo}"/></div> 
                             </p:column>
                         </p:dataTable>
-                        <p:poll interval="10" listener="#{alunoMonitoriaBean.inicializarMonitoriasSolicitadas()}" update="@form" />
+                        <p:poll interval="10" listener="#{professorMonitoriaBean.inicializarMonitoriasSolicitadas()}" update="@form" />
 
                     </h:form>  
                 </p:tab>
                 <p:tab title="Monitorias Aprovadas">
                     <h:form>
-                        <p:dataTable id="listaMonitorias" var="curso" value="#{professorMonitoriaBean.monitoriasAprovadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias aprovadas.">
+                        <p:dataTable id="listaMonitorias" var="monitoria" value="#{professorMonitoriaBean.monitoriasAprovadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias aprovadas.">
 
                             <f:facet name="header">
                                 Monitorias Aprovadas
                             </f:facet>
-                            <p:column>             
-                                <h:link  styleClass="ui-icon ui-icon-search" >
-
-                                </h:link >                              
+                            <p:column styleClass="icone-botao">             
+                                <div align="center">  
+                                    <p:commandLink  action="/aluno/atividade.xhtml" process="@this" update="@all" styleClass="ui-icon ui-icon-search">
+                                        <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
+                                    </p:commandLink>   
+                                </div>                         
                             </p:column>
 
                             <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{monitoria.aluno.nome}" sortBy="#{monitoria.aluno.nome}">             
-                                <h:outputText value="#{monitoria.aluno.nome}"/>
+                                <div align="center"><h:outputText value="#{monitoria.aluno.nome}"/></div> 
                             </p:column>
 
                             <p:column headerText="Matrícula" filterMatchMode="startsWith" filterBy="#{monitoria.aluno.matricula}" sortBy="#{monitoria.aluno.matricula}">             
-                                <h:outputText value="#{monitoria.aluno.matricula}"/>
+                                <div align="center"> <h:outputText value="#{monitoria.aluno.matricula}"/></div> 
                             </p:column>
 
                             <p:column headerText="Turma" filterMatchMode="startsWith" filterBy="#{monitoria.turma.componenteCurricular.descricao}" sortBy="#{monitoria.turma.componenteCurricular.descricao}">             
-                                <h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/>
+                                <div align="center"><h:outputText value="#{monitoria.turma.componenteCurricular.descricao}"/></div> 
                             </p:column>
 
                             <p:column headerText="Período" filterMatchMode="startsWith" filterBy="#{monitoria.turma.periodo}" sortBy="#{monitoria.turma.periodo}">             
-                                <h:outputText value="#{monitoria.turma.periodo}"/>
+                                <div align="center"><h:outputText value="#{monitoria.turma.periodo}"/></div> 
                             </p:column>
 
                         </p:dataTable>
-                        <p:poll interval="10" listener="#{alunoMonitoriaBean.inicializarMonitoriasAprovadas()}" update="@form" />
+                        <p:poll interval="10" listener="#{professorMonitoriaBean.inicializarMonitoriasAprovadas()}" update="@form" />
 
                     </h:form>  
                 </p:tab>
