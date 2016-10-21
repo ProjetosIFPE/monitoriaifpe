@@ -12,6 +12,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,22 +20,22 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class UsuarioBean implements Serializable{
+public class UsuarioBean implements Serializable {
 
     private static final long serialVersionUID = 677831240483987806L;
 
     private String tema = "south-street";
 
     private Usuario usuario;
-    
+
     public Usuario getUsuario() {
-        if(usuario == null){
+        if (usuario == null) {
             FacesContext context = FacesContext.getCurrentInstance();
-            usuario = (Usuario) context.getExternalContext().getSessionMap().get(Constantes.ATRIBUTO_USUARIO_LOGADO);
-       }
+            HttpSession httpSession = (HttpSession) context.getExternalContext().getSession(false);
+            usuario = (Usuario)  httpSession.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+        }
         return this.usuario;
     }
-
 
     public String getTema() {
         return tema;

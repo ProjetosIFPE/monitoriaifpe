@@ -24,7 +24,7 @@
                 </p:tab>
                 <p:tab title="Turmas Ofertadas">
                     <h:form>
-                        <p:dataTable var="turma" value="#{turmaBean.entidades}" paginator="true" rows="5"  emptyMessage="Nenhuma turma ofertada.">
+                        <p:dataTable var="turma" value="#{turmaBean.turmasOfertadas}" paginator="true" rows="5"  emptyMessage="Nenhuma turma ofertada.">
                             <f:facet name="header">Turmas Ofertadas</f:facet>
                             <p:column headerText="Turma">
                                 <h:outputText value="#{turma.componenteCurricular.descricao}" />

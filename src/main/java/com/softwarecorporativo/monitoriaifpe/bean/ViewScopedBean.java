@@ -54,13 +54,19 @@ public abstract class ViewScopedBean<T extends EntidadeNegocio> extends Bean imp
 
     }
 
-    /** Inicializa listas com entidades de negocio, uma única vez, durante 
-        a construção do Bean 
-     **/
+    /**
+     * Inicializa listas com entidades de negocio, uma única vez, durante a
+     * construção do Bean 
+     *
+     */
     protected void inicializarListaEntidades() {
         this.popularListaEntidades();
     }
 
+    /**
+     * Carrega as listas com entidades de negocio 
+     *
+     */
     protected void popularListaEntidades() {
         entidades = this.service.listarTodos();
     }

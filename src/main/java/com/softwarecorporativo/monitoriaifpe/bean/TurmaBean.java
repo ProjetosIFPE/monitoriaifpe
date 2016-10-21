@@ -15,6 +15,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,17 +30,14 @@ public class TurmaBean extends ViewScopedBean<Turma> {
     @ManagedProperty(value = "#{usuarioBean}")
     private UsuarioBean usuarioBean;
 
+    @Inject
     private TurmaService turmaService;
+
+    private List<Turma> turmasOfertadas;
 
     private ComponenteCurricularService componenteCurricularService;
 
     private List<ComponenteCurricular> componentesCurriculares;
-
-    @Override
-    protected void inicializar() {
-        super.inicializar();
-        setComponentesCurriculares(this.listarComponentes());
-    }
 
     @Override
     void inicializarServico() {
@@ -52,15 +50,26 @@ public class TurmaBean extends ViewScopedBean<Turma> {
     }
 
     @Override
-    public void inicializarListaEntidades() {
-        Professor professor = (Professor) usuarioBean.getUsuario();
-        super.entidades = turmaService.consultarTurmasOfertadas(professor);
+    protected void popularListaEntidades() {
+        super.popularListaEntidades();
+        inicializarTurmasOfertadas();
     }
 
-    private List<ComponenteCurricular> listarComponentes() {
+    @Override
+    protected void inicializarListaEntidades() {
+        super.inicializarListaEntidades();
+        inicializarComponentesCurriculares();
+    }
+
+    public void inicializarTurmasOfertadas() {
+        Professor professor = (Professor) usuarioBean.getUsuario();
+        turmasOfertadas = turmaService.consultarTurmasOfertadas(professor);
+    }
+
+    private void inicializarComponentesCurriculares() {
         Professor professor = (Professor) usuarioBean.getUsuario();
         Curso curso = professor.getCurso();
-        return componenteCurricularService.consultarComponentes(curso);
+        componentesCurriculares = componenteCurricularService.consultarComponentes(curso);
     }
 
     public Boolean possuiComponentesCurriculares() {
@@ -71,12 +80,16 @@ public class TurmaBean extends ViewScopedBean<Turma> {
         return componentesCurriculares;
     }
 
-    protected void setComponentesCurriculares(List<ComponenteCurricular> componentesCurriculares) {
-        this.componentesCurriculares = componentesCurriculares;
+    public List<Turma> getTurmasOfertadas() {
+        return turmasOfertadas;
     }
 
     public UsuarioBean getUsuarioBean() {
         return usuarioBean;
+    }
+
+    public void setUsuarioBean(UsuarioBean usuarioBean) {
+        this.usuarioBean = usuarioBean;
     }
 
 }

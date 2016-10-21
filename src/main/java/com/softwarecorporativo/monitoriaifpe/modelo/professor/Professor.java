@@ -40,7 +40,7 @@ public class Professor extends Usuario {
     private List<Turma> turmas;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     private Curso curso;
 

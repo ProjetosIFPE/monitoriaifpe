@@ -42,7 +42,7 @@ public class LoginBean implements Serializable {
 
         try {
             request.login(usuario.getEmail(), usuario.getSenha());
-            HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(Boolean.TRUE);
             Usuario usuarioLogado = usuarioService.getUsuario(usuario.getEmail());
             session.setAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO, usuarioLogado);
         } catch (ServletException ex) {

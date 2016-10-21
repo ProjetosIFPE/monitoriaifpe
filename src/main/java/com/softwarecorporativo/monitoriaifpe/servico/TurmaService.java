@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
-
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
@@ -15,6 +19,9 @@ import java.util.List;
  *
  * @author Edmilson Santana
  */
+@Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TurmaService extends GenericService<Turma> {
 
     @Override
