@@ -26,9 +26,6 @@ public class ComponenteCurricularBean extends ViewScopedBean<ComponenteCurricula
 
     private static final long serialVersionUID = -3700833037294884488L;
 
-    @ManagedProperty(value = "#{userSettings}")
-    private UsuarioBean userSettings;
-
     @EJB
     private ComponenteCurricularService componenteCurricularService;
 
@@ -41,25 +38,6 @@ public class ComponenteCurricularBean extends ViewScopedBean<ComponenteCurricula
     @Override
     void inicializarServico() {
         setService(componenteCurricularService);
-    }
-
-    public List<ComponenteCurricular> getComponentesPorCursoDoProfessor() {
-       // Professor professor = (Professor) userSettings.getUsuario();
-       /* ComponenteCurricular componenteCurricular = new ComponenteCurricular();
-        componenteCurricular.setCodigoComponenteCurricular("A2");
-        componenteCurricular.setDescricao("Software Corporativo");
-        componenteCurricular.setChavePrimaria(1l);
-        List<ComponenteCurricular> componentes = new ArrayList<>();
-        componentes.add(componenteCurricular);*/
-        return Collections.EMPTY_LIST;
-    }
-
-    public UsuarioBean getUserSettings() {
-        return userSettings;
-    }
-
-    public void setUserSettings(UsuarioBean userSettings) {
-        this.userSettings = userSettings;
     }
 
 }
