@@ -146,6 +146,7 @@
     
 
     <build>
+        <finalName>monitoriaifpe</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
