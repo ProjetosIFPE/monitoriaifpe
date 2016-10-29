@@ -7,7 +7,7 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <ui:composition template="../_template.xhtml" >   
         <ui:define name="conteudo">  
-            <p:tabView>
+            <p:tabView id="tabViewProfessorMonitoria">
                 <p:tab title="Monitorias Solicitadas">
                     <h:form>
                         <p:dataTable var="monitoria" value="#{professorMonitoriaBean.monitoriasSolicitadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias solicitadas.">
@@ -15,17 +15,17 @@
                             <f:facet name="header">
                                 Monitorias Solicitadas
                             </f:facet>
-                            <p:column styleClass="icone-botao">             
-                                <div align="center">  
-                                    <h:link  outcome="/aluno/atividade" styleClass="ui-icon ui-icon-search">
-                                        <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
-                                    </h:link>   
-                                </div>                         
+                            <p:column styleClass="icone-botao">   
+                                <div align="center">
+                                    <p:commandLink update="@form :tabViewProfessorMonitoria:formMonitoriasAprovadas" process="@form" action="#{professorMonitoriaBean.aprovar()}" styleClass="ui-icon ui-icon-check" >
+                                        <f:setPropertyActionListener target="#{professorMonitoriaBean.entidadeNegocio}" value="#{monitoria}" />
+                                    </p:commandLink> 
+                                </div>
                             </p:column>
 
                             <p:column styleClass="icone-botao">   
                                 <div align="center">
-                                    <p:commandLink action="#{professorMonitoriaBean.reprovar()}" styleClass="ui-icon ui-icon-cancel" >
+                                    <p:commandLink update="@form :tabViewProfessorMonitoria:formMonitoriasAprovadas" process="@form" action="#{professorMonitoriaBean.reprovar()}" styleClass="ui-icon ui-icon-cancel" >
                                         <f:setPropertyActionListener target="#{professorMonitoriaBean.entidadeNegocio}" value="#{monitoria}" />
                                     </p:commandLink> 
                                 </div>
@@ -52,7 +52,7 @@
                     </h:form>  
                 </p:tab>
                 <p:tab title="Monitorias Aprovadas">
-                    <h:form>
+                    <h:form id="formMonitoriasAprovadas">
                         <p:dataTable id="listaMonitorias" var="monitoria" value="#{professorMonitoriaBean.monitoriasAprovadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias aprovadas.">
 
                             <f:facet name="header">
@@ -60,10 +60,10 @@
                             </f:facet>
                             <p:column styleClass="icone-botao">             
                                 <div align="center">  
-                                    <p:commandLink  action="/aluno/atividade.xhtml" process="@this" update="@all" styleClass="ui-icon ui-icon-search">
+                                    <h:link   value="#{monitoria.chavePrimaria}" outcome="/aluno/atividade" styleClass="ui-icon ui-icon-search">
                                         <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
-                                    </p:commandLink>   
-                                </div>                         
+                                    </h:link>   
+                                </div>    
                             </p:column>
 
                             <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{monitoria.aluno.nome}" sortBy="#{monitoria.aluno.nome}">             

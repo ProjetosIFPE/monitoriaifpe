@@ -7,20 +7,18 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
     <ui:composition template="../_template.xhtml">
 
         <ui:define name="metadata">
             <f:metadata>
-                <f:viewParam name="monitoriaId" value="#{atividadeBean.monitoriaId}" required="false" />
+                <f:viewParam name="monitoriaId" value="#{atividadeBean.monitoriaId}" required="true" />
                 <f:viewAction action="#{atividadeBean.inicializarParametros}"  />
             </f:metadata>
         </ui:define>
 
         <ui:define name="conteudo">
-
-
             <h:outputScript library="js" name="download.js" />
             <h:form>
                 <p:fieldset legend="Calendário de Atividades"> 

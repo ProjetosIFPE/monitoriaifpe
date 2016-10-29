@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
-            <p:tabView>
+            <p:tabView id="tabViewAlunoMonitoria">
                 <p:tab title="Solicitação de Monitoria">
                     <h:outputText value="#{msg.cursosNaoCadastrados}" rendered="#{not alunoMonitoriaBean.possuiTurmasOfertadas()}" />
                     <h:form id="formMonitoria" rendered="#{alunoMonitoriaBean.possuiTurmasOfertadas()}">
@@ -29,15 +29,15 @@ and open the template in the editor.
                                 </p:selectOneMenu>
                             </h:panelGrid>
                             <p:separator />
-                            <p:commandButton action="#{alunoMonitoriaBean.cadastrar()}" value="Solicitar Monitoria"  process="@form" />
+                            <p:commandButton action="#{alunoMonitoriaBean.cadastrar()}" value="Solicitar Monitoria" ajax="false"  process="@form" update=":tabViewAlunoMonitoria:formMonitoriasSolicitadas" />
                         </p:fieldset>
                         
                     </h:form>
                 </p:tab>
                 <p:tab title="Monitorias Solicitadas">
-                    <h:form>
+                    <h:form id="formMonitoriasSolicitadas">
                         <p:fieldset>
-                            <p:dataTable  var="monitoria" value="#{alunoMonitoriaBean.monitoriasSolicitadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias solicitadas.">
+                            <p:dataTable var="monitoria" value="#{alunoMonitoriaBean.monitoriasSolicitadas}" paginator="true" rows="5" emptyMessage="Não existem monitorias solicitadas.">
 
                                 <f:facet name="header">
                                     Monitorias Solicitadas
@@ -84,7 +84,7 @@ and open the template in the editor.
 
                                 <p:column styleClass="icone-botao">             
                                     <div align="center">  
-                                        <h:link  outcome="/aluno/atividade" styleClass="ui-icon ui-icon-search">
+                                        <h:link   value="#{monitoria.chavePrimaria}" outcome="/aluno/atividade" styleClass="ui-icon ui-icon-search">
                                             <f:param name="monitoriaId" value="#{monitoria.chavePrimaria}"  />
                                         </h:link>   
                                     </div>                         
