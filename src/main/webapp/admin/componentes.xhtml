@@ -68,6 +68,7 @@ and open the template in the editor.
                                 </p:cellEditor>
                             </p:column>
                             <p:column headerText="Curso" filterMatchMode="startsWith" sortBy="#{componenteCurricular.curso.descricao}" filterBy="#{componenteCurricular.curso.descricao}">
+                            
                                 <p:cellEditor>
                                     <f:facet name="output">
                                         <h:outputText value="#{componenteCurricular.curso.descricao}" />
@@ -80,11 +81,11 @@ and open the template in the editor.
                                 </p:cellEditor>    
                             </p:column>
 
-                            <p:column>
+                            <p:column styleClass="icone-botao">
                                 <p:rowEditor />
                             </p:column>
 
-                            <p:column>
+                            <p:column styleClass="icone-botao">
                                 <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{componenteCurricularBean.remover(componenteCurricular)}" process="@this" update="formTabelaComponenteCurricular">
                                     <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                 </p:commandLink>

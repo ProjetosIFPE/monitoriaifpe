@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="../_template.xhtml" >
+        <ui:define name="conteudo">
+            <h:form>
+                <p:panelGrid columns="3">
+                    <p:outputLabel for="digitalizaAssinatura" value="Digitalize sua assinatura" />
+                    <h:panelGrid id="digitalizaAssinatura" columns="3" cellpadding="5">
+                        <p:photoCam widgetVar="pc" listener="#{perfilUsuarioBean.oncapture}" update="photo" />
+                        <p:panelGrid columns="1" >
+                            <p:commandButton type="button" value="Capturar" onclick="PF('pc').capture()"/>
+                            <p:fileUpload id="upload" value="#{perfilUsuarioBean.fileOnUpload}"  mode="simple"  skinSimple="true"/>
+                        </p:panelGrid>
+                        <p:outputPanel id="photo">
+                            <p:graphicImage library="img" name="#{perfilUsuarioBean.fileNameOnCapture}.jpeg" rendered="#{not empty cadastroUsuarioBean.fileNameOnCapture}"/>
+                        </p:outputPanel>
+                    </h:panelGrid>
+                    <p:message for="digitalizaAssinatura"  />
+                    <p:commandButton value="Atualizar Perfil" actionListener="#{perfilUsuarioBean.atualizarPerfil}" ajax="false"  />
+                </p:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

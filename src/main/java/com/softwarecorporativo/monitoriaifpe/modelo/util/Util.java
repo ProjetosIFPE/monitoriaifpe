@@ -53,5 +53,10 @@ public class Util {
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         return meses[mes - 1];
     }
+    
+    public static String getRandomString() {
+        int i = (int) (Math.random() * 10000000);
+        return String.valueOf(i);
+    }
 
 }
