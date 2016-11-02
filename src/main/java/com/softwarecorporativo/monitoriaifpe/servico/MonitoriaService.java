@@ -58,6 +58,10 @@ public class MonitoriaService extends GenericService<Monitoria> {
         return this.consultarMonitorias(SituacaoMonitoria.APROVADA, aluno);
     }
 
+    public List<Monitoria> consultarMonitoriasAprovadas() {
+        return this.consultarMonitorias(SituacaoMonitoria.APROVADA);
+    }
+    
     public List<Monitoria> consultarMonitorias(SituacaoMonitoria situacao, Aluno aluno) {
         Object[] parametros = new Object[2];
         parametros[0] = situacao;
@@ -72,6 +76,12 @@ public class MonitoriaService extends GenericService<Monitoria> {
         return getResultList(Monitoria.MONITORIA_POR_PROFESSOR, parametros);
     }
 
+    public List<Monitoria> consultarMonitorias(SituacaoMonitoria situacao) {
+        Object[] parametros = new Object[1];
+        parametros[0] = situacao;
+         return getResultList(Monitoria.MONITORIAS_APROVADAS, parametros);
+    }
+    
     public List<Monitoria> consultarMonitoriasSolicitadas(Aluno aluno) {
         Object[] parametros = new Object[3];
         parametros[0] = SituacaoMonitoria.AGUARDANDO_APROVACAO;

@@ -40,6 +40,8 @@ import javax.validation.constraints.NotNull;
             query = "select count(m) from Monitoria as m where m.aluno = ?1 and m.turma = ?2"),
     @NamedQuery(name = Monitoria.MONITORIA_POR_PROFESSOR,
             query = "select m from Monitoria as m join m.turma as t where m.situacaoMonitoria = ?1 and t.professor = ?2")})
+    @NamedQuery(name = Monitoria.MONITORIAS_APROVADAS,
+            query = "select m from Monitoria as m join m.turma as t where m.situacaoMonitoria = ?1")        
 public class Monitoria extends EntidadeNegocio {
 
     private static final long serialVersionUID = -4572493586452867519L;
@@ -51,6 +53,8 @@ public class Monitoria extends EntidadeNegocio {
     public static final String COUNT_MONITORIA_CADASTRADA = "countMonitoriaCadastrada";
 
     public static final String MONITORIA_POR_PROFESSOR = "monitoriaPorProfessor";
+    
+    public static final String MONITORIAS_APROVADAS = "monitoriasAprovadas";
     
     @NotNull
     @Column(name = "situacao_monitoria", nullable = false)
@@ -117,11 +121,19 @@ public class Monitoria extends EntidadeNegocio {
     public String getNomeMonitor() {
         return aluno.getNomeCompleto();
     }
+    
+    public String getEmailMonitor(){
+        return aluno.getEmail();
+    }
 
     public String getNomeOrientador() {
         return turma.getProfessor().getNomeCompleto();
     }
 
+    public String getTurmaDescricao(){
+        return turma.getComponenteCurricular().getDescricao();
+    }
+        
     public Periodo getPeriodoMonitoria() {
         return turma.getPeriodo();
     }

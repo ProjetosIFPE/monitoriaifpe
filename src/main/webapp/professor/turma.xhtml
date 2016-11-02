@@ -36,7 +36,7 @@
                             </p:column>
                             <p:column styleClass="icone-botao">
                                 <div align="center">
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{turmaBean.remover(monitoria)}" >
+                                    <p:commandLink styleClass="ui-icon ui-icon-close"  action="#{turmaBean.desofertarTurma(turma)}" >
                                         <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta oferta ?" icon="ui-icon-alert" />
                                     </p:commandLink>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

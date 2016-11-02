@@ -51,7 +51,7 @@ public class AtividadeService extends GenericService<Atividade> {
 
     private static final String RELATORIO_JASPER_ATIVIDADE = "relatorioFrequencia.jasper";
 
-    //@RolesAllowed({ALUNO})
+    @RolesAllowed({ALUNO})
     @PermitAll
     @Override
     public Atividade salvar(Atividade entidadeNegocio) throws NegocioException {
@@ -59,7 +59,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return super.salvar(entidadeNegocio);
     }
 
-    //@RolesAllowed({ALUNO})
+    @RolesAllowed({ALUNO})
     @PermitAll
     @Override
     public void atualizar(Atividade entidadeNegocio) throws NegocioException {
@@ -68,19 +68,19 @@ public class AtividadeService extends GenericService<Atividade> {
 
     }
 
-   // @RolesAllowed({ALUNO})
+    @RolesAllowed({ALUNO})
     @PermitAll
     @Override
     public void remover(Atividade entidadeNegocio) throws NegocioException {
         super.remover(entidadeNegocio);
     }
 
-    //@RolesAllowed({ALUNO, PROFESSOR})
+    @RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public byte[] obterRelatorioFrequencia(Monitoria monitoria, Date dataInicialMes, Date dataFinalMes) {
-        //Integer mes = Util.getMonthOfDate(dataInicialMes, dataFinalMes);
-        //List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
-       // List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
+        Integer mes = Util.getMonthOfDate(dataInicialMes, dataFinalMes);
+        List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
+        List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
         try {
             return RelatorioUtil.gerarRelatorioPDF(Collections.EMPTY_LIST, null, RELATORIO_JASPER_ATIVIDADE);
         } catch (JRException ex) {
@@ -90,7 +90,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return null;
     }
 
-    //@RolesAllowed({ALUNO, PROFESSOR})
+    @RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public List<RelatorioDTO> converterAtividadesEmRelatorio(Monitoria monitoria, List<Atividade> atividades, Integer mes) {
 
@@ -159,7 +159,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return relatorios;
     }
 
-   // @RolesAllowed({ALUNO, PROFESSOR})
+    @RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public List<Atividade> consultarAtividadesDaMonitoria(Monitoria monitoria) {
         StringBuilder jpql = new StringBuilder();
@@ -171,7 +171,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return query.getResultList();
     }
 
-    //@RolesAllowed({ALUNO, PROFESSOR})
+    @RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public List<Atividade> consultarAtividadesMensaisDaMonitoria(Monitoria monitoria, Integer mes) {
         StringBuilder jpql = new StringBuilder();
@@ -186,7 +186,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return query.getResultList();
     }
 
-   // @RolesAllowed({ALUNO, PROFESSOR})
+    @RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public List<Atividade> consultarAtividadesMensaisDaMonitoria(Monitoria monitoria,
             Date dataInicialMes, Date dataFinalMes) {

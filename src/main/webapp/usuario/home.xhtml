@@ -6,10 +6,35 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
-           
+            <p:carousel value="#{alunoMonitoriaBean.todasMonitoriasAprovadas}" headerText="Monitores" 
+                        var="monitor" itemStyle="text-align:center" responsive="true" rendered="#{facesContext.externalContext.isUserInRole('aluno')}">
+                <p:panelGrid columns="2" style="width:100%;margin:5px 0px" columnClasses="label,value" 
+                             layout="grid" styleClass="ui-panelgrid-blank">
+                    <f:facet name="header">
+                        <p:graphicImage styleClass="logo" library="img" name="perfil.jpg"/> 
+                    </f:facet>
+
+                    <h:outputText value="Disciplina:" />
+                    <h:outputText value="#{monitor.turmaDescricao}" />
+
+                    <h:outputText value="Professor" />
+                    <h:outputText value="#{monitor.nomeOrientador}" />
+
+                    <h:outputText value="Monitor:" />
+                    <h:outputText value="#{monitor.nomeMonitor}"/>
+
+                    <h:outputText value="Email Monitor:" />
+                    <h:outputText value="#{monitor.emailMonitor}" />
+                </p:panelGrid>
+
+            </p:carousel>
         </ui:define>
     </ui:composition>
 </html>

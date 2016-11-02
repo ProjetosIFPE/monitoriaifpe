@@ -36,8 +36,10 @@ public class AlunoMonitoriaBean extends ViewScopedBean<Monitoria> {
     @EJB
     private TurmaService turmaService;
 
-    private List<Monitoria> monitoriasAprovadas;
+    private List<Monitoria> monitoriasAprovadasPorAluno;
 
+    private List<Monitoria> todasMonitoriasAprovadas;
+    
     private List<Monitoria> monitoriasSolicitadas;
 
     private List<Turma> turmasOfertadas;
@@ -52,6 +54,7 @@ public class AlunoMonitoriaBean extends ViewScopedBean<Monitoria> {
     protected void inicializarListaEntidades() {
         inicializarMonitoriasSolicitadas();
         inicializarMonitoriasAprovadas();
+        inicializarMonitoriasTodasAprovadas();
         inicializarTurmasOfertadas();
     }
 
@@ -74,14 +77,22 @@ public class AlunoMonitoriaBean extends ViewScopedBean<Monitoria> {
     }
 
     public List<Monitoria> getMonitoriasAprovadas() {
-        return monitoriasAprovadas;
+        return monitoriasAprovadasPorAluno;
     }
 
+    public List<Monitoria> getTodasMonitoriasAprovadas() {
+        return todasMonitoriasAprovadas;
+    }
+    
     public void inicializarMonitoriasAprovadas() {
         Aluno aluno = (Aluno) usuarioBean.getUsuario();
-        monitoriasAprovadas = monitoriaService.consultarMonitoriasAprovadas(aluno);
+        monitoriasAprovadasPorAluno = monitoriaService.consultarMonitoriasAprovadas(aluno);
     }
 
+    public void inicializarMonitoriasTodasAprovadas() {
+        todasMonitoriasAprovadas = monitoriaService.consultarMonitoriasAprovadas();
+    }
+    
     public void inicializarMonitoriasSolicitadas() {
         Aluno aluno = (Aluno) usuarioBean.getUsuario();
         monitoriasSolicitadas = monitoriaService.consultarMonitoriasSolicitadas(aluno);

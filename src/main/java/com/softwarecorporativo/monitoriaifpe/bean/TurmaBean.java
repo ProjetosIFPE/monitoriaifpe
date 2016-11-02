@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
@@ -83,7 +84,13 @@ public class TurmaBean extends ViewScopedBean<Turma> {
         Curso curso = professor.getCurso();
         componentesCurriculares = componenteCurricularService.consultarComponentes(curso);
     }
-
+    /*
+    TODO: nome de metodo está horrivel(mas foi o que veio a cabeça de momento), deve ser alterado!!*
+    */
+    public void desofertarTurma(Turma turma) throws NegocioException{
+        turmaService.removerOferta(turma);
+    }
+    
     public Boolean possuiComponentesCurriculares() {
         return !getComponentesCurriculares().isEmpty();
     }
