@@ -23,7 +23,7 @@ and open the template in the editor.
             <h:form>
                 <p:fieldset legend="Calendário de Atividades"> 
                     <p:menubar>
-                        <p:menuitem ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);">
+                        <p:menuitem immediate="true" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);">
                             <h:graphicImage   library="img" name="pdf.png" />
                             <p:fileDownload value="#{calendarListener.gerarRelatorio()}" />
                         </p:menuitem>

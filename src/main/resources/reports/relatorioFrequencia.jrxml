@@ -30,7 +30,7 @@
 		<band height="802" splitType="Stretch">
 			<image scaleImage="FillFrame">
 				<reportElement x="0" y="0" width="555" height="802" uuid="54bc8be4-52a6-45a4-b157-0a49a7a5928c"/>
-				<imageExpression><![CDATA["selection-page-001.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\Users\\Aluno\\git\\monitoriaifpe\\src\\main\\resources\\reports\\selection-page-001.jpg"]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="116" y="146" width="246" height="20" uuid="ce127029-e17d-490d-ad06-9b4c157f15d5"/>

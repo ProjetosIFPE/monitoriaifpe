@@ -148,6 +148,7 @@
     <build>
         <finalName>monitoriaifpe</finalName>
         <plugins>
+            <!--
             <plugin>
                 <groupId>com.alexnederlof</groupId>
                 <artifactId>jasperreports-plugin</artifactId>
@@ -168,7 +169,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- These are the default configurations: -->
                     <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
                     <sourceDirectory>src/main/resources/reports</sourceDirectory>
                     <outputDirectory>${project.build.directory}/reports</outputDirectory>
@@ -180,6 +180,7 @@
                     <sourceScanner>org.codehaus.plexus.compiler.util.scan.StaleSourceScanner</sourceScanner>
                 </configuration>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

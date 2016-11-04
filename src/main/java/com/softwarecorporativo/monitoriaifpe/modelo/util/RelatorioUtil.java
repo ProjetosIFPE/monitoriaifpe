@@ -38,6 +38,10 @@ public class RelatorioUtil {
     public static void compilarRelatorio(String src, String dest) throws JRException {
         JasperCompileManager.compileReportToFile(src, dest);
     }
+    
+    public static void main(String[] args) throws JRException {
+        compilarRelatorio("C:\\Users\\Aluno\\git\\monitoriaifpe\\src\\main\\resources\\reports\\relatorioFrequencia.jrxml", "C:\\Users\\Aluno\\git\\monitoriaifpe\\src\\main\\resources\\reports\\relatorioFrequencia.jasper");
+    }
 
 
 }
