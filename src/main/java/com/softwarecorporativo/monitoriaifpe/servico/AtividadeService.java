@@ -78,11 +78,11 @@ public class AtividadeService extends GenericService<Atividade> {
     //@RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public byte[] obterRelatorioFrequencia(Monitoria monitoria, Date dataInicialMes, Date dataFinalMes) {
-        //Integer mes = Util.getMonthOfDate(dataInicialMes, dataFinalMes);
-        //List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
-       // List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
+        Integer mes = Util.getMonthOfDate(dataInicialMes, dataFinalMes);
+        List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
+        List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
         try {
-            return RelatorioUtil.gerarRelatorioPDF(Collections.EMPTY_LIST, null, RELATORIO_JASPER_ATIVIDADE);
+            return RelatorioUtil.gerarRelatorioPDF(dadosRelatorio, null, RELATORIO_JASPER_ATIVIDADE);
         } catch (JRException ex) {
             Logger.getLogger(AtividadeService.class.getName()).log(Level.SEVERE, null, ex);
 
