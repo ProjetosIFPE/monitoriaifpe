@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -46,6 +47,7 @@ public class Professor extends Usuario {
 
     @NotBlank
     @Column(name = "txt_siape")
+    @Pattern(regexp="[0-9]{9}" , message = "SIAPE deve conter 9 digitos")
     private String siape;
 
     public Turma getTurma(int index) {

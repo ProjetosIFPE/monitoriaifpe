@@ -11,10 +11,14 @@
                 <p:fieldset>
                     <h:panelGrid columns="3" rendered="#{cadastroUsuarioBean.possuiCursos()}">
                         <p:outputLabel for="nome" value="Nome Completo"></p:outputLabel>
-                        <p:inputText id="nome" value="#{cadastroUsuarioBean.aluno.nome}" required="true"></p:inputText>
+                        <p:inputText id="nome" value="#{cadastroUsuarioBean.aluno.nome}" required="true">
+                            <f:ajax render="messageNome" event="blur" />
+                        </p:inputText>
                         <p:message for="nome" id="messageNome" />
                         <p:outputLabel for="cpf" value="CPF"></p:outputLabel>
-                        <p:inputMask  mask="999.999.999-99" id="cpf" value="#{cadastroUsuarioBean.aluno.cpf}" requiredMessage="CPF é obrigatório" required="true"></p:inputMask>
+                        <p:inputMask  mask="999.999.999-99" id="cpf" value="#{cadastroUsuarioBean.aluno.cpf}" requiredMessage="CPF é obrigatório" required="true">
+                            <f:ajax render="messageCpf" event="blur"  />
+                        </p:inputMask>
                         <p:message for="cpf" id="messageCpf" />
                         <p:outputLabel for="email">Email</p:outputLabel>
                         <p:inputText id="email" value="#{cadastroUsuarioBean.aluno.email}" required="true" validatorMessage="Email inválido">
@@ -25,8 +29,10 @@
                         </p:inputText>
                         <p:message for="email" id="messageEmail" />
                         <p:outputLabel for="matricula" value="Matricula" ></p:outputLabel>
-                        <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{cadastroUsuarioBean.aluno.matricula}"></p:inputMask>
-                        <p:message for="matricula" id="messageMatricula" />
+                        <p:inputMask id="matricula" mask="99999a9-aa9999" value="#{cadastroUsuarioBean.aluno.matricula}" requiredMessage="Matrícula é obrigatório para realizar um cadastro" required="true">
+                            <f:ajax event="blur" render="messageMatricula"  />
+                        </p:inputMask>
+                        <p:message for="matricula"  id="messageMatricula" />
                         <p:outputLabel for="curso" value="Curso" />
                         <p:selectOneMenu id="curso"  value="#{cadastroUsuarioBean.aluno.curso}" required="true" converter="entidadeNegocioConverter">
                             <f:selectItems value="#{cadastroUsuarioBean.cursos}" var="curso" itemLabel="#{curso.descricao}" itemValue="#{curso}"  />   

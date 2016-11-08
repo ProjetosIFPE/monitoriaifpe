@@ -16,13 +16,19 @@ and open the template in the editor.
                 <p:fieldset>
                     <h:panelGrid rendered="#{cadastroUsuarioBean.possuiCursos()}" columns="3">
                         <p:outputLabel for="nome" value="Nome Completo" />
-                        <p:inputText id="nome" value="#{cadastroUsuarioBean.professor.nome}" required="true" />
+                        <p:inputText id="nome" value="#{cadastroUsuarioBean.professor.nome}" required="true" >
+                                <f:ajax render="messageNome" event="blur" />
+                        </p:inputText>
                         <p:message for="nome" id="messageNome" />
                         <p:outputLabel for="siape" value="Siape"></p:outputLabel>
-                        <p:inputMask mask="999999999" id="siape" value="#{cadastroUsuarioBean.professor.siape}"  required="true"></p:inputMask>
+                        <p:inputMask mask="999999999" id="siape" value="#{cadastroUsuarioBean.professor.siape}"  required="true">
+                                <f:ajax render="messageSiape" event="blur" />
+                        </p:inputMask>
                         <p:message for="siape" id="messageSiape" />
                         <p:outputLabel for="cpf" value="CPF"></p:outputLabel>
-                        <p:inputMask  mask="999.999.999-99" id="cpf" value="#{cadastroUsuarioBean.professor.cpf}" requiredMessage="CPF é obrigatório" required="true"></p:inputMask>
+                        <p:inputMask  mask="999.999.999-99" id="cpf" value="#{cadastroUsuarioBean.professor.cpf}" requiredMessage="CPF é obrigatório" required="true">
+                                <f:ajax render="messageCpf" event="blur" />
+                        </p:inputMask>
                         <p:message for="cpf" id="messageCpf" />
                         <p:outputLabel for="email">Email</p:outputLabel>
                         <p:inputText id="email" value="#{cadastroUsuarioBean.professor.email}" required="true" validatorMessage="Email inválido">
