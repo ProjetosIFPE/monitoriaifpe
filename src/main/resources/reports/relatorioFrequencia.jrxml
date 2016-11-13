@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioFrequencia" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56f731ed-6e6b-42d6-a3a9-d3ad09a3fec0">
 	<property name="ireport.zoom" value="1.2100000000000086"/>
-	<property name="ireport.x" value="36"/>
-	<property name="ireport.y" value="644"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1227"/>
 	<property name="ireport.background.image.properties" value="true,true,0.25,-8,-8,0,0,2497,3524"/>
 	<subDataset name="semanas" uuid="8acb93e6-7685-44f0-8319-de65a44a157b">
 		<field name="descricao" class="java.lang.String"/>
@@ -16,6 +16,7 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\EdmilsonS\\Desktop\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="TEMPLATE_REPORT" class="java.net.URL"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="disciplina" class="java.lang.String"/>
 	<field name="orientador" class="java.lang.String"/>
@@ -26,11 +27,12 @@
 	<field name="ano" class="java.lang.Integer"/>
 	<field name="cargaHoraria" class="java.lang.Integer"/>
 	<field name="semanas" class="java.util.List"/>
+	<field name="assinaturaOrientador" class="java.io.InputStream"/>
 	<background>
 		<band height="802" splitType="Stretch">
 			<image scaleImage="FillFrame">
 				<reportElement x="0" y="0" width="555" height="802" uuid="54bc8be4-52a6-45a4-b157-0a49a7a5928c"/>
-				<imageExpression><![CDATA["C:\\Users\\Aluno\\git\\monitoriaifpe\\src\\main\\resources\\reports\\selection-page-001.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\Users\\Clarice\\projeto_periodo\\src\\main\\resources\\reports\\img\\template-relatorio.jpg"]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="116" y="146" width="246" height="20" uuid="ce127029-e17d-490d-ad06-9b4c157f15d5"/>
@@ -120,6 +122,10 @@
 					</jr:listContents>
 				</jr:list>
 			</componentElement>
+			<image>
+				<reportElement x="286" y="589" width="217" height="21" uuid="04076967-9652-4b79-830a-f2795266d47a"/>
+				<imageExpression><![CDATA[$F{assinaturaOrientador}]]></imageExpression>
+			</image>
 		</band>
 	</background>
 	<title>

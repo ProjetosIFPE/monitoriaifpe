@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Edmilson Santana
  */
-public class DiaDTO {
+public class Dia {
     
     private Date data;
 

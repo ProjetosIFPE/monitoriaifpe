@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Edmilson Santana
  */
-public class SemanaDTO implements Serializable {
+public class Semana implements Serializable {
 
     private static final long serialVersionUID = 1187906149482262433L;
 
@@ -20,13 +20,13 @@ public class SemanaDTO implements Serializable {
 
     private String observacao;
 
-    private List<DiaDTO> dias;
+    private List<Dia> dias;
 
-    public List<DiaDTO> getDias() {
+    public List<Dia> getDias() {
         return dias;
     }
 
-    public void setDias(List<DiaDTO> dias) {
+    public void setDias(List<Dia> dias) {
         this.dias = dias;
     }
 

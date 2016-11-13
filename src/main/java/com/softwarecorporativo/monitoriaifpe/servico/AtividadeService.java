@@ -7,27 +7,26 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
-import com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo;
 import static com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo.ALUNO;
 import static com.softwarecorporativo.monitoriaifpe.modelo.grupo.Grupo.PROFESSOR;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
-import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.DiaDTO;
-import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.RelatorioDTO;
-import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.SemanaDTO;
+import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Dia;
+import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Relatorio;
+import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Semana;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.RelatorioUtil;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.Util;
+import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -49,7 +48,9 @@ import org.apache.commons.lang.StringUtils;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AtividadeService extends GenericService<Atividade> {
 
-    private static final String RELATORIO_JASPER_ATIVIDADE = "relatorioFrequencia.jasper";
+    public static final String RELATORIO_JASPER_ATIVIDADE = "relatorioFrequencia.jasper";
+
+    public static final String RELATORIO_JASPER_BACKGROUND_IMAGE = "template-relatorio.jpg";
 
     //@RolesAllowed({ALUNO})
     @PermitAll
@@ -68,7 +69,7 @@ public class AtividadeService extends GenericService<Atividade> {
 
     }
 
-   // @RolesAllowed({ALUNO})
+    // @RolesAllowed({ALUNO})
     @PermitAll
     @Override
     public void remover(Atividade entidadeNegocio) throws NegocioException {
@@ -80,9 +81,14 @@ public class AtividadeService extends GenericService<Atividade> {
     public byte[] obterRelatorioFrequencia(Monitoria monitoria, Date dataInicialMes, Date dataFinalMes) {
         Integer mes = Util.getMonthOfDate(dataInicialMes, dataFinalMes);
         List<Atividade> atividades = this.consultarAtividadesMensaisDaMonitoria(monitoria, mes);
-        List<RelatorioDTO> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
+        List<Relatorio> dadosRelatorio = converterAtividadesEmRelatorio(monitoria, atividades, mes);
         try {
-            return RelatorioUtil.gerarRelatorioPDF(dadosRelatorio, null, RELATORIO_JASPER_ATIVIDADE);
+            Map<String, Object> parametros = new HashMap<>();
+            String reportsPath = File.separatorChar + "reports" + File.separatorChar
+                    + "img" + File.separatorChar + RELATORIO_JASPER_BACKGROUND_IMAGE;
+            URL reportsAbsolutePath = getClass().getClassLoader().getResource(reportsPath);
+            parametros.put(RelatorioUtil.TEMPLATE_REPORT, reportsAbsolutePath);
+            return RelatorioUtil.gerarRelatorioPDF(dadosRelatorio, parametros, RELATORIO_JASPER_ATIVIDADE);
         } catch (JRException ex) {
             Logger.getLogger(AtividadeService.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -92,9 +98,9 @@ public class AtividadeService extends GenericService<Atividade> {
 
     //@RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
-    public List<RelatorioDTO> converterAtividadesEmRelatorio(Monitoria monitoria, List<Atividade> atividades, Integer mes) {
+    public List<Relatorio> converterAtividadesEmRelatorio(Monitoria monitoria, List<Atividade> atividades, Integer mes) {
 
-        RelatorioDTO relatorio = new RelatorioDTO();
+        Relatorio relatorio = new Relatorio();
 
         relatorio.setAno(monitoria.getAnoMonitoria());
         relatorio.setEdital(monitoria.getEditalMonitoria());
@@ -107,18 +113,18 @@ public class AtividadeService extends GenericService<Atividade> {
         StringBuilder descricaoAcumulada = new StringBuilder();
         StringBuilder observacaoAcumulada = new StringBuilder();
 
-        List<SemanaDTO> semanas = new ArrayList<>();
+        List<Semana> semanas = new ArrayList<>();
 
-        List<DiaDTO> dias = new ArrayList<>();
+        List<Dia> dias = new ArrayList<>();
 
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
-        SemanaDTO semana = new SemanaDTO();
+        Semana semana = new Semana();
 
         int quantidadeAtividades = 0;
         for (Atividade atividade : atividades) {
 
-            DiaDTO dia = new DiaDTO();
+            Dia dia = new Dia();
 
             String horarioInicial = format.format(atividade.getDataInicio());
             String horarioFinal = format.format(atividade.getDataFim());
@@ -144,7 +150,7 @@ public class AtividadeService extends GenericService<Atividade> {
                 semana.setObservacao(observacaoAcumulada.toString());
                 dias = new ArrayList<>();
                 semanas.add(semana);
-                semana = new SemanaDTO();
+                semana = new Semana();
                 descricaoAcumulada.delete(0, descricaoAcumulada.capacity());
                 observacaoAcumulada.delete(0, observacaoAcumulada.capacity());
 
@@ -153,13 +159,13 @@ public class AtividadeService extends GenericService<Atividade> {
 
         relatorio.setSemanas(semanas);
 
-        List<RelatorioDTO> relatorios = new ArrayList<>();
+        List<Relatorio> relatorios = new ArrayList<>();
         relatorios.add(relatorio);
 
         return relatorios;
     }
 
-   // @RolesAllowed({ALUNO, PROFESSOR})
+    // @RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public List<Atividade> consultarAtividadesDaMonitoria(Monitoria monitoria) {
         StringBuilder jpql = new StringBuilder();
@@ -186,7 +192,7 @@ public class AtividadeService extends GenericService<Atividade> {
         return query.getResultList();
     }
 
-   // @RolesAllowed({ALUNO, PROFESSOR})
+    // @RolesAllowed({ALUNO, PROFESSOR})
     @PermitAll
     public List<Atividade> consultarAtividadesMensaisDaMonitoria(Monitoria monitoria,
             Date dataInicialMes, Date dataFinalMes) {

@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Edmilson Santana
  */
-public class RelatorioDTO implements Serializable {
+public class Relatorio implements Serializable {
 
     private static final long serialVersionUID = 5418177404788125688L;
 
@@ -34,13 +35,25 @@ public class RelatorioDTO implements Serializable {
 
     private int cargaHoraria;
 
-    private List<SemanaDTO> semanas;
+    private InputStream assinaturaOrientador;
 
-    public List<SemanaDTO> getSemanas() {
+    private List<Semana> semanas;
+
+    
+    public InputStream getAssinaturaOrientador() {
+        return assinaturaOrientador;
+    }
+
+    public void setAssinaturaOrientador(InputStream assinaturaOrientador) {
+        this.assinaturaOrientador = assinaturaOrientador;
+    }
+
+   
+    public List<Semana> getSemanas() {
         return semanas;
     }
 
-    public void setSemanas(List<SemanaDTO> semanas) {
+    public void setSemanas(List<Semana> semanas) {
         this.semanas = semanas;
     }
 
