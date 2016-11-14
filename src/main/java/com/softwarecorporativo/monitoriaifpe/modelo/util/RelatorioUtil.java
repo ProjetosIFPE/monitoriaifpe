@@ -9,13 +9,14 @@ import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Dia;
 import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Relatorio;
 import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Semana;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -91,17 +92,24 @@ public class RelatorioUtil {
         dias.add(diaDTO);
 
         dados.add(relatorio);
-        BufferedImage buffer = ImageIO.read(new File("C:\\Users\\Clarice\\assinatura2.jpeg"));
+
         Dimension dimension = new Dimension(660, 180);
         Rectangle rc = new Rectangle(dimension);
-        BufferedImage subImage = buffer.getSubimage(0, 0, rc.width, rc.height);
+
+        BufferedImage buffer = ImageIO.read(new File("C:\\Users\\EdmilsonS\\assinatura.png"));
+
+        int cropX = (buffer.getWidth() - rc.width) > 0 ? buffer.getWidth() - rc.width : 0;
+        int cropY = (buffer.getHeight() - rc.height) > 0 ? buffer.getHeight() - rc.height : 0;
+        BufferedImage subImage = buffer.getSubimage(cropX, cropY, rc.width, rc.height);
+       
+       
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ImageIO.write(subImage, "png", os);
         InputStream is = new ByteArrayInputStream(os.toByteArray());
         relatorio.setAssinaturaOrientador(is);
 
         byte[] bytes = gerarRelatorioPDF(dados, parametros, AtividadeService.RELATORIO_JASPER_ATIVIDADE);
-        FileOutputStream fileOutputStream = new FileOutputStream(new File("C:\\Users\\Clarice\\relatorio.pdf"));
+        FileOutputStream fileOutputStream = new FileOutputStream(new File("C:\\Users\\EdmilsonS\\relatorio.pdf"));
         fileOutputStream.write(bytes);
         fileOutputStream.close();
     }

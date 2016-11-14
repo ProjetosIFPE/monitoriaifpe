@@ -121,6 +121,10 @@ public class Monitoria extends EntidadeNegocio {
     public String getNomeOrientador() {
         return turma.getProfessor().getNomeCompleto();
     }
+    
+    public byte[] getAssinaturaOrientador() {
+        return turma.getProfessor().getAssinatura();
+    }
 
     public Periodo getPeriodoMonitoria() {
         return turma.getPeriodo();

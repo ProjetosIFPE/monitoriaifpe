@@ -5,16 +5,18 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.util.Util;
-import java.io.File;
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
+import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
+import com.softwarecorporativo.monitoriaifpe.servico.UsuarioService;
 import java.io.IOException;
-import javax.faces.FacesException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.imageio.stream.FileImageOutputStream;
-import org.primefaces.event.CaptureEvent;
+import org.apache.poi.util.IOUtils;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -22,43 +24,30 @@ import org.primefaces.model.UploadedFile;
  * @author Edmilson Santana
  */
 @ManagedBean
-@ViewScoped
 public class PerfilUsuarioBean extends Bean {
 
-    private String fileNameOnCapture;
+    @EJB(lookup = "java:global/monitoriaifpe/ProfessorService")
+    private UsuarioService usuarioService;
+
+    @ManagedProperty(value = "#{usuarioBean}")
+    private UsuarioBean usuarioBean;
 
     private UploadedFile fileOnUpload;
 
-    public void oncapture(CaptureEvent captureEvent) {
-        fileNameOnCapture = Util.getRandomString();
-        byte[] data = captureEvent.getData();
-
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        String newFileName = externalContext.getRealPath("") + File.separator + "resources"
-                + File.separator + "img" + File.separator + fileNameOnCapture + ".jpeg";
-
-        FileImageOutputStream imageOutput;
-        try {
-            imageOutput = new FileImageOutputStream(new File(newFileName));
-            imageOutput.write(data, 0, data.length);
-            imageOutput.close();
-        } catch (IOException e) {
-            throw new FacesException("Error in writing captured image.", e);
-        }
-    }
-
     public void uploadAssinatura() {
         if (fileOnUpload != null) {
-            adicionarMensagemView("Succesful" + fileOnUpload.getFileName() + " is uploaded.");
+            Professor professor = (Professor) usuarioBean.getUsuario();
+            try {
+                professor.setAssinatura(IOUtils.toByteArray(fileOnUpload.getInputstream()));
+                usuarioService.atualizar(professor);
+            } catch (IOException | NegocioException ex) {
+                adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+            }
         }
     }
-    
+
     public void atualizarPerfil() {
         uploadAssinatura();
-    }
-
-    public String getFileNameOnCapture() {
-        return fileNameOnCapture;
     }
 
     public UploadedFile getFileOnUpload() {
@@ -67,6 +56,22 @@ public class PerfilUsuarioBean extends Bean {
 
     public void setFileOnUpload(UploadedFile fileOnUpload) {
         this.fileOnUpload = fileOnUpload;
+    }
+
+    public UsuarioService getUsuarioService() {
+        return usuarioService;
+    }
+
+    public void setUsuarioService(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    public UsuarioBean getUsuarioBean() {
+        return usuarioBean;
+    }
+
+    public void setUsuarioBean(UsuarioBean usuarioBean) {
+        this.usuarioBean = usuarioBean;
     }
 
     @Override

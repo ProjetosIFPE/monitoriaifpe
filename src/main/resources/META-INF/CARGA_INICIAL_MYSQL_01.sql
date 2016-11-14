@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `monitoriaifpe`.`tb_professor` (
   `id_professor` INT NOT NULL,
   `txt_siape` VARCHAR(10) NOT NULL,
   `id_curso` INT NOT NULL,
+   `assinatura` BLOB,
   PRIMARY KEY (`id_professor`),
   CONSTRAINT `fk_professor_usuario1`
     FOREIGN KEY (`id_professor`)

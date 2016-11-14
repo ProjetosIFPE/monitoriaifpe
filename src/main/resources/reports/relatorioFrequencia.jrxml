@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioFrequencia" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56f731ed-6e6b-42d6-a3a9-d3ad09a3fec0">
 	<property name="ireport.zoom" value="1.2100000000000086"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1227"/>
+	<property name="ireport.y" value="1268"/>
 	<property name="ireport.background.image.properties" value="true,true,0.25,-8,-8,0,0,2497,3524"/>
 	<subDataset name="semanas" uuid="8acb93e6-7685-44f0-8319-de65a44a157b">
 		<field name="descricao" class="java.lang.String"/>
@@ -32,7 +32,7 @@
 		<band height="802" splitType="Stretch">
 			<image scaleImage="FillFrame">
 				<reportElement x="0" y="0" width="555" height="802" uuid="54bc8be4-52a6-45a4-b157-0a49a7a5928c"/>
-				<imageExpression><![CDATA["C:\\Users\\Clarice\\projeto_periodo\\src\\main\\resources\\reports\\img\\template-relatorio.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$P{TEMPLATE_REPORT}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="116" y="146" width="246" height="20" uuid="ce127029-e17d-490d-ad06-9b4c157f15d5"/>

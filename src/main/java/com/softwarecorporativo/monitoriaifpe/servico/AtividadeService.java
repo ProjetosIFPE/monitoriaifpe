@@ -13,8 +13,10 @@ import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Dia;
 import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Relatorio;
 import com.softwarecorporativo.monitoriaifpe.modelo.relatorio.frequencia.Semana;
+import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.RelatorioUtil;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.Util;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -102,6 +104,8 @@ public class AtividadeService extends GenericService<Atividade> {
 
         Relatorio relatorio = new Relatorio();
 
+        Turma turma = monitoria.getTurma();
+
         relatorio.setAno(monitoria.getAnoMonitoria());
         relatorio.setEdital(monitoria.getEditalMonitoria());
         relatorio.setDisciplina(monitoria.getTurma().getComponenteCurricular().getDescricao());
@@ -110,6 +114,11 @@ public class AtividadeService extends GenericService<Atividade> {
         relatorio.setNome(monitoria.getNomeMonitor());
         relatorio.setOrientador(monitoria.getNomeOrientador());
         relatorio.setMes(Util.obterNomeMes(mes));
+
+        ByteArrayInputStream assinatura = new ByteArrayInputStream(
+                monitoria.getAssinaturaOrientador());
+        relatorio.setAssinaturaOrientador(assinatura);
+
         StringBuilder descricaoAcumulada = new StringBuilder();
         StringBuilder observacaoAcumulada = new StringBuilder();
 

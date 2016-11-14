@@ -11,19 +11,9 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="../_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form>
+            <h:form enctype="multipart/form-data">
                 <p:panelGrid columns="3">
-                    <p:outputLabel for="digitalizaAssinatura" value="Digitalize sua assinatura" />
-                    <h:panelGrid id="digitalizaAssinatura" columns="3" cellpadding="5">
-                        <p:photoCam widgetVar="pc" listener="#{perfilUsuarioBean.oncapture}" update="photo" />
-                        <p:panelGrid columns="1" >
-                            <p:commandButton type="button" value="Capturar" onclick="PF('pc').capture()"/>
-                            <p:fileUpload id="upload" value="#{perfilUsuarioBean.fileOnUpload}"  mode="simple"  skinSimple="true"/>
-                        </p:panelGrid>
-                        <p:outputPanel id="photo">
-                            <p:graphicImage library="img" name="#{perfilUsuarioBean.fileNameOnCapture}.jpeg" rendered="#{not empty perfilUsuarioBean.fileNameOnCapture}"/>
-                        </p:outputPanel>
-                    </h:panelGrid>
+                    <p:fileUpload id="digitalizaAssinatura" label="Digitalize sua assinatura" value="#{perfilUsuarioBean.fileOnUpload}"  mode="simple"  skinSimple="true"/>
                     <p:message for="digitalizaAssinatura"  />
                     <p:commandButton value="Atualizar Perfil" actionListener="#{perfilUsuarioBean.atualizarPerfil}" ajax="false"  />
                 </p:panelGrid>

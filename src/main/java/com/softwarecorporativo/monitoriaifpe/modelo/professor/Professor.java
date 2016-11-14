@@ -12,6 +12,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -49,6 +50,10 @@ public class Professor extends Usuario {
     @Column(name = "txt_siape")
     @Pattern(regexp="[0-9]{9}" , message = "SIAPE deve conter 9 digitos")
     private String siape;
+    
+    @Lob
+    @Column(name = "assinatura")
+    private byte[] assinatura;
 
     public Turma getTurma(int index) {
         if (this.turmas == null) {
@@ -85,4 +90,13 @@ public class Professor extends Usuario {
         this.siape = siape;
     }
 
+    public byte[] getAssinatura() {
+        return assinatura;
+    }
+
+    public void setAssinatura(byte[] assinatura) {
+        this.assinatura = assinatura;
+    }
+
+    
 }
