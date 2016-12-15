@@ -75,8 +75,8 @@
 
     <!-- Monitorias e suas atividades -->
    
-    <tb_monitoria id_monitoria="1" id_aluno="1" id_turma="1" monitoria_aprovada="false" />
-    <tb_monitoria id_monitoria="2" id_aluno="3" id_turma="2" monitoria_aprovada="true"   />
+    <tb_monitoria id_monitoria="1" id_aluno="1" id_turma="1" situacao_monitoria="AGUARDANDO_APROVACAO" />
+    <tb_monitoria id_monitoria="2" id_aluno="3" id_turma="2" situacao_monitoria="APROVADA"   />
    
     <tb_atividade id_atividade="1" txt_descricao="Correção de exercícios" dt_inicio_atividade="2016-02-02 14:00:00" dt_fim_atividade="2016-02-02 18:00:00"   id_monitoria="1" />
     <tb_atividade id_atividade="2" txt_descricao="Correção de exercícios" dt_inicio_atividade="2016-02-02 14:00:00" dt_fim_atividade="2016-02-02 18:00:00"  id_monitoria="1" />
