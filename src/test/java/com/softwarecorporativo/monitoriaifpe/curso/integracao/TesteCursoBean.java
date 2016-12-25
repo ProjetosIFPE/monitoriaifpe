@@ -6,7 +6,6 @@
 package com.softwarecorporativo.monitoriaifpe.curso.integracao;
 
 import com.softwarecorporativo.monitoriaifpe.servico.CursoService;
-import static com.sun.enterprise.deployment.util.webservice.WsCompileInvoker.TARGET_DIR;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import javax.naming.NamingException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import javax.naming.Context;
 import org.apache.commons.io.FileUtils;
 
 /**

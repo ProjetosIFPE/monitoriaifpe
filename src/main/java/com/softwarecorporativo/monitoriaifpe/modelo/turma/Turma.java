@@ -68,6 +68,9 @@ public class Turma extends EntidadeNegocio {
     @Column(name = "turma_ofertada", nullable = false)
     private Boolean ofertada;
 
+    public String getDescricaoTurma() {
+        return getComponenteCurricular().getDescricao();
+    }
     public int obterAnoTurma() {
 
         return getPeriodo().getAno();
@@ -100,6 +103,7 @@ public class Turma extends EntidadeNegocio {
     public void setComponenteCurricular(ComponenteCurricular componenteCurricular) {
         this.componenteCurricular = componenteCurricular;
     }
+    
 
     /**
      * Recebe um Componente Curricular para verificar se a disciplina possui o

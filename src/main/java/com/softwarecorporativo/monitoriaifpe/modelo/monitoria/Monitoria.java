@@ -51,7 +51,7 @@ public class Monitoria extends EntidadeNegocio {
     public static final String COUNT_MONITORIA_CADASTRADA = "countMonitoriaCadastrada";
 
     public static final String MONITORIA_POR_PROFESSOR = "monitoriaPorProfessor";
-    
+
     @NotNull
     @Column(name = "situacao_monitoria", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -81,6 +81,18 @@ public class Monitoria extends EntidadeNegocio {
     public Turma getTurma() {
 
         return turma;
+    }
+    
+    public String getDescricaoCursoMonitoria() {
+        return getAluno().getDescricaoCursoAluno();
+    }
+    
+    public String getMatriculaMonitor() {
+        return getAluno().getMatricula();
+    }
+
+    public String getDescricaoTurmaMonitoria() {
+        return getTurma().getDescricaoTurma();
     }
 
     public void setTurma(Turma turma) {
@@ -121,7 +133,7 @@ public class Monitoria extends EntidadeNegocio {
     public String getNomeOrientador() {
         return turma.getProfessor().getNomeCompleto();
     }
-    
+
     public byte[] getAssinaturaOrientador() {
         return turma.getProfessor().getAssinatura();
     }

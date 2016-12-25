@@ -7,6 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
+import com.softwarecorporativo.monitoriaifpe.modelo.documento.Documento;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
@@ -40,7 +41,6 @@ public class AtividadeBean extends ViewScopedBean<Atividade> {
     private Monitoria monitoria;
 
     private Long monitoriaId;
-  
 
     @Override
     void inicializarEntidades() {
@@ -106,8 +106,8 @@ public class AtividadeBean extends ViewScopedBean<Atividade> {
     }
 
     public StreamedContent getRelatorio(Date dataInicialMes, Date dataFinalMes) {
-        byte[] bytes = atividadeService.obterRelatorioFrequencia(monitoria, dataInicialMes, dataFinalMes);
-        return new ByteArrayContent(bytes, "application/pdf", "relatorioFrequencia.pdf");
+        Documento documento = atividadeService.obterRelatorioFrequencia(monitoria, dataInicialMes, dataFinalMes);
+        return new ByteArrayContent(documento.getConteudo(), "application/pdf", "relatorioFrequencia.pdf");
     }
 
     public Long getMonitoriaId() {

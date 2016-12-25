@@ -29,7 +29,7 @@ import javax.persistence.Parameter;
 public abstract class GenericService<T extends EntidadeNegocio> {
 
     @PersistenceContext(unitName = "monitoriaifpe-unit-dev", type = PersistenceContextType.TRANSACTION)
-    EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public T buscarEntidade(Long chavePrimaria) {

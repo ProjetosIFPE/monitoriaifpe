@@ -17,7 +17,7 @@
         <p:layout  styleClass="layoutConteudo">
             <h:form>
                 <p:growl globalOnly="true" id="messages" autoUpdate="true" />
-                <p:layoutUnit resizable="false" position="north">
+                <p:layoutUnit  position="north">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
                             <h:link outcome="/usuario/home.xhtml"><h:graphicImage styleClass="logo" library="img" name="logo_ifpe.png" /></h:link>
@@ -32,7 +32,7 @@
                         </p:submenu>
                         <p:separator />
                         <p:submenu label="Validar Documentos">
-                            <p:menuitem  value="Validar Relatórios" immediate="true"/>
+                            <p:menuitem  value="Validar Relatórios" outcome="/publico/valida_documentos.xhtml?faces-redirect=true" immediate="true"/>
                         </p:submenu>  
                     </p:panelMenu>
                     <p:menu rendered="#{usuarioLogado != null}">
@@ -55,21 +55,21 @@
         </p:layout>
 
         <p:panelGrid columns="3" layout="grid">            
-                <h:outputText value="Endereço:" /> 
-                <h:outputText value="Contato:" /> 
-                <h:outputText value="Empresa:" /> 
+            <h:outputText value="Endereço:" /> 
+            <h:outputText value="Contato:" /> 
+            <h:outputText value="Empresa:" /> 
 
-                <h:outputText value="Av. Prof. Luís Freire, 500, CDU" /> 
-                <h:outputText value="monitoriaifpe@gmail.com"  /> 
-                <h:outputText value="Projetos IFPE" /> 
+            <h:outputText value="Av. Prof. Luís Freire, 500, CDU" /> 
+            <h:outputText value="monitoriaifpe@gmail.com"  /> 
+            <h:outputText value="Projetos IFPE" /> 
 
-                <h:outputText value="http://www.ifpe.edu.br/" /> 
-                <h:outputText value="" /> 
-                <h:outputText value="Daniel, Douglas e Edmilson." /> 
-            </p:panelGrid>
-        
+            <h:outputText value="http://www.ifpe.edu.br/" /> 
+            <h:outputText value="" /> 
+            <h:outputText value="Daniel, Douglas e Edmilson." /> 
+        </p:panelGrid>
+
     </h:body>
-    
-            
+
+
 </html>
 

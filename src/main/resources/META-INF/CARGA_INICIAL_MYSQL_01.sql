@@ -272,6 +272,18 @@ CREATE TABLE IF NOT EXISTS `monitoriaifpe`.`tb_usuario_grupo` (
         FOREIGN KEY (id_grupo) REFERENCES tb_grupo(id_grupo)
 );
 
+-- -----------------------------------------------------
+-- Table `monitoriaifpe`.`tb_documento`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `monitoriaifpe`.`tb_documento`;
+
+CREATE TABLE IF NOT EXISTS `monitoriaifpe`.`tb_documento` (
+	txt_hash VARCHAR(64) NOT NULL,
+        conteudo MEDIUMBLOB NOT NULL,
+	dt_emissao TIMESTAMP NOT NULL,
+        PRIMARY KEY (`txt_hash`)
+);
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

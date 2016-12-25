@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="../_template.xhtml" >
+        <ui:define name="conteudo">
+            <p:panel>
+                <h:form enctype="multipart/form-data">
+                    <p:panelGrid columns="3">
+                        <p:fileUpload id="validarDocumento" label="Escolha o documento para validação" value="#{documentoBean.fileOnUpload}"  mode="simple"  skinSimple="true"/>
+                        <p:commandButton value="Upload" actionListener="#{documentoBean.validarDocumento()}" ajax="false" icon="fa fa-upload" />
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" rendered="#{documentoBean.isValidouDocumento()}">
+                        <p:outputLabel  rendered="#{documentoBean.possuiDocumentoParaBaixar()}"  for="baixarDocumento" value="Date de emissão" />
+                        <h:outputText value="#{documentoBean.documentoValido.dataEmissao}">
+                            <f:convertDateTime locale="pt_BR" dateStyle="long" pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                        <p:outputLabel rendered="#{documentoBean.possuiDocumentoParaBaixar()}"  for="baixarDocumento" value="Link para baixar" />
+                        <p:commandLink id="baixarDocumento" immediate="true" rendered="#{documentoBean.possuiDocumentoParaBaixar()}" value="Download" ajax="false" >
+                            <p:fileDownload value="#{documentoBean.fileOnDownload}" />
+                        </p:commandLink>
+                        <h:outputText rendered="#{not documentoBean.possuiDocumentoParaBaixar()}" value="Este documento não foi emitido por este sistema ou é inválido." />
+                    </p:panelGrid>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+

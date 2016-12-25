@@ -53,6 +53,10 @@ public class Aluno extends Usuario {
 
         this.matricula = matricula;
     }
+    
+    public String getDescricaoCursoAluno() {
+        return getCurso().getDescricao();
+    }
 
     public Curso getCurso() {
 

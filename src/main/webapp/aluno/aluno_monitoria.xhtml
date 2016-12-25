@@ -13,7 +13,7 @@ and open the template in the editor.
         <ui:define name="conteudo">
             <p:tabView id="tabViewAlunoMonitoria">
                 <p:tab title="Solicitação de Monitoria">
-                    <h:outputText value="#{msg.cursosNaoCadastrados}" rendered="#{not alunoMonitoriaBean.possuiTurmasOfertadas()}" />
+                    <h:outputText value="#{msg.turmasNaoOfertadas}" rendered="#{not alunoMonitoriaBean.possuiTurmasOfertadas()}" />
                     <h:form id="formMonitoria" rendered="#{alunoMonitoriaBean.possuiTurmasOfertadas()}">
                         <p:fieldset>
                             <h:panelGrid columns="2" cellspacing="10">    

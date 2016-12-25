@@ -1,18 +1,20 @@
 package com.softwarecorporativo.monitoriaifpe.modelo.util;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class Util {
+public class DataUtil {
 
     public static String formatarData(Date data) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt", "br"));
+        return formatter.format(data);
+    }
+
+    public static String formatarDataHoraMinuto(Date data) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", new Locale("pt", "br"));
         return formatter.format(data);
     }
 
@@ -31,13 +33,15 @@ public class Util {
         int mesDataInicio = cal.get(Calendar.MONTH);
         cal.setTime(dataFim);
         int mesDataFim = cal.get(Calendar.MONTH);
-        int mes = mesDataFim - mesDataInicio;
-        if (mes == 0) {
-            mes = mesDataInicio;
-        } else {
-             mes += mesDataInicio;
+        if (!((mesDataFim - mesDataInicio) == 0)) {
+            mesDataInicio += 1;
+            mesDataInicio %= 12;
         }
-        return mes;
+        return mesDataInicio;
+    }
+
+    public static void main(String[] args) {
+
     }
 
     public static Date getTime(Integer horas, Integer minutos, Integer segundos) {
@@ -51,12 +55,7 @@ public class Util {
     public static String obterNomeMes(int mes) {
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        return meses[mes - 1];
-    }
-    
-     public static String getRandomString() {
-        int i = (int) (Math.random() * 10000000);
-        return String.valueOf(i);
+        return meses[mes];
     }
 
 }
