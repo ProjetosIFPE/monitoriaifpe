@@ -32,17 +32,17 @@ public class TurmaService extends GenericService<Turma> {
 
     @Override
     public Boolean verificarExistencia(Turma turma) {
-        Object[] parametros = new Object[2];
+        Object[] parametros = new Object[3];
         parametros[0] = turma.getPeriodo();
         parametros[1] = turma.getComponenteCurricular();
+        parametros[2] = turma.getChavePrimaria();
         return super.count(Turma.COUNT_TURMA_CADASTRADA, parametros) > 0;
     }
 
     public List<Turma> consultarTurmasOfertadas(Professor professor) {
-        Object[] parametros = new Object[2];
-        parametros[0] = Boolean.TRUE;
-        parametros[1] = professor;
-        return super.getResultList(Turma.TURMAS_OFERTADAS_POR_PROFESSOR, parametros);
+        Object[] parametros = new Object[1];
+        parametros[0] = professor;
+        return super.getResultList(Turma.TURMAS_POR_PROFESSOR, parametros);
     }
 
     public List<Turma> consultarTurmasOfertadas(Curso curso) {
@@ -60,10 +60,19 @@ public class TurmaService extends GenericService<Turma> {
 
     @Override
     public Turma salvar(Turma turma) throws NegocioException {
-        Periodo periodo = periodoService.obterPeriodoAtual();
+        Periodo periodo = periodoService.obterPeriodo();
         turma.setPeriodo(periodo);
         turma.ofertar();
         return super.salvar(turma);
+    }
+
+    @Override
+    public void remover(Turma turma) throws NegocioException {
+        if (turma.isInativo()) {
+            super.remover(turma);
+        } else {
+            throw new NegocioException(NegocioException.TURMA_POSSUI_RELACIONAMENTOS);
+        }
     }
 
     @Override

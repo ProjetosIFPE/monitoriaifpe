@@ -34,15 +34,15 @@ public class DataUtil {
         cal.setTime(dataFim);
         int mesDataFim = cal.get(Calendar.MONTH);
         if (!((mesDataFim - mesDataInicio) == 0)) {
-            mesDataInicio += 1;
+            if (!(mesDataInicio + 1 == mesDataFim)) {
+                mesDataInicio += 1;
+            }
             mesDataInicio %= 12;
         }
+        mesDataInicio += 1;
         return mesDataInicio;
     }
 
-    public static void main(String[] args) {
-
-    }
 
     public static Date getTime(Integer horas, Integer minutos, Integer segundos) {
         Calendar c = Calendar.getInstance();
@@ -53,9 +53,13 @@ public class DataUtil {
     }
 
     public static String obterNomeMes(int mes) {
+        String nomeMes = "";
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        return meses[mes];
+        if (mes >= 1 && mes <= 12) {
+            nomeMes = meses[mes - 1];
+        }
+        return nomeMes;
     }
 
 }

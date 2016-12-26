@@ -21,6 +21,9 @@
     width: 1em;
     
 }
+texto-centralizado {
+    text-align: center;
+}
 
 icone_aluno {
     background: url(../img/icone_aluno.gif) !important;

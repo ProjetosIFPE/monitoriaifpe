@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = Monitoria.MONITORIA_POR_ALUNO,
             query = "select m from Monitoria as m where m.situacaoMonitoria = ?1 and m.aluno = ?2"),
     @NamedQuery(name = Monitoria.COUNT_MONITORIA_CADASTRADA,
-            query = "select count(m) from Monitoria as m where m.aluno = ?1 and m.turma = ?2"),
+            query = "select count(m) from Monitoria as m where m.aluno = ?1 and m.turma = ?2 and m.chavePrimaria != ?3"),
     @NamedQuery(name = Monitoria.MONITORIA_POR_PROFESSOR,
             query = "select m from Monitoria as m join m.turma as t where m.situacaoMonitoria = ?1 and t.professor = ?2")})
 public class Monitoria extends EntidadeNegocio {

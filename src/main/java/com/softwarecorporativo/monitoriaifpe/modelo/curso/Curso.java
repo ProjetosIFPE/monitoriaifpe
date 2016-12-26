@@ -3,7 +3,7 @@ package com.softwarecorporativo.monitoriaifpe.modelo.curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
-import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +36,16 @@ import org.hibernate.validator.constraints.NotBlank;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_curso"))})
 @Access(AccessType.FIELD)
 @NamedQueries(value = {
-    @NamedQuery(name = Curso.COUNT_CURSO, query = "select count(c) from Curso as c")})
+    @NamedQuery(name = Curso.COUNT_CURSO, query = "select count(c) from Curso as c"),
+    @NamedQuery(name = Curso.COUNT_CURSO_CADASTADO, query = "select count(c) from Curso as c where c.codigoCampus = ?1 and (c.descricao = ?2 or c.codigoCurso = ?3) and c.chavePrimaria != ?4")
+})
 public class Curso extends EntidadeNegocio {
 
     private static final long serialVersionUID = -7352251272569804380L;
 
     public static final String COUNT_CURSO = "countCurso";
+    public static final String COUNT_CURSO_CADASTADO = "countCursoCadastrado";
+
     @NotBlank
     @Size(min = 1, max = 100)
     @Pattern(regexp = "^[A-Z]{1}\\D+$", message = "{com.softwarecorporativo.monitoriaifpe.curso.descricao}")
@@ -68,6 +72,9 @@ public class Curso extends EntidadeNegocio {
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Aluno> alunos;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Professor> professores;
 
     public ComponenteCurricular getComponenteCurricular(int index) {
         if (this.componentesCurriculares == null) {
@@ -109,6 +116,21 @@ public class Curso extends EntidadeNegocio {
         this.alunos.add(aluno);
     }
 
+    public Professor getProfessor(int index) {
+        if (this.professores == null) {
+            this.professores = new ArrayList<>();
+        }
+        return professores.get(index);
+    }
+
+    public void addProfessor(Professor professor) {
+        if (this.professores == null) {
+            this.professores = new ArrayList<>();
+        }
+        professor.setCurso(this);
+        this.professores.add(professor);
+    }
+
     public String getCodigoCurso() {
         return codigoCurso;
     }
@@ -136,7 +158,8 @@ public class Curso extends EntidadeNegocio {
     @Override
     public boolean isInativo() {
         if (this.alunos.isEmpty()
-                && this.componentesCurriculares.isEmpty()) {
+                && this.componentesCurriculares.isEmpty()
+                && this.professores.isEmpty()) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
