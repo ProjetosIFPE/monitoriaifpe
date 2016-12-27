@@ -7,8 +7,6 @@ package com.softwarecorporativo.monitoriaifpe.servico;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Semestre;
-import java.util.Calendar;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -35,37 +33,15 @@ public class PeriodoService extends GenericService<Periodo> {
     public Class<Periodo> getClasseEntidade() {
         return Periodo.class;
     }
-    
-    
-
-    private Periodo criarPeriodoAtual() {
-
-        Periodo periodo = getEntidadeNegocio();
-
-        Calendar data = Calendar.getInstance();
-
-        int ano = data.get(Calendar.YEAR);
-        periodo.setAno(ano);
-
-        Calendar inicioSegundoSemestre = Calendar.getInstance();
-        inicioSegundoSemestre.set(ano, 7, 1);
-
-        if (data.after(inicioSegundoSemestre)) {
-            periodo.setSemestre(Semestre.SEGUNDO);
-        } else {
-            periodo.setSemestre(Semestre.PRIMEIRO);
-        }
-
-        return periodo;
-    }
 
     /**
      * Obtém um Periodo gerado a partir da data atual.
      *
+     * @throws NegocioException
      * @return *
      */
-    public Periodo obterPeriodoAtual() throws NegocioException {
-        Periodo periodo = this.criarPeriodoAtual();
+    public Periodo obterPeriodo() throws NegocioException {
+        Periodo periodo = getEntidadeNegocio();
         try {
             periodo = this.obterPeriodoCadastradoPorAnoEsemestre(periodo);
         } catch (NoResultException e) {
@@ -76,44 +52,19 @@ public class PeriodoService extends GenericService<Periodo> {
 
     public Periodo obterPeriodoCadastradoPorAnoEsemestre(Periodo periodo) {
 
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select p from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as p ");
-        jpql.append(" where p.ano = :paramAno ");
-        jpql.append(" and p.semestre = :paramSemestre ");
-        TypedQuery<Periodo> query = entityManager.createQuery(jpql.toString(),
-                getClasseEntidade());
-        query.setParameter("paramAno", periodo.getAno());
-        query.setParameter("paramSemestre", periodo.getSemestre());
-        return query.getSingleResult();
+        Object[] parametros = new Object[2];
+        parametros[0] = periodo.getAno();
+        parametros[1] = periodo.getSemestre();
+        return super.get(Periodo.PERIODO_POR_ANO_SEMESTRE, parametros);
     }
 
     public Boolean existePeriodoCadastradoPorAnoEsemestre(Periodo periodo) {
 
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select p from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as p ");
-        jpql.append(" where p.ano = :paramAno ");
-        jpql.append(" and p.semestre = :paramSemestre ");
-        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
-                Long.class);
-        query.setParameter("paramAno", periodo.getAno());
-        query.setParameter("paramSemestre", periodo.getSemestre());
-        Long count = query.getSingleResult();
-        return count > 0;
-    }
-
-    public Periodo criarPeriodoAnterior(String ano, String semestre) {
-        Periodo periodo = getEntidadeNegocio();
-        periodo.setAno(Integer.parseInt(ano));
-        if (semestre.equals("1")) {
-            periodo.setSemestre(Semestre.PRIMEIRO);
-        } else {
-            periodo.setSemestre(Semestre.SEGUNDO);
-        }
-        return periodo;
+        Object[] parametros = new Object[3];
+        parametros[0] = periodo.getAno();
+        parametros[1] = periodo.getSemestre();
+        parametros[2] = periodo.getChavePrimaria();
+        return super.count(Periodo.PERIODO_CADASTRADO, parametros) > 0;
     }
 
     @Override

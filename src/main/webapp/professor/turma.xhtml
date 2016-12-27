@@ -36,8 +36,11 @@
                             </p:column>
                             <p:column styleClass="icone-botao">
                                 <div align="center">
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{turmaBean.remover(monitoria)}" >
-                                        <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta oferta ?" icon="ui-icon-alert" />
+                                    <p:commandLink rendered="#{not turma.isOfertada()}" styleClass="ui-icon ui-icon-trash" update="@form" action="#{turmaBean.remover(turma)}" >
+                                        <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta turma ofertada ?" icon="ui-icon-alert" />
+                                    </p:commandLink>
+                                    <p:commandLink rendered="#{turma.isOfertada()}" styleClass="ui-icon ui-icon-close" update="@form"  action="#{turmaBean.removerOferta(turma)}" >
+                                        <p:confirm header="Confirmação" message="Tem certeza que deseja bloquear as solicitações de monitoria para esta turma ?" icon="ui-icon-alert" />
                                     </p:commandLink>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                         <div align="center">

@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import java.util.List;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 
 /**
@@ -63,10 +64,14 @@ public class ProfessorMonitoriaBean extends ViewScopedBean<Monitoria> {
 
     public void aprovar() throws NegocioException {
         monitoriaService.aprovar(entidadeNegocio);
+        inicializarListaEntidades();
+        super.adicionarMensagemView("Monitoria aprovada com sucesso", FacesMessage.SEVERITY_INFO);
     }
 
     public void reprovar() throws NegocioException {
         monitoriaService.reprovar(entidadeNegocio);
+        inicializarListaEntidades();
+        super.adicionarMensagemView("Monitoria reprovada com sucesso", FacesMessage.SEVERITY_INFO);
     }
 
     public List<Monitoria> getMonitoriasSolicitadas() {

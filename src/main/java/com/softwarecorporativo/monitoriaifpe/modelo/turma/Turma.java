@@ -5,10 +5,12 @@
  */
 package com.softwarecorporativo.monitoriaifpe.modelo.turma;
 
+import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
 import com.softwarecorporativo.monitoriaifpe.modelo.negocio.EntidadeNegocio;
 import com.softwarecorporativo.monitoriaifpe.modelo.periodo.Periodo;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
-import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
@@ -21,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -34,19 +37,19 @@ import javax.validation.constraints.NotNull;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_turma"))})
 @Access(AccessType.FIELD)
 @NamedQueries(value = {
-    @NamedQuery(name = Turma.TURMAS_OFERTADAS_POR_PROFESSOR,
-            query = "select t from Turma as t where t.ofertada = ?1 and t.professor = ?2"),
+    @NamedQuery(name = Turma.TURMAS_POR_PROFESSOR,
+            query = "select t from Turma as t where t.professor = ?1"),
     @NamedQuery(name = Turma.COUNT_TURMA_CADASTRADA,
-            query = "select count(t) from Turma as t where t.periodo = ?1 and t.componenteCurricular = ?2"),
+            query = "select count(t) from Turma as t where t.periodo = ?1 and t.componenteCurricular = ?2 and t.chavePrimaria != ?3"),
     @NamedQuery(name = Turma.TURMAS_OFERTADAS_POR_CURSO,
             query = "select t from Turma as t join t.componenteCurricular as c "
-                    + " where t.ofertada = ?1 and c.curso = ?2")})
+            + " where t.ofertada = ?1 and c.curso = ?2")})
 public class Turma extends EntidadeNegocio {
 
     private static final long serialVersionUID = -7788698676039962643L;
 
     public static final String TURMAS_OFERTADAS_POR_CURSO = "turmasOfertadas";
-    public static final String TURMAS_OFERTADAS_POR_PROFESSOR = "turmasOfertadasPorProfessor";
+    public static final String TURMAS_POR_PROFESSOR = "turmasPorProfessor";
     public static final String COUNT_TURMA_CADASTRADA = "countTurmaCadastrada";
 
     @NotNull
@@ -60,7 +63,7 @@ public class Turma extends EntidadeNegocio {
     private Professor professor;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_periodo", referencedColumnName = "id_periodo")
     private Periodo periodo;
 
@@ -68,9 +71,13 @@ public class Turma extends EntidadeNegocio {
     @Column(name = "turma_ofertada", nullable = false)
     private Boolean ofertada;
 
+    @OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
+    private List<Monitoria> monitorias;
+
     public String getDescricaoTurma() {
         return getComponenteCurricular().getDescricao();
     }
+
     public int obterAnoTurma() {
 
         return getPeriodo().getAno();
@@ -103,7 +110,6 @@ public class Turma extends EntidadeNegocio {
     public void setComponenteCurricular(ComponenteCurricular componenteCurricular) {
         this.componenteCurricular = componenteCurricular;
     }
-    
 
     /**
      * Recebe um Componente Curricular para verificar se a disciplina possui o
@@ -119,6 +125,26 @@ public class Turma extends EntidadeNegocio {
 
     public Boolean isOfertada() {
         return ofertada;
+    }
+
+    public Monitoria getMonitoria(int index) {
+        if (this.monitorias == null) {
+            this.monitorias = new ArrayList<>();
+        }
+        return monitorias.get(index);
+    }
+
+    public void addMonitoria(Monitoria monitoria) {
+        if (this.monitorias == null) {
+            this.monitorias = new ArrayList<>();
+        }
+        monitoria.setTurma(this);
+        this.monitorias.add(monitoria);
+    }
+
+    @Override
+    public boolean isInativo() {
+        return monitorias.isEmpty();
     }
 
     public void ofertar() {

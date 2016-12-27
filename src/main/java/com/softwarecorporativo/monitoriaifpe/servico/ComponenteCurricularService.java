@@ -5,6 +5,7 @@
  */
 package com.softwarecorporativo.monitoriaifpe.servico;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
 import java.util.List;
@@ -13,8 +14,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -43,21 +42,27 @@ public class ComponenteCurricularService extends GenericService<ComponenteCurric
     }
 
     @Override
-    public Boolean verificarExistencia(ComponenteCurricular entidadeNegocio) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select componente from ");
-        jpql.append(getClasseEntidade().getSimpleName());
-        jpql.append(" as componente ");
-        jpql.append(" where componente.curso = ?1 and ");
-        jpql.append(" ( componente.descricao = ?2 ");
-        jpql.append(" or componente.codigoComponenteCurricular = ?3 ) ");
-        TypedQuery<Long> query = super.entityManager
-                .createQuery(jpql.toString(), Long.class);
-        query.setParameter(1, entidadeNegocio.getCurso());
-        query.setParameter(2, entidadeNegocio.getDescricao());
-        query.setParameter(3, entidadeNegocio.getCodigoComponenteCurricular());
-        Long count = query.getSingleResult();
-        return count > 0;
+    public Boolean verificarExistencia(ComponenteCurricular componente) {
+        Object[] parametros = new Object[4];
+        parametros[0] = componente.getCurso();
+        parametros[1] = componente.getDescricao();
+        parametros[2] = componente.getCodigoComponenteCurricular();
+        parametros[3] = componente.getChavePrimaria();
+        return super.count(ComponenteCurricular.COUNT_COMPONENTE_CADASTRADO, parametros) > 0;
+    }
+
+    @Override
+    public void remover(ComponenteCurricular entidadeNegocio) throws NegocioException {
+        if (entidadeNegocio.isInativo()) {
+            super.remover(entidadeNegocio);
+        } else {
+            throw new NegocioException(NegocioException.COMPONENTE_POSSUI_RELACIONAMENTOS);
+        }
+    }
+
+    public Boolean componenteNaoPossuiTurmas(ComponenteCurricular entidadeNegocio) {
+        Object[] parametros = {entidadeNegocio};
+        return super.count(ComponenteCurricular.COUNT_COMPONENTE_NAO_POSSUI_TURMAS, parametros) > 0;
     }
 
 }

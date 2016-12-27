@@ -55,10 +55,10 @@ and open the template in the editor.
                                     <div align="center"> <h:outputText value="#{monitoria.situacaoMonitoria.label}"/></div>
                                 </p:column>
 
-                                <p:column>
+                                <p:column styleClass="icone-botao">
                                     <div align="center">
                                         <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{alunoMonitoriaBean.remover(monitoria)}" >
-                                            <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta solicitação ?" icon="ui-icon-alert" />
+                                            <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta solicitação de monitoria ?" icon="ui-icon-alert" />
                                         </p:commandLink>
                                     </div> 
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

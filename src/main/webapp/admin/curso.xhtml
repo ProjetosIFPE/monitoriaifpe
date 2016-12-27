@@ -48,62 +48,76 @@ and open the template in the editor.
                         </h:form>
                     </p:tab>
                     <p:tab title="Cursos Cadastrados" id="painelCursosCadastrados">
+
                         <h:form id="formTabelaCurso">
+
                             <p:dataTable id="tabelaCurso" editable="true"  var="curso" value="#{cursoBean.entidades}" paginator="true" rows="5" emptyMessage="Não existem cursos cadastrados.">
                                 <f:facet name="header">Cursos</f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{cursoBean.alterarEntidadeCadastrada}" update="messageEdicao" />
-                                <p:messages id="messageEdicao" />
+                                <p:ajax event="rowEdit" listener="#{cursoBean.alterarEntidadeCadastrada}"  />
+
                                 <p:column headerText="Descrição" filterMatchMode="startsWith" filterBy="#{curso.descricao}" sortBy="#{curso.descricao}">
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{curso.descricao}" />
+                                            <div align="center"><h:outputText styleClass="texto-centralizado" value="#{curso.descricao}" /></div>
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="descricao" value="#{curso.descricao}" 
-                                                         validatorMessage="Descrição é obrigatória e deve ter no máximo 100 caracteres."  required="true" />
+                                            <div align="center">
+                                                <p:inputText id="descricao" value="#{curso.descricao}" 
+                                                             validatorMessage="Descrição é obrigatória e deve ter no máximo 100 caracteres."  required="true" requiredMessage="A descrição é obrigatória." />
+                                                <p:message for="descricao"  />
+                                            </div> 
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <p:column headerText="Código Curso" filterMatchMode="contains" sortBy="#{curso.codigoCurso}" filterBy="#{curso.codigoCurso}" >
                                     <p:cellEditor>
                                         <f:facet name="output">  
-                                            <h:outputText value="#{curso.codigoCurso}" />
+                                            <div align="center"><h:outputText value="#{curso.codigoCurso}" /></div>
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="codigoCurso" value="#{curso.codigoCurso}" required="true" />
+                                            <div align="center">
+                                                <p:inputText id="codigoCurso" value="#{curso.codigoCurso}" required="true" requiredMessage="O código do curso é obrigatório." />
+                                                <p:message for="codigoCurso"  />
+                                            </div>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <p:column headerText="Código Campus" filterMatchMode="contains" sortBy="#{curso.codigoCampus}" filterBy="#{curso.codigoCampus}">
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{curso.codigoCampus}" />
+                                            <div align="center"><h:outputText value="#{curso.codigoCampus}" /></div>
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="codigoCampus" value="#{curso.codigoCampus}"  required="true" />
+                                            <div align="center">
+                                                <p:inputText id="codigoCampus" value="#{curso.codigoCampus}"  required="true" requiredMessage="O codigo do campus é obrigatório." />
+                                                <p:message for="codigoCampus"  />
+                                            </div>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Grau do Curso" >
+                                <p:column headerText="Grau do Curso" filterMatchMode="startsWith" filterBy="#{curso.grau.label}}" sortBy="#{curso.grau.label}}" >
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{curso.grau}" />
+                                            <div align="center"><h:outputText value="#{curso.grau.label}" /></div>
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:selectOneMenu required="true" requiredMessage="O grau do curso é obrigatório." id="grauCurso" value="#{curso.grau}">
-                                                <f:selectItems value="#{utilBean.graus}" var="modalidade"  />
-                                            </p:selectOneMenu>
+                                            <div align="center"> 
+                                                <p:selectOneMenu required="true" requiredMessage="O grau do curso é obrigatório." id="grauCurso" value="#{curso.grau}">
+                                                    <f:selectItems value="#{utilBean.graus}" var="modalidade"  />
+                                                </p:selectOneMenu>
+                                                <p:message for="grauCurso"  />
+                                            </div>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column>
+                                <p:column styleClass="icone-botao">
                                     <p:rowEditor />
                                 </p:column>
 
-                                <p:column>
+                                <p:column styleClass="icone-botao">
                                     <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{cursoBean.remover(curso)}" process="@this" update="formularioCurso">
                                         <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                     </p:commandLink>

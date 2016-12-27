@@ -32,7 +32,7 @@ and open the template in the editor.
                         <p:graphicImage library="img" name="ajax-loader-bar.gif" />
                     </p:dialog>
                     <p:separator />
-                    <p:schedule   timeZone="America/Sao_Paulo"   draggable="false" resizable="false" id="calendario" value="#{calendarListener.calendario}"   axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
+                    <p:schedule timeZone="America/Sao_Paulo" draggable="false" resizable="false" id="calendario" value="#{calendarListener.calendario}"   axisFormat="H:mm" timeFormat="H:mm"  locale="pt" widgetVar="calendarioAtividades">
                         <p:ajax event="dateSelect"   listener="#{calendarListener.selecionarData}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                         <p:ajax event="eventSelect"  listener="#{calendarListener.selecionarEvento}" update="detalhesAtividade" oncomplete="PF('dialogAtividade').show();" />
                     </p:schedule>

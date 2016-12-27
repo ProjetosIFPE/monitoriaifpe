@@ -12,7 +12,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,28 +25,17 @@ public class CursoService extends GenericService<Curso> {
     @Override
     public void remover(Curso entidadeNegocio) throws NegocioException {
 
-        if (!entidadeNegocio.isInativo()) {
-            throw new NegocioException(NegocioException.CURSO_ASSOCIADO_A_USUARIO);
-        } else {
+        if (entidadeNegocio.isInativo()) {
             super.remover(entidadeNegocio);
+        } else {
+            throw new NegocioException(NegocioException.CURSO_POSSUI_RELACIONAMENTOS);
         }
     }
 
     @Override
-    public Boolean verificarExistencia(Curso entidadeNegocio) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append(" select curso ");
-        jpql.append(" from ");
-        jpql.append(this.getClasseEntidade().getSimpleName());
-        jpql.append(" as curso ");
-        jpql.append(" where curso.descricao = ?1 or curso.codigoCurso = ?2  ");
+    public Boolean verificarExistencia(Curso curso) {
 
-        TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
-                Long.class);
-        query.setParameter(1, entidadeNegocio.getDescricao());
-        query.setParameter(2, entidadeNegocio.getCodigoCurso());
-        Long count = query.getSingleResult();
-        return count > 0;
+        return this.cursoJaCadastrado(curso);
     }
 
     @Override
@@ -60,6 +48,15 @@ public class CursoService extends GenericService<Curso> {
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Class<Curso> getClasseEntidade() {
         return Curso.class;
+    }
+
+    public Boolean cursoJaCadastrado(Curso curso) {
+        Object[] parametros = new Object[4];
+        parametros[0] = curso.getCodigoCampus();
+        parametros[1] = curso.getDescricao();
+        parametros[2] = curso.getCodigoCurso();
+        parametros[3] = curso.getChavePrimaria();
+        return super.count(Curso.COUNT_CURSO_CADASTADO, parametros) > 0;
     }
 
     public Boolean possuiCursos() {

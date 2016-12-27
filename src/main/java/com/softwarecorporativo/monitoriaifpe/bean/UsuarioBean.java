@@ -5,7 +5,6 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
-import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
 import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import java.io.Serializable;
@@ -32,7 +31,7 @@ public class UsuarioBean implements Serializable {
         if (usuario == null) {
             FacesContext context = FacesContext.getCurrentInstance();
             HttpSession httpSession = (HttpSession) context.getExternalContext().getSession(false);
-            usuario = (Usuario)  httpSession.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
+            usuario = (Usuario) httpSession.getAttribute(Constantes.ATRIBUTO_USUARIO_LOGADO);
         }
         return this.usuario;
     }

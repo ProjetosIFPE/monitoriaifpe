@@ -5,21 +5,18 @@
  */
 package com.softwarecorporativo.monitoriaifpe.bean;
 
+import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
 import com.softwarecorporativo.monitoriaifpe.modelo.professor.Professor;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.Turma;
 import com.softwarecorporativo.monitoriaifpe.servico.ComponenteCurricularService;
 import com.softwarecorporativo.monitoriaifpe.servico.TurmaService;
 import com.softwarecorporativo.monitoriaifpe.modelo.turma.ComponenteCurricular;
-import com.softwarecorporativo.monitoriaifpe.modelo.usuario.Usuario;
-import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Constantes;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -54,6 +51,10 @@ public class TurmaBean extends ViewScopedBean<Turma> {
         Professor professor = (Professor) usuarioBean.getUsuario();
         entidadeNegocio.setProfessor(professor);
         super.cadastrar();
+    }
+    
+    public void removerOferta(Turma turma) throws NegocioException {
+        turmaService.removerOferta(turma);
     }
 
     @Override

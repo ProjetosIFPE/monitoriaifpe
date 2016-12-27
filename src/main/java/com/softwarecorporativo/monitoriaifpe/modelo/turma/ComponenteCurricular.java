@@ -29,14 +29,22 @@ import org.hibernate.validator.constraints.NotBlank;
     @AttributeOverride(name = "chavePrimaria", column = @Column(name = "id_componente_curricular"))})
 @Access(AccessType.FIELD)
 @NamedQueries(value = {
-    @NamedQuery(name = ComponenteCurricular.COMPONENTE_POR_CURSO, 
-            query = "select c from ComponenteCurricular as c where c.curso = ?1")
+    @NamedQuery(name = ComponenteCurricular.COMPONENTE_POR_CURSO,
+            query = "select c from ComponenteCurricular as c where c.curso = ?1"),
+    @NamedQuery(name = ComponenteCurricular.COUNT_COMPONENTE_NAO_POSSUI_TURMAS,
+            query = "select count(c) from ComponenteCurricular as c where c = ?1 and c.turmas IS EMPTY"),
+    @NamedQuery(name = ComponenteCurricular.COUNT_COMPONENTE_CADASTRADO,
+            query = "select count(c) from ComponenteCurricular as c where c.curso = ?1 and (c.descricao = ?2 or c.codigoComponenteCurricular = ?3) and c.chavePrimaria != ?4 ")
 })
 public class ComponenteCurricular extends EntidadeNegocio {
 
     private static final long serialVersionUID = -3079766681161299776L;
 
-        public static final String COMPONENTE_POR_CURSO = "componentePorCurso";
+    public static final String COMPONENTE_POR_CURSO = "componentePorCurso";
+
+    public static final String COUNT_COMPONENTE_CADASTRADO = "countComponenteCadastrado";
+
+    public static final String COUNT_COMPONENTE_NAO_POSSUI_TURMAS = "countComponenteNaoPossuiTurmas";
 
     @NotBlank
     @Column(name = "txt_codigo_componente", nullable = false, unique = true)
@@ -56,12 +64,13 @@ public class ComponenteCurricular extends EntidadeNegocio {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "componenteCurricular", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Turma> turmas;
 
+    public ComponenteCurricular() {
+
+    }
+
     public ComponenteCurricular(String codigoComponenteCurricular, String descricao) {
         this.codigoComponenteCurricular = codigoComponenteCurricular;
         this.descricao = descricao;
-    }
-
-    public ComponenteCurricular() {
     }
 
     public String getDescricao() {
@@ -99,4 +108,10 @@ public class ComponenteCurricular extends EntidadeNegocio {
         turma.setComponenteCurricular(this);
         this.turmas.add(turma);
     }
+
+    @Override
+    public boolean isInativo() {
+        return turmas.isEmpty();
+    }
+
 }

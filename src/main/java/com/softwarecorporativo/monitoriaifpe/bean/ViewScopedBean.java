@@ -45,6 +45,7 @@ public abstract class ViewScopedBean<T extends EntidadeNegocio> extends Bean imp
 
     public void alterar() {
         super.alterar(service, entidadeNegocio);
+        inicializarListaEntidades();
     }
 
     public void cadastrar() {
@@ -56,7 +57,7 @@ public abstract class ViewScopedBean<T extends EntidadeNegocio> extends Bean imp
 
     /**
      * Inicializa listas com entidades de negocio, uma única vez, durante a
-     * construção do Bean 
+     * construção do Bean
      *
      */
     protected void inicializarListaEntidades() {
@@ -64,7 +65,7 @@ public abstract class ViewScopedBean<T extends EntidadeNegocio> extends Bean imp
     }
 
     /**
-     * Carrega as listas com entidades de negocio 
+     * Carrega as listas com entidades de negocio
      *
      */
     protected void popularListaEntidades() {
@@ -92,7 +93,7 @@ public abstract class ViewScopedBean<T extends EntidadeNegocio> extends Bean imp
     }
 
     public void alterarEntidadeCadastrada(RowEditEvent editEvent) {
-        entidadeNegocio = (T) editEvent.getObject();
+        this.entidadeNegocio = (T) editEvent.getObject();
         alterar();
     }
 
