@@ -63,9 +63,13 @@ public class AlunoService extends UsuarioService<Aluno> {
     @Override
     public Boolean verificarExistencia(Aluno entidadeNegocio) {
         Boolean existe = super.verificarExistencia(entidadeNegocio);
-        existe = existe && (this.contarAlunoPorMatricula(
-                entidadeNegocio.getMatricula()) > 0);
-        return existe;
+        if (existe) {
+            return existe;
+        } else {
+            existe = (this.contarAlunoPorMatricula(
+                    entidadeNegocio.getMatricula()) > 0);
+            return existe;
+        }
     }
 
 }

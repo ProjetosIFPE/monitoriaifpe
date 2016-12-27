@@ -59,7 +59,10 @@ public class ProfessorService extends UsuarioService<Professor> {
     @Override
     public Boolean verificarExistencia(Professor entidadeNegocio) {
          Boolean existe = super.verificarExistencia(entidadeNegocio);
-         existe = existe && (contarProfessorPorSiape(entidadeNegocio.getSiape()) > 0);
+         if(existe){
+             return existe;
+         } else
+             existe = (contarProfessorPorSiape(entidadeNegocio.getSiape()) > 0);
          return existe;
     }
 
