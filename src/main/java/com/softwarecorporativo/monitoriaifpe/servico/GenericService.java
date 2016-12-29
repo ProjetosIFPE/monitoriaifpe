@@ -55,7 +55,6 @@ public abstract class GenericService<T extends EntidadeNegocio> {
     }
 
     public void atualizar(T entidadeNegocio) throws NegocioException {
-        this.validarCadastro(entidadeNegocio);
         this.entityManager.merge(entidadeNegocio);
     }
 

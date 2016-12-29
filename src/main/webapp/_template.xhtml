@@ -42,7 +42,7 @@
                             <p:menuitem value="Monitorias" rendered="#{facesContext.externalContext.isUserInRole('aluno')}" outcome="/aluno/aluno_monitoria.xhtml?faces-redirect=true" immediate="true"/>   
                             <p:menuitem value="Cursos" rendered="#{facesContext.externalContext.isUserInRole('administrador')}" outcome="/admin/curso.xhtml?faces-redirect=true" immediate="true"/>
                             <p:menuitem value="Componentes Curriculares" rendered="#{facesContext.externalContext.isUserInRole('administrador')}" outcome="/admin/componentes.xhtml?faces-redirect=true" immediate="true"/>   
-                            <p:menuitem value="Configurações" rendered="#{facesContext.externalContext.isUserInRole('usuario')}" outcome="/usuario/perfil.xhtml?faces-redirect=true"  immediate="true"/>
+                            <p:menuitem value="Configurações" rendered="#{facesContext.externalContext.isUserInRole('professor')}" outcome="/professor/perfil.xhtml?faces-redirect=true"  immediate="true"/>
                         </p:submenu>
                         <p:separator />
                         <p:menuitem  value="Sair" action="#{loginBean.efetuarLogout()}" immediate="true"/> 

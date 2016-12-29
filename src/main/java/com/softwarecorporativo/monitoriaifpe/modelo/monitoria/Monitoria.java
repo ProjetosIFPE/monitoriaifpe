@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = Monitoria.MONITORIA_POR_ALUNO,
             query = "select m from Monitoria as m where m.situacaoMonitoria = ?1 and m.aluno = ?2"),
     @NamedQuery(name = Monitoria.COUNT_MONITORIA_CADASTRADA,
-            query = "select count(m) from Monitoria as m where m.aluno = ?1 and m.turma = ?2 and m.chavePrimaria != ?3"),
+            query = "select count(m) from Monitoria as m where m.aluno = ?1 and m.turma = ?2 and (m.situacaoMonitoria LIKE 'AGUARDANDO_APROVACAO' or m.situacaoMonitoria LIKE 'APROVADA') "),
     @NamedQuery(name = Monitoria.MONITORIA_POR_PROFESSOR,
             query = "select m from Monitoria as m join m.turma as t where m.situacaoMonitoria = ?1 and t.professor = ?2")})
 public class Monitoria extends EntidadeNegocio {
@@ -82,11 +82,11 @@ public class Monitoria extends EntidadeNegocio {
 
         return turma;
     }
-    
+
     public String getDescricaoCursoMonitoria() {
         return getAluno().getDescricaoCursoAluno();
     }
-    
+
     public String getMatriculaMonitor() {
         return getAluno().getMatricula();
     }
@@ -144,6 +144,14 @@ public class Monitoria extends EntidadeNegocio {
 
     public SituacaoMonitoria getSituacaoMonitoria() {
         return situacaoMonitoria;
+    }
+
+    public Boolean estaAguardandoAprovacao() {
+        return this.situacaoMonitoria.equals(situacaoMonitoria.AGUARDANDO_APROVACAO);
+    }
+
+    public Boolean estaReprovada() {
+        return this.situacaoMonitoria.equals(situacaoMonitoria.REPROVADA);
     }
 
     public Boolean isAprovada() {

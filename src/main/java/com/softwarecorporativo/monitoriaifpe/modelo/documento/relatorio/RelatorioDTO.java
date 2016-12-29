@@ -55,6 +55,7 @@ public class RelatorioDTO implements Serializable {
         setMes(relatorioBuilder.mes);
         setAssinaturaOrientador(relatorioBuilder.assinaturaOrientador);
         setSemanas(relatorioBuilder.semanas);
+        setCargaHoraria(relatorioBuilder.cargaHoraria);
     }
 
     public InputStream getAssinaturaOrientador() {
@@ -77,7 +78,7 @@ public class RelatorioDTO implements Serializable {
         return cargaHoraria;
     }
 
-    public void setCargaHoraria(int cargaHoraria) {
+    private void setCargaHoraria(int cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
     }
 
@@ -164,6 +165,8 @@ public class RelatorioDTO implements Serializable {
         private String edital;
 
         private InputStream assinaturaOrientador;
+        
+        private int cargaHoraria;
 
         private final List<SemanaDTO> semanas = new ArrayList<>();
 
@@ -209,6 +212,15 @@ public class RelatorioDTO implements Serializable {
 
         public RelatorioDTOBuilder setAssinaturaOrientador(InputStream assinatura) {
             this.assinaturaOrientador = assinatura;
+            return this;
+        }
+
+        public RelatorioDTOBuilder setCargaHorariaAtividades(List<Atividade> atividades) {
+            Long cargaHorariaAtividades = 0l;
+            for (Atividade atividade : atividades) {
+                cargaHorariaAtividades += atividade.getCargaHorariaAtividade();
+            }
+            cargaHoraria = cargaHorariaAtividades.intValue();
             return this;
         }
 

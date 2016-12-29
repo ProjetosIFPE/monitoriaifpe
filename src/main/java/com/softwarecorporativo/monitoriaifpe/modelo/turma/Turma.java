@@ -40,7 +40,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = Turma.TURMAS_POR_PROFESSOR,
             query = "select t from Turma as t where t.professor = ?1"),
     @NamedQuery(name = Turma.COUNT_TURMA_CADASTRADA,
-            query = "select count(t) from Turma as t where t.periodo = ?1 and t.componenteCurricular = ?2 and t.chavePrimaria != ?3"),
+            query = "select count(t) from Turma as t where t.periodo = ?1 and t.componenteCurricular = ?2"),
     @NamedQuery(name = Turma.TURMAS_OFERTADAS_POR_CURSO,
             query = "select t from Turma as t join t.componenteCurricular as c "
             + " where t.ofertada = ?1 and c.curso = ?2")})

@@ -18,6 +18,13 @@ public class DataUtil {
         return formatter.format(data);
     }
 
+    public static Date adicionarUmaHoraEmData(Date data) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data);
+        calendar.add(Calendar.HOUR_OF_DAY, 1);
+        return calendar.getTime();
+    }
+
     public static Date getDate(Integer dia, Integer mes, Integer ano) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, ano);
@@ -42,7 +49,6 @@ public class DataUtil {
         mesDataInicio += 1;
         return mesDataInicio;
     }
-
 
     public static Date getTime(Integer horas, Integer minutos, Integer segundos) {
         Calendar c = Calendar.getInstance();

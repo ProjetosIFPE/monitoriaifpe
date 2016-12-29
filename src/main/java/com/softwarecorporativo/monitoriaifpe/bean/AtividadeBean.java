@@ -9,12 +9,15 @@ import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.documento.Documento;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.DataUtil;
 import com.softwarecorporativo.monitoriaifpe.servico.AtividadeService;
 import com.softwarecorporativo.monitoriaifpe.servico.MonitoriaService;
 
 import java.util.Date;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -70,7 +73,12 @@ public class AtividadeBean extends ViewScopedBean<Atividade> {
     @Override
     public void cadastrar() {
         entidadeNegocio.setMonitoria(monitoria);
-        super.cadastrar();
+        try {
+            service.salvar(entidadeNegocio);
+            System.out.println("com.softwarecorporativo.monitoriaifpe.bean.AtividadeBean.cadastrar()");
+        } catch (NegocioException ex) {
+            Logger.getLogger(AtividadeBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public Boolean isAtividadeCadastrada() {
@@ -82,14 +90,19 @@ public class AtividadeBean extends ViewScopedBean<Atividade> {
     }
 
     public void alterarDataInicioFimAtividade(Date data) {
+        entidadeNegocio.setMonitoria(monitoria);
         entidadeNegocio.setDataInicio(data);
-        entidadeNegocio.setDataFim(data);
+        entidadeNegocio.setDataFim(DataUtil.adicionarUmaHoraEmData(data));
     }
 
     @Override
     public void alterar() {
         entidadeNegocio.setMonitoria(monitoria);
-        super.alterar();
+        try {
+            service.atualizar(entidadeNegocio);
+        } catch (NegocioException ex) {
+            Logger.getLogger(AtividadeBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void removerAtividade() throws NegocioException {

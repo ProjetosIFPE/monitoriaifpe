@@ -103,4 +103,9 @@ public class Atividade extends EntidadeNegocio {
         this.dataFim = dataFim;
     }
 
+    public long getCargaHorariaAtividade() {
+        long diferenca = getDataFim().getTime() - getDataInicio().getTime();
+        return diferenca / (60 * 60 * 1000);
+    }
+
 }

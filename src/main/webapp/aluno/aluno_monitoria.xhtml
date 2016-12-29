@@ -31,7 +31,7 @@ and open the template in the editor.
                             <p:separator />
                             <p:commandButton action="#{alunoMonitoriaBean.cadastrar()}" value="Solicitar Monitoria" ajax="false"  process="@form" update=":tabViewAlunoMonitoria:formMonitoriasSolicitadas" />
                         </p:fieldset>
-                        
+
                     </h:form>
                 </p:tab>
                 <p:tab title="Monitorias Solicitadas">
@@ -55,18 +55,21 @@ and open the template in the editor.
                                     <div align="center"> <h:outputText value="#{monitoria.situacaoMonitoria.label}"/></div>
                                 </p:column>
 
-                                <p:column styleClass="icone-botao">
+                                <p:column styleClass="icone-botao" >
                                     <div align="center">
-                                        <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{alunoMonitoriaBean.remover(monitoria)}" >
-                                            <p:confirm header="Confirmação" message="Tem certeza que deseja remover esta solicitação de monitoria ?" icon="ui-icon-alert" />
+                                        <p:commandLink rendered="#{monitoria.estaAguardandoAprovacao()}" styleClass="ui-icon ui-icon-close" update="@form"  action="#{alunoMonitoriaBean.remover(monitoria)}" >
+                                            <p:confirm header="Confirmação" message="Tem certeza que deseja cancelar a solicitação de monitoria ?" icon="ui-icon-alert" />
                                         </p:commandLink>
+                                        <p:commandLink rendered="#{monitoria.estaReprovada()}" styleClass="ui-icon ui-icon-trash" update="@form"  action="#{alunoMonitoriaBean.remover(monitoria)}" >
+                                            <p:confirm header="Confirmação" message="Esta monitoria foi rejeitada pelo professor, deseja remover o registro de solicitação ?" icon="ui-icon-alert" />
+                                        </p:commandLink>
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <div align="center">
+                                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </div>
+                                        </p:confirmDialog> 
                                     </div> 
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <div align="center"> 
-                                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                        </div> 
-                                    </p:confirmDialog>
                                 </p:column> 
                             </p:dataTable>
                         </p:fieldset>

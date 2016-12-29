@@ -33,6 +33,14 @@ public class CursoService extends GenericService<Curso> {
     }
 
     @Override
+    public void atualizar(Curso entidadeNegocio) throws NegocioException {
+        this.validarCadastro(entidadeNegocio);
+        super.atualizar(entidadeNegocio); 
+    }
+    
+    
+
+    @Override
     public Boolean verificarExistencia(Curso curso) {
 
         return this.cursoJaCadastrado(curso);

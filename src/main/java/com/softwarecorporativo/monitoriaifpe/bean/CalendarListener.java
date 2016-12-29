@@ -7,6 +7,7 @@ package com.softwarecorporativo.monitoriaifpe.bean;
 
 import com.softwarecorporativo.monitoriaifpe.exception.NegocioException;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.DataUtil;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public class CalendarListener {
 
     @ManagedProperty(value = "#{atividadeBean}")
     private AtividadeBean atividadeBean;
-    
+
     private ScheduleModel calendario;
 
     private ScheduleEvent evento;
@@ -43,7 +44,6 @@ public class CalendarListener {
     private Date dataFinalMes;
 
     private HashMap<ScheduleEvent, Atividade> mapaEventoAtividade;
-    
 
     @PostConstruct
     public void inicializarCalendario() {
@@ -59,13 +59,26 @@ public class CalendarListener {
 
             @Override
             public void loadEvents(Date start, Date end) {
+                Boolean buscarAtividades = Boolean.TRUE;
+                if (dataInicialMes != null && dataFinalMes != null) {
+                    int mesAtual = DataUtil.getMonthOfDate(dataInicialMes, dataFinalMes);
+                    int novo = DataUtil.getMonthOfDate(start, end);
+                    buscarAtividades = mesAtual != novo;
+                }
 
                 dataInicialMes = start;
                 dataFinalMes = end;
-                List<Atividade> atividades = atividadeBean
-                        .getAtividadesMensaisMonitoria(dataInicialMes, dataFinalMes);
+                if (buscarAtividades) {
+                    List<Atividade> atividades = atividadeBean
+                            .getAtividadesMensaisMonitoria(dataInicialMes, dataFinalMes);
 
-                popularCalendarioComAtividades(this, atividades);
+                    popularCalendarioComAtividades(this, atividades);
+                } else {
+                    for (ScheduleEvent event :mapaEventoAtividade.keySet()) {
+                        calendario.addEvent(event);
+                    }
+                }
+
             }
 
         };
@@ -80,7 +93,6 @@ public class CalendarListener {
         }
     }
 
-   
     public void adicionarAtividade() throws NegocioException {
 
         if (atividadeBean.isAtividadeCadastrada()) {
@@ -117,6 +129,7 @@ public class CalendarListener {
 
     public void removerEventoCalendario() throws NegocioException {
         calendario.deleteEvent(evento);
+        mapaEventoAtividade.remove(evento);
         atividadeBean.removerAtividade();
     }
 

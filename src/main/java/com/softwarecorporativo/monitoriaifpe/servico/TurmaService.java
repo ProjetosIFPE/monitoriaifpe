@@ -32,10 +32,9 @@ public class TurmaService extends GenericService<Turma> {
 
     @Override
     public Boolean verificarExistencia(Turma turma) {
-        Object[] parametros = new Object[3];
+        Object[] parametros = new Object[2];
         parametros[0] = turma.getPeriodo();
         parametros[1] = turma.getComponenteCurricular();
-        parametros[2] = turma.getChavePrimaria();
         return super.count(Turma.COUNT_TURMA_CADASTRADA, parametros) > 0;
     }
 

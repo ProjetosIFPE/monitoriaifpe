@@ -37,7 +37,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.FIELD)
 @NamedQueries(value = {
     @NamedQuery(name = Curso.COUNT_CURSO, query = "select count(c) from Curso as c"),
-    @NamedQuery(name = Curso.COUNT_CURSO_CADASTADO, query = "select count(c) from Curso as c where c.codigoCampus = ?1 and (c.descricao = ?2 or c.codigoCurso = ?3) and c.chavePrimaria != ?4")
+    @NamedQuery(name = Curso.COUNT_CURSO_CADASTADO, query = "select count(c) from Curso as c where c.codigoCampus = ?1 and (c.descricao = ?2 or c.codigoCurso = ?3) and (c.chavePrimaria IS NOT NULL or c.chavePrimaria != ?4) ")
 })
 public class Curso extends EntidadeNegocio {
 

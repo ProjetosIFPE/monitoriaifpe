@@ -34,7 +34,7 @@ import org.hibernate.validator.constraints.NotBlank;
     @NamedQuery(name = ComponenteCurricular.COUNT_COMPONENTE_NAO_POSSUI_TURMAS,
             query = "select count(c) from ComponenteCurricular as c where c = ?1 and c.turmas IS EMPTY"),
     @NamedQuery(name = ComponenteCurricular.COUNT_COMPONENTE_CADASTRADO,
-            query = "select count(c) from ComponenteCurricular as c where c.curso = ?1 and (c.descricao = ?2 or c.codigoComponenteCurricular = ?3) and c.chavePrimaria != ?4 ")
+            query = "select count(c) from ComponenteCurricular as c where c.curso = ?1 and (c.descricao = ?2 or c.codigoComponenteCurricular = ?3)  and (c.chavePrimaria IS NOT NULL or c.chavePrimaria != ?4) ")
 })
 public class ComponenteCurricular extends EntidadeNegocio {
 

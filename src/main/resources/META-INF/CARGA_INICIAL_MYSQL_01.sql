@@ -132,11 +132,8 @@ CREATE TABLE IF NOT EXISTS `monitoriaifpe`.`tb_componente_curricular` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX `txt_codigo_componente_UNIQUE` ON `monitoriaifpe`.`tb_componente_curricular` (`txt_codigo_componente` ASC);
 
 CREATE INDEX `fk_componente_curricular_curso1_idx` ON `monitoriaifpe`.`tb_componente_curricular` (`id_curso` ASC);
-
-CREATE UNIQUE INDEX `txt_descricao_UNIQUE` ON `monitoriaifpe`.`tb_componente_curricular` (`txt_descricao` ASC);
 
 
 -- -----------------------------------------------------
@@ -218,9 +215,6 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_monitoria_turma1_idx` ON `monitoriaifpe`.`tb_monitoria` (`id_turma` ASC);
 
 CREATE INDEX `fk_monitoria_aluno1_idx` ON `monitoriaifpe`.`tb_monitoria` (`id_aluno` ASC);
-
-CREATE UNIQUE INDEX `turma_aluno_UNIQUE` ON `monitoriaifpe`.`tb_monitoria` (`id_turma` ASC, `id_aluno` ASC);
-
 
 -- -----------------------------------------------------
 -- Table `monitoriaifpe`.`tb_atividade`

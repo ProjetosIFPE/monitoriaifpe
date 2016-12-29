@@ -82,19 +82,6 @@
                                 <div align="center"><h:outputText value="#{monitoria.turma.periodo}"/></div> 
                             </p:column>
 
-                            <p:column styleClass="icone-botao">
-                                <div align="center">
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{professorMonitoriaBean.remover(monitoria)}" >
-                                        <p:confirm header="Confirmação" message="Tem certeza que deseja remover o cadastro desta monitoria ? Todos os dados referentes as atividades desta monitoria serão removidos." icon="ui-icon-alert" />
-                                    </p:commandLink>
-                                </div> 
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                    <div align="center"> 
-                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                    </div> 
-                                </p:confirmDialog>
-                            </p:column> 
                         </p:dataTable>
                         <p:poll interval="10" listener="#{professorMonitoriaBean.inicializarMonitoriasAprovadas()}" update="@form" />
                     </h:form>  

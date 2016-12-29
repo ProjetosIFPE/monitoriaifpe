@@ -59,6 +59,13 @@ public class ComponenteCurricularService extends GenericService<ComponenteCurric
             throw new NegocioException(NegocioException.COMPONENTE_POSSUI_RELACIONAMENTOS);
         }
     }
+    
+     @Override
+    public void atualizar(ComponenteCurricular componenteCurricular) throws NegocioException {
+        this.validarCadastro(componenteCurricular);
+        super.atualizar(componenteCurricular); 
+    }
+    
 
     public Boolean componenteNaoPossuiTurmas(ComponenteCurricular entidadeNegocio) {
         Object[] parametros = {entidadeNegocio};

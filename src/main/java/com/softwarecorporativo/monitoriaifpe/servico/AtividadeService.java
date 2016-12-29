@@ -113,6 +113,8 @@ public class AtividadeService extends GenericService<Atividade> {
                 .setAssinaturaOrientador(assinatura)
                 .setMes(DataUtil.obterNomeMes(mes))
                 .setCurso(monitoria.getDescricaoCursoMonitoria())
+                .setAtividades(atividades)
+                .setCargaHorariaAtividades(atividades)
                 .build();
 
         List<RelatorioDTO> relatorios = new ArrayList<>();

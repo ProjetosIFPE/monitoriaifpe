@@ -82,10 +82,9 @@ public class MonitoriaService extends GenericService<Monitoria> {
 
     @Override
     public Boolean verificarExistencia(Monitoria monitoria) {
-        Object[] parametros = new Object[3];
+        Object[] parametros = new Object[2];
         parametros[0] = monitoria.getAluno();
         parametros[1] = monitoria.getTurma();
-        parametros[2] = monitoria.getChavePrimaria();
         return super.count(Monitoria.COUNT_MONITORIA_CADASTRADA, parametros) > 0;
     }
 
