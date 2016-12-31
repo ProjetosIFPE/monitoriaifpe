@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softwarecorporativo.monitoriaifpe.funcionais.disciplina;
+package com.softwarecorporativo.monitoriaifpe.turma;
 
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
@@ -22,41 +22,43 @@ import org.junit.Test;
  *
  * @author Matheus Levi
  */
-public class TesteDisciplina extends MonitoriaTestCase {
+public class TesteTurma extends MonitoriaTestCase {
 
     @Test
-    public void testeCadastrarDisciplina() {
-        Turma disciplina = this.montarObjetoDisciplina();
-        super.entityManager.persist(disciplina);
+    public void testeCadastrarTurma() {
+        Turma turma = this.montarObjetoTurma();
+        ComponenteCurricular componenteCurricular = turma.getComponenteCurricular();
+        super.entityManager.persist(componenteCurricular);
+        super.entityManager.persist(turma);
         super.entityManager.flush();
-        super.entityManager.refresh(disciplina);
-        assertNotNull(disciplina.getChavePrimaria());
+        super.entityManager.refresh(turma);
+        assertNotNull(turma.getChavePrimaria());
     }
 
     @Test
-    public void testAlterarDisciplina() {
-        Turma disciplinaObtida = super.entityManager.find(Turma.class, 2L);
-        disciplinaObtida.setProfessor(super.entityManager.find(Professor.class, 6L));
-        super.entityManager.merge(disciplinaObtida);
+    public void testAlterarTurma() {
+        Turma turmaObtida = super.entityManager.find(Turma.class, 2L);
+        turmaObtida.setProfessor(super.entityManager.find(Professor.class, 6L));
+        super.entityManager.merge(turmaObtida);
         super.entityManager.flush();
         super.entityManager.clear();
         Turma disciplinaAlterada = super.entityManager.find(Turma.class, 2L);
-        assertEquals(disciplinaObtida.getProfessor().getChavePrimaria(),
+        assertEquals(turmaObtida.getProfessor().getChavePrimaria(),
                 disciplinaAlterada.getProfessor().getChavePrimaria());
 
     }
 
     @Test
-    public void testeRemoverDisciplina() {
-        Turma disciplina = super.entityManager.find(Turma.class, 5L);
-        super.entityManager.remove(disciplina);
+    public void testeRemoverTurma() {
+        Turma turma = super.entityManager.find(Turma.class, 5L);
+        super.entityManager.remove(turma);
         super.entityManager.flush();
         assertNull(super.entityManager.find(Turma.class, 5L));
     }
 
     @Test
-    public void consultarDisciplinaPorProfessor() {
-        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT d FROM Disciplina d WHERE d.professor.chavePrimaria = :professor",
+    public void consultarTurmaPorProfessor() {
+        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT t FROM Turma t WHERE t.professor.chavePrimaria = :professor",
                 Turma.class
         );
         query.setParameter("professor", 2l);
@@ -67,47 +69,47 @@ public class TesteDisciplina extends MonitoriaTestCase {
     }
 
     @Test
-    public void consultarQuantidadeDisciplinas() {
-        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT d FROM Disciplina d", Turma.class);
-        List<Turma> disciplina = query.getResultList();
-        assertEquals(5, disciplina.size());
+    public void consultarQuantidadeTurmas() {
+        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT t FROM Turma t", Turma.class);
+        List<Turma> turmas = query.getResultList();
+        assertEquals(5, turmas.size());
 
-        for (Turma disc : disciplina) {
-            ComponenteCurricular componenteCurricular = disc.getComponenteCurricular();
+        for (Turma turma : turmas) {
+            ComponenteCurricular componenteCurricular = turma.getComponenteCurricular();
             LOGGER.info(componenteCurricular.getDescricao());
         }
 
     }
 
     @Test
-    public void consultarDisciplinaPorNome() {
-        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT d FROM Disciplina d JOIN d.componenteCurricular cc WHERE cc.descricao = :nomeDisciplina", Turma.class);
+    public void consultarTurmaPorDescricao() {
+        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT t FROM Turma t JOIN t.componenteCurricular cc WHERE cc.descricao = :nomeDisciplina", Turma.class);
 
         query.setParameter("nomeDisciplina", "Teste de Software");
-        Turma disciplina = query.getSingleResult();
+        Turma turma = query.getSingleResult();
 
-        assertNotNull(disciplina);
+        assertNotNull(turma);
     }
 
     @Test
-    public void testeConsultarDisciplinasPorCurso() {
-        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT d FROM Disciplina d JOIN d.componenteCurricular cc "
+    public void testeConsultarTurmasPorCurso() {
+        TypedQuery<Turma> query = super.entityManager.createQuery("SELECT t FROM Turma t JOIN t.componenteCurricular cc "
                 + "JOIN cc.curso curso WHERE curso = :curso", Turma.class);
         Curso cursoEsperado = super.entityManager.find(Curso.class, 1L);
         int quantidadeEsperada = 4;
         query.setParameter("curso", cursoEsperado);
-        List<Turma> disciplinas = query.getResultList();
-        assertEquals(quantidadeEsperada, disciplinas.size());
-        for (Turma disciplina : disciplinas) {
-            Curso curso = disciplina.getComponenteCurricular().getCurso();
+        List<Turma> turmas = query.getResultList();
+        assertEquals(quantidadeEsperada, turmas.size());
+        for (Turma turma : turmas) {
+            Curso curso = turma.getComponenteCurricular().getCurso();
             assertEquals(cursoEsperado, curso);
         }
     }
 
     @Test
-    public void testeCadastrarDisciplinaComDescricaoNula() {
-        Turma disciplina = this.montarObjetoDisciplina();
-        ComponenteCurricular componenteCurricular = disciplina.getComponenteCurricular();
+    public void testeCadastrarComponenteCurricularComDescricaoNula() {
+        Turma turma = this.montarObjetoTurma();
+        ComponenteCurricular componenteCurricular = turma.getComponenteCurricular();
         componenteCurricular.setDescricao(null);
         Set<ConstraintViolation<ComponenteCurricular>> constraintViolations = validator.validate(componenteCurricular);
         assertEquals(1, constraintViolations.size());
@@ -115,35 +117,35 @@ public class TesteDisciplina extends MonitoriaTestCase {
     }
 
     @Test
-    public void testeCadastrarDisciplinaComTodosOsAtributosNulos() {
-        Turma disciplina = new Turma();
-        disciplina.setPeriodo(null);
-        disciplina.setProfessor(null);
-        disciplina.setComponenteCurricular(null);
-        Set<ConstraintViolation<Turma>> constraintViolations = validator.validate(disciplina);
-        assertEquals(3, constraintViolations.size());
+    public void testeCadastrarTurmaComTodosOsAtributosNulos() {
+        Turma turma = new Turma();
+        turma.setPeriodo(null);
+        turma.setProfessor(null);
+        turma.setComponenteCurricular(null);
+        Set<ConstraintViolation<Turma>> constraintViolations = validator.validate(turma);
+        assertEquals(4, constraintViolations.size());
     }
 
     @Test
-    public void testeCadastrarDisciplinaComDescricaoEmBranco() {
-        Turma disciplina = this.montarObjetoDisciplina();
-        ComponenteCurricular componenteCurricular = disciplina.getComponenteCurricular();
+    public void testeCadastrarTurmaComDescricaoEmBranco() {
+        Turma turma = this.montarObjetoTurma();
+        ComponenteCurricular componenteCurricular = turma.getComponenteCurricular();
         componenteCurricular.setDescricao("");
         Set<ConstraintViolation<ComponenteCurricular>> constraintViolations = validator.validate(componenteCurricular);
         assertEquals(3, constraintViolations.size());
     }
 
     @Test
-    public void testeCadastrarDisciplinaComAtributosValidos() {
-        Turma disciplina = montarObjetoDisciplina();
-        Set<ConstraintViolation<Turma>> constraintViolations = validator.validate(disciplina);
+    public void testeCadastrarTurmaComAtributosValidos() {
+        Turma turma = montarObjetoTurma();
+        Set<ConstraintViolation<Turma>> constraintViolations = validator.validate(turma);
         assertEquals(0, constraintViolations.size());
     }
 
     @Test
-    public void testeCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres() {
-        Turma disciplina = montarObjetoDisciplina();
-        ComponenteCurricular componenteCurricular = disciplina.getComponenteCurricular();
+    public void testeCadastrarTurmaComDescricaoAcimaDoLimiteDeCaracteres() {
+        Turma turma = montarObjetoTurma();
+        ComponenteCurricular componenteCurricular = turma.getComponenteCurricular();
         componenteCurricular.setDescricao("TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres"
                 + "TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres"
                 + "TesteCadastrarDisciplinaComDescricaoAcimaDoLimiteDeCaracteres");
@@ -152,11 +154,11 @@ public class TesteDisciplina extends MonitoriaTestCase {
     }
 
     @Test
-    public void testeCriarDisciplinaComDescricaoInvalida() {
-        Turma disciplina = montarObjetoDisciplina();
+    public void testeCriarTurmaComDescricaoInvalida() {
+        Turma turma = montarObjetoTurma();
         String mensagemEsperada = "A descrição da disciplina deve iniciar com "
                 + "uma letra maiúscula, seguida de caracteres que não sejam dígitos";
-        ComponenteCurricular componenteCurricular = disciplina.getComponenteCurricular();
+        ComponenteCurricular componenteCurricular = turma.getComponenteCurricular();
         componenteCurricular.setDescricao("A2alise de Sistemas");
         Set<ConstraintViolation<ComponenteCurricular>> constraintViolations = validator.validate(componenteCurricular);
         String mensagemObtida = constraintViolations.iterator().next().getMessage();
@@ -164,19 +166,20 @@ public class TesteDisciplina extends MonitoriaTestCase {
         assertEquals(mensagemEsperada, mensagemObtida);
     }
 
-    public Turma montarObjetoDisciplina() {
-        Turma disciplina = new Turma();
+    public Turma montarObjetoTurma() {
+        Turma turma = new Turma();
         Professor professor = super.entityManager.find(Professor.class, 2l);
         Curso curso = super.entityManager.find(Curso.class, 1l);
         Periodo periodo = super.entityManager.find(Periodo.class, 1l);
-        disciplina.setProfessor(professor);
-        disciplina.setPeriodo(periodo);
+        turma.setProfessor(professor);
+        turma.setPeriodo(periodo);
+        turma.ofertar();
         ComponenteCurricular componenteCurricular = new ComponenteCurricular();
         componenteCurricular.setCodigoComponenteCurricular("Y687");
         componenteCurricular.setCurso(curso);
         componenteCurricular.setDescricao("Sofware Corporativo");
-        disciplina.setComponenteCurricular(componenteCurricular);
-        return disciplina;
+        turma.setComponenteCurricular(componenteCurricular);
+        return turma;
     }
 
 }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <!-- Usuários -->
-    <tb_usuario id_usuario="1" txt_nome="Edmilson" txt_cpf="23200202093"  txt_email="emgs@a.recife.ifpe.edu.br"  txt_senha="edmilson123" txt_sal="0" papel_usuario="A" />
-    <tb_usuario id_usuario="2" txt_nome="Marcos" txt_cpf="23200202094" txt_email="mac@recife.ifpe.edu.br" txt_senha="Marcos123" txt_sal="0" papel_usuario="P" />
-    <tb_usuario id_usuario="3" txt_nome="Douglas" txt_cpf="23200202095" txt_email="das@a.recife.ifpe.edu.br"  txt_senha="albuquerque123" txt_sal="0" papel_usuario="A" />
-    <tb_usuario id_usuario="4" txt_nome="Matheus" txt_cpf="23200202096" txt_email="mb@recife.ifpe.edu.br" txt_senha="matheuS123" txt_sal="0" papel_usuario="A" />
-    <tb_usuario id_usuario="5" txt_nome="Isnard" txt_cpf="23200202097" txt_email="ij@a.recife.ifpe.edu.br" txt_senha="isnard243" txt_sal="0" papel_usuario="A" />
-    <tb_usuario id_usuario="6" txt_nome="Renata" txt_cpf="23200202098" txt_email="rf@recife.ifpe.edu.br"  txt_senha="renata123" txt_sal="0" papel_usuario="P" />
-    <tb_usuario id_usuario="7" txt_nome="Ramide" txt_cpf="2320020209" txt_email="rd@a.recife.ifpe.edu.br" txt_senha="ramide253" txt_sal="0" papel_usuario="P" />
-    <tb_usuario id_usuario="8" txt_nome="Aida" txt_cpf="23200202031" txt_email="aa@recife.ifpe.edu.br"  txt_senha="aida768" txt_sal="0" papel_usuario="P" />
-    <tb_usuario id_usuario="9" txt_nome="Wagner" txt_cpf="23270203092" txt_email="wb@recife.ifpe.edu.br"  txt_senha="wagner264" txt_sal="0" papel_usuario="A" />
-    <tb_usuario id_usuario="10" txt_nome="Saulo" txt_cpf="23210102092" txt_email="sa@recife.ifpe.edu.br"  txt_senha="saulo892" txt_sal="0" papel_usuario="A" />
-    <tb_usuario id_usuario="11" txt_nome="Michael" txt_cpf="2321202092" txt_email="mc@recife.ifpe.edu.br" txt_senha="barney252" txt_sal="0" papel_usuario="A" />
-    <tb_usuario id_usuario="12" txt_nome="Gilmar" txt_cpf="23200203092" txt_email="gs@recife.ifpe.edu.br"  txt_senha="gilmar632" txt_sal="0" papel_usuario="P" />
+    <tb_usuario id_usuario="1" txt_nome="Edmilson" txt_cpf="804.763.447-00"  txt_email="emgs@a.recife.ifpe.edu.br"  txt_senha="edmilson123" txt_sal="0" papel_usuario="A" />
+    <tb_usuario id_usuario="2" txt_nome="Marcos" txt_cpf="964.848.995-50" txt_email="mac@recife.ifpe.edu.br" txt_senha="Marcos123" txt_sal="0" papel_usuario="P" />
+    <tb_usuario id_usuario="3" txt_nome="Douglas" txt_cpf="878.814.314-74" txt_email="das@a.recife.ifpe.edu.br"  txt_senha="albuquerque123" txt_sal="0" papel_usuario="A" />
+    <tb_usuario id_usuario="4" txt_nome="Matheus" txt_cpf="117.863.662-31" txt_email="mb@recife.ifpe.edu.br" txt_senha="matheuS123" txt_sal="0" papel_usuario="A" />
+    <tb_usuario id_usuario="5" txt_nome="Isnard" txt_cpf="953.162.513-18" txt_email="ij@a.recife.ifpe.edu.br" txt_senha="isnard243" txt_sal="0" papel_usuario="A" />
+    <tb_usuario id_usuario="6" txt_nome="Renata" txt_cpf="339.200.686-61" txt_email="rf@recife.ifpe.edu.br"  txt_senha="renata123" txt_sal="0" papel_usuario="P" />
+    <tb_usuario id_usuario="7" txt_nome="Ramide" txt_cpf="986.671.875-18" txt_email="rd@a.recife.ifpe.edu.br" txt_senha="ramide253" txt_sal="0" papel_usuario="P" />
+    <tb_usuario id_usuario="8" txt_nome="Aida" txt_cpf="914.419.448-00" txt_email="aa@recife.ifpe.edu.br"  txt_senha="aida768" txt_sal="0" papel_usuario="P" />
+    <tb_usuario id_usuario="9" txt_nome="Wagner" txt_cpf="135.338.204-40" txt_email="wb@recife.ifpe.edu.br"  txt_senha="wagner264" txt_sal="0" papel_usuario="A" />
+    <tb_usuario id_usuario="10" txt_nome="Saulo" txt_cpf="826.261.497-64" txt_email="sa@recife.ifpe.edu.br"  txt_senha="saulo892" txt_sal="0" papel_usuario="A" />
+    <tb_usuario id_usuario="11" txt_nome="Michael" txt_cpf="846.750.983-04" txt_email="mc@recife.ifpe.edu.br" txt_senha="barney252" txt_sal="0" papel_usuario="A" />
+    <tb_usuario id_usuario="12" txt_nome="Gilmar" txt_cpf="326.617.238-89" txt_email="gs@recife.ifpe.edu.br"  txt_senha="gilmar632" txt_sal="0" papel_usuario="P" />
 
     <tb_grupo id_grupo="1" txt_nome="teste" />
      
@@ -59,11 +59,11 @@
     <tb_aluno id_aluno="11" txt_matricula="20111T4-RC0321"  id_curso="2" />
     
     <!-- Professores -->
-    <tb_professor id_professor="2" txt_siape="1234567" id_curso="1" />
-    <tb_professor id_professor="6" txt_siape="1237567" id_curso="1" />
-    <tb_professor id_professor="7" txt_siape="1204567" id_curso="1" />
-    <tb_professor id_professor="8" txt_siape="1238567" id_curso="1" />
-    <tb_professor id_professor="12" txt_siape="1034567" id_curso="1" />
+    <tb_professor id_professor="2" txt_siape="123456789" id_curso="1" />
+    <tb_professor id_professor="6" txt_siape="123756789" id_curso="1" />
+    <tb_professor id_professor="7" txt_siape="120456799" id_curso="1" />
+    <tb_professor id_professor="8" txt_siape="123856724" id_curso="1" />
+    <tb_professor id_professor="12" txt_siape="129856724" id_curso="1" />
     
      <!-- Disciplinas (Turmas) -->
     <tb_turma id_turma="1"  turma_ofertada="false" id_componente_curricular="2"  id_professor="2" id_periodo="1" />
@@ -77,7 +77,7 @@
    
     <tb_monitoria id_monitoria="1" id_aluno="1" id_turma="1" situacao_monitoria="AGUARDANDO_APROVACAO" />
     <tb_monitoria id_monitoria="2" id_aluno="3" id_turma="2" situacao_monitoria="APROVADA"   />
-   
+  
     <tb_atividade id_atividade="1" txt_descricao="Correção de exercícios" dt_inicio_atividade="2016-02-02 14:00:00" dt_fim_atividade="2016-02-02 18:00:00"   id_monitoria="1" />
     <tb_atividade id_atividade="2" txt_descricao="Correção de exercícios" dt_inicio_atividade="2016-02-02 14:00:00" dt_fim_atividade="2016-02-02 18:00:00"  id_monitoria="1" />
     <tb_atividade id_atividade="3" txt_descricao="Correção de exercícios" dt_inicio_atividade="2016-02-02 14:00:00" dt_fim_atividade="2016-02-02 18:00:00"   id_monitoria="1" />

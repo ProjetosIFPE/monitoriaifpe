@@ -8,6 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.aluno;
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.aluno.Aluno;
 import com.softwarecorporativo.monitoriaifpe.modelo.curso.Curso;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.constantes.Grau;
 import java.util.Set;
 import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
@@ -36,13 +37,13 @@ public class TesteAluno extends MonitoriaTestCase {
     @Test
     public void testeUpdateAluno() {
         Aluno alunoBuscado = super.entityManager.find(Aluno.class, 1L);
-        String emailAntigo = alunoBuscado.getEmail();
-        alunoBuscado.setEmail("edmilson@hotmail.com");
+        String novoEmail = "edmilson@hotmail.com";
+        alunoBuscado.setEmail(novoEmail);
         super.entityManager.merge(alunoBuscado);
         super.entityManager.flush();
         super.entityManager.clear();
         alunoBuscado = super.entityManager.find(Aluno.class, 1L);
-        assertEquals("edmilson@hotmail.com", alunoBuscado.getEmail());
+        assertEquals(novoEmail, alunoBuscado.getEmail());
 
     }
 
@@ -85,7 +86,8 @@ public class TesteAluno extends MonitoriaTestCase {
     @Test
     public void testeJPQLQuantidadeDeAlunos() {
         TypedQuery<Long> query = super.entityManager.createQuery(
-                "SELECT COUNT(a.chavePrimaria) from Aluno a WHERE a.curso = (SELECT c.chavePrimaria FROM Curso c WHERE c.grau = 'TECNICO')", Long.class);
+                "SELECT COUNT(a.chavePrimaria) from Aluno a WHERE a.curso IN (SELECT cc FROM Curso AS cc WHERE cc.grau = :grau)", Long.class);
+        query.setParameter("grau", Grau.TECNICO);
         Long resultado = query.getSingleResult();
         assertEquals(new Long(2), resultado);
     }
@@ -108,6 +110,7 @@ public class TesteAluno extends MonitoriaTestCase {
         alunoCriado.setEmail("teste@gmail.com");
         alunoCriado.setMatricula("20141Y6-RC2222");
         alunoCriado.setSenha("t123");
+        alunoCriado.setCpf("597.739.171-42");
         Curso curso = super.entityManager.find(Curso.class, 1L);
         alunoCriado.setCurso(curso);
 

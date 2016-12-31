@@ -53,42 +53,6 @@ public class TesteUsuario extends MonitoriaTestCase {
         assertEquals(mensagemEsperada, mensagemObtida);
     }
 
-
-    @Test
-    public void testeCriarUsuarioComSenhaInvalida() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "A senha permite apenas letras, números, caractere sublinhado, hífen e caracteres especiais; deve ter tamanho mínimo 6 e máximo 18";
-        usuario.setSenha("senha\\1");
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-
-    @Test
-    public void testeCriarUsuarioComSenhaTamanhoMaxInvalido() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "tamanho deve estar entre 6 e 18";
-        String senha = "Senha1232z2s-4_sasvs9";
-        usuario.setSenha(senha);
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-
-    @Test
-    public void testeCriarUsuarioComSenhaTamanhoMinInvalido() {
-        Usuario usuario = this.montarObjetoUsuario();
-        String mensagemEsperada = "tamanho deve estar entre 6 e 18";
-        String senha = "s1_";
-        usuario.setSenha(senha);
-        Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-
     @Test
     public void testeCriarUsuarioComEmailInvalido() {
         Usuario usuario = this.montarObjetoUsuario();
@@ -117,7 +81,7 @@ public class TesteUsuario extends MonitoriaTestCase {
         professor.setSenha("usuario123");
         professor.setEmail("usuario@hotmail.com");
         professor.setCpf("137.229.621-29");
-        professor.setSiape("1234567");
+        professor.setSiape("123456789");
         professor.setCurso(entityManager.find(Curso.class, 1l));
         return professor;
     }

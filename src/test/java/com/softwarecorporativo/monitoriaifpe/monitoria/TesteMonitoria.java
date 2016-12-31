@@ -32,11 +32,12 @@ public class TesteMonitoria extends MonitoriaTestCase {
     @Test
     public void testAlterarMonitoria() {
         Monitoria monitoria = super.entityManager.find(Monitoria.class, 1L);
+        monitoria.reprovar();
         super.entityManager.merge(monitoria);
         super.entityManager.flush();
         super.entityManager.clear();
         Monitoria monitoriaAlterada = super.entityManager.find(Monitoria.class, 1L);
-        //   assertEquals(monitoria.getModalidade(), monitoriaAlterada.getModalidade());
+        assertTrue(monitoriaAlterada.estaReprovada());
 
     }
 
@@ -55,7 +56,7 @@ public class TesteMonitoria extends MonitoriaTestCase {
         monitoria.setAluno(null);
         monitoria.setTurma(null);
         Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
-        assertEquals(5, constraintViolations.size());
+        assertEquals(3, constraintViolations.size());
 
     }
 
@@ -86,19 +87,9 @@ public class TesteMonitoria extends MonitoriaTestCase {
         assertEquals(1, constraintViolations.size());
     }
 
-    @Test
-    public void testeCriarMonitoriaComDisciplinaInvalida() {
-        Monitoria monitoria = montarObjetoMonitoria();
-        String mensagemEsperada = "O aluno monitor não pode ter sido reprovado no componente curricular da disciplina e deve possuir aprovação com média maior ou igual a 7.0";
-        monitoria.setTurma(super.entityManager.find(Turma.class, 3l));
-        Set<ConstraintViolation<Monitoria>> constraintViolations = validator.validate(monitoria);
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(1, constraintViolations.size());
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }
-
     public Monitoria montarObjetoMonitoria() {
         Monitoria monitoria = new Monitoria();
+        monitoria.aprovar();
         monitoria.setAluno(super.entityManager.find(Aluno.class, 1l));
         monitoria.setTurma(super.entityManager.find(Turma.class, 1l));
         return monitoria;

@@ -8,6 +8,7 @@ package com.softwarecorporativo.monitoriaifpe.atividade;
 import com.softwarecorporativo.monitoriaifpe.funcionais.MonitoriaTestCase;
 import com.softwarecorporativo.monitoriaifpe.modelo.atividade.Atividade;
 import com.softwarecorporativo.monitoriaifpe.modelo.monitoria.Monitoria;
+import com.softwarecorporativo.monitoriaifpe.modelo.util.DataUtil;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +22,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 public class TesteAtividade extends MonitoriaTestCase {
 
@@ -53,31 +55,12 @@ public class TesteAtividade extends MonitoriaTestCase {
         query.setParameter("descricao", "Correção%");
 
         List<Atividade> atividades = query.getResultList();
-        assertEquals(26, atividades.size());
+        assertEquals(25, atividades.size());
         for (Atividade atividade : atividades) {
             assertTrue(atividade.getDescricao().startsWith("Correção"));
         }
     }
 
-    /*
-    @Test
-    public void testeConsultarAtividadesDoMes() {
-        TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a WHERE a.data BETWEEN ?1 AND ?2 ORDER BY a.data",
-                Atividade.class);
-
-        query.setParameter(1, Util.getDate(1, Calendar.JANUARY, 2016));
-        query.setParameter(2, Util.getDate(31, Calendar.JANUARY, 2016));
-
-        List<Atividade> atividades = query.getResultList();
-        assertEquals(23, atividades.size());
-        Calendar calendar = Calendar.getInstance();
-        for (Atividade atividade : atividades) {
-            calendar.setTime(atividade.getData());
-            assertEquals(Calendar.JANUARY, calendar.get(Calendar.MONTH));
-        }
-    }
-     */
     @Test
     public void testeConsultarAtividadesSemObservacoes() {
 
@@ -86,7 +69,7 @@ public class TesteAtividade extends MonitoriaTestCase {
                 Atividade.class);
 
         List<Atividade> atividades = query.getResultList();
-        assertEquals(46, atividades.size());
+        assertEquals(45, atividades.size());
         for (Atividade atividade : atividades) {
             assertNull(atividade.getObservacoes());
         }
@@ -110,25 +93,9 @@ public class TesteAtividade extends MonitoriaTestCase {
         assertEquals(atividade.getMonitoria(), monitoria);
     }
 
-    /*
-    @Test
-    public void testeConsultarAtividadesPassadas() {
-        TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a WHERE a.data < current_date() ORDER BY a.descricao",
-                Atividade.class);
-
-        Date dataAtual = Calendar.getInstance().getTime();
-        List<Atividade> atividades = query.getResultList();
-        assertEquals(46, atividades.size());
-        for (Atividade atividade : atividades) {
-            assertTrue(atividade.getData().before(dataAtual));
-        }
-
-    } */
-
     @Test
     public void testeVerificarQuantidadeAtividades() {
-        Long quantidadeEsperada = 46L;
+        Long quantidadeEsperada = 45L;
         TypedQuery<Long> query = super.entityManager.createQuery(
                 "SELECT COUNT(a) FROM Atividade a WHERE EXISTS ( SELECT m FROM Monitoria m)",
                 Long.class);
@@ -137,20 +104,9 @@ public class TesteAtividade extends MonitoriaTestCase {
     }
 
     @Test
-    public void testeConsultarAtividadeMaisAntiga() {
-        Atividade atividadeEsperada = super.entityManager.find(Atividade.class, 1L);
-        TypedQuery<Atividade> query = super.entityManager.createQuery(
-                "SELECT a FROM Atividade a WHERE NOT(a.data > ALL ( SELECT aa.data FROM Atividade aa))",
-                Atividade.class);
-
-        Atividade atividade = query.getSingleResult();
-        assertEquals(atividadeEsperada, atividade);
-    }
-
-    @Test
     public void testeRemoverAtividadesDeMonitoria() {
         Monitoria monitoria = super.entityManager.find(Monitoria.class, 2L);
-        Query query = super.entityManager.createQuery("DELETE Atividade AS a WHERE a.monitoria = ?1");
+        Query query = super.entityManager.createQuery("DELETE FROM Atividade AS a WHERE a.monitoria = ?1");
         query.setParameter(1, monitoria);
         query.executeUpdate();
         TypedQuery<Long> typedQuery = super.entityManager.createQuery("SELECT COUNT(a) FROM Atividade a where a.monitoria = :monitoria", Long.class);
@@ -159,31 +115,6 @@ public class TesteAtividade extends MonitoriaTestCase {
         Long quantidade = typedQuery.getSingleResult();
         assertEquals(quantidadeEsperada, quantidade);
     }
-
-    /*
-    @Test
-    public void testeCriarAtividadeComHorarioEntradaAposSaida() {
-        String mensagemEsperada = "O horário de saída deve ser posterior ao horário de entrada";
-        Atividade atividade = montarObjetoAtividade();
-        atividade.setHorarioEntrada(Util.getTime(14, 30, 0));
-        atividade.setHorarioSaida(Util.getTime(14, 0, 0));
-        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
-        assertEquals(1, constraintViolations.size());
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(mensagemEsperada, mensagemObtida);
-    } 
-
-    @Test
-    public void testeCriarAtividadeComHorarioEntradaIgualSaida() {
-        String mensagemEsperada = "O horário de saída deve ser posterior ao horário de entrada";
-        Atividade atividade = montarObjetoAtividade();
-        atividade.setHorarioEntrada(Util.getTime(14, 0, 0));
-        atividade.setHorarioSaida(Util.getTime(14, 0, 0));
-        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
-        assertEquals(1, constraintViolations.size());
-        String mensagemObtida = constraintViolations.iterator().next().getMessage();
-        assertEquals(mensagemEsperada, mensagemObtida);
-    }*/
 
     @Test
     public void testeCriarAtividadeComDescricaoTamanhoExcedente() {
@@ -220,27 +151,6 @@ public class TesteAtividade extends MonitoriaTestCase {
         assertEquals(mensagemEsperada, mensagemObtida);
     }
 
-    /*
-    @Test
-    public void testeCriarAtividadeComAtributosInvalidos() {
-        Atividade atividade = montarObjetoAtividade();
-        atividade.setData(null);
-        atividade.setDescricao(null);
-        atividade.setMonitoria(null);
-        atividade.setHorarioEntrada(null);
-        atividade.setHorarioSaida(null);
-        atividade.setSituacao(null);
-        Set<ConstraintViolation<Atividade>> constraintViolations = validator.validate(atividade);
-        assertEquals(7, constraintViolations.size());
-
-    }
-
-    @Test
-    public void testeCriarAtividadeForaDoSemestreEmPeriodo() {    
-        Atividade atividade = montarObjetoAtividade();
-        atividade.setData(Util.getDate(14, 11, 2016));
-    } */
-
     @Test
     public void testeCriarAtividadeValida() {
         Atividade atividade = montarObjetoAtividade();
@@ -250,11 +160,9 @@ public class TesteAtividade extends MonitoriaTestCase {
 
     private Atividade montarObjetoAtividade() {
         Atividade atividade = new Atividade();
-        Date date = Calendar.getInstance().getTime();
-        /*atividade.setData(date);
         atividade.setDescricao("Descrição da Atividade");
-        atividade.setHorarioEntrada(Util.getTime(14, 0, 0));
-        atividade.setHorarioSaida(Util.getTime(15, 0, 0));*/
+        atividade.setDataInicio(DataUtil.getTime(14, 0, 0));
+        atividade.setDataFim(DataUtil.getTime(15, 0, 0));
         atividade.setObservacoes("Observação da Atividade");
         atividade.setMonitoria(super.entityManager.find(Monitoria.class, 1L));
         return atividade;
